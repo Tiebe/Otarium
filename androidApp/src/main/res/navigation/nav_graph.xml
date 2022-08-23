@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MainFragment">
+
+    <fragment
+        android:id="@+id/MainFragment"
+        android:name="nl.tiebe.openbaarlyceumzeist.android.fragments.MainFragment"
+        android:label="@string/main_fragment_label"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/DebugFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_browserFragment"
+            app:destination="@id/browserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/DebugFragment"
+        android:name="nl.tiebe.openbaarlyceumzeist.android.fragments.DebugFragment"
+        android:label="@string/debug_fragment_label"
+        tools:layout="@layout/fragment_debug">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/MainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/browserFragment"
+        android:name="nl.tiebe.openbaarlyceumzeist.android.fragments.BrowserFragment"
+        android:label="@string/browser_fragment"
+        tools:layout="@layout/browser_fragment">
+        <action
+            android:id="@+id/action_browserFragment_to_FirstFragment"
+            app:destination="@id/MainFragment" />
+        <action
+            android:id="@+id/action_browserFragment_to_DebugFragment"
+            app:destination="@id/DebugFragment" />
+    </fragment>
+</navigation>
