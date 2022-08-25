@@ -1,12 +1,19 @@
-package nl.tiebe.openbaarlyceumzeist.android
+package nl.tiebe.openbaarlyceumzeist.android.utils
 
 import android.content.Context
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
+import nl.tiebe.magisterapi.api.grades.GradeFlow
+import nl.tiebe.openbaarlyceumzeist.account
+import nl.tiebe.openbaarlyceumzeist.android.R
 import nl.tiebe.openbaarlyceumzeist.database
 import nl.tiebe.openbaarlyceumzeist.database.Database
 import nl.tiebe.openbaarlyceumzeist.isDatabaseInitialized
+import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
+import kotlin.random.Random
 
 class Background {
     companion object {
@@ -39,7 +46,7 @@ class Background {
             .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "background",
+            "update_grades",
             ExistingPeriodicWorkPolicy.REPLACE,
             workRequest
         )
@@ -51,20 +58,19 @@ class Background {
             if (!isDatabaseInitialized()) {
                 database = Database().setupDatabase()
             }
-/*
-            if (Tokens().getPastTokens() != null) {
+            if (Tokens.getPastTokens() != null) {
                 account.updateData()
-                Grade.getAverageGrade("la")
                 for (grade in account.grades) {
                     if (database.checkOrAddGrade(grade)) {
                         //new grade added
-                        val gradeInfo = GradeFlow().getGradeInfo(grade)
+                        val gradeInfo = GradeFlow(account).getGradeInfo(grade)
 
-                        val notification = Notification.Builder(applicationContext, "grades")
+                        val notification = NotificationCompat.Builder(applicationContext, "grades")
                             .setSmallIcon(getGradeIcon(grade.grade))
                             .setContentTitle("Nieuw cijfer voor ${grade.subject.description}!")
                             .setContentText("Je hebt een ${grade.grade} gehaald voor ${gradeInfo.columnDescription}!")
                             .setGroup(System.currentTimeMillis().toString())
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                             .build()
 
                         with(NotificationManagerCompat.from(applicationContext)) {
@@ -77,7 +83,7 @@ class Background {
                 }
             } else {
                 WorkManager.getInstance(applicationContext).cancelWorkById(id)
-            }*/
+            }
             return Result.success()
         }
     }

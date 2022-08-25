@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import nl.tiebe.openbaarlyceumzeist.android.R
 import nl.tiebe.openbaarlyceumzeist.android.databinding.FragmentDebugBinding
+import nl.tiebe.openbaarlyceumzeist.android.utils.Background
 import nl.tiebe.openbaarlyceumzeist.database
-import nl.tiebe.openbaarlyceumzeist.utils.Background
+import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -40,7 +41,7 @@ class DebugFragment : Fragment() {
         }
 
         binding.buttonClear.setOnClickListener {
-            binding.root.context.deleteSharedPreferences("tokens")
+            Tokens.clearTokens()
             database.clearDatabase()
         }
 
@@ -51,7 +52,7 @@ class DebugFragment : Fragment() {
         binding.buttonTestNotify.setOnClickListener {
             Thread {
                 database.removeRandomGrade()
-                Background().updatePeriodically()
+                Background().updatePeriodically(binding.root.context)
             }.start()
 
         }

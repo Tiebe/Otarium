@@ -9,7 +9,7 @@ import nl.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.openbaarlyceumzeist.account
 import nl.tiebe.openbaarlyceumzeist.settings
 
-class Tokens {
+object Tokens {
     private suspend fun refreshTokens(tokens: TokenResponse): TokenResponse? {
         try {
 
@@ -66,5 +66,11 @@ class Tokens {
         }
 
         return null
+    }
+
+    fun clearTokens() {
+        settings.remove("access_token")
+        settings.remove("refresh_token")
+        settings.remove("expires_at")
     }
 }
