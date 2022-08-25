@@ -2,15 +2,10 @@ package nl.tiebe.openbaarlyceumzeist.android
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.PowerManager
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -18,8 +13,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.openbaarlyceumzeist.Main
 import nl.tiebe.openbaarlyceumzeist.android.databinding.ActivityMainBinding
-import nl.tiebe.openbaarlyceumzeist.android.ui.MainMenu
+import nl.tiebe.openbaarlyceumzeist.android.utils.Background
+import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -30,21 +29,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContent {
-            MainMenu()
-        }
-        //val main = Main()
-        //main.setup()
-        //setupUI()
-        //main.start()
+        val main = Main()
+        main.setup()
+        setupUI()
+        main.start()
 
-/*        runBlocking {
+        runBlocking {
             launch {
-                if (Tokens().getPastTokens() != null) {
-                    Background().updatePeriodically()
+                if (Tokens.getPastTokens() != null) {
+                    Background().updatePeriodically(this@MainActivity)
                 } else runOnUiThread { navController.navigate(R.id.browserFragment) }
             }
-        }*/
+        }
     }
 
 
@@ -60,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-        powerSetup()
         createNotificationChannel()
 
     }
@@ -108,20 +103,5 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
-    }
-
-
-    private fun powerSetup() {
-        val powerManager: PowerManager =
-            applicationContext.getSystemService(POWER_SERVICE) as PowerManager
-        val packageName = "nl.tiebe.openbaarlyceumzeist"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val i = Intent()
-            if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
-                i.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                i.data = Uri.parse("package:$packageName")
-                startActivity(i)
-            }
-        }
     }
 }
