@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import nl.tiebe.openbaarlyceumzeist.android.R
 import nl.tiebe.openbaarlyceumzeist.android.databinding.FragmentDebugBinding
-import nl.tiebe.openbaarlyceumzeist.android.utils.Background
-import nl.tiebe.openbaarlyceumzeist.database
-import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -39,7 +36,7 @@ class DebugFragment : Fragment() {
         binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
-
+/*
         binding.buttonClear.setOnClickListener {
             Tokens.clearTokens()
             database.clearDatabase()
@@ -55,7 +52,7 @@ class DebugFragment : Fragment() {
                 Background().updatePeriodically(binding.root.context)
             }.start()
 
-        }
+        }*/
     }
 
     override fun onDestroyView() {
