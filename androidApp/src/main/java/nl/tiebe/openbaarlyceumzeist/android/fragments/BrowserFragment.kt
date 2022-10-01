@@ -1,7 +1,6 @@
 package nl.tiebe.openbaarlyceumzeist.android.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,19 +10,19 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.magisterapi.api.account.LoginFlow
-import nl.tiebe.openbaarlyceumzeist.account
-import nl.tiebe.openbaarlyceumzeist.android.MainActivity
 import nl.tiebe.openbaarlyceumzeist.android.R
 import nl.tiebe.openbaarlyceumzeist.android.databinding.BrowserFragmentBinding
-import nl.tiebe.openbaarlyceumzeist.magister.Magister
-import nl.tiebe.openbaarlyceumzeist.magister.Tokens
+import nl.tiebe.openbaarlyceumzeist.utils.server.LoginRequest
+import nl.tiebe.openbaarlyceumzeist.utils.server.exchangeUrl
+import nl.tiebe.openbaarlyceumzeist.utils.server.sendFirebaseToken
 
 
 /**
@@ -51,12 +50,12 @@ class BrowserFragment : Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val loginFlow = LoginFlow(account)
         val webView: WebView = binding.root.findViewById(R.id.webview)
 
-        webView.webViewClient = CustomWebViewClient(binding.root.context, loginFlow)
-        webView.loadUrl(loginFlow.createAuthURL())
+        val loginUrl = LoginFlow.createAuthURL()
+
+        webView.webViewClient = CustomWebViewClient(loginUrl.codeVerifier)
+        webView.loadUrl(loginUrl.url)
         val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
 
@@ -73,8 +72,7 @@ class BrowserFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    class CustomWebViewClient(private val context: Context, private val loginFlow: LoginFlow) :
+    class CustomWebViewClient(private val codeVerifier: String) :
         WebViewClient() {
         override fun shouldOverrideUrlLoading(
             view: WebView,
@@ -84,17 +82,30 @@ class BrowserFragment : Fragment() {
                 Log.d("BrowserFragment", "Redirected to: ${webResourceRequest.url}")
                 val uri = Uri.parse(webResourceRequest.url.toString().replace("#", "?"))
                 uri.getQueryParameter("code")
-                    ?.let {
+                    ?.let { code ->
                         runBlocking {
                             launch {
-                                Tokens.getTokens(loginFlow, it)
-                                Log.d("BrowserFragment", "Tokens")
-                                (context as MainActivity).runOnUiThread {
-                                    context.navController.navigate(R.id.action_browserFragment_to_FirstFragment)
-                                    context.findViewById<ProgressBar>(R.id.progressBar_cyclic).visibility =
-                                        View.VISIBLE
-                                }
-                                Magister.onFirstSignIn()
+                                val login = exchangeUrl(LoginRequest(code, codeVerifier))
+
+                                //get firebase token
+                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                                    OnCompleteListener { task ->
+                                        if (!task.isSuccessful) {
+                                            Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
+                                            return@OnCompleteListener
+                                        }
+
+                                        // Get new FCM registration token
+                                        val token = task.result
+                                        runBlocking {
+                                            launch {
+                                                sendFirebaseToken(
+                                                    login.accessTokens.accessToken,
+                                                    token
+                                                )
+                                            }
+                                        }
+                                })
                             }
                         }
                     }

@@ -6,6 +6,7 @@ plugins {
     id("com.android.library")
     id("io.realm.kotlin")
     id("com.codingfeline.buildkonfig")
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 version = "1.0"
@@ -27,14 +28,21 @@ kotlin {
     
     sourceSets {
         val commonMain by getting {
+            val ktorVersion = "2.0.3"
+
             dependencies {
-                implementation("nl.tiebe.magister:api:1.0")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("io.realm.kotlin:library-base:1.0.1")
                 implementation("com.russhwolf:multiplatform-settings-no-arg:0.9")
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
+                implementation("nl.tiebe.magister:api:1.1")
             }
         }
         val commonTest by getting {
@@ -72,11 +80,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
 }
 
