@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Openbaar Lyceum Zeist</string>
+    <string name="app_name">Otarium</string>
     <string name="action_settings">Instellingen</string>
-    <string name="main_fragment_label">Openbaar Lyceum Zeist</string>
+    <string name="main_fragment_label">Otarium</string>
     <string name="debug_fragment_label">Debug</string>
     <string name="browser_fragment">Login</string>
     <string name="next">Volgende</string>
