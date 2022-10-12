@@ -22,6 +22,9 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
+      env:
+        USERNAME: ${{ secrets.USERNAME }}
+        TOKEN: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
