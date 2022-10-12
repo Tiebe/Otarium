@@ -6,6 +6,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Openbaar_Lyceum_Zeist"
+rootProject.name = "Otarium"
 include(":androidApp")
 include(":shared")
