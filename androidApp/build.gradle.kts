@@ -43,7 +43,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
     implementation("androidx.work:work-runtime-ktx:2.7.1")
-    implementation("nl.tiebe.magister:api:1.1")
+    implementation("nl.tiebe.magisterapi:1.1")
     implementation(platform("com.google.firebase:firebase-bom:30.3.2"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging:23.0.7")
