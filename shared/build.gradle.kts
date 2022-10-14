@@ -9,18 +9,6 @@ plugins {
     kotlin("plugin.serialization") version "1.7.10"
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-    maven {
-        url = uri("https://maven.pkg.github.com/Otarium/MagisterAPIKt")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
-        }
-    }
-}
-
 version = "1.0"
 val versionCode = 1
 
@@ -65,8 +53,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("androidx.work:work-runtime-ktx:2.7.1")
-                implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
-                implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
+                implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
+                implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
             }
         }
         val androidTest by getting
