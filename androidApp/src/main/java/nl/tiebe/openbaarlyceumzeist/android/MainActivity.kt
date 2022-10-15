@@ -7,30 +7,25 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import nl.tiebe.openbaarlyceumzeist.Main
-import nl.tiebe.openbaarlyceumzeist.android.databinding.ActivityMainBinding
+import nl.tiebe.openbaarlyceumzeist.android.ui.LoginScreen
+import nl.tiebe.openbaarlyceumzeist.android.ui.Navigation
+import nl.tiebe.openbaarlyceumzeist.android.ui.finished
+import nl.tiebe.openbaarlyceumzeist.android.ui.theme.OtariumTheme
 import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var navController: NavController
-
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -41,12 +36,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Preview(showBackground = true, showSystemUi = true, device = Devices.PIXEL_3A)
+    @Composable
+    fun DefaultPreview() {
+        OtariumTheme {
+            Navigation()
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContent {
+            OtariumTheme {
+                val state = finished.collectAsState()
+                if (state.value) Navigation()
+                else if (Tokens.getPastTokens().isEmpty()) {
+                    LoginScreen()
+                } else {
+                    Navigation()
+                }
+
+            }
+        }
+
         val main = Main()
         main.setup()
-        setupUI()
+        createNotificationChannel()
+        askNotificationPermission()
         main.start()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -63,14 +81,10 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
         })
 
-        if (Tokens.getPastTokens().isEmpty()) {
-            navController.navigate(R.id.browserFragment)
-        }
-
     }
 
 
-    private fun setupUI() {
+/*    private fun setupUI() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -82,10 +96,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-        createNotificationChannel()
-        askNotificationPermission()
 
-    }
+
+    }*/
 
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
@@ -122,33 +135,6 @@ class MainActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            R.id.debug_menu_item -> {
-                navController.navigate(R.id.DebugFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
     }
 
 }

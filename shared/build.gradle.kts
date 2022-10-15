@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 
 plugins {
@@ -86,6 +88,7 @@ android {
         minSdk = 21
         targetSdk = 33
     }
+    namespace = "nl.tiebe.openbaarlyceumzeist"
 }
 
 buildkonfig {
