@@ -15,5 +15,6 @@
     <string name="waiting_for_grades">De app wacht nu op nieuwe cijfers en zal je een notificatie geven als er eentje binnenkomt</string>
     <string name="test_notify">Test notificatie</string>
     <string name="fab">FAB</string>
-    <string name="title_activity_main2">MainActivity2</string>
+    <string name="mainBarItem">Main</string>
+    <string name="bar2">Item 2</string>
 </resources>
