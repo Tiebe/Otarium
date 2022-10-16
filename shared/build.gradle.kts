@@ -4,7 +4,6 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
     id("com.android.library")
     id("io.realm.kotlin")
     id("com.codingfeline.buildkonfig")
@@ -16,14 +15,13 @@ val versionCode = 1
 
 kotlin {
     android()
-    ios()
 
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = "shared"
         }
     }
@@ -60,7 +58,7 @@ kotlin {
             }
         }
         val androidTest by getting
-/*        val iosX64Main by getting
+        val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
@@ -77,7 +75,7 @@ kotlin {
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
-        }*/
+        }
     }
 }
 
