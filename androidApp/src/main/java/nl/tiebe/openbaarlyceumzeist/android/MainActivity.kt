@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val main = Main()
+        main.setup()
+
         setContent {
             OtariumTheme {
                 val state = finished.collectAsState()
@@ -61,8 +64,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val main = Main()
-        main.setup()
         createNotificationChannel()
         askNotificationPermission()
         main.start()
