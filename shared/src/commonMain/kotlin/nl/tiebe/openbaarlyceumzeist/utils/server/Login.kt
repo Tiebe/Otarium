@@ -1,19 +1,10 @@
 package nl.tiebe.openbaarlyceumzeist.utils.server
 
 import io.ktor.client.call.*
-import io.ktor.http.*
 import kotlinx.serialization.Serializable
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.api.requestPOST
 import nl.tiebe.magisterapi.response.TokenResponse
-
-val LOGIN_URL = URLBuilder(SERVER_URL).appendPathSegments("login").build()
-val EXCHANGE_URL = URLBuilder(LOGIN_URL).appendPathSegments("exchange").build()
-
-fun getUrl(): Pair<String, String> {
-    val loginUrl = LoginFlow.createAuthURL()
-    return loginUrl.url to loginUrl.codeVerifier
-}
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     val response = requestPOST(EXCHANGE_URL, loginRequest)
