@@ -2,6 +2,7 @@ package nl.tiebe.openbaarlyceumzeist.utils.server
 
 import io.ktor.client.call.*
 import kotlinx.serialization.Serializable
+import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.api.requestPOST
 import nl.tiebe.magisterapi.response.TokenResponse
 
