@@ -83,8 +83,9 @@ class CustomWebViewClient(private val codeVerifier: String, private val backPres
                     runBlocking {
                         launch {
                             backPressed.remove()
-                            finished.value = true
                             val login = exchangeUrl(LoginRequest(code, codeVerifier))
+                            println("finished")
+                            finished.value = true
 
                             //get firebase token
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
@@ -104,7 +105,10 @@ class CustomWebViewClient(private val codeVerifier: String, private val backPres
                                             )
                                         }
                                     }
-                                })
+                                }
+                            )
+
+
                         }
                     }
                 }
