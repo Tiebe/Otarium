@@ -3,15 +3,16 @@ package nl.tiebe.openbaarlyceumzeist.android.utils
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.openbaarlyceumzeist.magister.Tokens
+import nl.tiebe.openbaarlyceumzeist.utils.server.sendFirebaseToken
 
 class MessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d("Firebase", "Refreshed token: $token")
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // FCM registration token to your app server.
-        //sendRegistrationToServer(token)
+        runBlocking {
+            sendFirebaseToken(Tokens.getPastTokens()?.accessTokens?.accessToken ?: return@runBlocking, token)
+        }
     }
 
 

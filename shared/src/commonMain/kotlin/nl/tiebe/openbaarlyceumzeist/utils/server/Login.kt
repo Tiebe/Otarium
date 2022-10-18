@@ -12,7 +12,9 @@ import kotlinx.serialization.json.jsonObject
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.response.TokenResponse
 
-suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
+suspend fun exchangeUrl(loginRequest: LoginRequest, progress: Progress = Progress()): LoginResponse {
+    //todo: use progress class for updates
+
     var response: LoginResponse? = null
 
     client.webSocket(host = EXCHANGE_URL.host, port = EXCHANGE_URL.port, path = EXCHANGE_URL.encodedPath) {
@@ -24,6 +26,12 @@ suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
                 val json = Json.parseToJsonElement(frame.readText()).jsonObject
                 if (json["type"].toString().toInt() == 1) {
                     response = Json.decodeFromString<LoginResponse>(frame.readText())
+                } else if (json["type"].toString().toInt() == 2) {
+                    val progressResponse = Json.decodeFromString<Progress>(frame.readText())
+                    progress.currentProgress = progressResponse.currentProgress
+                    progress.maxProgress = progressResponse.maxProgress
+                    progress.currentTask = progressResponse.currentTask
+                    progress.taskProgressPossible = progressResponse.taskProgressPossible
                 }
             } else if (frame is Frame.Close) {
                 if (frame.readReason()?.knownReason != CloseReason.Codes.NORMAL) {
@@ -47,9 +55,12 @@ fun getUrl(): Pair<String, String> {
 }
 
 @Serializable
+data class Progress(var currentTask: String = "", var currentProgress: Int = 0, var maxProgress: Int = 0, var taskProgressPossible: Boolean = false)
+
+@Serializable
 data class LoginRequest(val code: String, val codeVerifier: String)
 @Serializable
-data class LoginResponse(val accessTokens: ServerTokens, val magisterTokens: TokenResponse, val tenantUrl: String, @Required val type: Int = 1)
+data class LoginResponse(val accessTokens: ServerTokens, val magisterTokens: TokenResponse, val tenantUrl: String, @Required val type: Int = 1) // Types: 1 = completion 2 = progress
 
 @Serializable
 data class RefreshRequest(val refreshToken: String)
