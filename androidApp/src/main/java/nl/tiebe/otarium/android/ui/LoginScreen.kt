@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.android.ui
+package nl.tiebe.otarium.android.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -20,10 +20,10 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import nl.tiebe.openbaarlyceumzeist.utils.server.LoginRequest
-import nl.tiebe.openbaarlyceumzeist.utils.server.exchangeUrl
-import nl.tiebe.openbaarlyceumzeist.utils.server.getUrl
-import nl.tiebe.openbaarlyceumzeist.utils.server.sendFirebaseToken
+import nl.tiebe.otarium.utils.server.LoginRequest
+import nl.tiebe.otarium.utils.server.exchangeUrl
+import nl.tiebe.otarium.utils.server.getUrl
+import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 
 var finished = MutableStateFlow(false)

@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.android.ui
+package nl.tiebe.otarium.android.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import nl.tiebe.openbaarlyceumzeist.android.R
+import nl.tiebe.otarium.android.R
 
 @Preview(showBackground = true)
 @Composable

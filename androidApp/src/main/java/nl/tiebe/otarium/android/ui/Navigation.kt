@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.android.ui
+package nl.tiebe.otarium.android.ui
 
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
@@ -23,7 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import nl.tiebe.openbaarlyceumzeist.android.R
+import nl.tiebe.otarium.android.R
 
 
 @Composable

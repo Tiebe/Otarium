@@ -89,11 +89,11 @@ android {
         minSdk = 21
         targetSdk = 33
     }
-    namespace = "nl.tiebe.openbaarlyceumzeist"
+    namespace = "nl.tiebe.otarium"
 }
 
 buildkonfig {
-    packageName = "nl.tiebe.openbaarlyceumzeist"
+    packageName = "nl.tiebe.otarium"
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", versionCode.toString())

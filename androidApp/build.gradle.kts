@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdk = 33
     defaultConfig {
-        applicationId = "nl.tiebe.openbaarlyceumzeist"
+        applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
@@ -39,7 +39,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    namespace = "nl.tiebe.openbaarlyceumzeist.android"
+    namespace = "nl.tiebe.otarium.android"
 }
 
 dependencies {
