@@ -1,20 +1,26 @@
 package nl.tiebe.openbaarlyceumzeist.android.utils
 
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.openbaarlyceumzeist.android.R
+import nl.tiebe.openbaarlyceumzeist.magister.Tokens
+import nl.tiebe.openbaarlyceumzeist.utils.server.sendFirebaseToken
 
 class MessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d("Firebase", "Refreshed token: $token")
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // FCM registration token to your app server.
-        //sendRegistrationToServer(token)
+        runBlocking {
+            sendFirebaseToken(Tokens.getPastTokens()?.accessTokens?.accessToken ?: return@runBlocking, token)
+        }
     }
 
 
+    @Suppress("DEPRECATION")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -29,6 +35,21 @@ class MessagingService : FirebaseMessagingService() {
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             Log.d("Firebase", "Message Notification Body: ${it.body}")
+
+            val builder = NotificationCompat.Builder(this, "grades")
+                .setSmallIcon(R.drawable.ic_notification_foreground)
+                .setContentTitle(remoteMessage.notification!!.title)
+                .setContentText(remoteMessage.notification!!.body)
+                .setGroup(System.currentTimeMillis().toString())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                builder.color = resources.getColor(R.color.main_color, null)
+            } else {
+                builder.color = resources.getColor(R.color.main_color) // deprecated but required for older versions
+            }
+
+            with(NotificationManagerCompat.from(this)) {
+                notify(System.currentTimeMillis().toInt(), builder.build())
+            }
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
