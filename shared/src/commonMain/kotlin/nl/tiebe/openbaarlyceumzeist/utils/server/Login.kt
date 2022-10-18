@@ -12,7 +12,10 @@ suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     return response.body()
 }
 
-
+fun getUrl(): Pair<String, String> {
+    val loginUrl = LoginFlow.createAuthURL()
+    return Pair(loginUrl.url, loginUrl.codeVerifier)
+}
 
 
 

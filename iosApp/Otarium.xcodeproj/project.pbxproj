@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
-		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		2152FB042600AC8F00CF470E /* Otarium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* Otarium.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		EA0228A728FDC2B50014179C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0228A628FDC2B50014179C /* LoginView.swift */; };
+		EA7DBFAB28FD6A0B00B6241F /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7DBFA928FD6A0B00B6241F /* Navigation.swift */; };
 		EA8275A628FC29A7000D1721 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA8275A528FC29A7000D1721 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,10 +32,12 @@
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		2152FB032600AC8F00CF470E /* Otarium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Otarium.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* Otarium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Otarium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA0228A628FDC2B50014179C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		EA7DBFA928FD6A0B00B6241F /* Navigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		EA8275A528FC29A7000D1721 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -79,7 +83,7 @@
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				EA8275A428FC296D000D1721 /* ui */,
 				7555FF8C242A565B00829871 /* Info.plist */,
-				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				2152FB032600AC8F00CF470E /* Otarium.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
 			path = iosApp;
@@ -95,8 +99,10 @@
 		EA8275A428FC296D000D1721 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				EA7DBFA928FD6A0B00B6241F /* Navigation.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				EA8275A528FC29A7000D1721 /* MainView.swift */,
+				EA0228A628FDC2B50014179C /* LoginView.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -193,9 +199,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				2152FB042600AC8F00CF470E /* Otarium.swift in Sources */,
+				EA0228A728FDC2B50014179C /* LoginView.swift in Sources */,
 				EA8275A628FC29A7000D1721 /* MainView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				EA7DBFAB28FD6A0B00B6241F /* Navigation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
