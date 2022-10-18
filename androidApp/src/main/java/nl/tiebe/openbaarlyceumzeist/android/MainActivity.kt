@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             OtariumTheme {
                 val state = finished.collectAsState()
                 if (state.value) Navigation()
-                else if (Tokens.getPastTokens().isEmpty()) {
+                else if (Tokens.getPastTokens() == null) {
                     LoginScreen()
                 } else {
                     Navigation()
