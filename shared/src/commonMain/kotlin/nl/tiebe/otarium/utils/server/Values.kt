@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.utils.server
+package nl.tiebe.otarium.utils.server
 
 import io.ktor.http.*
 

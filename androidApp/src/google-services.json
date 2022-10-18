@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:272611126110:android:c3222288b7a80c1eb8bdcf",
+        "mobilesdk_app_id": "1:272611126110:android:7929667bb6a6e479b8bdcf",
         "android_client_info": {
-          "package_name": "nl.tiebe.openbaarlyceumzeist"
+          "package_name": "nl.tiebe.otarium"
         }
       },
       "oauth_client": [
         {
-          "client_id": "272611126110-ni3r7jg3qj8d1vgcp7q5j47uaq048eqc.apps.googleusercontent.com",
+          "client_id": "272611126110-6gvomf3776calic3j07schlrfob4ge4f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "nl.tiebe.openbaarlyceumzeist",
-            "certificate_hash": "3bddf957c57db8d12fb04588dfeebf4b4fdf3f83"
+            "package_name": "nl.tiebe.otarium",
+            "certificate_hash": "af3823acef9b8c0c5325bf1029d62e37c31da41e"
           }
         },
         {

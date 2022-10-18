@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.android.ui.theme
+package nl.tiebe.otarium.android.ui.theme
 
 import android.app.Activity
 import android.os.Build

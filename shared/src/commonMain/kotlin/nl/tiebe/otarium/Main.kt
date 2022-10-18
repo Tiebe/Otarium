@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist
+package nl.tiebe.otarium
 
 import com.russhwolf.settings.Settings
 

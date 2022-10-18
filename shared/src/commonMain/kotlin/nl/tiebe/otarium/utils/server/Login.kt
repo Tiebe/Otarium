@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.utils.server
+package nl.tiebe.otarium.utils.server
 
 import io.ktor.client.plugins.websocket.*
 import io.ktor.websocket.*
@@ -11,7 +11,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.response.TokenResponse
-import nl.tiebe.openbaarlyceumzeist.magister.Tokens
+import nl.tiebe.otarium.magister.Tokens
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     var response: LoginResponse? = null
