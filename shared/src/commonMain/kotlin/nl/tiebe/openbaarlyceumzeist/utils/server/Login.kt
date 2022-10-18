@@ -15,10 +15,10 @@ import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     var response: LoginResponse? = null
-
-    client.webSocket(host = EXCHANGE_URL.host, port = EXCHANGE_URL.port, path = EXCHANGE_URL.encodedPath) {
+    println("test1")
+    client.webSocket(host = "178.128.140.122", port = 8080, path = EXCHANGE_URL.encodedPath) {
         send(Json.encodeToString(loginRequest))
-
+        println("test2")
         incoming.consumeEach { frame ->
             println("Received frame: $frame")
             if (frame is Frame.Text) {
