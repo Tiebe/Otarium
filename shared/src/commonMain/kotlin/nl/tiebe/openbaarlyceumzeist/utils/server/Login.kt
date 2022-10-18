@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.response.TokenResponse
+import nl.tiebe.openbaarlyceumzeist.magister.Tokens
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     var response: LoginResponse? = null
@@ -38,6 +39,7 @@ suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
         // Wait for session to be initialized
     }
 
+    Tokens.saveTokens(response!!)
     return response!!
 }
 

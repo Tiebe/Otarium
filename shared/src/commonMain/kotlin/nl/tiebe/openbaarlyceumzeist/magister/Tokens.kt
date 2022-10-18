@@ -1,6 +1,7 @@
 package nl.tiebe.openbaarlyceumzeist.magister
 
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nl.tiebe.openbaarlyceumzeist.settings
 import nl.tiebe.openbaarlyceumzeist.utils.server.LoginResponse
@@ -11,6 +12,10 @@ object Tokens {
         
 
         return true
+    }
+
+    fun saveTokens(tokens: LoginResponse) {
+        settings.putString("login_tokens", Json.encodeToString(tokens))
     }
 
 
