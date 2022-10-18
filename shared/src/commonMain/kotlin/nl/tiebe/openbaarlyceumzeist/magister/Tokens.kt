@@ -1,27 +1,30 @@
 package nl.tiebe.openbaarlyceumzeist.magister
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import nl.tiebe.openbaarlyceumzeist.settings
+import nl.tiebe.openbaarlyceumzeist.utils.server.LoginResponse
 
 object Tokens {
     fun checkTokens(): Boolean {
-        if (getPastTokens()[0].isBlank()) return false
+        if (getPastTokens() == null) return false
         
 
         return true
     }
 
+    fun saveTokens(tokens: LoginResponse) {
+        settings.putString("login_tokens", Json.encodeToString(tokens))
+    }
 
-    fun getPastTokens(): List<String> {
-        val refreshToken = settings.getStringOrNull("refresh_token")
 
-        if (refreshToken.isNullOrBlank()) return listOf()
-        return listOf(refreshToken)
+    fun getPastTokens(): LoginResponse? {
+        return Json.decodeFromString(settings.getStringOrNull("login_tokens") ?: return null)
     }
 
 
     fun clearTokens() {
-        settings.remove("access_token")
-        settings.remove("refresh_token")
-        settings.remove("expires_at")
+        settings.remove("login_tokens")
     }
 }
