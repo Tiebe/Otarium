@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.android
+package nl.tiebe.otarium.android
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -18,12 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import nl.tiebe.openbaarlyceumzeist.Main
-import nl.tiebe.openbaarlyceumzeist.android.ui.LoginScreen
-import nl.tiebe.openbaarlyceumzeist.android.ui.Navigation
-import nl.tiebe.openbaarlyceumzeist.android.ui.finished
-import nl.tiebe.openbaarlyceumzeist.android.ui.theme.OtariumTheme
-import nl.tiebe.openbaarlyceumzeist.magister.Tokens
+import nl.tiebe.otarium.Main
+import nl.tiebe.otarium.android.ui.LoginScreen
+import nl.tiebe.otarium.android.ui.Navigation
+import nl.tiebe.otarium.android.ui.finished
+import nl.tiebe.otarium.android.ui.theme.OtariumTheme
+import nl.tiebe.otarium.magister.Tokens
 
 class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher = registerForActivityResult(

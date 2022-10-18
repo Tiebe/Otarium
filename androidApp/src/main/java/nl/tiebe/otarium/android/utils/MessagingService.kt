@@ -1,4 +1,4 @@
-package nl.tiebe.openbaarlyceumzeist.android.utils
+package nl.tiebe.otarium.android.utils
 
 import android.os.Build
 import android.util.Log
@@ -7,9 +7,9 @@ import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlinx.coroutines.runBlocking
-import nl.tiebe.openbaarlyceumzeist.android.R
-import nl.tiebe.openbaarlyceumzeist.magister.Tokens
-import nl.tiebe.openbaarlyceumzeist.utils.server.sendFirebaseToken
+import nl.tiebe.otarium.android.R
+import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 class MessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {

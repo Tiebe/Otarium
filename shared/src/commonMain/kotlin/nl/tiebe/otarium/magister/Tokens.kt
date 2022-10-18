@@ -1,10 +1,10 @@
-package nl.tiebe.openbaarlyceumzeist.magister
+package nl.tiebe.otarium.magister
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.openbaarlyceumzeist.settings
-import nl.tiebe.openbaarlyceumzeist.utils.server.LoginResponse
+import nl.tiebe.otarium.settings
+import nl.tiebe.otarium.utils.server.LoginResponse
 
 object Tokens {
     fun checkTokens(): Boolean {
