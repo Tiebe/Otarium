@@ -1,11 +1,13 @@
 import SwiftUI
 import shared
 import UserNotifications
+import OSLog
 
 @main
 struct iOSApp: App {
     var main: Main = Main()
-    
+    @State var finished: Bool = false
+
     init() {
         main.setup()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { (success, error) in
@@ -17,7 +19,12 @@ struct iOSApp: App {
     
 	var body: some Scene {
 		WindowGroup {
-			ContentView()
+            if (finished) { Navigation() }
+            if (Tokens().getPastTokens().isEmpty) {
+                LoginView(finished: $finished)
+            } else {
+                Navigation()
+            }
 		}
 	}
 }
