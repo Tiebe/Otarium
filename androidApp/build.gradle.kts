@@ -25,7 +25,13 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.1"
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,6 +39,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace = "nl.tiebe.openbaarlyceumzeist.android"
 }
 
 dependencies {
@@ -43,11 +50,21 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
     implementation("androidx.work:work-runtime-ktx:2.7.1")
-    implementation("nl.tiebe:magisterapi:1.1")
     implementation(platform("com.google.firebase:firebase-bom:30.3.2"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-messaging:23.0.8")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+
+    implementation("androidx.compose.material3:material3:1.0.0-rc01")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.2.1")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.2.1")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.1")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.1")
+    implementation("androidx.navigation:navigation-compose:2.5.2")
+    implementation("androidx.compose.material:material:1.3.0-rc01")
+
+    implementation("com.google.accompanist:accompanist-appcompat-theme:0.25.1")
+
 
 }
