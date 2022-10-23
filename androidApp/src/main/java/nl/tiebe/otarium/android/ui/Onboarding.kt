@@ -27,15 +27,13 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.android.R
 
-var onboarding = MutableStateFlow(false)
 
 @ExperimentalPagerApi
 @Composable
-fun OnBoarding(onFinish: () -> Unit) {
+fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
     val items = OnBoardingItems.getData()
     val scope = rememberCoroutineScope()
     val pageState = rememberPagerState()
@@ -48,6 +46,7 @@ fun OnBoarding(onFinish: () -> Unit) {
                 }
             },
             onSkipClick = {
+                notifications()
                 if (pageState.currentPage + 1 < items.size) scope.launch {
                     pageState.scrollToPage(items.size - 1)
                 }
@@ -64,15 +63,15 @@ fun OnBoarding(onFinish: () -> Unit) {
             OnBoardingItem(items = items[page])
         }
         BottomSection(size = items.size, index = pageState.currentPage) {
+            if (pageState.currentPage == 1) notifications()
+
             if (pageState.currentPage + 1 < items.size) {
-                println("test2")
                 scope.launch {
                     pageState.scrollToPage(pageState.currentPage + 1)
                 }
             } else {
                 scope.launch {
                     onFinish()
-                    println("test")
                     refresh.value++
                 }
             }
@@ -238,5 +237,5 @@ fun OnBoardingItem(items: OnBoardingItems) {
 @Preview(showBackground = true)
 @Composable
 fun OnboardingPreview() {
-    OnBoarding {}
+    OnBoarding({}, {})
 }

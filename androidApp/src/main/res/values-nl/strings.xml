@@ -7,10 +7,10 @@
     <string name="mainBarItem">Main</string>
     <string name="bar2">Item 2</string>
     <string name="sign_in">Inloggen</string>
-    <string name="onboarding_title_1">Title 1</string>
-    <string name="onboarding_desc_1">Desc 1</string>
+    <string name="onboarding_title_1">Otarium</string>
+    <string name="onboarding_desc_1">Welkom bij Otarium</string>
     <string name="onboarding_title_2">Title 2</string>
-    <string name="onboarding_desc_2">Desc 2</string>
-    <string name="onboarding_title_3">Title 3</string>
-    <string name="onboarding_desc_3">Desc 3</string>
+    <string name="onboarding_desc_2">Otarium geeft je notificaties voor cijfers. Je kan deze altijd uitzetten in de instellingen.</string>
+    <string name="onboarding_title_3">Inloggen</string>
+    <string name="onboarding_desc_3">Om de app te gebruiken moet je inloggen op het volgende scherm</string>
 </resources>
