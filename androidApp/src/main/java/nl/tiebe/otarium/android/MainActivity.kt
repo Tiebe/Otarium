@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun MainActivityScreen(value: Int) {
+    fun MainActivityScreen(@Suppress("UNUSED_PARAMETER") value: Int) {
         if (Tokens.getPastTokens() == null) {
             LoginScreen()
         } else {
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                     else if (!main.isFinishedOnboarding()) {
                         OnBoarding(onFinish = {
                             main.finishOnboarding()
-                        })
+                        }, notifications = { askNotificationPermission()})
                     }
                     else MainActivityScreen(0)
                 }
@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         createNotificationChannel()
-        askNotificationPermission()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
