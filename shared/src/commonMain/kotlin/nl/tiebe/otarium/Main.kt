@@ -14,7 +14,12 @@ class Main {
         }
     }
 
-    fun start() {
+    fun finishOnboarding() {
+        settings.putBoolean("finished_onboarding", true)
+    }
+
+    fun isFinishedOnboarding(): Boolean {
+        return settings.getBoolean("finished_onboarding", false)
     }
 
 }

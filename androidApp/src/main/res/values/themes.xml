@@ -19,7 +19,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.OpenbaarLyceumZeist.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.OpenbaarLyceumZeist.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
