@@ -7,34 +7,33 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.Main
-import nl.tiebe.otarium.android.ui.LoginScreen
-import nl.tiebe.otarium.android.ui.Navigation
-import nl.tiebe.otarium.android.ui.finished
+import nl.tiebe.otarium.android.ui.*
 import nl.tiebe.otarium.android.ui.theme.OtariumTheme
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // FCM SDK (and your app) can post notifications.
-        } else {
-            // TODO: Inform user that that your app will not show notifications.
-        }
-    }
+    ) {}
 
     @Preview(showBackground = true, showSystemUi = true, device = Devices.PIXEL_3A)
     @Composable
@@ -45,6 +44,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Composable
+    fun MainActivityScreen(value: Int) {
+        if (Tokens.getPastTokens() == null) {
+            LoginScreen()
+        } else {
+            Navigation()
+        }
+    }
+
+    @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,12 +62,18 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             OtariumTheme {
-                val state = finished.collectAsState()
-                if (state.value) Navigation()
-                else if (Tokens.getPastTokens() == null) {
-                    LoginScreen()
-                } else {
-                    Navigation()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val refreshState = refresh.collectAsState()
+                    if (refreshState.value != 0) MainActivityScreen(refreshState.value)
+                    else if (!main.isFinishedOnboarding()) {
+                        OnBoarding(onFinish = {
+                            main.finishOnboarding()
+                        })
+                    }
+                    else MainActivityScreen(0)
                 }
 
             }
@@ -66,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
         createNotificationChannel()
         askNotificationPermission()
-        main.start()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -79,27 +93,18 @@ class MainActivity : AppCompatActivity() {
 
             // Log and toast
             Log.d("Firebase", token)
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+
+            runBlocking {
+                launch {
+                    sendFirebaseToken(
+                        Tokens.getPastTokens()?.accessTokens?.accessToken ?: return@launch,
+                        token
+                    )
+                }
+            }
         })
 
     }
-
-
-/*    private fun setupUI() {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
-        navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-
-
-
-    }*/
 
     private fun createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because

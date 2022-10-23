@@ -26,7 +26,7 @@ import nl.tiebe.otarium.utils.server.getUrl
 import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 
-var finished = MutableStateFlow(false)
+var refresh = MutableStateFlow(0)
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -68,7 +68,7 @@ fun LoginScreen() {
     })
 }
 
-class CustomWebViewClient(private val codeVerifier: String, private val backPressed: OnBackPressedCallback, val webView: WebView) :
+class CustomWebViewClient(private var codeVerifier: String, private val backPressed: OnBackPressedCallback, val webView: WebView) :
     WebViewClient() {
 
     override fun shouldOverrideUrlLoading(
@@ -78,6 +78,13 @@ class CustomWebViewClient(private val codeVerifier: String, private val backPres
         if (webResourceRequest.url.toString().startsWith("m6loapp://oauth2redirect")) {
             Log.d("BrowserFragment", "Redirected to: ${webResourceRequest.url}")
             val uri = Uri.parse(webResourceRequest.url.toString().replace("#", "?"))
+            uri.getQueryParameter("error")?.let {
+                Log.d("BrowserFragment", "Error: $it")
+                val loginUrl = getUrl()
+                codeVerifier = loginUrl.second
+                view.loadUrl(loginUrl.first)
+            }
+
             uri.getQueryParameter("code")
                 ?.let { code ->
                     runBlocking {
@@ -85,7 +92,7 @@ class CustomWebViewClient(private val codeVerifier: String, private val backPres
                             backPressed.remove()
                             val login = exchangeUrl(LoginRequest(code, codeVerifier))
                             println("finished")
-                            finished.value = true
+                            refresh.value++
 
                             //get firebase token
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
