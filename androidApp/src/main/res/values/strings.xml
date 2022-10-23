@@ -1,24 +1,19 @@
 <resources>
     <string name="app_name">Otarium</string>
-    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="main_fragment_label">Otarium</string>
-    <string name="debug_fragment_label">Debug</string>
-    <string name="browser_fragment">Login</string>
-    <string name="next">Next</string>
-    <string name="previous">Back</string>
-    <string name="clear_info">Clear login data</string>
-    <string name="clear_DB">Clear DB</string>
-    <string name="test_notify">Test notification</string>
-
-    <string name="debug_menu_item">Secret Debug Menu</string>
 
     <string name="grades_channel">Grades</string>
     <string name="grades_channel_description">Notifications for new grades</string>
 
     <string name="waiting_for_grades">The app is now waiting for new grades and will notify you when it receives one.</string>
-    <string name="fab">FAB</string>
 
     <string name="mainBarItem">Main</string>
     <string name="bar2">Item 2</string>
+    <string name="sign_in">Log in</string>
+    <string name="onboarding_title_1">Title 1</string>
+    <string name="onboarding_desc_1">Desc 1</string>
+    <string name="onboarding_title_2">Title 2</string>
+    <string name="onboarding_desc_2">Desc 2</string>
+    <string name="onboarding_title_3">Title 3</string>
+    <string name="onboarding_desc_3">Desc 3</string>
 </resources>

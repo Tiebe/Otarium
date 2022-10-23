@@ -52,7 +52,7 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.7.1")
     implementation(platform("com.google.firebase:firebase-bom:30.3.2"))
     implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-messaging:23.0.8")
+    implementation("com.google.firebase:firebase-messaging:23.1.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
 
@@ -64,6 +64,8 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.5.2")
     implementation("androidx.compose.material:material:1.3.0-rc01")
 
+    implementation("com.google.accompanist:accompanist-pager:0.25.1")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.25.1")
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.25.1")
 
 
