@@ -4,6 +4,8 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,8 +13,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.outlined.KeyboardArrowLeft
 import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +33,9 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.android.R
+import nl.tiebe.otarium.showAds
 
 
 @ExperimentalPagerApi
@@ -173,7 +180,8 @@ fun Indicator(isSelected: Boolean) {
 class OnBoardingItems(
 /*    val image: Int,*/
     val title: Int,
-    val desc: Int
+    val desc: Int,
+    val extraItems: @Composable () -> Unit = {}
 ) {
     companion object{
         fun getData(): List<OnBoardingItems>{
@@ -184,6 +192,25 @@ class OnBoardingItems(
                 ), OnBoardingItems(
                     title = R.string.onboarding_title_2,
                     desc = R.string.onboarding_desc_2
+                ), OnBoardingItems(
+                    title = R.string.onboarding_title_4,
+                    desc = R.string.onboarding_desc_4,
+                    extraItems = {
+                        val checkedState = remember { mutableStateOf(true) }
+                        val checkedState2 = remember { mutableStateOf(false) }
+
+                        showAds(true)
+
+                        LabelledCheckBox(checked = checkedState.value, onCheckedChange = {
+                            checkedState.value = it
+                            showAds(checkedState.value)
+                        }, label = stringResource(id = R.string.show_ads_checkbox))
+
+                        LabelledCheckBox(checkable = checkedState.value, checked = checkedState2.value, onCheckedChange = {
+                            checkedState2.value = it
+                            ageOfConsent(checkedState2.value)
+                        }, label = stringResource(id = R.string.age_checkbox))
+                    }
                 ), OnBoardingItems(
                     title = R.string.onboarding_title_3,
                     desc = R.string.onboarding_desc_3
@@ -228,6 +255,10 @@ fun OnBoardingItem(items: OnBoardingItems) {
             modifier = Modifier.padding(10.dp),
             letterSpacing = 1.sp,
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        items.extraItems()
     }
 }
 
@@ -236,4 +267,38 @@ fun OnBoardingItem(items: OnBoardingItems) {
 @Composable
 fun OnboardingPreview() {
     OnBoarding({}, {})
+}
+
+@Composable
+fun LabelledCheckBox(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit),
+    label: String,
+    modifier: Modifier = Modifier,
+    checkable: Boolean = true
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .clickable(
+                indication = rememberRipple(color = MaterialTheme.colorScheme.primary),
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = { onCheckedChange(!checked) }
+            )
+            .requiredHeight(ButtonDefaults.MinHeight)
+            .padding(4.dp)
+    ) {
+        Checkbox(
+            enabled = checkable,
+            checked = checked,
+            onCheckedChange = null
+        )
+
+        Spacer(Modifier.size(6.dp))
+
+        Text(
+            text = label,
+        )
+    }
 }

@@ -13,4 +13,8 @@
     <string name="onboarding_desc_2">Otarium geeft je notificaties voor cijfers. Je kan deze altijd uitzetten in de instellingen.</string>
     <string name="onboarding_title_3">Inloggen</string>
     <string name="onboarding_desc_3">Om de app te gebruiken moet je inloggen op het volgende scherm</string>
+    <string name="onboarding_title_4">Ads</string>
+    <string name="onboarding_desc_4">Wil je niet-storende advertenties in de app? Het zou me heel erg helpen!</string>
+    <string name="show_ads_checkbox">Laat advertenties zien</string>
+    <string name="age_checkbox">Ik ben ouder dan 16</string>
 </resources>

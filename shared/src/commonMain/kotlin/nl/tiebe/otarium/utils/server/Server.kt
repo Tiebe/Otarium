@@ -7,6 +7,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import nl.tiebe.magisterapi.api.requestPOST
+import nl.tiebe.magisterapi.utils.MagisterException
 
 val client = HttpClient {
     install(WebSockets)
@@ -18,8 +19,13 @@ val client = HttpClient {
     }
 }
 
-suspend fun sendFirebaseToken(accessToken: String, token: String) {
-    requestPOST(DEVICE_ADD_URL, DeviceAddRequest(token), accessToken)
+suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
+    return try {
+        requestPOST(DEVICE_ADD_URL, DeviceAddRequest(token), accessToken)
+        true
+    } catch (e: MagisterException) {
+        false
+    }
 }
 
 @Serializable
