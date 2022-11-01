@@ -13,11 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.tasks.OnCompleteListener
@@ -26,32 +23,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.Main
 import nl.tiebe.otarium.android.ui.*
+import nl.tiebe.otarium.android.ui.screen.LoginScreen
 import nl.tiebe.otarium.android.ui.theme.OtariumTheme
+import nl.tiebe.otarium.finishOnboarding
+import nl.tiebe.otarium.isFinishedOnboarding
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.storeBypass
 import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 class MainActivity : AppCompatActivity() {
+
+    // yes this needs to be on top, fuck you android
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {}
-
-    @Preview(showBackground = true, showSystemUi = true, device = Devices.PIXEL_3A)
-    @Composable
-    fun DefaultPreview() {
-        OtariumTheme {
-            Navigation()
-
-        }
-    }
-
-    @Composable
-    fun MainActivityScreen(@Suppress("UNUSED_PARAMETER") value: Int) {
-        if (Tokens.getPastTokens() == null) {
-            LoginScreen()
-        } else {
-            Navigation()
-        }
-    }
 
     @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,20 +51,21 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val refreshState = refresh.collectAsState()
-                    if (refreshState.value != 0) MainActivityScreen(refreshState.value)
-                    else if (!main.isFinishedOnboarding()) {
+                    val openLoginScreen = remember { mutableStateOf(false) }
+                    if (openLoginScreen.value) MainActivityScreen()
+
+                    if (!isFinishedOnboarding()) {
                         OnBoarding(onFinish = {
-                            main.finishOnboarding()
-                        }, notifications = { askNotificationPermission()})
-                    }
-                    else MainActivityScreen(0)
+                            openLoginScreen.value = true
+                            finishOnboarding()
+                        }, notifications = { askNotificationPermission(this)})
+                    } else MainActivityScreen()
                 }
 
             }
         }
 
-        createNotificationChannel()
+        createNotificationChannel(this)
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -105,41 +91,56 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+
+    @Composable
+    fun MainActivityScreen() {
+        if (storeBypass()) { Navigation(); return }
+        val openMainScreen = remember { mutableStateOf(false) }
+
+        if (openMainScreen.value) Navigation()
+
+        if (Tokens.getPastTokens() == null) {
+            LoginScreen(onLogin = {
+                openMainScreen.value = true
+            })
+        } else {
+            Navigation()
+        }
+    }
+
+    private fun createNotificationChannel(context: MainActivity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.grades_channel)
-            val descriptionText = getString(R.string.grades_channel_description)
+            val name = context.getString(R.string.grades_channel)
+            val descriptionText = context.getString(R.string.grades_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("grades", name, importance).apply {
                 description = descriptionText
             }
 
-            // Register the channel with the system
             val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    private fun askNotificationPermission() {
+    private fun askNotificationPermission(context: MainActivity) {
         // This is only necessary for API level >= 33 (TIRAMISU)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
                 PackageManager.PERMISSION_GRANTED
             ) {
                 // FCM SDK (and your app) can post notifications.
-            /*} else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                // TODO: display an educational UI explaining to the user the features that will be enabled
-                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
-                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
-                //       If the user selects "No thanks," allow the user to continue without notifications.*/
+                /*} else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    // TODO: display an educational UI explaining to the user the features that will be enabled
+                    //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                    //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                    //       If the user selects "No thanks," allow the user to continue without notifications.*/
             } else {
                 // Directly ask for the permission
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                context.requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
+
 
 }
