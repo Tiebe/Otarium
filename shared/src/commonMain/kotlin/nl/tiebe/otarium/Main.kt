@@ -13,14 +13,22 @@ class Main {
             settings.putInt("version", BuildKonfig.versionCode)
         }
     }
-
-    fun finishOnboarding() {
-        settings.putBoolean("finished_onboarding", true)
-    }
-
-    fun isFinishedOnboarding(): Boolean {
-        return settings.getBoolean("finished_onboarding", false)
-    }
-
 }
+
+fun finishOnboarding() {
+    settings.putBoolean("finished_onboarding", true)
+}
+
+fun isFinishedOnboarding(): Boolean {
+    return settings.getBoolean("finished_onboarding", false)
+}
+
+fun storeBypass(): Boolean {
+    return settings.getBoolean("bypass", false)
+}
+
+fun bypassStore(bypass: Boolean) {
+    settings.putBoolean("bypass", bypass)
+}
+
 
