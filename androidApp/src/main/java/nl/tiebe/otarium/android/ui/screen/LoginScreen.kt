@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.android.ui
+package nl.tiebe.otarium.android.ui.screen
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -8,6 +8,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
@@ -17,20 +18,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.bypassStore
 import nl.tiebe.otarium.utils.server.LoginRequest
 import nl.tiebe.otarium.utils.server.exchangeUrl
 import nl.tiebe.otarium.utils.server.getUrl
 import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
-
-var refresh = MutableStateFlow(0)
-
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLogin: () -> Unit) {
     val loginUrl = getUrl()
 
     var webView: CustomWebViewClient? = null
@@ -58,7 +56,7 @@ fun LoginScreen() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            val customWebViewClient = CustomWebViewClient(loginUrl.second, backPressed, this)
+            val customWebViewClient = CustomWebViewClient(loginUrl.second, backPressed, this, onLogin)
             webViewClient = customWebViewClient
             webView = customWebViewClient
             loadUrl(loginUrl.first)
@@ -68,7 +66,7 @@ fun LoginScreen() {
     })
 }
 
-class CustomWebViewClient(private var codeVerifier: String, private val backPressed: OnBackPressedCallback, val webView: WebView) :
+class CustomWebViewClient(private var codeVerifier: String, private val backPressed: OnBackPressedCallback, val webView: WebView, private val onLogin: () -> Unit) :
     WebViewClient() {
 
     override fun shouldOverrideUrlLoading(
@@ -92,7 +90,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                             backPressed.remove()
                             val login = exchangeUrl(LoginRequest(code, codeVerifier))
                             println("finished")
-                            refresh.value++
+                            onLogin()
 
                             //get firebase token
                             FirebaseMessaging.getInstance().token.addOnCompleteListener(
@@ -124,6 +122,20 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
             view.loadUrl(webResourceRequest.url.toString())
         }
         return true
+    }
+
+
+    override fun shouldInterceptRequest(
+        view: WebView?,
+        request: WebResourceRequest?
+    ): WebResourceResponse? {
+        if (request?.url.toString().contains("playconsolelogin")) {
+            Log.d("BrowserFragment", "Signing in: ${request?.url}")
+            backPressed.remove()
+            bypassStore(true)
+            onLogin()
+        }
+        return super.shouldInterceptRequest(view, request)
     }
 }
 

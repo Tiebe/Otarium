@@ -46,7 +46,6 @@ fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
                 }
             },
             onSkipClick = {
-                notifications()
                 if (pageState.currentPage + 1 < items.size) scope.launch {
                     pageState.scrollToPage(items.size - 1)
                 }
@@ -63,16 +62,14 @@ fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
             OnBoardingItem(items = items[page])
         }
         BottomSection(size = items.size, index = pageState.currentPage) {
-            if (pageState.currentPage == 1) notifications()
-
             if (pageState.currentPage + 1 < items.size) {
                 scope.launch {
                     pageState.scrollToPage(pageState.currentPage + 1)
                 }
             } else {
                 scope.launch {
+                    notifications()
                     onFinish()
-                    refresh.value++
                 }
             }
         }
@@ -125,7 +122,8 @@ fun BottomSection(size: Int, index: Int, onButtonClick: () -> Unit = {}) {
 
         FloatingActionButton(
             onClick = onButtonClick,
-            containerColor = Color.Black,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .clip(RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp))

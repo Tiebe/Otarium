@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.android.ui
+package nl.tiebe.otarium.android.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

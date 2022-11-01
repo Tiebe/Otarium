@@ -24,6 +24,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import nl.tiebe.otarium.android.R
+import nl.tiebe.otarium.android.ui.screen.LoginScreen
+import nl.tiebe.otarium.android.ui.screen.MainScreen
 
 
 @Composable
@@ -32,15 +34,12 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
         composable("main") {
             MainScreen()
         }
-        composable("login") {
-            LoginScreen()
-        }
     }
 }
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int) {
     object Main : Screen("main", R.string.mainBarItem)
-    object Item2 : Screen("login", R.string.bar2)
+    //object Item2 : Screen("login", R.string.bar2)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,7 +48,7 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int) {
 fun BottomBar(navController: NavHostController) {
     val items = listOf(
         Screen.Main,
-        Screen.Item2,
+        //Screen.Item2,
     )
 
     Scaffold(
