@@ -12,15 +12,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Blue80,
+    secondary = Green80,
+    tertiary = Yellow80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Blue40,
+    secondary = Green40,
+    tertiary = Yellow40
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -40,6 +40,7 @@ fun OtariumTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -48,6 +49,7 @@ fun OtariumTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         val currentWindow = (view.context as? Activity)?.window
