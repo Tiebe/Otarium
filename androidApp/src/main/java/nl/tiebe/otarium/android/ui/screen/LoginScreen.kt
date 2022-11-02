@@ -21,10 +21,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.bypassStore
-import nl.tiebe.otarium.utils.server.LoginRequest
-import nl.tiebe.otarium.utils.server.exchangeUrl
-import nl.tiebe.otarium.utils.server.getUrl
-import nl.tiebe.otarium.utils.server.sendFirebaseToken
+import nl.tiebe.otarium.utils.server.*
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -90,6 +87,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                             backPressed.remove()
                             val login = exchangeUrl(LoginRequest(code, codeVerifier))
                             println("finished")
+
                             onLogin()
 
                             //get firebase token
