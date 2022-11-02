@@ -10,7 +10,7 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
-        versionCode = 8
+        versionCode = 9
         versionName = "1.1.0"
     }
     buildTypes {
