@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.response.TokenResponse
+import nl.tiebe.otarium.EXCHANGE_URL
 import nl.tiebe.otarium.magister.Tokens
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
@@ -18,9 +19,7 @@ suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     println("test1")
     client.webSocket(host = "178.128.140.122", port = 8080, path = EXCHANGE_URL.encodedPath) {
         send(Json.encodeToString(loginRequest))
-        println("test2")
         incoming.consumeEach { frame ->
-            println("Received frame: $frame")
             if (frame is Frame.Text) {
                 val json = Json.parseToJsonElement(frame.readText()).jsonObject
                 if (json["type"].toString().toInt() == 1) {

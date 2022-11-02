@@ -41,7 +41,7 @@ kotlin {
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
-                implementation("nl.tiebe:magisterapi:1.1.1")
+                implementation("nl.tiebe:magisterapi:1.1.2")
             }
         }
         val commonTest by getting {
@@ -52,8 +52,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("androidx.work:work-runtime-ktx:2.7.1")
-                implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
-                implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
+                implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+                implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
             }
         }
