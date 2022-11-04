@@ -8,8 +8,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -93,16 +92,16 @@ fun BottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
     }
 }
 
-
+var adsShown by mutableStateOf(showAds())
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-    BottomBar(navController, Modifier.padding(bottom = if (showAds()) 50.dp else 0.dp))
+    BottomBar(navController, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
 
-    if (showAds()) {
+    if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
@@ -126,5 +125,4 @@ fun Navigation() {
             )
         }
     }
-
 }

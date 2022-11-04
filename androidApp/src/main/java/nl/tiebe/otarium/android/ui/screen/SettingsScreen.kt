@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.LabelledCheckBox
 import nl.tiebe.otarium.showAds
+import nl.tiebe.otarium.android.ui.adsShown
 
 
 @Preview(showBackground = true)
@@ -31,6 +32,7 @@ fun SettingsScreen() {
         LabelledCheckBox(checked = checkedState.value, onCheckedChange = {
             checkedState.value = it
             showAds(checkedState.value)
+            adsShown = it
         }, label = stringResource(id = R.string.show_ads_checkbox))
 
     }
