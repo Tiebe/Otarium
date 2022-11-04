@@ -28,6 +28,7 @@ import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.android.BuildConfig
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.screen.MainScreen
+import nl.tiebe.otarium.android.ui.screen.SettingsScreen
 import nl.tiebe.otarium.showAds
 
 
@@ -37,12 +38,16 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
         composable("main") {
             MainScreen()
         }
+        composable("settings") {
+            SettingsScreen()
+        }
     }
 }
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int) {
     object Main : Screen("main", R.string.mainBarItem)
     //object Item2 : Screen("login", R.string.bar2)
+    object Settings : Screen("settings", R.string.settings_title)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,6 +57,7 @@ fun BottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
     val items = listOf(
         Screen.Main,
         //Screen.Item2,
+        Screen.Settings
     )
     Scaffold(
         bottomBar = {

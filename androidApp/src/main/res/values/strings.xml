@@ -20,4 +20,5 @@
     <string name="onboarding_desc_4">Would you like unobtrusive ads in this app? It would really help me out!</string>
     <string name="show_ads_checkbox">Show ads</string>
     <string name="age_checkbox">I am older than 16</string>
+    <string name="settings_title">Settings</string>
 </resources>
