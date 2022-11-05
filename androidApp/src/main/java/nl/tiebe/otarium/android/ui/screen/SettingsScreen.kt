@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.android.R
+import nl.tiebe.otarium.android.ui.adsShown
 import nl.tiebe.otarium.showAds
 
 //TODO: Wait for this pull request to be merged and then use this library: https://github.com/alorma/Compose-Settings/pull/65
@@ -35,6 +36,7 @@ fun SettingsScreen() {
             Switch(checked = checkedState.value, onCheckedChange = {
                 checkedState.value = it
                 showAds(it)
+                adsShown = it
             })
 
         }
