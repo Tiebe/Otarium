@@ -17,4 +17,6 @@
     <string name="onboarding_desc_4">Wil je niet-storende advertenties in de app? Het zou me heel erg helpen!</string>
     <string name="show_ads_checkbox">Laat advertenties zien</string>
     <string name="age_checkbox">Ik ben ouder dan 16</string>
+    <string name="settings_title">Instellingen</string>
+    <string name="age_requirement">Je hoeft geen 16 zijn om mij te helpen! Ik ben verplicht om deze vraag te stellen door de EU.</string>
 </resources>
