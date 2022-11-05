@@ -3,14 +3,11 @@ package nl.tiebe.otarium.android.ui
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,7 +42,6 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int) {
     object Main : Screen("main", R.string.mainBarItem)
-    //object Item2 : Screen("login", R.string.bar2)
     object Settings : Screen("settings", R.string.settings_title)
 }
 
@@ -55,31 +51,24 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int) {
 fun BottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
     val items = listOf(
         Screen.Main,
-        //Screen.Item2,
         Screen.Settings
     )
     Scaffold(
         bottomBar = {
-            BottomNavigation(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, backgroundColor = MaterialTheme.colorScheme.primary) {
+            NavigationBar(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
-                    BottomNavigationItem(
+                    NavigationBarItem(
                         icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
                         label = { Text(stringResource(screen.resourceId)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
                             navController.navigate(screen.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
-                                // Avoid multiple copies of the same destination when
-                                // reselecting the same item
                                 launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
                                 restoreState = true
                             }
                         }
@@ -94,7 +83,6 @@ fun BottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
 
 var adsShown by mutableStateOf(showAds())
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
