@@ -91,12 +91,10 @@ fun TopSection(onBackClick: () -> Unit = {}, onSkipClick: () -> Unit = {}) {
             .fillMaxWidth()
             .padding(12.dp)
     ) {
-        // Back button
         IconButton(onClick = onBackClick, modifier = Modifier.align(Alignment.CenterStart)) {
             Icon(imageVector = Icons.Outlined.KeyboardArrowLeft, contentDescription = null)
         }
 
-        // Skip Button
         TextButton(
             onClick = onSkipClick,
             modifier = Modifier.align(Alignment.CenterEnd),
@@ -114,18 +112,7 @@ fun BottomSection(size: Int, index: Int, onButtonClick: () -> Unit = {}) {
             .fillMaxWidth()
             .padding(12.dp)
     ) {
-        // Indicators
         Indicators(size, index)
-
-        // FAB Next
-        /* FloatingActionButton(
-             onClick = onButtonClick,
-            // backgroundColor = MaterialTheme.colorScheme.primary,
-            // contentColor = MaterialTheme.colorScheme.onPrimary,
-             modifier = Modifier.align(Alignment.CenterEnd)
-         ) {
-             Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "Next")
-         }*/
 
         FloatingActionButton(
             onClick = onButtonClick,
@@ -210,6 +197,17 @@ class OnBoardingItems(
                             checkedState2.value = it
                             ageOfConsent(checkedState2.value)
                         }, label = stringResource(id = R.string.age_checkbox))
+                        
+                        Spacer(Modifier.padding(30.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = stringResource(R.string.age_requirement),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.Light,
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 1.sp,
+                            )
+                        }
                     }
                 ), OnBoardingItems(
                     title = R.string.onboarding_title_3,
@@ -227,14 +225,6 @@ fun OnBoardingItem(items: OnBoardingItems) {
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-/*        Image(
-            painter = painterResource(id = items.image),
-            contentDescription = "Image1",
-            modifier = Modifier.padding(start = 50.dp, end = 50.dp)
-        )
-
-        Spacer(modifier = Modifier.height(25.dp))*/
-
         Text(
             text = stringResource(id = items.title),
             style = MaterialTheme.typography.headlineMedium,
