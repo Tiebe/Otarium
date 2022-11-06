@@ -13,6 +13,8 @@ import nl.tiebe.magisterapi.response.TokenResponse
 import nl.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.otarium.DEVICE_ADD_URL
 import nl.tiebe.otarium.MAGISTER_TOKENS_URL
+import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.magister.isAfterNow
 
 val client = HttpClient {
     install(WebSockets)
@@ -34,6 +36,10 @@ suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
 }
 
 suspend fun getMagisterTokens(accessToken: String): MagisterTokenResponse {
+    if (Tokens.getMagisterTokens()?.tokens?.expiresAt?.isAfterNow == true) {
+        return Tokens.getMagisterTokens()!!
+    }
+
     return requestGET(MAGISTER_TOKENS_URL, hashMapOf(), accessToken).body()
 }
 
@@ -41,4 +47,4 @@ suspend fun getMagisterTokens(accessToken: String): MagisterTokenResponse {
 data class DeviceAddRequest(val firebaseToken: String)
 
 @Serializable
-data class MagisterTokenResponse(val tenantUrl: String, val tokens: TokenResponse)
+data class MagisterTokenResponse(val accountId: Int, val tenantUrl: String, val tokens: TokenResponse)
