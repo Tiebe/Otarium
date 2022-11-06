@@ -3,11 +3,12 @@ package nl.tiebe.otarium.android.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -22,16 +23,16 @@ import com.google.android.gms.ads.*
 import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.android.BuildConfig
 import nl.tiebe.otarium.android.R
-import nl.tiebe.otarium.android.ui.screen.MainScreen
+import nl.tiebe.otarium.android.ui.screen.AgendaScreen
 import nl.tiebe.otarium.android.ui.screen.SettingsScreen
 import nl.tiebe.otarium.showAds
 
 
 @Composable
 fun NavHostController(navController: NavHostController, innerPadding: PaddingValues) {
-    NavHost(navController = navController, startDestination = "main", modifier = Modifier.padding(innerPadding)) {
-        composable("main") {
-            MainScreen()
+    NavHost(navController = navController, startDestination = "agenda", modifier = Modifier.padding(innerPadding)) {
+        composable("agenda") {
+            AgendaScreen()
         }
         composable("settings") {
             SettingsScreen()
@@ -39,16 +40,16 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
     }
 }
 
-sealed class Screen(val route: String, @StringRes val resourceId: Int) {
-    object Main : Screen("main", R.string.mainBarItem)
-    object Settings : Screen("settings", R.string.settings_title)
+sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: @Composable () -> Unit) {
+    object Agenda : Screen("agenda", R.string.agendaItem, { Icon(painterResource(R.drawable.ic_baseline_calendar_today_24), null) })
+    object Settings : Screen("settings", R.string.settings_title, { Icon(Icons.Filled.Settings, null) })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomBar(navController: NavHostController, modifier: Modifier) {
     val items = listOf(
-        Screen.Main,
+        Screen.Agenda,
         Screen.Settings
     )
     Scaffold(
@@ -58,7 +59,7 @@ fun BottomBar(navController: NavHostController, modifier: Modifier) {
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
                     NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                        icon = screen.icon,
                         label = { Text(stringResource(screen.resourceId)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {

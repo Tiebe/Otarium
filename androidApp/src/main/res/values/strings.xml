@@ -7,8 +7,7 @@
 
     <string name="waiting_for_grades">The app is now waiting for new grades and will notify you when it receives one.</string>
 
-    <string name="mainBarItem">Main</string>
-    <string name="bar2">Item 2</string>
+    <string name="agendaItem">Timetable</string>
     <string name="sign_in">Log in</string>
     <string name="onboarding_title_1">Otarium</string>
     <string name="onboarding_desc_1">Welcome to Otarium</string>
