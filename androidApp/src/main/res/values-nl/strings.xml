@@ -4,8 +4,7 @@
     <string name="grades_channel">Cijfers</string>
     <string name="grades_channel_description">Notificaties voor nieuwe cijfers</string>
     <string name="waiting_for_grades">De app wacht nu op nieuwe cijfers en zal je een notificatie geven als er eentje binnenkomt</string>
-    <string name="mainBarItem">Main</string>
-    <string name="bar2">Item 2</string>
+    <string name="agendaItem">Rooster</string>
     <string name="sign_in">Inloggen</string>
     <string name="onboarding_title_1">Otarium</string>
     <string name="onboarding_desc_1">Welkom bij Otarium</string>

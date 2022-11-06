@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.android.ui.utils
 
 import androidx.compose.material3.TabPosition
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
@@ -10,19 +11,20 @@ import com.google.accompanist.pager.PagerState
 
 @ExperimentalPagerApi
 fun Modifier.pagerTabIndicatorOffset(
-    pagerState: PagerState,
+    tabWeek: Int,
+    selectedWeek: State<Int>,
+    dayPagerState: PagerState,
     tabPositions: List<TabPosition>,
     pageIndexMapping: (Int) -> Int = { it },
 ): Modifier = layout { measurable, constraints ->
-    if (tabPositions.isEmpty()) {
-        // If there are no pages, nothing to show
+    if (tabPositions.isEmpty() || tabWeek != selectedWeek.value) {
         layout(constraints.maxWidth, 0) {}
     } else {
-        val currentPage = minOf(tabPositions.lastIndex, pageIndexMapping(pagerState.currentPage))
+        val currentPage = minOf(tabPositions.lastIndex, pageIndexMapping((dayPagerState.currentPage-dayPagerState.pageCount).mod(tabPositions.lastIndex+1)))
         val currentTab = tabPositions[currentPage]
         val previousTab = tabPositions.getOrNull(currentPage - 1)
         val nextTab = tabPositions.getOrNull(currentPage + 1)
-        val fraction = pagerState.currentPageOffset
+        val fraction = dayPagerState.currentPageOffset
         val indicatorWidth = if (fraction > 0 && nextTab != null) {
             lerp(currentTab.width, nextTab.width, fraction).roundToPx()
         } else if (fraction < 0 && previousTab != null) {
