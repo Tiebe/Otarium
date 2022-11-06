@@ -67,10 +67,12 @@ dependencies {
     implementation("androidx.compose.material:material:1.4.0-alpha01")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
-    implementation("com.google.accompanist:accompanist-pager:0.25.1")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.25.1")
-    implementation("com.google.accompanist:accompanist-appcompat-theme:0.25.1")
+    implementation("com.google.accompanist:accompanist-pager:0.27.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.27.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+    implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
 
     implementation("nl.tiebe:magisterapi-android:1.1.2")
 
