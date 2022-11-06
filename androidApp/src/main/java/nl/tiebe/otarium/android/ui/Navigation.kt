@@ -1,6 +1,5 @@
 package nl.tiebe.otarium.android.ui
 
-import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -45,10 +44,9 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int) {
     object Settings : Screen("settings", R.string.settings_title)
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
+fun BottomBar(navController: NavHostController, modifier: Modifier) {
     val items = listOf(
         Screen.Main,
         Screen.Settings
@@ -88,7 +86,6 @@ fun Navigation() {
     val navController = rememberNavController()
 
     BottomBar(navController, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
-
     if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             AndroidView(
