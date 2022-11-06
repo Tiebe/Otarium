@@ -3,6 +3,8 @@ package nl.tiebe.otarium.android.ui.screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,7 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.*
 import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.utils.pagerTabIndicatorOffset
@@ -27,9 +33,16 @@ import kotlin.math.floor
 @Preview(showBackground = true)
 @Composable
 fun AgendaScreen() {
+    // TODO: Retrieve new agenda
+
     val scope = rememberCoroutineScope()
     val dayPagerState = rememberPagerState(500)
     val weekPagerState = rememberPagerState(100)
+
+    val refreshState = rememberSwipeRefreshState(false)
+
+    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val firstDayOfWeek = now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
 
     var agenda = remember { getSavedAgenda() }
     val selectedWeekAgenda: MutableList<List<AgendaItem>> = mutableListOf()
@@ -76,7 +89,7 @@ fun AgendaScreen() {
                         selected = dayPagerState.currentPage == index && selectedWeek.value == week,
                         onClick = {
                             scope.launch {
-                                dayPagerState.animateScrollToPage((index+1)*week)
+                                dayPagerState.animateScrollToPage(week*titles.size+index)
                             } },
                         text = {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -87,8 +100,8 @@ fun AgendaScreen() {
                                     textAlign = TextAlign.Center
                                 )
                                 Text(
-                                    text = selectedWeekAgenda[index][0].start.substring(5, 10)
-                                        .split("-").reversed().joinToString("-"),
+                                    text = firstDayOfWeek.plus((week-100)*7+index, DateTimeUnit.DAY).toString()
+                                        .split("-").reversed().subList(0, 2).joinToString("-"),
                                     textAlign = TextAlign.Center
                                 )
                             }
@@ -102,15 +115,24 @@ fun AgendaScreen() {
             count = 1000,
             state = dayPagerState,
         ) { tabIndex ->
-            Column(
-                modifier = Modifier.fillMaxSize()
+            SwipeRefresh(
+                state = refreshState,
+                onRefresh = { scope.launch {
+                    refreshState.isRefreshing = true
+                    delay(2000)
+                    refreshState.isRefreshing = false
+                }}
             ) {
-                val dayOfWeek = ((tabIndex-500).mod(titles.size))
-                for (item in selectedWeekAgenda[dayOfWeek]) {
-                    ListItem(
-                        headlineText = { Text(item.description ?: "") },
-                    )
-                    Divider()
+                Column(
+                    modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                ) {
+                    val dayOfWeek = ((tabIndex - 500).mod(titles.size))
+                    for (item in selectedWeekAgenda[dayOfWeek]) {
+                        ListItem(
+                            headlineText = { Text(item.description ?: "") },
+                        )
+                        Divider()
+                    }
                 }
             }
         }
