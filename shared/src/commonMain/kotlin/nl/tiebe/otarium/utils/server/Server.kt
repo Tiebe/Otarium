@@ -35,12 +35,20 @@ suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
     }
 }
 
-suspend fun getMagisterTokens(accessToken: String): MagisterTokenResponse {
-    if (Tokens.getMagisterTokens()?.tokens?.expiresAt?.isAfterNow == true) {
-        return Tokens.getMagisterTokens()!!
+suspend fun getMagisterTokens(accessToken: String?): MagisterTokenResponse? {
+    println("Getting magister tokens")
+    if (Tokens.getSavedMagisterTokens()?.tokens?.expiresAt?.isAfterNow == true) {
+        println("saved")
+        Tokens.getSavedMagisterTokens()?.let { return it }
     }
 
-    return requestGET(MAGISTER_TOKENS_URL, hashMapOf(), accessToken).body()
+    if (accessToken == null) {
+        return null
+    }
+
+    println("request")
+    println(accessToken)
+    return requestGET(MAGISTER_TOKENS_URL, hashMapOf(), accessToken).body<MagisterTokenResponse>().also { Tokens.saveMagisterTokens(it) }
 }
 
 @Serializable
