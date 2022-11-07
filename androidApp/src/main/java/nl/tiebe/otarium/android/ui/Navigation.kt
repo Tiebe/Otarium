@@ -90,6 +90,7 @@ fun Navigation() {
     BottomBar(navController, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
 
     if (adsShown) {
+        println("amogus")
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
