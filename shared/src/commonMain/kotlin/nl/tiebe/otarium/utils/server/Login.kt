@@ -15,12 +15,9 @@ import nl.tiebe.otarium.magister.Tokens
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
     var response: LoginResponse? = null
-    println("test1")
     client.webSocket(host = "178.128.140.122", port = 8080, path = EXCHANGE_URL.encodedPath) {
         send(Json.encodeToString(loginRequest))
-        println("test2")
         incoming.consumeEach { frame ->
-            println("Received frame: $frame")
             if (frame is Frame.Text) {
                 val json = Json.parseToJsonElement(frame.readText()).jsonObject
                 if (json["type"].toString().toInt() == 1) {
@@ -28,7 +25,6 @@ suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
                 }
             } else if (frame is Frame.Close) {
                 if (frame.readReason()?.knownReason != CloseReason.Codes.NORMAL) {
-                    println("Error: ${frame.readReason()?.message}")
                     throw Exception("Received: ${frame.readReason()?.message}")
                 }
             }
