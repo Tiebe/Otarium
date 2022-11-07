@@ -40,7 +40,7 @@ fun LoginScreen(onLogin: () -> Unit) {
                     webView!!.webView.goBack()
                 } else {
                     if (getActivity(webView?.webView?.context) != null) {
-                        getActivity(webView?.webView?.context)?.finishAfterTransition() ?: println("Could not get context")
+                        getActivity(webView?.webView?.context)?.finishAfterTransition()
                     }
                 }
             }
@@ -89,7 +89,6 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                         launch {
                             backPressed.remove()
                             val login = exchangeUrl(LoginRequest(code, codeVerifier))
-                            println("finished")
                             onLogin()
 
                             //get firebase token
