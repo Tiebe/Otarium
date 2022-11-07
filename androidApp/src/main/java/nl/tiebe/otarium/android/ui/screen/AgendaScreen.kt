@@ -18,14 +18,16 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.utils.pagerTabIndicatorOffset
+import nl.tiebe.otarium.magister.Tokens
 import nl.tiebe.otarium.magister.getAgendaForDay
+import nl.tiebe.otarium.magister.getMagisterAgenda
 import nl.tiebe.otarium.magister.getSavedAgenda
+import nl.tiebe.otarium.utils.server.getMagisterTokens
 import kotlin.math.floor
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -34,6 +36,7 @@ import kotlin.math.floor
 @Composable
 fun AgendaScreen() {
     // TODO: Retrieve new agenda
+    // TODO: Dont just load the same agenda again and again, load different weeks
 
     val scope = rememberCoroutineScope()
     val dayPagerState = rememberPagerState(500)
@@ -44,7 +47,7 @@ fun AgendaScreen() {
     val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     val firstDayOfWeek = now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
 
-    var agenda = remember { getSavedAgenda() }
+    var agenda = getSavedAgenda()
     val selectedWeekAgenda: MutableList<List<AgendaItem>> = mutableListOf()
 
     val titles = listOf(stringResource(R.string.mon), stringResource(R.string.tue), stringResource(R.string.wed), stringResource(R.string.thu), stringResource(R.string.fri))
@@ -58,6 +61,34 @@ fun AgendaScreen() {
             floor(((dayPagerState.currentPage) - (dayPagerState.pageCount / 2))/titles.size.toFloat()).toInt()
         }
     } }
+
+    val firstDayOfSelectedWeek = remember { derivedStateOf {
+        firstDayOfWeek.plus(selectedWeek.value*7, DateTimeUnit.DAY)
+    } }
+
+    LaunchedEffect(selectedWeek.value) {
+        println("Selected week: ${selectedWeek.value}")
+
+        getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
+            val start = firstDayOfSelectedWeek.value
+            val end = start.plus(titles.size, DateTimeUnit.DAY)
+
+            println("$start - $end")
+
+            println("getting agenda")
+            agenda = getMagisterAgenda(
+                tokens.accountId,
+                tokens.tenantUrl,
+                tokens.tokens.accessToken,
+                start,
+                end
+            )
+            println("got agenda")
+
+            selectedWeekAgenda.removeAll { true }
+            titles.indices.forEach { selectedWeekAgenda.add(it, agenda.getAgendaForDay(it)) }
+        }
+    }
 
     // update selected week when swiping days
     LaunchedEffect(dayPagerState) {
@@ -117,14 +148,36 @@ fun AgendaScreen() {
         ) { tabIndex ->
             SwipeRefresh(
                 state = refreshState,
-                onRefresh = { scope.launch {
+                onRefresh = {
+                    println("refreshing")
+                    scope.launch {
                     refreshState.isRefreshing = true
-                    delay(2000)
+                    println("getting tokens")
+                    getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
+                        val start = firstDayOfSelectedWeek.value
+                        val end = start.plus(titles.size, DateTimeUnit.DAY)
+
+                        println("$start - $end")
+
+                        println("getting agenda")
+                        agenda = getMagisterAgenda(
+                            tokens.accountId,
+                            tokens.tenantUrl,
+                            tokens.tokens.accessToken,
+                            start,
+                            end
+                        )
+
+                        selectedWeekAgenda.removeAll { true }
+                        titles.indices.forEach { selectedWeekAgenda.add(it, agenda.getAgendaForDay(it)) }
+                    }
                     refreshState.isRefreshing = false
                 }}
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                 ) {
                     val dayOfWeek = ((tabIndex - 500).mod(titles.size))
                     for (item in selectedWeekAgenda[dayOfWeek]) {
