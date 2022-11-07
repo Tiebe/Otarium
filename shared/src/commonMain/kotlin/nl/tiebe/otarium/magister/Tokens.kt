@@ -34,7 +34,7 @@ object Tokens {
         settings.putString("magister_tokens", Json.encodeToString(tokens))
     }
 
-    fun getMagisterTokens(): MagisterTokenResponse? {
+    fun getSavedMagisterTokens(): MagisterTokenResponse? {
         return Json.decodeFromString(settings.getStringOrNull("magister_tokens") ?: return null)
     }
 }
