@@ -10,8 +10,8 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
-        versionCode = 9
-        versionName = "1.1.0"
+        versionCode = 10
+        versionName = "1.1.1"
     }
     buildTypes {
         getByName("release") {
@@ -66,9 +66,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.compose.material:material:1.4.0-alpha01")
 
-    implementation("com.google.accompanist:accompanist-pager:0.25.1")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.25.1")
-    implementation("com.google.accompanist:accompanist-appcompat-theme:0.25.1")
+    implementation("com.google.accompanist:accompanist-pager:0.27.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.27.0")
+    implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
 
-
+    implementation("nl.tiebe:magisterapi:1.1.2")
 }
