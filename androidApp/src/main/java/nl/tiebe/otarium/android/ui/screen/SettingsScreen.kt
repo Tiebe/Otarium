@@ -1,6 +1,9 @@
 package nl.tiebe.otarium.android.ui.screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,33 +15,66 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.adsShown
 import nl.tiebe.otarium.showAds
 
 //TODO: Wait for this pull request to be merged and then use this library: https://github.com/alorma/Compose-Settings/pull/65
 
+@OptIn(DelicateCoroutinesApi::class)
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreen() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
-        Row(modifier = Modifier.fillMaxWidth(0.95f), horizontalArrangement = Arrangement.SpaceBetween) {
-            val checkedState = remember { mutableStateOf(showAds()) }
+
+        Row(modifier = Modifier
+            .fillMaxWidth(0.95f)
+            .height(70.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+            val checkedStateAds = remember { mutableStateOf(showAds()) }
 
             Text(text = stringResource(id = R.string.show_ads_checkbox),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 12.dp))
+                textAlign = TextAlign.Center)
 
-            Switch(checked = checkedState.value, onCheckedChange = {
-                checkedState.value = it
+            Switch(checked = checkedStateAds.value, onCheckedChange = {
+                checkedStateAds.value = it
                 showAds(it)
                 adsShown = it
             })
+        }
 
+        Divider()
+
+        Row(modifier = Modifier
+            .fillMaxWidth(0.95f)
+            .height(70.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+            val checkedStateAge = remember { mutableStateOf(ageOfConsent()) }
+
+            Text(text = stringResource(id = R.string.age_checkbox),
+            textAlign = TextAlign.Center)
+
+            Switch(checked = checkedStateAge.value, onCheckedChange = {
+               GlobalScope.launch {
+                    checkedStateAge.value = it
+                    ageOfConsent(it)
+                    adsShown = false
+                    delay(500)
+                    adsShown = showAds()
+                }
+            })
         }
     }
 }
