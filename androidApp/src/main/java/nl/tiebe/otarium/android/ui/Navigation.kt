@@ -92,6 +92,8 @@ fun Navigation() {
             AndroidView(
                 modifier = Modifier.fillMaxWidth(),
                 factory = { context ->
+                    MobileAds.initialize(context) {}
+
                     AdView(context).apply {
                         adUnitId =
                             if (BuildConfig.DEBUG) "ca-app-pub-3940256099942544/6300978111" // test ads

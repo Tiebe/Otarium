@@ -46,8 +46,6 @@ suspend fun getMagisterTokens(accessToken: String?): MagisterTokenResponse? {
         return null
     }
 
-    println("request")
-    println(accessToken)
     return requestGET(MAGISTER_TOKENS_URL, hashMapOf(), accessToken).body<MagisterTokenResponse>().also { Tokens.saveMagisterTokens(it) }
 }
 

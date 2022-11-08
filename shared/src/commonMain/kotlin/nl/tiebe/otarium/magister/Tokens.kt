@@ -40,4 +40,4 @@ object Tokens {
 }
 
 val Long.isAfterNow: Boolean
-    get() = this > Clock.System.now().toEpochMilliseconds() - 2000
+    get() = this > Clock.System.now().toEpochMilliseconds()/1000 - 20
