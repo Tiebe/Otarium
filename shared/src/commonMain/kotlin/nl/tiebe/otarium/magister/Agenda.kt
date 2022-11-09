@@ -35,7 +35,7 @@ fun saveAgenda(agenda: List<AgendaItem>) {
 
 
 fun List<AgendaItem>.getAgendaForDay(day: Int): List<AgendaItem> {
-    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val today = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")).date
     val dayOfWeek = today.dayOfWeek
     var check = false
 
