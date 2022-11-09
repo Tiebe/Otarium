@@ -17,6 +17,7 @@ allprojects {
         google()
         mavenCentral()
         mavenLocal()
+        maven("https://jitpack.io")
 
         maven {
             url = uri("https://maven.pkg.github.com/Otarium/MagisterAPIKt")
