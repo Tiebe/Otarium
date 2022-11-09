@@ -28,10 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.utils.pagerTabIndicatorOffset
-import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.magister.getAgendaForDay
-import nl.tiebe.otarium.magister.getMagisterAgenda
-import nl.tiebe.otarium.magister.getSavedAgenda
+import nl.tiebe.otarium.magister.*
 import nl.tiebe.otarium.utils.server.getMagisterTokens
 import kotlin.math.floor
 
@@ -40,9 +37,7 @@ import kotlin.math.floor
 @Preview(showBackground = true)
 @Composable
 fun AgendaScreen() {
-    // TODO: show refreshing thing when refreshing
     // TODO: show line at current time
-    // TODO: make other weeks than the current work
 
     val scope = rememberCoroutineScope()
     val dayPagerState = rememberPagerState(500)
@@ -79,15 +74,10 @@ fun AgendaScreen() {
 
     LaunchedEffect(selectedWeek.value) {
         try {
-            println("Selected week: ${selectedWeek.value}")
-
             getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
                 val start = firstDayOfSelectedWeek.value
                 val end = start.plus(titles.size-1, DateTimeUnit.DAY)
 
-                println("$start - $end")
-
-                println("getting agenda")
                 agenda = getMagisterAgenda(
                     tokens.accountId,
                     tokens.tenantUrl,
@@ -95,7 +85,10 @@ fun AgendaScreen() {
                     start,
                     end
                 )
-                println("got agenda")
+
+                if (selectedWeek.value == 0) {
+                    saveAgenda(agenda)
+                }
 
                 loadedAgendas[selectedWeek.value] = titles.indices.map { agenda.getAgendaForDay(it) }
             }
@@ -169,9 +162,6 @@ fun AgendaScreen() {
                             val start = firstDayOfSelectedWeek.value
                             val end = start.plus(titles.size, DateTimeUnit.DAY)
 
-                            println("$start - $end")
-
-                            println("getting agenda")
                             agenda = getMagisterAgenda(
                                 tokens.accountId,
                                 tokens.tenantUrl,
@@ -216,7 +206,8 @@ fun AgendaScreen() {
                         }
 
                         val dayOfWeekStartMillis = now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY) // first day of week
-                            .plus(pageWeek*7, DateTimeUnit.DAY).plus(tabIndex - 500, DateTimeUnit.DAY)
+                            .plus(pageWeek*7, DateTimeUnit.DAY) // add weeks to get to selected week
+                            .plus(tabIndex-(dayPagerState.pageCount / 2)-(pageWeek*titles.size), DateTimeUnit.DAY) // add days to get to selected day
                             .atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds()
 
                         val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
