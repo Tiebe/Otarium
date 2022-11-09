@@ -54,7 +54,7 @@ fun AgendaItem(
 
         val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
 
-        for (item in loadedAgendas[pageWeek]?.get(dayOfWeek) ?: emptyList()) {
+         for (item in loadedAgendas[pageWeek+100]?.get(dayOfWeek) ?: emptyList()) {
             val startTime = item.start.substring(0, 26).toLocalDateTime()
             val endTime = item.einde.substring(0, 26).toLocalDateTime()
 

@@ -3,10 +3,10 @@ package nl.tiebe.otarium.android
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -90,21 +90,14 @@ class MainActivity : AppCompatActivity() {
                                 token
                             )
                         } catch (e: Exception) {
-                            Tokens.clearTokens()
+                            Looper.prepare()
                             Toast.makeText(
                                 this@MainActivity,
-                                "Failed to connect to the server. Trying again...",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-
-                            val intent = Intent(this@MainActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            finishAffinity()
+                                "Failed to connect to the server...",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             Log.d("Firebase", e.toString())
-
-
                         }
                     }
                 }
