@@ -31,7 +31,7 @@ val dpPerHour = 73.14.dp // yes that .14 is needed. don't ask me how i found out
 fun Agenda(dayPagerState: PagerState, days: List<String>, loadedAgendas: MutableMap<Int, List<List<AgendaItem>>>, refresh: (refreshState: SwipeRefreshState) -> Unit) {
     val refreshState = rememberSwipeRefreshState(false)
 
-    var now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+    var now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
 
     val timeLinePosition = remember {
         mutableStateOf(0.dp)
