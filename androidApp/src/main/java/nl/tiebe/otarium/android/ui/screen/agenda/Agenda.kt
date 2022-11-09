@@ -5,9 +5,7 @@ import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
@@ -59,6 +57,8 @@ fun Agenda(dayPagerState: PagerState, days: List<String>, loadedAgendas: Mutable
                     )
                 }
             }
+
+
             Column {
                 for (i in timesShown) {
                     Text(
