@@ -8,9 +8,9 @@
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:
--keepclassmembers class fqcn.of.javascript.interface.for.webview {
-   public *;
-}
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
@@ -58,23 +58,14 @@
 
 # @Serializable and @Polymorphic are used at runtime for polymorphic serialization.
 -keepattributes RuntimeVisibleAnnotations,AnnotationDefault
-
 -keepattributes *Annotation*, InnerClasses
--dontnote kotlinx.serialization.AnnotationsKt # core serialization annotations
-
-# kotlinx-serialization-json specific. Add this if you have java.lang.NoClassDefFoundError kotlinx.serialization.json.JsonObjectSerializer
--keepclassmembers class kotlinx.serialization.json.** {
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class nl.tiebe.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class nl.tiebe.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class kotlinx.serialization.json.** {
+-keepclasseswithmembers class nl.tiebe.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Change here com.yourcompany.yourpackage
--keep,includedescriptorclasses class nl.tiebe.otarium.**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class nl.tiebe.otarium.** { # <-- change package name to your app's
-    *** Companion;
-}
--keepclasseswithmembers class nl.tiebe.otarium.** { # <-- change package name to your app's
-    kotlinx.serialization.KSerializer serializer(...);
-}
+-keep,includedescriptorclasses class nl.tiebe.** { *;}

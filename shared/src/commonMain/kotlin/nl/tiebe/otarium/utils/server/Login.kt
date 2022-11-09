@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.response.TokenResponse
+import nl.tiebe.otarium.EXCHANGE_URL
 import nl.tiebe.otarium.magister.Tokens
 
 suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {

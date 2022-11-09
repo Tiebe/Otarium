@@ -3,10 +3,10 @@ package nl.tiebe.otarium.android
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -19,7 +19,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
@@ -82,34 +81,28 @@ class MainActivity : AppCompatActivity() {
             // Log and toast
             Log.d("Firebase", token)
 
-            runBlocking {
-                launch {
-                    try {
-                        sendFirebaseToken(
-                            Tokens.getPastTokens()?.accessTokens?.accessToken ?: return@launch,
-                            token
-                        )
-                    } catch (e: Exception) {
-                        Tokens.clearTokens()
-                        Toast.makeText(this@MainActivity, "Failed to connect to the server. Trying again...", Toast.LENGTH_LONG)
-                            .show()
+            Thread {
+                runBlocking {
+                    launch {
+                        try {
+                            sendFirebaseToken(
+                                Tokens.getPastTokens()?.accessTokens?.accessToken ?: return@launch,
+                                token
+                            )
+                        } catch (e: Exception) {
+                            Looper.prepare()
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Failed to connect to the server...",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                        val intent = Intent(this@MainActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finishAffinity()
-
-                        Log.d("Firebase", e.toString())
-
-
+                            Log.d("Firebase", e.toString())
+                        }
                     }
                 }
-            }
+            }.start()
         })
-
-        MobileAds.initialize(this) {
-
-        }
-
     }
 
 
