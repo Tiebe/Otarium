@@ -36,9 +36,7 @@ suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
 }
 
 suspend fun getMagisterTokens(accessToken: String?): MagisterTokenResponse? {
-    println("Getting magister tokens")
     if (Tokens.getSavedMagisterTokens()?.tokens?.expiresAt?.isAfterNow == true) {
-        println("saved")
         Tokens.getSavedMagisterTokens()?.let { return it }
     }
 
