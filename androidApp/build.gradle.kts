@@ -10,8 +10,8 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
-        versionCode = 9
-        versionName = "1.1.0"
+        versionCode = 10
+        versionName = "1.1.1"
     }
     buildTypes {
         getByName("release") {
@@ -79,4 +79,5 @@ dependencies {
     implementation("nl.tiebe:magisterapi-android:1.1.2")
 
 
+    implementation("nl.tiebe:magisterapi:1.1.2")
 }
