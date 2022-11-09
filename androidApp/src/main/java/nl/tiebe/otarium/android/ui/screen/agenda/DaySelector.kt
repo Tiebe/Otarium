@@ -19,6 +19,7 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 import nl.tiebe.otarium.android.ui.utils.pagerTabIndicatorOffset
+import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -71,9 +72,8 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
         // update selected week when swiping days
         LaunchedEffect(dayPagerState) {
             snapshotFlow { dayPagerState.currentPage }.collect { page ->
-                if (selectedWeek.value != (((page) - (dayPagerState.pageCount / 2)) / days.size)) {
+                if (selectedWeek.value == floor(((page) - (dayPagerState.pageCount / 2)).toFloat() / days.size).toInt()) {
                     scope.launch {
-                        println("FUcky ou")
                         weekPagerState.animateScrollToPage(selectedWeek.value + 100)
                     }
                 }
