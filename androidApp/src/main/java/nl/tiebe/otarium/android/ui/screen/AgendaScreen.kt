@@ -1,6 +1,8 @@
 package nl.tiebe.otarium.android.ui.screen
 
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -47,36 +50,52 @@ fun AgendaScreen() {
 
     val refreshState = rememberSwipeRefreshState(false)
 
-    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val timesShown = 8..17
+
+    val now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
     val firstDayOfWeek = now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
 
-    val titles = listOf(stringResource(R.string.mon), stringResource(R.string.tue), stringResource(R.string.wed), stringResource(R.string.thu), stringResource(R.string.fri))
+    val dpPerHour = 73.14.dp // yes that .14 is needed. don't ask me how i found out
+
+    val titles = listOf(
+        stringResource(R.string.mon),
+        stringResource(R.string.tue),
+        stringResource(R.string.wed),
+        stringResource(R.string.thu),
+        stringResource(R.string.fri)
+    )
 
     var agenda = getSavedAgenda()
-    val loadedAgendas = remember { mutableStateMapOf(
-        Pair(0, titles.indices.map {
-            agenda.getAgendaForDay(it)
-        })
-    ) }
+    val loadedAgendas = remember {
+        mutableStateMapOf(
+            Pair(0, titles.indices.map {
+                agenda.getAgendaForDay(it)
+            })
+        )
+    }
 
     // some math to get the selected week from the currently selected day
-    val selectedWeek = remember { derivedStateOf{
-        if (dayPagerState.currentPage-(dayPagerState.pageCount/2) >= 0) {
-            ((dayPagerState.currentPage)-(dayPagerState.pageCount/2))/titles.size
-        } else {
-            floor(((dayPagerState.currentPage) - (dayPagerState.pageCount / 2))/titles.size.toFloat()).toInt()
+    val selectedWeek = remember {
+        derivedStateOf {
+            if (dayPagerState.currentPage - (dayPagerState.pageCount / 2) >= 0) {
+                ((dayPagerState.currentPage) - (dayPagerState.pageCount / 2)) / titles.size
+            } else {
+                floor(((dayPagerState.currentPage) - (dayPagerState.pageCount / 2)) / titles.size.toFloat()).toInt()
+            }
         }
-    } }
+    }
 
-    val firstDayOfSelectedWeek = remember { derivedStateOf {
-        firstDayOfWeek.plus(selectedWeek.value*7, DateTimeUnit.DAY)
-    } }
+    val firstDayOfSelectedWeek = remember {
+        derivedStateOf {
+            firstDayOfWeek.plus(selectedWeek.value * 7, DateTimeUnit.DAY)
+        }
+    }
 
     LaunchedEffect(selectedWeek.value) {
         try {
             getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
                 val start = firstDayOfSelectedWeek.value
-                val end = start.plus(titles.size-1, DateTimeUnit.DAY)
+                val end = start.plus(titles.size - 1, DateTimeUnit.DAY)
 
                 agenda = getMagisterAgenda(
                     tokens.accountId,
@@ -90,7 +109,8 @@ fun AgendaScreen() {
                     saveAgenda(agenda)
                 }
 
-                loadedAgendas[selectedWeek.value] = titles.indices.map { agenda.getAgendaForDay(it) }
+                loadedAgendas[selectedWeek.value] =
+                    titles.indices.map { agenda.getAgendaForDay(it) }
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -100,12 +120,41 @@ fun AgendaScreen() {
     // update selected week when swiping days
     LaunchedEffect(dayPagerState) {
         snapshotFlow { dayPagerState.currentPage }.collect { page ->
-            if (weekPagerState.currentPage != (((page)-(dayPagerState.pageCount/2))/5)) {
+            if (weekPagerState.currentPage != (((page) - (dayPagerState.pageCount / 2)) / 5)) {
                 scope.launch {
-                    weekPagerState.animateScrollToPage(selectedWeek.value+100)
+                    weekPagerState.animateScrollToPage(selectedWeek.value + 100)
                 }
             }
 
+        }
+    }
+
+    val timeLinePosition = remember {
+        mutableStateOf(0.dp)
+    }
+
+    DisposableEffect(Unit) {
+        val handler = Handler(Looper.getMainLooper())
+
+        val runnable = object : Runnable {
+            override fun run() {
+                val time = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+                val minutes = time.hour * 60 + time.minute
+
+                if (minutes < 0) {
+                    timeLinePosition.value = 0.dp
+                } else {
+                    timeLinePosition.value = minutes / 60f * dpPerHour
+                }
+
+                handler.postDelayed(this, 60_000)
+            }
+        }
+
+        handler.post(runnable)
+
+        onDispose {
+            handler.removeCallbacks(runnable)
         }
     }
 
@@ -115,7 +164,7 @@ fun AgendaScreen() {
             TabRow(selectedTabIndex = dayPagerState.currentPage, indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(
-                        week-100,
+                        week - 100,
                         selectedWeek,
                         dayPagerState,
                         tabPositions
@@ -127,8 +176,9 @@ fun AgendaScreen() {
                         selected = dayPagerState.currentPage == index && selectedWeek.value == week,
                         onClick = {
                             scope.launch {
-                                dayPagerState.animateScrollToPage(week*titles.size+index)
-                            } },
+                                dayPagerState.animateScrollToPage(week * titles.size + index)
+                            }
+                        },
                         text = {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
@@ -138,7 +188,10 @@ fun AgendaScreen() {
                                     textAlign = TextAlign.Center
                                 )
                                 Text(
-                                    text = firstDayOfWeek.plus((week-100)*7+index, DateTimeUnit.DAY).toString()
+                                    text = firstDayOfWeek.plus(
+                                        (week - 100) * 7 + index,
+                                        DateTimeUnit.DAY
+                                    ).toString()
                                         .split("-").reversed().subList(0, 2).joinToString("-"),
                                     textAlign = TextAlign.Center
                                 )
@@ -149,6 +202,7 @@ fun AgendaScreen() {
                 }
             }
         }
+
         HorizontalPager(
             count = 1000,
             state = dayPagerState,
@@ -170,69 +224,84 @@ fun AgendaScreen() {
                                 end
                             )
 
-                            loadedAgendas[selectedWeek.value] = titles.indices.map { agenda.getAgendaForDay(it) }
+                            loadedAgendas[selectedWeek.value] =
+                                titles.indices.map { agenda.getAgendaForDay(it) }
                         }
                         refreshState.isRefreshing = false
-                }}
+                    }
+                }
             ) {
-                val timesShown = 8..17
-                val dpPerHour = 73.14.dp // yes that .14 is needed. don't ask me how i found out
+                if (timeLinePosition.value > 0.dp) {
+                    Box(Modifier.verticalScroll(dayScrollState)) {
+                        Divider(
+                            Modifier
+                                .width(40.dp)
+                                .padding(top = timeLinePosition.value),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+                Column {
+                    for (i in timesShown) {
+                        Text(
+                            text = i.toString(),
+                            Modifier
+                                .size(40.dp, dpPerHour)
+                                .topRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
+                                .padding(8.dp),
+                            MaterialTheme.colorScheme.outline
+                        )
+                    }
+                }
 
-                Box(Modifier.verticalScroll(dayScrollState)) {
-                    Column {
-                        for (i in timesShown) {
-                            Text(
-                                text = i.toString(),
-                                Modifier
-                                    .size(40.dp, dpPerHour)
-                                    .topRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
-                                    .padding(8.dp),
-                                MaterialTheme.colorScheme.outline
-                            )
-                        }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 40.5.dp)
+                ) {
+                    val dayOfWeek = ((tabIndex - 500).mod(titles.size))
+
+                    val pageWeek = if (tabIndex - (dayPagerState.pageCount / 2) >= 0) {
+                        (tabIndex - (dayPagerState.pageCount / 2)) / titles.size
+                    } else {
+                        floor((tabIndex - (dayPagerState.pageCount / 2)) / titles.size.toFloat()).toInt()
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 40.5.dp)
-                    ) {
-                        val dayOfWeek = ((tabIndex - 500).mod(titles.size))
+                    val dayOfWeekStartMillis = now.date.minus(
+                        now.date.dayOfWeek.ordinal,
+                        DateTimeUnit.DAY
+                    ) // first day of week
+                        .plus(pageWeek * 7, DateTimeUnit.DAY) // add weeks to get to selected week
+                        .plus(
+                            tabIndex - (dayPagerState.pageCount / 2) - (pageWeek * titles.size),
+                            DateTimeUnit.DAY
+                        ) // add days to get to selected day
+                        .atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds()
 
-                        val pageWeek = if (tabIndex-(dayPagerState.pageCount/2) >= 0) {
-                            (tabIndex-(dayPagerState.pageCount/2))/titles.size
-                        } else {
-                            floor((tabIndex - (dayPagerState.pageCount / 2))/titles.size.toFloat()).toInt()
-                        }
+                    val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
 
-                        val dayOfWeekStartMillis = now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY) // first day of week
-                            .plus(pageWeek*7, DateTimeUnit.DAY) // add weeks to get to selected week
-                            .plus(tabIndex-(dayPagerState.pageCount / 2)-(pageWeek*titles.size), DateTimeUnit.DAY) // add days to get to selected day
-                            .atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds()
+                    for (item in loadedAgendas[pageWeek]?.get(dayOfWeek) ?: emptyList()) {
+                        val startTime = item.start.substring(0, 26).toLocalDateTime()
+                            .toInstant(TimeZone.UTC)
+                        val endTime = item.einde.substring(0, 26).toLocalDateTime()
+                            .toInstant(TimeZone.UTC)
 
-                        val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
+                        val height =
+                            dpPerHour * ((endTime.toEpochMilliseconds() - startTime.toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
+                        var distanceAfterTop =
+                            (dpPerHour * ((startTime.toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
+                        if (distanceAfterTop < 0.dp) distanceAfterTop = 0.dp
 
-                        for (item in loadedAgendas[pageWeek]?.get(dayOfWeek) ?: emptyList()) {
-                            val startTime = item.start.substring(0, 26).toLocalDateTime()
-                                .toInstant(TimeZone.UTC)
-                            val endTime = item.einde.substring(0, 26).toLocalDateTime()
-                                .toInstant(TimeZone.UTC)
-
-                            val height = dpPerHour * ((endTime.toEpochMilliseconds() - startTime.toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
-                            var distanceAfterTop = (dpPerHour * ((startTime.toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
-                            if (distanceAfterTop < 0.dp) distanceAfterTop = 0.dp
-
-                            ListItem(
-                                modifier = Modifier
-                                    .padding(top = distanceAfterTop)
-                                    .height(height)
-                                    .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-                                headlineText = { Text(item.description ?: "") },
-                                colors = ListItemDefaults.colors(
-                                    containerColor = MaterialTheme.colorScheme.inverseOnSurface
-                                ),
-                            )
-                        }
+                        ListItem(
+                            modifier = Modifier
+                                .padding(top = distanceAfterTop)
+                                .height(height)
+                                .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+                            headlineText = { Text(item.description ?: "") },
+                            colors = ListItemDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.inverseOnSurface
+                            ),
+                        )
                     }
                 }
             }
@@ -241,14 +310,25 @@ fun AgendaScreen() {
 }
 
 @Suppress("UnnecessaryComposedModifier")
-fun Modifier.topRectBorder(width: Dp = Dp.Hairline, brush: Brush = SolidColor(Color.LightGray)): Modifier = composed(
+fun Modifier.topRectBorder(
+    width: Dp = Dp.Hairline,
+    brush: Brush = SolidColor(Color.LightGray)
+): Modifier = composed(
     factory = {
         this.then(
             Modifier.drawWithCache {
                 onDrawWithContent {
                     drawContent()
-                    drawLine(brush, Offset(width.value, size.height+width.value), Offset(411.5.dp.toPx(), size.height+width.value))
-                    drawLine(brush, Offset(size.width, 0f-width.value), Offset(size.width, size.height-width.value))
+                    drawLine(
+                        brush,
+                        Offset(width.value, size.height + width.value),
+                        Offset(411.5.dp.toPx(), size.height + width.value)
+                    )
+                    drawLine(
+                        brush,
+                        Offset(size.width, 0f - width.value),
+                        Offset(size.width, size.height - width.value)
+                    )
                 }
             }
         )
@@ -267,14 +347,25 @@ fun Modifier.topRectBorder(width: Dp = Dp.Hairline, brush: Brush = SolidColor(Co
 )
 
 @Suppress("UnnecessaryComposedModifier")
-fun Modifier.topBottomRectBorder(width: Dp = Dp.Hairline, brush: Brush = SolidColor(Color.LightGray)): Modifier = composed(
+fun Modifier.topBottomRectBorder(
+    width: Dp = Dp.Hairline,
+    brush: Brush = SolidColor(Color.LightGray)
+): Modifier = composed(
     factory = {
         this.then(
             Modifier.drawWithCache {
                 onDrawWithContent {
                     drawContent()
-                    drawLine(brush, Offset(0f, 0f-width.value), Offset(size.width, 0f-width.value))
-                    drawLine(brush, Offset(0f, size.height - width.value), Offset(size.width, size.height - width.value))
+                    drawLine(
+                        brush,
+                        Offset(0f, 0f - width.value),
+                        Offset(size.width, 0f - width.value)
+                    )
+                    drawLine(
+                        brush,
+                        Offset(0f, size.height - width.value),
+                        Offset(size.width, size.height - width.value)
+                    )
                 }
             }
         )
