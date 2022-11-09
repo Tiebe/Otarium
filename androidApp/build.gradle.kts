@@ -55,6 +55,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.1.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("com.github.ireward:compose-html:1.0.2")
+
 
     implementation("com.google.android.gms:play-services-ads:21.3.0")
 

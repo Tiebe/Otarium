@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import androidx.core.text.HtmlCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -280,15 +281,20 @@ fun AgendaScreen() {
 
                     for (item in loadedAgendas[pageWeek]?.get(dayOfWeek) ?: emptyList()) {
                         val startTime = item.start.substring(0, 26).toLocalDateTime()
-                            .toInstant(TimeZone.UTC)
                         val endTime = item.einde.substring(0, 26).toLocalDateTime()
-                            .toInstant(TimeZone.UTC)
 
                         val height =
-                            dpPerHour * ((endTime.toEpochMilliseconds() - startTime.toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
+                            dpPerHour * ((endTime.toInstant(TimeZone.UTC).toEpochMilliseconds() - startTime.toInstant(TimeZone.UTC).toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
                         var distanceAfterTop =
-                            (dpPerHour * ((startTime.toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
+                            (dpPerHour * ((startTime.toInstant(TimeZone.UTC).toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
                         if (distanceAfterTop < 0.dp) distanceAfterTop = 0.dp
+
+                        val supportingText = mutableListOf<String>()
+
+                        if (item.location != null) supportingText.add(item.location!!)
+                        supportingText.add("${startTime.hour.toString().padStart(2, '0')}:${startTime.minute.toString().padStart(2, '0')} - ${endTime.hour.toString().padStart(2, '0')}:${endTime.minute.toString().padStart(2, '0')}")
+
+                        if (item.content != null) supportingText.add(HtmlCompat.fromHtml(item.content!!, HtmlCompat.FROM_HTML_MODE_LEGACY).toString())
 
                         ListItem(
                             modifier = Modifier
@@ -296,6 +302,8 @@ fun AgendaScreen() {
                                 .height(height)
                                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
                             headlineText = { Text(item.description ?: "") },
+                            supportingText = { Text(supportingText.joinToString(" • "), maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                            leadingContent = { Text((item.fromPeriod ?: "").toString()) },
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.inverseOnSurface
                             ),
