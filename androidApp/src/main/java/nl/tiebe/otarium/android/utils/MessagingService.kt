@@ -1,5 +1,7 @@
 package nl.tiebe.otarium.android.utils
 
+import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -20,6 +22,7 @@ class MessagingService : FirebaseMessagingService() {
     }
 
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     @Suppress("DEPRECATION")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // TODO(developer): Handle FCM messages here.
@@ -36,10 +39,15 @@ class MessagingService : FirebaseMessagingService() {
         remoteMessage.notification?.let {
             Log.d("Firebase", "Message Notification Body: ${it.body}")
 
+            val intent = packageManager.getLaunchIntentForPackage(packageName)
+            intent?.action = ".MainActivity"
+            intent?.flags = 0
             val builder = NotificationCompat.Builder(this, "grades")
                 .setSmallIcon(R.drawable.ic_notification_foreground)
                 .setContentTitle(remoteMessage.notification!!.title)
                 .setContentText(remoteMessage.notification!!.body)
+                .setAutoCancel(true)
+                .setContentIntent(PendingIntent.getActivity(this, 0, intent, 0))
                 .setGroup(System.currentTimeMillis().toString())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 builder.color = resources.getColor(R.color.main_color, null)

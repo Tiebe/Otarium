@@ -10,7 +10,7 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
-        versionCode = 11
+        versionCode = 12
         versionName = "1.2.0"
     }
     buildTypes {
@@ -76,8 +76,5 @@ dependencies {
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
 
-    implementation("nl.tiebe:magisterapi-android:1.1.2")
-
-
-    implementation("nl.tiebe:magisterapi:1.1.2")
+    implementation("nl.tiebe:magisterapi-android:1.1.3")
 }

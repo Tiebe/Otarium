@@ -18,13 +18,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import com.google.android.gms.ads.*
 import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.android.BuildConfig
 import nl.tiebe.otarium.android.R
-import nl.tiebe.otarium.android.ui.screen.agenda.AgendaScreen
+import nl.tiebe.otarium.android.ui.screen.GradeScreen
 import nl.tiebe.otarium.android.ui.screen.SettingsScreen
+import nl.tiebe.otarium.android.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.showAds
 
 
@@ -34,6 +35,9 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
         composable("agenda") {
             AgendaScreen()
         }
+        composable("grades", deepLinks = listOf(navDeepLink { uriPattern = "https://otarium.groosman.nl/grades"  })) {
+            GradeScreen()
+        }
         composable("settings") {
             SettingsScreen()
         }
@@ -41,8 +45,9 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
 }
 
 sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: @Composable () -> Unit) {
-    object Agenda : Screen("agenda", R.string.agendaItem, { Icon(painterResource(R.drawable.ic_baseline_calendar_today_24), null) })
-    object Settings : Screen("settings", R.string.settings_title, { Icon(Icons.Filled.Settings, null) })
+    object Agenda : Screen("agenda", R.string.agendaItem, { Icon(painterResource(R.drawable.ic_baseline_calendar_today_24), "Timetable") })
+    object Grades : Screen("grades", R.string.gradesItem, { Icon(painterResource(R.drawable.ic_baseline_looks_10_24), "Grades") })
+    object Settings : Screen("settings", R.string.settings_title, { Icon(Icons.Filled.Settings, "Settings") })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +55,7 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
 fun BottomBar(navController: NavHostController, modifier: Modifier) {
     val items = listOf(
         Screen.Agenda,
+        Screen.Grades,
         Screen.Settings
     )
     Scaffold(
@@ -83,9 +89,7 @@ fun BottomBar(navController: NavHostController, modifier: Modifier) {
 var adsShown by mutableStateOf(showAds())
 
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
-
+fun Navigation(navController: NavHostController) {
     BottomBar(navController, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
     if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {

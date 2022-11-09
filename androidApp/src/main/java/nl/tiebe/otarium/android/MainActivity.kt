@@ -3,6 +3,7 @@ package nl.tiebe.otarium.android
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +19,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -40,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) {}
 
+    lateinit var navController: NavHostController
+
     @OptIn(ExperimentalPagerApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,21 +52,24 @@ class MainActivity : AppCompatActivity() {
         val main = Main()
         main.setup()
 
+
         setContent {
+            navController = rememberNavController()
+
             OtariumTheme(dynamicColor = false) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val openLoginScreen = remember { mutableStateOf(false) }
-                    if (openLoginScreen.value) MainActivityScreen()
+                    if (openLoginScreen.value) MainActivityScreen(navController)
 
                     if (!isFinishedOnboarding()) {
                         OnBoarding(onFinish = {
                             openLoginScreen.value = true
                             finishOnboarding()
                         }, notifications = { askNotificationPermission(this)})
-                    } else MainActivityScreen()
+                    } else MainActivityScreen(navController)
                 }
 
             }
@@ -107,18 +115,18 @@ class MainActivity : AppCompatActivity() {
 
 
     @Composable
-    fun MainActivityScreen() {
-        if (storeBypass()) { Navigation(); return }
+    fun MainActivityScreen(navController: NavHostController) {
+        if (storeBypass()) { Navigation(navController); return }
         val openMainScreen = remember { mutableStateOf(false) }
 
-        if (openMainScreen.value) Navigation()
+        if (openMainScreen.value) Navigation(navController)
 
         if (Tokens.getPastTokens() == null) {
             LoginScreen(onLogin = {
                 openMainScreen.value = true
             })
         } else {
-            Navigation()
+            Navigation(navController)
         }
     }
 
@@ -156,5 +164,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        println("INTENT")
+        navController.handleDeepLink(intent)
+    }
 
 }
