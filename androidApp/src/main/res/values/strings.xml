@@ -20,10 +20,10 @@
     <string name="show_ads_checkbox">Show ads</string>
     <string name="age_checkbox">I am older than 16</string>
     <string name="settings_title">Settings</string>
-    <string name="age_requirement">You don\'t have to be 16 to help me out! It\'s just a question I\'m required to ask by the EU.</string>
     <string name="mon">mon</string>
     <string name="tue">tue</string>
     <string name="wed">wed</string>
     <string name="thu">thu</string>
     <string name="fri">fri</string>
+    <string name="age_requirement">You don\'t need to be 16 to use the app or see ads. It\'s just about the type of ads you\'ll see.</string>
 </resources>

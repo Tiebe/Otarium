@@ -17,10 +17,10 @@
     <string name="show_ads_checkbox">Laat advertenties zien</string>
     <string name="age_checkbox">Ik ben ouder dan 16</string>
     <string name="settings_title">Instellingen</string>
-    <string name="age_requirement">Je hoeft geen 16 zijn om mij te helpen! Ik ben verplicht om deze vraag te stellen door de EU.</string>
     <string name="mon">ma</string>
     <string name="tue">di</string>
     <string name="wed">wo</string>
     <string name="thu">do</string>
     <string name="fri">vr</string>
+    <string name="age_requirement">Je hoeft geen 16 te zijn om de app te gebruiken of om advertenties te zien. Het gaat alleen over de type advertenties die je te zien krijgt.</string>
 </resources>
