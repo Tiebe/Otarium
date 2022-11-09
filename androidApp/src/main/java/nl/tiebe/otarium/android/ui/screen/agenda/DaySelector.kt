@@ -71,8 +71,9 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
         // update selected week when swiping days
         LaunchedEffect(dayPagerState) {
             snapshotFlow { dayPagerState.currentPage }.collect { page ->
-                if (weekPagerState.currentPage != (((page) - (dayPagerState.pageCount / 2)) / 5)) {
+                if (selectedWeek.value != (((page) - (dayPagerState.pageCount / 2)) / days.size)) {
                     scope.launch {
+                        println("FUcky ou")
                         weekPagerState.animateScrollToPage(selectedWeek.value + 100)
                     }
                 }
