@@ -4,8 +4,7 @@
     <string name="grades_channel">Cijfers</string>
     <string name="grades_channel_description">Notificaties voor nieuwe cijfers</string>
     <string name="waiting_for_grades">De app wacht nu op nieuwe cijfers en zal je een notificatie geven als er eentje binnenkomt</string>
-    <string name="mainBarItem">Main</string>
-    <string name="bar2">Item 2</string>
+    <string name="agendaItem">Rooster</string>
     <string name="sign_in">Inloggen</string>
     <string name="onboarding_title_1">Otarium</string>
     <string name="onboarding_desc_1">Welkom bij Otarium</string>
@@ -18,5 +17,10 @@
     <string name="show_ads_checkbox">Laat advertenties zien</string>
     <string name="age_checkbox">Ik ben ouder dan 16</string>
     <string name="settings_title">Instellingen</string>
+    <string name="mon">ma</string>
+    <string name="tue">di</string>
+    <string name="wed">wo</string>
+    <string name="thu">do</string>
+    <string name="fri">vr</string>
     <string name="age_requirement">Je hoeft geen 16 te zijn om de app te gebruiken of om advertenties te zien. Het gaat alleen over de type advertenties die je te zien krijgt.</string>
 </resources>

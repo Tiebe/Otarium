@@ -10,15 +10,15 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
-        versionCode = 10
-        versionName = "1.1.1"
+        versionCode = 11
+        versionName = "1.2.0"
     }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
+                "proguard-rules.pro",
                 getDefaultProguardFile("proguard-android.txt"),
-                "proguard-rules.pro"
             )
         }
     }
@@ -55,20 +55,29 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.1.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("com.github.ireward:compose-html:1.0.2")
+
 
     implementation("com.google.android.gms:play-services-ads:21.3.0")
 
     implementation("androidx.compose.material3:material3:1.1.0-alpha01")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.3.0")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.3.0")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.0")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.0-alpha01")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.4.0-alpha01")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.0-alpha01")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.0-alpha01")
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation("androidx.compose.material:material:1.4.0-alpha01")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
     implementation("com.google.accompanist:accompanist-pager:0.27.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.27.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
+
+    implementation("nl.tiebe:magisterapi-android:1.1.2")
+
 
     implementation("nl.tiebe:magisterapi:1.1.2")
 }

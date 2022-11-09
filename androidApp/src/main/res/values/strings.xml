@@ -7,8 +7,7 @@
 
     <string name="waiting_for_grades">The app is now waiting for new grades and will notify you when it receives one.</string>
 
-    <string name="mainBarItem">Main</string>
-    <string name="bar2">Item 2</string>
+    <string name="agendaItem">Timetable</string>
     <string name="sign_in">Log in</string>
     <string name="onboarding_title_1">Otarium</string>
     <string name="onboarding_desc_1">Welcome to Otarium</string>
@@ -21,5 +20,10 @@
     <string name="show_ads_checkbox">Show ads</string>
     <string name="age_checkbox">I am older than 16</string>
     <string name="settings_title">Settings</string>
+    <string name="mon">mon</string>
+    <string name="tue">tue</string>
+    <string name="wed">wed</string>
+    <string name="thu">thu</string>
+    <string name="fri">fri</string>
     <string name="age_requirement">You don\'t need to be 16 to use the app or see ads. It\'s just about the type of ads you\'ll see.</string>
 </resources>
