@@ -40,8 +40,6 @@ import kotlin.math.floor
 @Preview(showBackground = true)
 @Composable
 fun AgendaScreen() {
-    // TODO: show line at current time
-
     val scope = rememberCoroutineScope()
     val dayPagerState = rememberPagerState(500)
     val weekPagerState = rememberPagerState(100)
@@ -139,7 +137,7 @@ fun AgendaScreen() {
         val runnable = object : Runnable {
             override fun run() {
                 val time = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
-                val minutes = time.hour * 60 + time.minute
+                val minutes = ((time.hour-8) * 60) + time.minute
 
                 if (minutes < 0) {
                     timeLinePosition.value = 0.dp
