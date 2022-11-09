@@ -26,4 +26,5 @@
     <string name="thu">thu</string>
     <string name="fri">fri</string>
     <string name="age_requirement">You don\'t need to be 16 to use the app or see ads. It\'s just about the type of ads you\'ll see.</string>
+    <string name="gradesItem">Grades</string>
 </resources>
