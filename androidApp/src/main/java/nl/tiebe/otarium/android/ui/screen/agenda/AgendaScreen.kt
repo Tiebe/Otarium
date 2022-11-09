@@ -33,8 +33,8 @@ fun AgendaScreen() {
     val scope = rememberCoroutineScope()
     val dayPagerState = rememberPagerState(500)
 
-    val now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
-    val firstDayOfWeek = now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
+    val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
+    val firstDayOfWeek = remember { now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY) }
 
     val days = listOf(
         stringResource(R.string.mon),
@@ -44,7 +44,7 @@ fun AgendaScreen() {
         stringResource(R.string.fri)
     )
 
-    val savedAgenda = getSavedAgenda()
+    val savedAgenda = remember { getSavedAgenda() }
     val loadedAgendas = remember {
         mutableStateMapOf(
             Pair(100, days.indices.map {
@@ -128,6 +128,7 @@ suspend fun refreshAgenda(
             )
 
             if (selectedWeek == 0) {
+                Log.d("Agenda", "Saving agenda for current week")
                 saveAgenda(agenda)
             }
 
