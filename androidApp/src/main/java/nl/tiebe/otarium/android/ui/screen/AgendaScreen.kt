@@ -291,10 +291,10 @@ fun AgendaScreen() {
 
                         val supportingText = mutableListOf<String>()
 
-                        if (item.location != null) supportingText.add(item.location!!)
+                        if (!item.location.isNullOrEmpty()) supportingText.add(item.location!!)
                         supportingText.add("${startTime.hour.toString().padStart(2, '0')}:${startTime.minute.toString().padStart(2, '0')} - ${endTime.hour.toString().padStart(2, '0')}:${endTime.minute.toString().padStart(2, '0')}")
 
-                        if (item.content != null) supportingText.add(HtmlCompat.fromHtml(item.content!!, HtmlCompat.FROM_HTML_MODE_LEGACY).toString())
+                        if (!item.content.isNullOrEmpty()) supportingText.add(HtmlCompat.fromHtml(item.content!!, HtmlCompat.FROM_HTML_MODE_LEGACY).toString())
 
                         ListItem(
                             modifier = Modifier
@@ -303,8 +303,13 @@ fun AgendaScreen() {
                                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
                             headlineText = { Text(item.description ?: "") },
                             supportingText = { Text(supportingText.joinToString(" • "), maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                            leadingContent = { Text((item.fromPeriod ?: "").toString()) },
-                            colors = ListItemDefaults.colors(
+                            leadingContent = {
+                                if (item.fromPeriod != null) {
+                                    Text(item.fromPeriod!!.toString(), modifier = Modifier.padding(2.dp))
+                                } else {
+                                    Spacer(modifier = Modifier.size(16.dp))
+                                }
+                            }, colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.inverseOnSurface
                             ),
                         )
