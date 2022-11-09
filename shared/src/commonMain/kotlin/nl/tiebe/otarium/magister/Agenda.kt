@@ -1,10 +1,7 @@
 package nl.tiebe.otarium.magister
 
 import io.ktor.http.*
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -35,15 +32,9 @@ fun saveAgenda(agenda: List<AgendaItem>) {
 
 
 fun List<AgendaItem>.getAgendaForDay(day: Int): List<AgendaItem> {
-    val today = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")).date
-    val dayOfWeek = today.dayOfWeek
-    var check = false
-
-
     return this.filter { item ->
         return@filter if (item.start.isNotEmpty()) {
             val date = item.start.substring(0, 10).split("-").map { it.toInt() }
-            if (check || today.toEpochDays() - LocalDate(date[0], date[1], date[2]).toEpochDays() <= dayOfWeek.ordinal) { check = true } else return listOf()
             LocalDate(date[0], date[1], date[2]).dayOfWeek.ordinal == day
         } else { false }
     }
