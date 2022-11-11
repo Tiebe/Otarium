@@ -31,17 +31,21 @@ import kotlin.math.floor
 @Composable
 fun AgendaScreen() {
     val scope = rememberCoroutineScope()
-    val dayPagerState = rememberPagerState(500)
 
     val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
     val firstDayOfWeek = remember { now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY) }
+
+    val initialPage = remember { 500+ now.date.dayOfWeek.ordinal }
+    val dayPagerState = rememberPagerState(initialPage)
 
     val days = listOf(
         stringResource(R.string.mon),
         stringResource(R.string.tue),
         stringResource(R.string.wed),
         stringResource(R.string.thu),
-        stringResource(R.string.fri)
+        stringResource(R.string.fri),
+        stringResource(R.string.sat),
+        stringResource(R.string.sun)
     )
 
     val savedAgenda = remember { getSavedAgenda() }
@@ -72,6 +76,7 @@ fun AgendaScreen() {
         )
 
         Agenda(
+            initialPage = initialPage,
             dayPagerState = dayPagerState,
             days = days,
             loadedAgendas = loadedAgendas,
@@ -89,11 +94,14 @@ fun AgendaScreen() {
         )
     }
 
-    if (dayPagerState.currentPage != 500) {
+    if (dayPagerState.currentPage != initialPage) {
         Box(Modifier.fillMaxSize()) {
             Button(
-                onClick = { scope.launch { dayPagerState.animateScrollToPage(500) } },
-                modifier = Modifier.size(60.dp).padding(10.dp).align(Alignment.BottomEnd),
+                onClick = { scope.launch { dayPagerState.animateScrollToPage(initialPage) } },
+                modifier = Modifier
+                    .size(60.dp)
+                    .padding(10.dp)
+                    .align(Alignment.BottomEnd),
                 shape = CircleShape,
                 contentPadding = PaddingValues(0.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)

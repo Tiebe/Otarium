@@ -1,15 +1,13 @@
 package nl.tiebe.otarium.android.ui.screen.agenda
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -28,7 +26,7 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
     val weekPagerState = rememberPagerState(100)
 
     HorizontalPager(count = 200, state = weekPagerState) { week ->
-        TabRow(selectedTabIndex = dayPagerState.currentPage, indicator = { tabPositions ->
+        TabRow(selectedTabIndex = dayPagerState.currentPage-(dayPagerState.pageCount/2), indicator = { tabPositions ->
             TabRowDefaults.Indicator(
                 Modifier.pagerTabIndicatorOffset(
                     week - 100,
@@ -50,9 +48,10 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = title,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Center
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip,
+                                textAlign = TextAlign.Center,
+                                fontSize = 13.sp
                             )
                             Text(
                                 text = firstDayOfWeek.plus(
@@ -60,7 +59,8 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
                                     DateTimeUnit.DAY
                                 ).toString()
                                     .split("-").reversed().subList(0, 2).joinToString("-"),
-                                textAlign = TextAlign.Center
+                                textAlign = TextAlign.Center,
+                                fontSize = 8.sp
                             )
                         }
 
