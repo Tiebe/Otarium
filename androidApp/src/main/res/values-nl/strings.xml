@@ -24,4 +24,6 @@
     <string name="fri">vr</string>
     <string name="age_requirement">Je hoeft geen 16 te zijn om de app te gebruiken of om advertenties te zien. Het gaat alleen over de type advertenties die je te zien krijgt.</string>
     <string name="gradesItem">Cijfers</string>
+    <string name="sat">za</string>
+    <string name="sun">zo</string>
 </resources>

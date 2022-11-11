@@ -20,7 +20,7 @@ fun Modifier.pagerTabIndicatorOffset(
     if (tabPositions.isEmpty() || tabWeek != selectedWeek.value) {
         layout(constraints.maxWidth, 0) {}
     } else {
-        val currentPage = minOf(tabPositions.lastIndex, pageIndexMapping((dayPagerState.currentPage-dayPagerState.pageCount).mod(tabPositions.lastIndex+1)))
+        val currentPage = minOf(tabPositions.lastIndex, pageIndexMapping((dayPagerState.currentPage-(dayPagerState.pageCount/2)).mod(tabPositions.lastIndex+1)))
         val currentTab = tabPositions[currentPage]
         val previousTab = tabPositions.getOrNull(currentPage - 1)
         val nextTab = tabPositions.getOrNull(currentPage + 1)

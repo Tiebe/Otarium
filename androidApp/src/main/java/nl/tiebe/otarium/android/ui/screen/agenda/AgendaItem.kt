@@ -1,8 +1,6 @@
 package nl.tiebe.otarium.android.ui.screen.agenda
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +17,6 @@ import kotlin.math.floor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgendaItem(
-    dayScrollState: ScrollState,
     currentPage: Int,
     totalDays: Int,
     now: LocalDateTime,
@@ -31,7 +28,6 @@ fun AgendaItem(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 40.5.dp)
-            .verticalScroll(dayScrollState)
     ) {
         val dayOfWeek = (currentPage.mod(totalDays))
 
@@ -54,18 +50,17 @@ fun AgendaItem(
 
         val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
 
-         for (item in loadedAgendas[pageWeek+100]?.get(dayOfWeek) ?: emptyList()) {
-            val startTime = item.start.substring(0, 26).toLocalDateTime()
-            val endTime = item.einde.substring(0, 26).toLocalDateTime()
+        loadedAgendas[pageWeek+100]?.getOrNull(dayOfWeek)?.forEach { item ->
+            val startTime = item.start.substring(0, 26).toLocalDateTime().toInstant(TimeZone.UTC)
+            val endTime = item.einde.substring(0, 26).toLocalDateTime().toInstant(TimeZone.UTC)
+
+            val localStartTime = startTime.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+            val localEndTime = endTime.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
             val height =
-                dpPerHour * ((endTime.toInstant(TimeZone.UTC)
-                    .toEpochMilliseconds() - startTime.toInstant(
-                    TimeZone.UTC
-                ).toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
+                dpPerHour * ((endTime.toEpochMilliseconds() - startTime.toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
             var distanceAfterTop =
-                (dpPerHour * ((startTime.toInstant(TimeZone.UTC)
-                    .toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
+                (dpPerHour * ((startTime.toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
             if (distanceAfterTop < 0.dp) distanceAfterTop = 0.dp
 
             val supportingText = mutableListOf<String>()
@@ -73,10 +68,10 @@ fun AgendaItem(
             if (!item.location.isNullOrEmpty()) supportingText.add(item.location!!)
             supportingText.add(
                 "${
-                    startTime.hour.toString().padStart(2, '0')
-                }:${startTime.minute.toString().padStart(2, '0')} - ${
-                    endTime.hour.toString().padStart(2, '0')
-                }:${endTime.minute.toString().padStart(2, '0')}"
+                    localStartTime.hour.toString().padStart(2, '0')
+                }:${localStartTime.minute.toString().padStart(2, '0')} - ${
+                    localEndTime.hour.toString().padStart(2, '0')
+                }:${localEndTime.minute.toString().padStart(2, '0')}"
             )
 
             if (!item.content.isNullOrEmpty()) supportingText.add(
