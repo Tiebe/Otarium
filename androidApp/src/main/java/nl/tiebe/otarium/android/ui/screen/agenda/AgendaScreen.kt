@@ -18,7 +18,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import nl.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.magister.*
@@ -120,20 +119,20 @@ suspend fun refreshAgenda(
     start: LocalDate,
     totalDays: Int,
     selectedWeek: Int
-): List<List<AgendaItem>>? {
+): List<List<AgendaItemWithAbsence>>? {
     try {
         getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
             Log.d("Agenda", "Refreshing agenda for week $selectedWeek")
 
             val end = start.plus(totalDays, DateTimeUnit.DAY)
 
-            val agenda = getMagisterAgenda(
+            val agenda = getAbsences(tokens.accountId, tokens.tenantUrl, tokens.tokens.accessToken, "${start.year}-${start.month}-${start.dayOfMonth}", "${end.year}-${end.month}-${end.dayOfMonth}", getMagisterAgenda(
                 tokens.accountId,
                 tokens.tenantUrl,
                 tokens.tokens.accessToken,
                 start,
                 end
-            )
+            ))
 
             if (selectedWeek == 0) {
                 Log.d("Agenda", "Saving agenda for current week")
