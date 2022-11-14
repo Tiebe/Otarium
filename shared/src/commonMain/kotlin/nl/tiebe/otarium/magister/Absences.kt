@@ -1,24 +1,23 @@
 package nl.tiebe.otarium.magister
 
 import io.ktor.http.*
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.Serializable
 import nl.tiebe.magisterapi.api.absence.AbsenceFlow
 import nl.tiebe.magisterapi.response.general.year.absence.Absence
-import nl.tiebe.otarium.settings
+import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 
-suspend fun getAbsences(accountId: Int, tenantUrl: String, accessToken: String, start: String, end: String): List<Absence> {
+suspend fun getAbsences(accountId: Int, tenantUrl: String, accessToken: String, start: String, end: String, loadedAgenda: List<AgendaItem>): List<AgendaItemWithAbsence> {
     val absence = AbsenceFlow.getAbsences(Url(tenantUrl), accessToken, accountId, start, end)
+    val agendaWithAbsence = loadedAgenda.map { agenda ->
+        val agendaAbsence = absence.firstOrNull { it.afspraakId == agenda.id }
+        AgendaItemWithAbsence(agenda, agendaAbsence)
+    }
 
-    saveAbsences(absence)
-    return absence
+    return agendaWithAbsence
 }
 
-fun getSavedAbsences(): List<Absence> {
-    return settings.getStringOrNull("absences")?.let { Json.decodeFromString(it) } ?: emptyList()
-}
-
-fun saveAbsences(absences: List<Absence>) {
-    settings.putString("absences", Json.encodeToString(absences))
-}
+@Serializable
+data class AgendaItemWithAbsence(
+    val agendaItem: AgendaItem,
+    val absence: Absence?
+)
