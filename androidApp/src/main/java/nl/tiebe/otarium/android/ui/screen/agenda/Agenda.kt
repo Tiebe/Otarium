@@ -28,7 +28,14 @@ val dpPerHour = 80.dp // yes that .14 is needed. don't ask me how i found out
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Agenda(initialPage: Int, dayPagerState: PagerState, days: List<String>, loadedAgendas: MutableMap<Int, List<List<AgendaItemWithAbsence>>>, refresh: (refreshState: SwipeRefreshState) -> Unit) {
+fun Agenda(
+    initialPage: Int,
+    dayPagerState: PagerState,
+    days: List<String>,
+    loadedAgendas: MutableMap<Int, List<List<AgendaItemWithAbsence>>>,
+    refresh: (refreshState: SwipeRefreshState) -> Unit,
+    openAgendaItemWithAbsence: (AgendaItemWithAbsence) -> Unit
+) {
     val refreshState = rememberSwipeRefreshState(false)
 
     var now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
@@ -72,12 +79,13 @@ fun Agenda(initialPage: Int, dayPagerState: PagerState, days: List<String>, load
                 }
 
                 AgendaItem(
-                    currentPage = page-(dayPagerState.pageCount/2),
+                    currentPage = page - (dayPagerState.pageCount / 2),
                     totalDays = days.size,
                     now = now,
                     timesShown = timesShown,
                     dpPerHour = dpPerHour,
-                    loadedAgendas = loadedAgendas
+                    loadedAgendas = loadedAgendas,
+                    openAgendaItemWithAbsence = openAgendaItemWithAbsence
                 )
             }
         }
@@ -90,7 +98,7 @@ fun Agenda(initialPage: Int, dayPagerState: PagerState, days: List<String>, load
             override fun run() {
                 now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
-                val minutes = ((now.hour-8) * 60) + now.minute
+                val minutes = ((now.hour - 8) * 60) + now.minute
 
                 if (minutes < 0) {
                     timeLinePosition.value = 0.dp

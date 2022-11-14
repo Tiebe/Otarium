@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         val main = Main()
         main.setup()
 
-
         setContent {
             navController = rememberNavController()
 
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                         OnBoarding(onFinish = {
                             openLoginScreen.value = true
                             finishOnboarding()
-                        }, notifications = { askNotificationPermission(this)})
+                        }, notifications = { askNotificationPermission(this) })
                     } else MainActivityScreen(navController)
                 }
 
@@ -116,7 +115,9 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun MainActivityScreen(navController: NavHostController) {
-        if (storeBypass()) { Navigation(navController); return }
+        if (storeBypass()) {
+            Navigation(navController); return
+        }
         val openMainScreen = remember { mutableStateOf(false) }
 
         if (openMainScreen.value) Navigation(navController)
@@ -148,7 +149,10 @@ class MainActivity : AppCompatActivity() {
     private fun askNotificationPermission(context: MainActivity) {
         // This is only necessary for API level >= 33 (TIRAMISU)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) ==
                 PackageManager.PERMISSION_GRANTED
             ) {
                 // FCM SDK (and your app) can post notifications.
