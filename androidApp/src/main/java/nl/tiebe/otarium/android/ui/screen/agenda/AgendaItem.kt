@@ -10,8 +10,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import kotlinx.datetime.*
-import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import nl.tiebe.otarium.android.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,7 +22,7 @@ fun AgendaItem(
     now: LocalDateTime,
     timesShown: IntRange,
     dpPerHour: Dp,
-    loadedAgendas: MutableMap<Int, List<List<AgendaItem>>>
+    loadedAgendas: MutableMap<Int, List<List<AgendaItemWithAbsence>>>
 ) {
     Box(
         modifier = Modifier
@@ -50,12 +50,15 @@ fun AgendaItem(
 
         val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
 
-        loadedAgendas[pageWeek+100]?.getOrNull(dayOfWeek)?.forEach { item ->
+        loadedAgendas[pageWeek+100]?.getOrNull(dayOfWeek)?.forEach { agendaItem ->
+            val item = agendaItem.agendaItem
             val startTime = item.start.substring(0, 26).toLocalDateTime().toInstant(TimeZone.UTC)
             val endTime = item.einde.substring(0, 26).toLocalDateTime().toInstant(TimeZone.UTC)
 
             val localStartTime = startTime.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
             val localEndTime = endTime.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+
+
 
             val height =
                 dpPerHour * ((endTime.toEpochMilliseconds() - startTime.toEpochMilliseconds()).toFloat() / 60 / 60 / 1000)
@@ -97,6 +100,13 @@ fun AgendaItem(
                 leadingContent = {
                     if (item.fromPeriod != null) {
                         Text(item.fromPeriod!!.toString(), modifier = Modifier.padding(2.dp))
+                    } else {
+                        Spacer(modifier = Modifier.size(16.dp))
+                    }
+                },
+                trailingContent = {
+                    if (agendaItem.absence?.justified == true) {
+                        Text("AB", modifier = Modifier.padding(2.dp))
                     } else {
                         Spacer(modifier = Modifier.size(16.dp))
                     }

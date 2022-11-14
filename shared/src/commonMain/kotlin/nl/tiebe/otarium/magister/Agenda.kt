@@ -18,23 +18,22 @@ suspend fun getMagisterAgenda(accountId: Int, tenantUrl: String, accessToken: St
         "${end.year}-${end.monthNumber}-${end.dayOfMonth}"
     )
 
-    saveAgenda(agenda)
     return agenda
 }
 
-fun getSavedAgenda(): List<AgendaItem> {
+fun getSavedAgenda(): List<AgendaItemWithAbsence> {
     return settings.getStringOrNull("agenda")?.let { Json.decodeFromString(it) } ?: emptyList()
 }
 
-fun saveAgenda(agenda: List<AgendaItem>) {
+fun saveAgenda(agenda: List<AgendaItemWithAbsence>) {
     settings.putString("agenda", Json.encodeToString(agenda))
 }
 
 
-fun List<AgendaItem>.getAgendaForDay(day: Int): List<AgendaItem> {
+fun List<AgendaItemWithAbsence>.getAgendaForDay(day: Int): List<AgendaItemWithAbsence> {
     return this.filter { item ->
-        return@filter if (item.start.isNotEmpty()) {
-            val date = item.start.substring(0, 10).split("-").map { it.toInt() }
+        return@filter if (item.agendaItem.start.isNotEmpty()) {
+            val date = item.agendaItem.start.substring(0, 10).split("-").map { it.toInt() }
             LocalDate(date[0], date[1], date[2]).dayOfWeek.ordinal == day
         } else { false }
     }
