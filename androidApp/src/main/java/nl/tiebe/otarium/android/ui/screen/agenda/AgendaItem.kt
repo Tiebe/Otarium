@@ -1,17 +1,23 @@
 package nl.tiebe.otarium.android.ui.screen.agenda
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.text.HtmlCompat
 import kotlinx.datetime.*
+import kotlinx.datetime.TimeZone
 import nl.tiebe.otarium.android.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
+import java.util.*
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -106,9 +112,13 @@ fun AgendaItem(
                 },
                 trailingContent = {
                     if (agendaItem.absence?.justified == true) {
-                        Text("AB", modifier = Modifier.padding(2.dp))
-                    } else {
-                        Spacer(modifier = Modifier.size(16.dp))
+                        Box(modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(25.dp).background(MaterialTheme.colorScheme.secondary), contentAlignment = Alignment.Center) {
+                            Text(agendaItem.absence?.code?.uppercase(Locale.getDefault()) ?: "", modifier = Modifier.padding(2.dp), color = MaterialTheme.colorScheme.onSecondary)
+                        }
+                    } else if (agendaItem.absence?.justified == false) {
+                        Box(modifier = Modifier.clip(RoundedCornerShape(5.dp)).size(25.dp).background(MaterialTheme.colorScheme.tertiary), contentAlignment = Alignment.Center) {
+                            Text(agendaItem.absence?.code?.uppercase(Locale.getDefault()) ?: "", modifier = Modifier.padding(2.dp), color = MaterialTheme.colorScheme.onTertiary)
+                        }
                     }
                 },
                 colors = ListItemDefaults.colors(
