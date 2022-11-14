@@ -21,21 +21,28 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: State<Int>, firstDayOfWeek: LocalDate) {
+fun DaySelector(
+    dayPagerState: PagerState,
+    days: List<String>,
+    selectedWeek: State<Int>,
+    firstDayOfWeek: LocalDate
+) {
     val scope = rememberCoroutineScope()
     val weekPagerState = rememberPagerState(100)
 
     HorizontalPager(count = 200, state = weekPagerState) { week ->
-        TabRow(selectedTabIndex = dayPagerState.currentPage-(dayPagerState.pageCount/2), indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(
-                    week - 100,
-                    selectedWeek,
-                    dayPagerState,
-                    tabPositions
+        TabRow(
+            selectedTabIndex = dayPagerState.currentPage - (dayPagerState.pageCount / 2),
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier.pagerTabIndicatorOffset(
+                        week - 100,
+                        selectedWeek,
+                        dayPagerState,
+                        tabPositions
+                    )
                 )
-            )
-        }) {
+            }) {
             days.forEachIndexed { index, title ->
                 Tab(
                     selected = dayPagerState.currentPage == index && selectedWeek.value == week,
@@ -58,9 +65,9 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
                                     (week - 100) * 7 + index,
                                     DateTimeUnit.DAY
                                 ).toString()
-                                    .split("-").reversed().subList(0, 2).joinToString("-"),
+                                    .split("-").reversed().subList(0, 1).joinToString(),
                                 textAlign = TextAlign.Center,
-                                fontSize = 8.sp
+                                fontSize = 10.sp
                             )
                         }
 
