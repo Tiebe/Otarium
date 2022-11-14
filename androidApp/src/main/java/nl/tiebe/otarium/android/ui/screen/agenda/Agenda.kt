@@ -20,15 +20,15 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import nl.tiebe.otarium.android.ui.utils.topRectBorder
+import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 
 val timesShown = 8..17
 val dpPerHour = 80.dp // yes that .14 is needed. don't ask me how i found out
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Agenda(initialPage: Int, dayPagerState: PagerState, days: List<String>, loadedAgendas: MutableMap<Int, List<List<AgendaItem>>>, refresh: (refreshState: SwipeRefreshState) -> Unit) {
+fun Agenda(initialPage: Int, dayPagerState: PagerState, days: List<String>, loadedAgendas: MutableMap<Int, List<List<AgendaItemWithAbsence>>>, refresh: (refreshState: SwipeRefreshState) -> Unit) {
     val refreshState = rememberSwipeRefreshState(false)
 
     var now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
