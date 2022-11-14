@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.android.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -171,6 +172,7 @@ class OnBoardingItems(
     val extraItems: @Composable () -> Unit = {}
 ) {
     companion object{
+        @SuppressLint("RememberReturnType")
         fun getData(): List<OnBoardingItems>{
             return listOf(
                 OnBoardingItems(
@@ -186,16 +188,16 @@ class OnBoardingItems(
                         val checkedState = remember { mutableStateOf(true) }
                         val checkedState2 = remember { mutableStateOf(false) }
 
-                        showAds(true)
+                        remember { showAds(true) }
 
                         LabelledCheckBox(checked = checkedState.value, onCheckedChange = {
                             checkedState.value = it
-                            showAds(checkedState.value)
+                            showAds(it)
                         }, label = stringResource(id = R.string.show_ads_checkbox))
 
                         LabelledCheckBox(checkable = checkedState.value, checked = checkedState2.value, onCheckedChange = {
                             checkedState2.value = it
-                            ageOfConsent(checkedState2.value)
+                            ageOfConsent(it)
                         }, label = stringResource(id = R.string.age_checkbox))
                         
                         Spacer(Modifier.padding(30.dp))
