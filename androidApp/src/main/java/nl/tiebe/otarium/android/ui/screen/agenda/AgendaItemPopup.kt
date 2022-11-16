@@ -66,7 +66,7 @@ fun AgendaItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> 
                     agendaItemWithAbsence.agendaItem.content ?: "",
                     HtmlCompat.FROM_HTML_MODE_LEGACY
                 ).toString(),
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
