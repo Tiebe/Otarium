@@ -27,7 +27,7 @@ import java.util.*
 @Composable
 fun GradeScreen() {
     val refreshState = rememberSwipeRefreshState(false)
-    val recentGrades = remember { getSavedGrades().toMutableStateList() }
+    var recentGrades by remember { mutableStateOf(getSavedGrades()) }
     val scope = rememberCoroutineScope()
 
     SwipeRefresh(state = refreshState, onRefresh = {
@@ -37,8 +37,8 @@ fun GradeScreen() {
                 getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
                     Log.d("Grades", "Refreshing grades")
 
-                    recentGrades.clear()
-                    recentGrades.addAll(getRecentGrades(tokens.accountId, tokens.tenantUrl, tokens.tokens.accessToken))
+
+                    recentGrades = getRecentGrades(tokens.accountId, tokens.tenantUrl, tokens.tokens.accessToken)
                 }
             } catch (e: MagisterException) {
                 e.printStackTrace()

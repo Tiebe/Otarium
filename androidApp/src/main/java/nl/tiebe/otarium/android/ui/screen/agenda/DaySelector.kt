@@ -21,27 +21,34 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: State<Int>, firstDayOfWeek: LocalDate) {
+fun DaySelector(
+    dayPagerState: PagerState,
+    days: List<String>,
+    selectedWeek: State<Int>,
+    firstDayOfWeek: LocalDate
+) {
     val scope = rememberCoroutineScope()
     val weekPagerState = rememberPagerState(100)
 
     HorizontalPager(count = 200, state = weekPagerState) { week ->
-        TabRow(selectedTabIndex = dayPagerState.currentPage-(dayPagerState.pageCount/2), indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(
-                    week - 100,
-                    selectedWeek,
-                    dayPagerState,
-                    tabPositions
+        TabRow(
+            selectedTabIndex = dayPagerState.currentPage - (dayPagerState.pageCount / 2),
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier.pagerTabIndicatorOffset(
+                        week - 100,
+                        selectedWeek,
+                        dayPagerState,
+                        tabPositions
+                    )
                 )
-            )
-        }) {
+            }) {
             days.forEachIndexed { index, title ->
                 Tab(
                     selected = dayPagerState.currentPage == index && selectedWeek.value == week,
                     onClick = {
                         scope.launch {
-                            dayPagerState.animateScrollToPage(week * days.size + index)
+                            dayPagerState.animateScrollToPage((week-100)*days.size + index + (dayPagerState.pageCount / 2))
                         }
                     },
                     text = {
@@ -58,9 +65,9 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
                                     (week - 100) * 7 + index,
                                     DateTimeUnit.DAY
                                 ).toString()
-                                    .split("-").reversed().subList(0, 2).joinToString("-"),
+                                    .split("-").reversed().subList(0, 1).joinToString(),
                                 textAlign = TextAlign.Center,
-                                fontSize = 8.sp
+                                fontSize = 10.sp
                             )
                         }
 
@@ -69,16 +76,19 @@ fun DaySelector(dayPagerState: PagerState, days: List<String>, selectedWeek: Sta
             }
         }
 
+        var currentPage by remember { mutableStateOf(dayPagerState.currentPage) }
+
         // update selected week when swiping days
-        LaunchedEffect(dayPagerState) {
-            snapshotFlow { dayPagerState.currentPage }.collect { page ->
-                if (selectedWeek.value == floor(((page) - (dayPagerState.pageCount / 2)).toFloat() / days.size).toInt()) {
-                    scope.launch {
-                        weekPagerState.animateScrollToPage(selectedWeek.value + 100)
+        LaunchedEffect(dayPagerState.currentPage) {
+                scope.launch {
+                    if (currentPage != dayPagerState.currentPage) {
+                        if (selectedWeek.value == floor(((dayPagerState.currentPage) - (dayPagerState.pageCount / 2)).toFloat() / days.size).toInt()) {
+                            weekPagerState.animateScrollToPage(selectedWeek.value + 100)
+                        }
+
+                        currentPage = dayPagerState.currentPage
                     }
                 }
-
-            }
         }
     }
 }
