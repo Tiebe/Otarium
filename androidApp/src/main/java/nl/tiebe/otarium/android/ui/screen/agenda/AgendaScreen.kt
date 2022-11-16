@@ -3,6 +3,8 @@ package nl.tiebe.otarium.android.ui.screen.agenda
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -135,8 +137,9 @@ fun AgendaScreen() {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         AnimatedVisibility(
             visible = agendaItemPopup.value != null,
-/*            enter = fadeIn(),
-            exit = fadeOut()*/
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.fillMaxSize()
         ) {
             val savedAgendaItem = remember {
                 agendaItemPopup.value
