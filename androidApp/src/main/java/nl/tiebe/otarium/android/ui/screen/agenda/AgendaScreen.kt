@@ -2,6 +2,9 @@ package nl.tiebe.otarium.android.ui.screen.agenda
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -34,7 +37,7 @@ fun AgendaScreen() {
     val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
     val firstDayOfWeek = remember { now.date.minus(now.date.dayOfWeek.ordinal, DateTimeUnit.DAY) }
 
-    val initialPage = remember { 500+ now.date.dayOfWeek.ordinal }
+    val initialPage = remember { 500 + now.date.dayOfWeek.ordinal }
     val dayPagerState = rememberPagerState(initialPage)
 
     val days = listOf(
@@ -56,13 +59,27 @@ fun AgendaScreen() {
         )
     }
 
-    val selectedWeek = remember { derivedStateOf { floor((dayPagerState.currentPage - (dayPagerState.pageCount / 2).toFloat()) / days.size).toInt() } }
-    val firstDayOfSelectedWeek = remember { derivedStateOf { firstDayOfWeek.plus(selectedWeek.value * 7, DateTimeUnit.DAY) } }
+    val agendaItemPopup = remember {
+        mutableStateOf<AgendaItemWithAbsence?>(null)
+    }
+
+    val selectedWeek =
+        remember { derivedStateOf { floor((dayPagerState.currentPage - (dayPagerState.pageCount / 2).toFloat()) / days.size).toInt() } }
+    val firstDayOfSelectedWeek = remember {
+        derivedStateOf {
+            firstDayOfWeek.plus(
+                selectedWeek.value * 7,
+                DateTimeUnit.DAY
+            )
+        }
+    }
 
     LaunchedEffect(selectedWeek.value) {
-        val newAgenda = refreshAgenda(firstDayOfSelectedWeek.value, days.size-1, selectedWeek.value) ?: loadedAgendas[selectedWeek.value+100]
+        val newAgenda =
+            refreshAgenda(firstDayOfSelectedWeek.value, days.size - 1, selectedWeek.value)
+                ?: loadedAgendas[selectedWeek.value + 100]
         if (newAgenda != null) {
-            loadedAgendas[selectedWeek.value+100] = newAgenda
+            loadedAgendas[selectedWeek.value + 100] = newAgenda
         }
     }
 
@@ -82,13 +99,16 @@ fun AgendaScreen() {
             refresh = {
                 scope.launch {
                     it.isRefreshing = true
-                    loadedAgendas[selectedWeek.value+100] = refreshAgenda(
+                    loadedAgendas[selectedWeek.value + 100] = refreshAgenda(
                         firstDayOfSelectedWeek.value,
                         days.size - 1,
                         selectedWeek.value
-                    ) ?: loadedAgendas[selectedWeek.value+100] ?: listOf()
+                    ) ?: loadedAgendas[selectedWeek.value + 100] ?: listOf()
                     it.isRefreshing = false
                 }
+            },
+            openAgendaItemWithAbsence = {
+                agendaItemPopup.value = it
             }
         )
     }
@@ -113,6 +133,22 @@ fun AgendaScreen() {
             }
         }
     }
+
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        AnimatedVisibility(
+            visible = agendaItemPopup.value != null,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val savedAgendaItem = remember {
+                agendaItemPopup.value
+            }
+            AgendaItemPopup(savedAgendaItem!!) {
+                agendaItemPopup.value = null
+            }
+        }
+    }
 }
 
 suspend fun refreshAgenda(
@@ -126,13 +162,20 @@ suspend fun refreshAgenda(
 
             val end = start.plus(totalDays, DateTimeUnit.DAY)
 
-            val agenda = getAbsences(tokens.accountId, tokens.tenantUrl, tokens.tokens.accessToken, "${start.year}-${start.month}-${start.dayOfMonth}", "${end.year}-${end.month}-${end.dayOfMonth}", getMagisterAgenda(
+            val agenda = getAbsences(
                 tokens.accountId,
                 tokens.tenantUrl,
                 tokens.tokens.accessToken,
-                start,
-                end
-            ))
+                "${start.year}-${start.month}-${start.dayOfMonth}",
+                "${end.year}-${end.month}-${end.dayOfMonth}",
+                getMagisterAgenda(
+                    tokens.accountId,
+                    tokens.tenantUrl,
+                    tokens.tokens.accessToken,
+                    start,
+                    end
+                )
+            )
 
             if (selectedWeek == 0) {
                 Log.d("Agenda", "Saving agenda for current week")
@@ -143,6 +186,7 @@ suspend fun refreshAgenda(
         }
     } catch (e: MagisterException) {
         e.printStackTrace()
-    } catch (_: Exception) {}
+    } catch (_: Exception) {
+    }
     return null
 }
