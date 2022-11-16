@@ -48,7 +48,7 @@ fun DaySelector(
                     selected = dayPagerState.currentPage == index && selectedWeek.value == week,
                     onClick = {
                         scope.launch {
-                            dayPagerState.animateScrollToPage(week * days.size + index)
+                            dayPagerState.animateScrollToPage((week-100)*days.size + index + (dayPagerState.pageCount / 2))
                         }
                     },
                     text = {
@@ -76,16 +76,19 @@ fun DaySelector(
             }
         }
 
+        var currentPage by remember { mutableStateOf(dayPagerState.currentPage) }
+
         // update selected week when swiping days
-        LaunchedEffect(dayPagerState) {
-            snapshotFlow { dayPagerState.currentPage }.collect { page ->
-                if (selectedWeek.value == floor(((page) - (dayPagerState.pageCount / 2)).toFloat() / days.size).toInt()) {
-                    scope.launch {
-                        weekPagerState.animateScrollToPage(selectedWeek.value + 100)
+        LaunchedEffect(dayPagerState.currentPage) {
+                scope.launch {
+                    if (currentPage != dayPagerState.currentPage) {
+                        if (selectedWeek.value == floor(((dayPagerState.currentPage) - (dayPagerState.pageCount / 2)).toFloat() / days.size).toInt()) {
+                            weekPagerState.animateScrollToPage(selectedWeek.value + 100)
+                        }
+
+                        currentPage = dayPagerState.currentPage
                     }
                 }
-
-            }
         }
     }
 }
