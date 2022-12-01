@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.android.ui.screen
+package nl.tiebe.otarium.android.ui.screen.grades
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
