@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CalcScreen() {
+fun GradeCalculationScreen() {
     Column(modifier = Modifier
         .fillMaxSize()) {
         Text(text = "E")
