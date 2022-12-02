@@ -10,7 +10,7 @@ plugins {
 }
 
 version = "1.0"
-val versionCode = 1
+val versionCode = 15
 
 kotlin {
     android()
@@ -90,6 +90,9 @@ android {
         targetSdk = 33
     }
     namespace = "nl.tiebe.otarium"
+}
+dependencies {
+    implementation("androidx.core:core-ktx:1.9.0")
 }
 
 buildkonfig {
