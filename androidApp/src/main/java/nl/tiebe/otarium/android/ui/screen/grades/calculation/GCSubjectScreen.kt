@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.android.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.server.ServerGrade
@@ -34,7 +36,8 @@ fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerG
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-    
+
+        Json.encodeToString(gradeList).chunked(1000).forEach(::println)
 
         GradeList(gradeList = gradeList)
     }
