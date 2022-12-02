@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import nl.tiebe.otarium.magister.Tokens
 import nl.tiebe.otarium.utils.server.ServerGrade
 import nl.tiebe.otarium.utils.server.getGradesFromServer
@@ -24,8 +25,11 @@ class GCScreenModel : ViewModel() {
         viewModelScope.launch {
             while (isActive) {
                 try {
-                    Tokens.getPastTokens()?.accessTokens?.accessToken?.let {
-                        _state.value = State.Data(getGradesFromServer(it) ?: return@let)
+                    Tokens.getPastTokens()?.accessTokens?.accessToken?.let { token ->
+                        _state.value = State.Data(getGradesFromServer(token)?.filter {
+                            it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                                    it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+                        } ?: return@let)
                         return@launch
                     }
                 } catch (e: Exception) { e.printStackTrace() }
