@@ -7,12 +7,15 @@ val settings: Settings = Settings()
 class Main {
 
     fun setup() {
-
         val version = settings.getInt("version", 0)
 
-        if (version == 0 || version < BuildKonfig.versionCode) {
-            settings.putInt("version", BuildKonfig.versionCode)
+        //REMINDER: UPDATE VERSION CODE IN BOTH THE ANDROID MODULE AND SHARED BUILDKONFIG MODULE!!
+
+        if (version <= 14) {
+            settings.remove("agenda")
         }
+
+        settings.putInt("version", BuildKonfig.versionCode)
     }
 }
 

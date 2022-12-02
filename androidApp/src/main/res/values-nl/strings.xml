@@ -26,4 +26,5 @@
     <string name="gradesItem">Cijfers</string>
     <string name="sat">za</string>
     <string name="sun">zo</string>
+    <string name="grade_calculation_item">Gemiddelden</string>
 </resources>

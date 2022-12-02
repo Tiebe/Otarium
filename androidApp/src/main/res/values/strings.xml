@@ -29,4 +29,5 @@
     <string name="gradesItem">Grades</string>
     <string name="sat">sat</string>
     <string name="sun">sun</string>
+    <string name="grade_calculation_item">Averages</string>
 </resources>
