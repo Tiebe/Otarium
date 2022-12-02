@@ -25,7 +25,7 @@ import nl.tiebe.otarium.android.BuildConfig
 import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.screen.SettingsScreen
 import nl.tiebe.otarium.android.ui.screen.agenda.AgendaScreen
-import nl.tiebe.otarium.android.ui.screen.grades.CalcScreen
+import nl.tiebe.otarium.android.ui.screen.grades.GradeCalculationScreen
 import nl.tiebe.otarium.android.ui.screen.grades.GradeScreen
 import nl.tiebe.otarium.showAds
 
@@ -40,7 +40,7 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
             GradeScreen()
         }
         composable("calculator") {
-            CalcScreen()
+            GradeCalculationScreen()
         }
         composable("settings") {
             SettingsScreen()
