@@ -26,7 +26,7 @@ import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.screen.SettingsScreen
 import nl.tiebe.otarium.android.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.android.ui.screen.grades.GradeScreen
-import nl.tiebe.otarium.android.ui.screen.grades.calculation.GCScreen
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.screen.GCScreen
 import nl.tiebe.otarium.showAds
 
 

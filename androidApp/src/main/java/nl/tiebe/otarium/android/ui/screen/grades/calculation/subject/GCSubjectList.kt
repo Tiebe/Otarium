@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.android.ui.screen.grades.calculation
+package nl.tiebe.otarium.android.ui.screen.grades.calculation.subject
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
