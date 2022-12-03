@@ -55,11 +55,7 @@ fun GradeList(grades: List<ServerGrade>) {
             modifier = Modifier
                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
             headlineText = { Text(grade.gradeInfo.columnDescription ?: ":(") },
-            supportingText = { Text(grade.grade.subject.description.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(
-                    Locale.getDefault()
-                ) else it.toString()
-            }) },
+            supportingText = { Text(grade.grade.dateEntered ?: ":(") },
             trailingContent = {
                 Box(
                     modifier = Modifier
