@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.android.ui.screen.grades.calculation.graph
 
+import android.graphics.Paint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +17,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
+import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.screen.grades.calculation.calculateAverage
 import nl.tiebe.otarium.utils.server.ServerGrade
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun GCGraph(grades: List<ServerGrade>) {
     Card(
@@ -33,6 +41,9 @@ fun GCGraph(grades: List<ServerGrade>) {
 
         val lineBound = remember { mutableStateOf(1F) }
 
+        val gradeText = stringResource(R.string.grade)
+        val averageText = stringResource(R.string.average)
+
         Canvas(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,8 +55,8 @@ fun GCGraph(grades: List<ServerGrade>) {
         ) {
             lineBound.value = size.width / grades.count() * 0.8f
 
-            val brush = Brush.linearGradient(listOf(lineColor, lineColor))
-            val path = Path().apply { moveTo(0f, size.height) }
+            val gradeBrush = Brush.linearGradient(listOf(lineColor, lineColor))
+            val gradePath = Path().apply { moveTo(0f, size.height) }
 
             grades.forEachIndexed { index, gradeInfo ->
                 val grade = gradeInfo.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f
@@ -53,20 +64,20 @@ fun GCGraph(grades: List<ServerGrade>) {
                 val offset = Offset((2*index+1) * lineBound.value * 0.6f, size.height - grade * (size.height / 10))
                 if (grades.size > 1) {
                     when (index) {
-                        0 -> path.moveTo(offset.x, offset.y)
-                        else -> path.lineTo(offset.x, offset.y)
+                        0 -> gradePath.moveTo(offset.x, offset.y)
+                        else -> gradePath.lineTo(offset.x, offset.y)
                     }
                 }
                 drawCircle(
                     center = offset,
                     radius = size.width / 70,
-                    brush = brush
+                    brush = gradeBrush
                 )
             }
             if (grades.size > 1) {
                 drawPath(
-                    path = path,
-                    brush = brush,
+                    path = gradePath,
+                    brush = gradeBrush,
                     style = Stroke(width = size.width / 100),
                 )
             }
@@ -96,6 +107,44 @@ fun GCGraph(grades: List<ServerGrade>) {
                     path = averagePath,
                     brush = averageBrush,
                     style = Stroke(width = size.width / 100),
+                )
+            }
+
+            drawCircle(
+                center = Offset(size.width - 200,size.height - 100),
+                brush = gradeBrush,
+                radius = size.width / 70
+            )
+
+            drawCircle(
+                center = Offset(size.width - 200,size.height - 50),
+                brush = averageBrush,
+                radius = size.width / 70
+            )
+
+            drawIntoCanvas {
+                it.nativeCanvas.drawText(
+                    gradeText,
+                    size.width - 135,
+                    size.height - 89,
+                    Paint().apply {
+                        color = textColor.toArgb()
+                        textSize = size.width / 30
+                        textAlign = Paint.Align.CENTER
+                        letterSpacing = 0.05f
+                    }
+                )
+
+                it.nativeCanvas.drawText(
+                    averageText,
+                    size.width - 118,
+                    size.height - 39,
+                    Paint().apply {
+                        color = textColor.toArgb()
+                        textSize = size.width / 30
+                        textAlign = Paint.Align.CENTER
+                        letterSpacing = 0.05f
+                    }
                 )
             }
         }

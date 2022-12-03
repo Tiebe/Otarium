@@ -36,4 +36,6 @@
     <string name="calculate_new_grade">New grade</string>
     <string name="calculate_new_average">New average</string>
     <string name="calculate">Calculate</string>
+    <string name="grade">Grade</string>
+    <string name="average">Average</string>
 </resources>
