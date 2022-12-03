@@ -40,7 +40,7 @@ kotlin {
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
-                implementation("nl.tiebe:magisterapi:1.1.3")
+                implementation("nl.tiebe:magisterapi:1.1.4")
             }
         }
         val commonTest by getting {
