@@ -33,4 +33,6 @@
     <string name="calculate_new_grade">Nieuw cijfer</string>
     <string name="calculate_new_average">Nieuw gemiddelde</string>
     <string name="calculate">Bereken</string>
+    <string name="grade">Cijfer</string>
+    <string name="average">Gemiddelde</string>
 </resources>
