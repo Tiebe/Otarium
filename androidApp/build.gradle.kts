@@ -77,5 +77,5 @@ dependencies {
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
 
-    implementation("nl.tiebe:magisterapi-android:1.1.3")
+    implementation("nl.tiebe:magisterapi-android:1.1.4")
     implementation("com.himanshoe:charty:1.0.1")}
