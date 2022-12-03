@@ -27,4 +27,10 @@
     <string name="sat">za</string>
     <string name="sun">zo</string>
     <string name="grade_calculation_item">Gemiddelden</string>
+    <string name="new_grade_calculation_placeholder">Nieuw cijfer</string>
+    <string name="average_calculation_placeholder">Nieuw gemiddelde</string>
+    <string name="weight_calculation_placeholder">Weging</string>
+    <string name="calculate_new_grade">Nieuw cijfer</string>
+    <string name="calculate_new_average">Nieuw gemiddelde</string>
+    <string name="calculate">Bereken</string>
 </resources>

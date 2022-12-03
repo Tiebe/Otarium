@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.android.ui.screen.grades.calculation
+package nl.tiebe.otarium.android.ui.screen.grades.calculation.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

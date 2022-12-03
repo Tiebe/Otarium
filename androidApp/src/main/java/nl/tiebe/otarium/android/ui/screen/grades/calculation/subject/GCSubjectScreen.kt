@@ -1,10 +1,7 @@
-package nl.tiebe.otarium.android.ui.screen.grades.calculation
+package nl.tiebe.otarium.android.ui.screen.grades.calculation.subject
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -16,9 +13,9 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.GCAverageCalculator
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.graph.GCGraph
 import nl.tiebe.otarium.android.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.server.ServerGrade
 import java.util.*
@@ -36,17 +33,24 @@ fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerG
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
+        Text(
+            text = subject.description.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(20.dp)
+        )
 
-        Json.encodeToString(gradeList).chunked(1000).forEach(::println)
+        GCGraph(grades = gradeList)
 
-        GradeList(gradeList = gradeList)
+        GCAverageCalculator(grades = gradeList)
+
+        GradeList(grades = gradeList)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GradeList(gradeList: List<ServerGrade>) {
-    gradeList.forEach { grade ->
+fun GradeList(grades: List<ServerGrade>) {
+    grades.forEach { grade ->
         ListItem(
             modifier = Modifier
                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
