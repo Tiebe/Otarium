@@ -4,6 +4,8 @@ import com.russhwolf.settings.Settings
 
 val settings: Settings = Settings()
 
+// TODO: Try to make jetpack compose work for ios and make our lives 100000x easier
+
 class Main {
 
     fun setup() {
