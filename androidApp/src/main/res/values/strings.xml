@@ -38,4 +38,6 @@
     <string name="calculate">Calculate</string>
     <string name="grade">Grade</string>
     <string name="average">Average</string>
+    <string name="calculation">Calculation</string>
+    <string name="graph">Graph</string>
 </resources>

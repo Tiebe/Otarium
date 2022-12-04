@@ -1,13 +1,13 @@
-package nl.tiebe.otarium.android.ui.screen.grades.calculation.graph
+package nl.tiebe.otarium.android.ui.screen.grades.calculation.cards.graph
 
 import android.graphics.Paint
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,19 +21,23 @@ import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.android.R
-import nl.tiebe.otarium.android.ui.screen.grades.calculation.calculateAverage
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.utils.server.ServerGrade
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 fun GCGraph(grades: List<ServerGrade>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier.padding(10.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
     ) {
+        Text(
+            text = stringResource(R.string.graph),
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
         val textColor = MaterialTheme.colorScheme.onBackground
         val lineColor = MaterialTheme.colorScheme.primary
         val averageColor = MaterialTheme.colorScheme.secondary

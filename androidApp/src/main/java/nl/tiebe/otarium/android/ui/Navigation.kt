@@ -26,7 +26,6 @@ import nl.tiebe.otarium.android.R
 import nl.tiebe.otarium.android.ui.screen.SettingsScreen
 import nl.tiebe.otarium.android.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.android.ui.screen.grades.GradeScreen
-import nl.tiebe.otarium.android.ui.screen.grades.calculation.screen.GCScreen
 import nl.tiebe.otarium.showAds
 
 
@@ -39,9 +38,6 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
         composable("grades", deepLinks = listOf(navDeepLink { uriPattern = "https://otarium.groosman.nl/grades" })) {
             GradeScreen()
         }
-        composable("calculator") {
-            GCScreen()
-        }
         composable("settings") {
             SettingsScreen()
         }
@@ -51,7 +47,6 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
 sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: @Composable () -> Unit) {
     object Agenda : Screen("agenda", R.string.agendaItem, { Icon(painterResource(R.drawable.ic_baseline_calendar_today_24), "Timetable") })
     object Grades : Screen("grades", R.string.gradesItem, { Icon(painterResource(R.drawable.ic_baseline_looks_10_24), "Grades") })
-    object Calculator : Screen("calculator", R.string.grade_calculation_item, { Icon(painterResource(R.drawable.ic_baseline_calculate_24), "Grade Calculator") })
     object Settings : Screen("settings", R.string.settings_title, { Icon(Icons.Filled.Settings, "Settings") })
 }
 
@@ -61,7 +56,6 @@ fun BottomBar(navController: NavHostController, modifier: Modifier) {
     val items = listOf(
         Screen.Agenda,
         Screen.Grades,
-        Screen.Calculator,
         Screen.Settings
     )
     Scaffold(
