@@ -10,7 +10,7 @@ plugins {
 }
 
 version = "1.0"
-val versionCode = 1
+val versionCode = 15
 
 kotlin {
     android()
@@ -33,7 +33,6 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-websockets:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
 
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
@@ -41,7 +40,7 @@ kotlin {
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
-                implementation("nl.tiebe:magisterapi:1.1.3")
+                implementation("nl.tiebe:magisterapi:1.1.4")
             }
         }
         val commonTest by getting {
@@ -90,6 +89,9 @@ android {
         targetSdk = 33
     }
     namespace = "nl.tiebe.otarium"
+}
+dependencies {
+    implementation("androidx.core:core-ktx:1.9.0")
 }
 
 buildkonfig {

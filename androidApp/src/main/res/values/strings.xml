@@ -29,4 +29,15 @@
     <string name="gradesItem">Grades</string>
     <string name="sat">sat</string>
     <string name="sun">sun</string>
+    <string name="grade_calculation_item">Averages</string>
+    <string name="new_grade_calculation_placeholder">New grade</string>
+    <string name="average_calculation_placeholder">New average</string>
+    <string name="weight_calculation_placeholder">Weight</string>
+    <string name="calculate_new_grade">New grade</string>
+    <string name="calculate_new_average">New average</string>
+    <string name="calculate">Calculate</string>
+    <string name="grade">Grade</string>
+    <string name="average">Average</string>
+    <string name="calculation">Calculation</string>
+    <string name="graph">Graph</string>
 </resources>
