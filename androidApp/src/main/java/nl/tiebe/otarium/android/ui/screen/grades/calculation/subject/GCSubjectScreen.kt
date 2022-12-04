@@ -10,12 +10,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
-import nl.tiebe.otarium.android.ui.screen.grades.calculation.GCAverageCalculator
-import nl.tiebe.otarium.android.ui.screen.grades.calculation.graph.GCGraph
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.cards.GCAverageCalculator
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.cards.calculateAverage
+import nl.tiebe.otarium.android.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.android.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.server.ServerGrade
 import java.util.*
@@ -33,11 +35,29 @@ fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerG
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        Text(
-            text = subject.description.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(20.dp)
-        )
+        Row(modifier = Modifier.fillMaxWidth().padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = subject.description.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                },
+                maxLines = 1,
+                style = MaterialTheme.typography.headlineMedium,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth(0.8f)
+            )
+
+            ElevatedCard(modifier = Modifier.size(50.dp)) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(
+                        text = String.format("%.2f", calculateAverage(gradeList)),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
 
         GCGraph(grades = gradeList)
 

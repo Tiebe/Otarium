@@ -1,6 +1,5 @@
-package nl.tiebe.otarium.android.ui.screen.grades.calculation
+package nl.tiebe.otarium.android.ui.screen.grades.calculation.cards
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import nl.tiebe.otarium.android.R
@@ -18,15 +18,21 @@ import nl.tiebe.otarium.utils.server.ServerGrade
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GCAverageCalculator(grades: List<ServerGrade>) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
     ) {
+        Text(
+            text = stringResource(R.string.calculation),
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+
         var type by remember { mutableStateOf(1) }
 
-        Row(modifier = Modifier.padding(start = 3.dp), horizontalArrangement = Arrangement.Center) {
+        Row(modifier = Modifier.padding(end = 20.dp).fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Row(Modifier
                 .selectable(
                     selected = (type == 1),
@@ -58,7 +64,7 @@ fun GCAverageCalculator(grades: List<ServerGrade>) {
             var enteredGrade by remember { mutableStateOf("") }
             var enteredWeight by remember { mutableStateOf("") }
 
-            Column {
+            Column(Modifier.padding(start = 5.dp)) {
                 TextField(
                     value = enteredGrade,
                     onValueChange = { if ((it.replace(",", ".").replace(".", "").isDigitsOnly() &&
@@ -69,7 +75,7 @@ fun GCAverageCalculator(grades: List<ServerGrade>) {
                             if (type == 1) R.string.new_grade_calculation_placeholder else R.string.average_calculation_placeholder)) },
                     modifier = Modifier.width(200.dp)
                 )
-                
+
                 Spacer(modifier = Modifier.padding(top = 6.dp))
 
                 TextField(

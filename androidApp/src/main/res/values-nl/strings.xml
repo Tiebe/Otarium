@@ -35,4 +35,6 @@
     <string name="calculate">Bereken</string>
     <string name="grade">Cijfer</string>
     <string name="average">Gemiddelde</string>
+    <string name="calculation">Berekenen</string>
+    <string name="graph">Grafiek</string>
 </resources>
