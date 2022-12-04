@@ -10,8 +10,8 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = 21
         targetSdk = 33
-        versionCode = 14
-        versionName = "1.3.0"
+        versionCode = 15
+        versionName = "1.3.1"
     }
     buildTypes {
         getByName("release") {
@@ -60,13 +60,14 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-ads:21.3.0")
 
-    implementation("androidx.compose.material3:material3:1.1.0-alpha01")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.0-alpha01")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.4.0-alpha01")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.0-alpha01")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.0-alpha01")
+    implementation("androidx.compose.material3:material3:1.1.0-alpha02")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.4.0-alpha02")
+    implementation("androidx.core:core-ktx:1.9.0")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.4.0-alpha02")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.0-alpha02")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.0-alpha02")
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    implementation("androidx.compose.material:material:1.4.0-alpha01")
+    implementation("androidx.compose.material:material:1.4.0-alpha02")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
@@ -76,5 +77,5 @@ dependencies {
     implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
     implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
 
-    implementation("nl.tiebe:magisterapi-android:1.1.3")
-}
+    implementation("nl.tiebe:magisterapi-android:1.1.4")
+    implementation("com.himanshoe:charty:1.0.1")}

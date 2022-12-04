@@ -23,9 +23,9 @@ import com.google.android.gms.ads.*
 import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.android.BuildConfig
 import nl.tiebe.otarium.android.R
-import nl.tiebe.otarium.android.ui.screen.GradeScreen
 import nl.tiebe.otarium.android.ui.screen.SettingsScreen
 import nl.tiebe.otarium.android.ui.screen.agenda.AgendaScreen
+import nl.tiebe.otarium.android.ui.screen.grades.GradeScreen
 import nl.tiebe.otarium.showAds
 
 
@@ -35,7 +35,7 @@ fun NavHostController(navController: NavHostController, innerPadding: PaddingVal
         composable("agenda") {
             AgendaScreen()
         }
-        composable("grades", deepLinks = listOf(navDeepLink { uriPattern = "https://otarium.groosman.nl/grades"  })) {
+        composable("grades", deepLinks = listOf(navDeepLink { uriPattern = "https://otarium.groosman.nl/grades" })) {
             GradeScreen()
         }
         composable("settings") {
