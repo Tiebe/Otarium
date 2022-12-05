@@ -2,7 +2,8 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    let greet = String(MainKt.settings.getInt(key: "version", defaultValue: 0))
+	let greet = Greeting().greet()
+
 	var body: some View {
 		Text(greet)
 	}
