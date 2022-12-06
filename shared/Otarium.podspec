@@ -1,24 +1,25 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'shared'
+    spec.name                     = 'Otarium'
     spec.version                  = '1.0'
-    spec.homepage                 = ''
+    spec.homepage                 = 'Link to a Kotlin/Native module homepage'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = ''
-    spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
+    spec.summary                  = 'Some description for a Kotlin/Native module'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/Otarium.framework'
     spec.libraries                = 'c++'
                 
-                
+    spec.dependency 'AFNetworking'
+    spec.dependency 'Google-Mobile-Ads-SDK'
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared',
-        'PRODUCT_MODULE_NAME' => 'shared',
+        'PRODUCT_MODULE_NAME' => 'Otarium',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build shared',
+            :name => 'Build Otarium',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT
