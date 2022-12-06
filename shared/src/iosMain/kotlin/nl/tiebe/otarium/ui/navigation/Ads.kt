@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui
+package nl.tiebe.otarium.ui.navigation
 
 import androidx.compose.runtime.Composable
 
