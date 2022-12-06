@@ -1,0 +1,296 @@
+package nl.tiebe.otarium.android.ui
+
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.outlined.KeyboardArrowLeft
+import androidx.compose.material.icons.outlined.KeyboardArrowRight
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
+import nl.tiebe.otarium.ageOfConsent
+import nl.tiebe.otarium.android.R
+import nl.tiebe.otarium.showAds
+
+
+@ExperimentalPagerApi
+@Composable
+fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
+    val items = OnBoardingItems.getData()
+    val scope = rememberCoroutineScope()
+    val pageState = rememberPagerState()
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopSection(
+            onBackClick = {
+                if (pageState.currentPage + 1 > 1) scope.launch {
+                    pageState.scrollToPage(pageState.currentPage - 1)
+                }
+            },
+            onSkipClick = {
+                if (pageState.currentPage + 1 < items.size) scope.launch {
+                    pageState.scrollToPage(items.size - 1)
+                }
+            }
+        )
+
+        HorizontalPager(
+            count = items.size,
+            state = pageState,
+            modifier = Modifier
+                .fillMaxHeight(0.9f)
+                .fillMaxWidth()
+        ) { page ->
+            OnBoardingItem(items = items[page])
+        }
+        BottomSection(size = items.size, index = pageState.currentPage) {
+            if (pageState.currentPage + 1 < items.size) {
+                scope.launch {
+                    pageState.scrollToPage(pageState.currentPage + 1)
+                }
+            } else {
+                scope.launch {
+                    notifications()
+                    onFinish()
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalPagerApi
+@Composable
+fun TopSection(onBackClick: () -> Unit = {}, onSkipClick: () -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+    ) {
+        IconButton(onClick = onBackClick, modifier = Modifier.align(Alignment.CenterStart)) {
+            Icon(imageVector = Icons.Outlined.KeyboardArrowLeft, contentDescription = null)
+        }
+
+        TextButton(
+            onClick = onSkipClick,
+            modifier = Modifier.align(Alignment.CenterEnd),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Text(text = "Skip", color = MaterialTheme.colorScheme.onBackground)
+        }
+    }
+}
+
+@Composable
+fun BottomSection(size: Int, index: Int, onButtonClick: () -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp)
+    ) {
+        Indicators(size, index)
+
+        FloatingActionButton(
+            onClick = onButtonClick,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .clip(RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp))
+        ) {
+            if (index + 1 < size) {
+                Icon(imageVector = Icons.Outlined.KeyboardArrowRight, contentDescription = "Next")
+            } else {
+                Icon(imageVector = Icons.Filled.Check, contentDescription = "Sign in")
+            }
+        }
+    }
+}
+
+@Composable
+fun BoxScope.Indicators(size: Int, index: Int) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.align(Alignment.CenterStart)
+    ) {
+        repeat(size) {
+            Indicator(isSelected = it == index)
+        }
+    }
+}
+
+@Composable
+fun Indicator(isSelected: Boolean) {
+    val width = animateDpAsState(
+        targetValue = if (isSelected) 25.dp else 10.dp,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy)
+    )
+
+    Box(
+        modifier = Modifier
+            .height(10.dp)
+            .width(width.value)
+            .clip(CircleShape)
+            .background(
+                color = if (isSelected) MaterialTheme.colorScheme.primary else Color(0XFFF8E2E7)
+            )
+    ) {
+
+    }
+}
+
+class OnBoardingItems(
+/*    val image: Int,*/
+    val title: Int,
+    val desc: Int,
+    val extraItems: @Composable () -> Unit = {}
+) {
+    companion object{
+        @SuppressLint("RememberReturnType")
+        fun getData(): List<OnBoardingItems>{
+            return listOf(
+                OnBoardingItems(
+                    title = R.string.onboarding_title_1,
+                    desc = R.string.onboarding_desc_1
+                ), OnBoardingItems(
+                    title = R.string.onboarding_title_2,
+                    desc = R.string.onboarding_desc_2
+                ), OnBoardingItems(
+                    title = R.string.onboarding_title_4,
+                    desc = R.string.onboarding_desc_4,
+                    extraItems = {
+                        val checkedState = remember { mutableStateOf(true) }
+                        val checkedState2 = remember { mutableStateOf(false) }
+
+                        remember { showAds(true) }
+
+                        LabelledCheckBox(checked = checkedState.value, onCheckedChange = {
+                            checkedState.value = it
+                            showAds(it)
+                        }, label = stringResource(id = R.string.show_ads_checkbox))
+
+                        LabelledCheckBox(checkable = checkedState.value, checked = checkedState2.value, onCheckedChange = {
+                            checkedState2.value = it
+                            ageOfConsent(it)
+                        }, label = stringResource(id = R.string.age_checkbox))
+                        
+                        Spacer(Modifier.padding(30.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = stringResource(R.string.age_requirement),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.Light,
+                                textAlign = TextAlign.Center,
+                                letterSpacing = 1.sp,
+                            )
+                        }
+                    }
+                ), OnBoardingItems(
+                    title = R.string.onboarding_title_3,
+                    desc = R.string.onboarding_desc_3
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun OnBoardingItem(items: OnBoardingItems) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Text(
+            text = stringResource(id = items.title),
+            style = MaterialTheme.typography.headlineMedium,
+            // fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            letterSpacing = 1.sp,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = stringResource(id = items.desc),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Light,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(10.dp),
+            letterSpacing = 1.sp,
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        items.extraItems()
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Preview(showBackground = true)
+@Composable
+fun OnboardingPreview() {
+    OnBoarding({}, {})
+}
+
+@Composable
+fun LabelledCheckBox(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit),
+    label: String,
+    modifier: Modifier = Modifier,
+    checkable: Boolean = true
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .clickable(
+                indication = rememberRipple(color = MaterialTheme.colorScheme.primary),
+                interactionSource = remember { MutableInteractionSource() },
+                onClick = { onCheckedChange(!checked) }
+            )
+            .requiredHeight(ButtonDefaults.MinHeight)
+            .padding(4.dp)
+    ) {
+        Checkbox(
+            enabled = checkable,
+            checked = checked,
+            onCheckedChange = null
+        )
+
+        Spacer(Modifier.size(6.dp))
+
+        Text(
+            text = label,
+        )
+    }
+}
