@@ -8,10 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.Settings
-import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.ui.Navigation
 import nl.tiebe.otarium.ui.OnBoarding
-import nl.tiebe.otarium.ui.screen.LoginScreen
 
 val settings: Settings = Settings()
 
@@ -36,18 +33,18 @@ class Main {
             color = MaterialTheme.colorScheme.background
         ) {
             val openLoginScreen = remember { mutableStateOf(false) }
-            if (openLoginScreen.value) MainActivityScreen()
+            //if (openLoginScreen.value) MainActivityScreen()
 
             if (!isFinishedOnboarding()) {
                 OnBoarding(onFinish = {
                     openLoginScreen.value = true
                     finishOnboarding()
                 }, notifications = { askNotificationPermission() })
-            } else MainActivityScreen()
+            } //else MainActivityScreen()
         }
     }
 }
-
+/*
 @Composable
 fun MainActivityScreen() {
     if (storeBypass()) {
@@ -65,5 +62,5 @@ fun MainActivityScreen() {
         Navigation()
     }
 }
-
+*/
 expect fun askNotificationPermission()

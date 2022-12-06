@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.showAds
-import nl.tiebe.otarium.ui.adsShown
+import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.getLocalizedString
 
 //TODO: Wait for this pull request to be merged and then use this library: https://github.com/alorma/Compose-Settings/pull/65
