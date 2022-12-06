@@ -3,7 +3,6 @@ package nl.tiebe.otarium.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.StringResource
@@ -12,7 +11,6 @@ import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.screen.SettingsScreen
 import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.ui.screen.grades.GradeScreen
-import nl.tiebe.otarium.utils.getLocalizedString
 
 sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> Unit) {
     object Agenda : Screen(MR.strings.agendaItem, { /*Icon(painterResource(R.drawable.ic_baseline_calendar_today_24), "Timetable")*/ })
@@ -28,7 +26,8 @@ fun BottomBar(screenState: MutableState<Screen>, modifier: Modifier) {
         Screen.Grades,
         Screen.Settings
     )
-    Scaffold(
+    //TODO: Fix navigation bar
+/*    Scaffold(
         bottomBar = {
             NavigationBar(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary) {
                 items.forEach { screen ->
@@ -44,14 +43,8 @@ fun BottomBar(screenState: MutableState<Screen>, modifier: Modifier) {
             }
         }
     ) { innerPadding ->
-        Box(Modifier.padding(innerPadding)) {
-            when (screenState.value) {
-                is Screen.Agenda -> AgendaScreen()
-                is Screen.Grades -> GradeScreen()
-                is Screen.Settings -> SettingsScreen()
-            }
-        }
-    }
+        // TODO: maybe put content here
+    }*/
 }
 
 var adsShown by mutableStateOf(showAds())
@@ -60,15 +53,39 @@ var adsShown by mutableStateOf(showAds())
 fun Navigation() {
     val screenState = remember { mutableStateOf<Screen>(Screen.Agenda) }
 
+    when (val screen = screenState.value) {
+        is Screen.Agenda -> AgendaScreen()
+        is Screen.Grades -> GradeScreen()
+        is Screen.Settings -> SettingsScreen()
+    }
+
     BottomBar(screenState, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
 
 
-    if (adsShown) {
+    /*if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            Ads()
-        }
-    }
-}
+            AndroidView(
+                modifier = Modifier.fillMaxWidth(),
+                factory = { context ->
+                    MobileAds.initialize(context) {}
 
-@Composable
-expect fun Ads()
+                    AdView(context).apply {
+                        adUnitId =
+                            if (BuildConfig.DEBUG) "ca-app-pub-3940256099942544/6300978111" // test ads
+                            else "ca-app-pub-1684141915170982/7736101438" // prod ads
+                        setAdSize(AdSize.BANNER)
+
+                        val requestConfiguration = MobileAds.getRequestConfiguration()
+                            .toBuilder()
+                            .setTagForChildDirectedTreatment(ageOfConsent().compareTo(false))
+                            .setTagForUnderAgeOfConsent(ageOfConsent().compareTo(false))
+                            .build()
+                        MobileAds.setRequestConfiguration(requestConfiguration)
+
+                        loadAd(AdRequest.Builder().build())
+                    }
+                }
+            )
+        }
+    }*/
+}
