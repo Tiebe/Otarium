@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.Settings
-import nl.tiebe.otarium.ui.OnBoarding
+import nl.tiebe.otarium.ui.onboarding.OnBoarding
 
 val settings: Settings = Settings()
 
