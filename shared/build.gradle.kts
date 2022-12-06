@@ -124,7 +124,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha01"
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
 
     compileOptions {
@@ -147,4 +147,8 @@ buildkonfig {
 
 multiplatformResources {
     multiplatformResourcesPackage = "nl.tiebe.otarium"
+}
+
+compose {
+    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.0-alpha02")
 }
