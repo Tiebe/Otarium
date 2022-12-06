@@ -11,12 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.utils.parseHtml
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -72,24 +74,19 @@ fun AgendaItem(
                 (dpPerHour * ((startTime.toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
             if (distanceAfterTop < 0.dp) distanceAfterTop = 0.dp
 
-            val supportingText = mutableListOf<String>()
+            val supportingText = mutableListOf<AnnotatedString>()
 
-            if (!agendaItem.location.isNullOrEmpty()) supportingText.add(agendaItem.location!!)
-            supportingText.add(
+            if (!agendaItem.location.isNullOrEmpty()) supportingText.add(AnnotatedString(agendaItem.location!!))
+            supportingText.add(AnnotatedString(
                 "${
                     localStartTime.hour.toString().padStart(2, '0')
                 }:${localStartTime.minute.toString().padStart(2, '0')} - ${
                     localEndTime.hour.toString().padStart(2, '0')
                 }:${localEndTime.minute.toString().padStart(2, '0')}"
-            )
+            ))
 
             if (!agendaItem.content.isNullOrEmpty()) supportingText.add(
-                agendaItem.content!!
-                //TODO: HTML SHIT
-                /*HtmlCompat.fromHtml(
-                    agendaItem.content!!,
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                ).toString()*/
+                agendaItem.content!!.parseHtml()
             )
 
             ListItem(
