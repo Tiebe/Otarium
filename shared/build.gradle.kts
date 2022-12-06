@@ -3,11 +3,11 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 
 plugins {
-    kotlin("multiplatform")
+    kotlin("multiplatform") version "1.8.0-Beta"
     id("com.android.library")
     id("org.jetbrains.compose") version "1.3.0-beta03"
     id("com.codingfeline.buildkonfig")
-    kotlin("plugin.serialization") version "1.7.21"
+    kotlin("plugin.serialization") version "1.7.20"
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -63,7 +63,6 @@ kotlin {
                 implementation("ca.gosyer:accompanist-swiperefresh:0.25.2")
 
                 api("dev.icerock.moko:resources:0.20.1")
-                api("io.github.qdsfdhvh:image-loader:1.2.3")
             }
         }
         val commonTest by getting {
@@ -83,6 +82,7 @@ kotlin {
                 implementation("com.google.android.gms:play-services-ads:21.3.0")
             }
         }
+        val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -124,7 +124,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = "1.3.1"
     }
 
     compileOptions {
@@ -147,8 +147,4 @@ buildkonfig {
 
 multiplatformResources {
     multiplatformResourcesPackage = "nl.tiebe.otarium"
-}
-
-compose {
-    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.0-alpha02")
 }

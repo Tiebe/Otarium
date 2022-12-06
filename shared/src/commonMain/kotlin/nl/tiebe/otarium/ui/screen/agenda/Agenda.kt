@@ -3,13 +3,8 @@ package nl.tiebe.otarium.ui.screen.agenda
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
@@ -20,10 +15,9 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -33,7 +27,7 @@ import nl.tiebe.otarium.ui.utils.topRectBorder
 val timesShown = 8..17
 val dpPerHour = 80.dp // yes that .14 is needed. don't ask me how i found out
 
-@OptIn(ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Agenda(
     initialPage: Int,
@@ -99,7 +93,8 @@ fun Agenda(
     }
 
     DisposableEffect(Unit) {
-            GlobalScope.launch {
+        runBlocking {
+            launch {
                 now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
                 val minutes = ((now.hour - 8) * 60) + now.minute
@@ -112,6 +107,7 @@ fun Agenda(
 
                 delay(60_000)
             }
+        }
 
         onDispose {}
     }
