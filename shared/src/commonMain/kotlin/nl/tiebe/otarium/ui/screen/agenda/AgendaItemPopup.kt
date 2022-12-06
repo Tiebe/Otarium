@@ -15,7 +15,6 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.screen.grades.calculation.subject.CustomBackHandler
-import nl.tiebe.otarium.utils.parseHtml
 
 @Composable
 fun AgendaItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> Unit) {
@@ -62,7 +61,12 @@ fun AgendaItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> 
             Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
 
             Text(
-                (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml(),
+                agendaItemWithAbsence.agendaItem.content ?: "",
+                //TODO: HTML SHIT
+                /*HtmlCompat.fromHtml(
+                    agendaItemWithAbsence.agendaItem.content ?: "",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                ).toString(),*/
                 style = MaterialTheme.typography.bodyMedium
             )
         }
