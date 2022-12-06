@@ -17,8 +17,6 @@ val settings: Settings = Settings()
 
 class Main {
 
-    //TODO: maybe rollback version changes?
-
     fun setup() {
         val version = settings.getInt("version", 0)
 
