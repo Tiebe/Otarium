@@ -1,8 +1,6 @@
 package nl.tiebe.otarium.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -35,7 +33,6 @@ fun BottomBar(screenState: MutableState<Screen>, modifier: Modifier) {
     )
     Scaffold(
         bottomBar = {
-            Icons.Default.CalendarToday
             NavigationBar(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary) {
                 items.forEach { screen ->
                     NavigationBarItem(

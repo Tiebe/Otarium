@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

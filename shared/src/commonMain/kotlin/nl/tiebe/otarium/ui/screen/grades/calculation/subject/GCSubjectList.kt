@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.SolidColor
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.server.ServerGrade
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
