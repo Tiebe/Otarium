@@ -20,9 +20,7 @@ import nl.tiebe.otarium.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.format
 import nl.tiebe.otarium.utils.server.ServerGrade
-import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
     CustomBackHandler {
