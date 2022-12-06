@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         Android.context = this
         Android.requestPermissionLauncher = requestPermissionLauncher
 
+
         val main = Main()
         main.setup()
 
