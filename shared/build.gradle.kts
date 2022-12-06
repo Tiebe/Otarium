@@ -3,11 +3,11 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 
 plugins {
-    kotlin("multiplatform")
+    kotlin("multiplatform") version "1.8.0-Beta"
     id("com.android.library")
-    id("org.jetbrains.compose") version "1.2.1"
+    id("org.jetbrains.compose") version "1.3.0-beta03"
     id("com.codingfeline.buildkonfig")
-    kotlin("plugin.serialization") version "1.7.10"
+    kotlin("plugin.serialization") version "1.7.20"
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -79,6 +79,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
 
                 api("dev.icerock.moko:resources-compose:0.20.1")
+                implementation("com.google.android.gms:play-services-ads:21.3.0")
             }
         }
         val androidTest by getting
@@ -116,10 +117,24 @@ android {
     namespace = "nl.tiebe.otarium"
 
     sourceSets.getByName("main").res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+
+    buildFeatures {
+        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.1"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.activity:activity-compose:1.6.1")
 }
 
 buildkonfig {
