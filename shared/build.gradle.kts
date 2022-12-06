@@ -7,7 +7,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose") version "1.3.0-beta03"
     id("com.codingfeline.buildkonfig")
-    kotlin("plugin.serialization") version "1.7.21"
+    kotlin("plugin.serialization") version "1.7.10"
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -124,7 +124,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha01"
+        kotlinCompilerExtensionVersion = "1.3.1"
     }
 
     compileOptions {
