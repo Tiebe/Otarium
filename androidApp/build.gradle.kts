@@ -55,6 +55,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.1.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("com.github.ireward:compose-html:1.0.2")
+
 
     implementation("com.google.android.gms:play-services-ads:21.3.0")
 
@@ -69,4 +71,11 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-}
+
+    implementation("com.google.accompanist:accompanist-pager:0.27.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.27.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+    implementation("com.google.accompanist:accompanist-appcompat-theme:0.27.0")
+
+    implementation("nl.tiebe:magisterapi-android:1.1.4")
+    implementation("com.himanshoe:charty:1.0.1")}

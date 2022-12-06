@@ -9,7 +9,6 @@ buildscript {
         classpath("com.android.tools.build:gradle:7.3.1")
         classpath("com.google.gms:google-services:4.3.14")
         classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.12.0")
-        classpath("dev.icerock.moko:resources-generator:0.20.1")
     }
 }
 
@@ -19,7 +18,6 @@ allprojects {
         mavenCentral()
         mavenLocal()
         maven("https://jitpack.io")
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 
         maven {
             url = uri("https://maven.pkg.github.com/Otarium/MagisterAPIKt")
