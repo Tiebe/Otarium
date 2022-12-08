@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -14,6 +15,8 @@ import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 @Composable
 fun RootView() {
+    FirebaseApp.initializeApp(Android.context)
+
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
         if (!task.isSuccessful) {
             Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
