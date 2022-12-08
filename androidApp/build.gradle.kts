@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -42,8 +43,4 @@ dependencies {
     implementation(Compose.ui)
     implementation(Compose.foundationLayout)
     implementation(Compose.material)
-
-    implementation(platform("com.google.firebase:firebase-bom:30.3.2"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-messaging:23.1.0")
 }

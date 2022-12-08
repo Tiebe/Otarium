@@ -12,6 +12,7 @@ buildscript {
         classpath(Kotlin.serialization)
         classpath(Moko.gradle)
         classpath(BuildKonfig.gradle)
+        classpath(Firebase.classpath)
     }
 }
 
