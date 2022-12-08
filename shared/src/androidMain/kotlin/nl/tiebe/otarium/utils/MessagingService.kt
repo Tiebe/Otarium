@@ -26,8 +26,6 @@ class MessagingService : FirebaseMessagingService() {
     @SuppressLint("UnspecifiedImmutableFlag")
     @Suppress("DEPRECATION")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d("Firebase", "From: ${remoteMessage.from}")
 
         // Check if message contains a data payload.
@@ -36,18 +34,13 @@ class MessagingService : FirebaseMessagingService() {
 
         }
 
-        // Check if message contains a notification payload.
         remoteMessage.notification?.let {
-
-
-
             Log.d("Firebase", "Message Notification Body: ${it.body}")
 
             val intent = packageManager.getLaunchIntentForPackage(packageName)
             intent?.action = ".MainActivity"
             intent?.flags = 0
             val builder = NotificationCompat.Builder(this, "grades")
-                    //TODO: use IconCompat for this
                 .setSmallIcon(MR.images.ic_launcher.drawableResId)
                 .setContentTitle(remoteMessage.notification!!.title)
                 .setContentText(remoteMessage.notification!!.body)

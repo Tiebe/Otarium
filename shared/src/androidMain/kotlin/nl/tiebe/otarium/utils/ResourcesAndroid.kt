@@ -16,3 +16,11 @@ object Android {
 actual fun getLocalizedString(string: StringResource): String {
     return StringDesc.Resource(string).toString(context = Android.context)
 }
+
+actual fun Float.format(decimals: Int): String {
+    val df = java.text.DecimalFormat()
+    df.isGroupingUsed = false
+    df.maximumFractionDigits = 2
+    df.isDecimalSeparatorAlwaysShown = false
+    return df.format(this)
+}
