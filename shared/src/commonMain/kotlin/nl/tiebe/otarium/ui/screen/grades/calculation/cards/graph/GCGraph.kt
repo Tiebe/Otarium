@@ -17,14 +17,22 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFontFamilyResolver
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.utils.getLocalizedString
 import nl.tiebe.otarium.utils.server.ServerGrade
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalTextApi::class)
 @Composable
 internal fun GCGraph(grades: List<ServerGrade>) {
     ElevatedCard(
@@ -45,6 +53,11 @@ internal fun GCGraph(grades: List<ServerGrade>) {
 
         val gradeText = getLocalizedString(MR.strings.grade)
         val averageText = getLocalizedString(MR.strings.average)
+
+        val density = LocalDensity.current
+        val fontFamilyResolver = LocalFontFamilyResolver.current
+
+        val textStyle = MaterialTheme.typography.labelSmall.copy(color = textColor)
 
         Canvas(
             modifier = Modifier
@@ -124,27 +137,23 @@ internal fun GCGraph(grades: List<ServerGrade>) {
                 radius = size.width / 70
             )
 
-/*            drawIntoCanvas {
+            drawIntoCanvas {
                 it.nativeCanvas.apply {
-                    drawTextLine(
-                        TextLine.Companion.make(gradeText, Font()),
-                        size.width - 135,
-                        size.height - 89,
-                        Paint().apply {
-                            color = textColor.toArgb()
-                        }
+                    drawText(
+                        textMeasurer = TextMeasurer(fontFamilyResolver, density, LayoutDirection.Ltr),
+                        text = gradeText,
+                        topLeft = Offset(size.width - 170, size.height - 120),
+                        style = textStyle
                     )
 
-                    drawTextLine(
-                        TextLine.Companion.make(averageText, Font()),
-                        size.width - 118,
-                        size.height - 39,
-                        Paint().apply {
-                            color = textColor.toArgb()
-                        }
+                    drawText(
+                        textMeasurer = TextMeasurer(fontFamilyResolver, density, LayoutDirection.Ltr),
+                        text = averageText,
+                        topLeft = Offset(size.width - 170, size.height - 70),
+                        style = textStyle
                     )
                 }
-            }*/
+            }
         }
     }
 }

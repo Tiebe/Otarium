@@ -23,8 +23,6 @@ import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.getLocalizedString
 
-//TODO: Wait for this pull request to be merged and then use this library: https://github.com/alorma/Compose-Settings/pull/65
-
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
 internal fun SettingsScreen() {
