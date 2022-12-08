@@ -5,7 +5,7 @@ pluginManagement {
         mavenCentral()
     }
 }
-
 rootProject.name = "Otarium"
+
 include(":androidApp")
 include(":shared")

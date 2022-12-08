@@ -2,16 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:versionCode="5"
-    android:versionName="v1.0" >
+    android:versionName="v1.0"
+    package="nl.tiebe.otarium">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher_round"
+        android:label="Otarium"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="31" >
@@ -26,10 +25,10 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/main_color" />
+            android:resource="@color/ic_launcher_background" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".androidApp.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
