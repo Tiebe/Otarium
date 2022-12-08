@@ -9,9 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_round"
         android:label="Otarium"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
@@ -27,7 +25,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/main_color" />
+            android:resource="@color/ic_launcher_background" />
 
         <activity
             android:name=".androidApp.MainActivity"

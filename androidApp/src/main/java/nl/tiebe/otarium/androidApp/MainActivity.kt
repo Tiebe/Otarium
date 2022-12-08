@@ -18,7 +18,7 @@ class MainActivity : PreComposeActivity() {
 
         // has to be set in code or in theme
         window.decorView.setBackgroundColor(Color.WHITE)
-        window.statusBarColor = Color.parseColor("#cc7000")
+        window.statusBarColor = Color.parseColor("#38B6E0")
 
         Android.context = this
         Android.requestPermissionLauncher = requestPermissionLauncher
