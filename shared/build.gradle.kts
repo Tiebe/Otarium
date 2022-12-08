@@ -1,5 +1,6 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
@@ -20,12 +21,14 @@ android {
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
     }
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     namespace = "nl.tiebe.otarium"
 
-    sourceSets.getByName("main").res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
-
+    sourceSets["main"].apply {
+        manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+    }
 }
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -33,7 +36,7 @@ kotlin {
     android()
     ios()
     cocoapods {
-        summary = "Multiplatform Compose Shared Test Module"
+        summary = "Otarium"
         homepage = "https://otarium.groosman.nl"
         ios.deploymentTarget = iOSSdk.deploymentTarget
         podfile = project.file("../iosApp/Podfile")
@@ -76,6 +79,9 @@ kotlin {
 
                 api(Moko.android)
                 implementation(admob)
+                implementation(project.dependencies.platform(Firebase.bom))
+                implementation(Firebase.analytics)
+                implementation(Firebase.messaging)
             }
         }
         val iosMain by getting {

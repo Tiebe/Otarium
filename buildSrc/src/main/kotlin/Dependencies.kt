@@ -72,6 +72,13 @@ object Accompanist {
     const val swiperefresh = "ca.gosyer:accompanist-swiperefresh:0.25.2"
 }
 
+object Firebase {
+    const val classpath = "com.google.gms:google-services:4.3.14"
+    const val bom = "com.google.firebase:firebase-bom:31.1.0"
+    const val analytics = "com.google.firebase:firebase-analytics-ktx"
+    const val messaging = "com.google.firebase:firebase-messaging-ktx"
+}
+
 const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:0.9"
 const val napier = "io.github.aakira:napier:2.6.1"
 const val admob = "com.google.android.gms:play-services-ads:21.3.0"

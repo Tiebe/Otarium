@@ -5,15 +5,15 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Multiplatform Compose Shared Test Module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/test.framework'
+    spec.summary                  = 'Otarium'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '11.0'
                 
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared',
-        'PRODUCT_MODULE_NAME' => 'test',
+        'PRODUCT_MODULE_NAME' => 'shared',
     }
                 
     spec.script_phases = [

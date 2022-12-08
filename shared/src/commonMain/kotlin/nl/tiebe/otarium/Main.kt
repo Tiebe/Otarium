@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.Settings
-import nl.tiebe.otarium.ui.theme.OtariumTheme
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
+import nl.tiebe.otarium.ui.theme.OtariumTheme
 
 val settings: Settings = Settings()
 
@@ -30,6 +33,8 @@ fun setup() {
 
 @Composable
 internal fun Content() {
+    setup()
+
     OtariumTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -42,7 +47,7 @@ internal fun Content() {
                 OnBoarding(onFinish = {
                     openLoginScreen.value = true
                     finishOnboarding()
-                }, notifications = { askNotificationPermission() })
+                }, notifications = { setupNotifications() })
             } //else MainActivityScreen()
         }
     }
@@ -71,4 +76,4 @@ internal fun MainActivityScreen() {
     }
 }
 */
-expect fun askNotificationPermission()
+expect fun setupNotifications()

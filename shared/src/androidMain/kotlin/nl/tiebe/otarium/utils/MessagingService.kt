@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.android.utils
+package nl.tiebe.otarium.utils
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -43,6 +43,7 @@ class MessagingService : FirebaseMessagingService() {
             intent?.action = ".MainActivity"
             intent?.flags = 0
             val builder = NotificationCompat.Builder(this, "grades")
+                    //TODO: use IconCompat for this
                 .setSmallIcon(R.drawable.ic_notification_foreground)
                 .setContentTitle(remoteMessage.notification!!.title)
                 .setContentText(remoteMessage.notification!!.body)

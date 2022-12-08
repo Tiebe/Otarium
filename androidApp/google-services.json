@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "272611126110",
+    "project_id": "openbaar-lyceum-zeist",
+    "storage_bucket": "openbaar-lyceum-zeist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272611126110:android:c3222288b7a80c1eb8bdcf",
+        "android_client_info": {
+          "package_name": "nl.tiebe.openbaarlyceumzeist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272611126110-h3p6v2iva7j0dpsctcns74f34qjo4jin.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.tiebe.openbaarlyceumzeist",
+            "certificate_hash": "3bddf957c57db8d12fb04588dfeebf4b4fdf3f83"
+          }
+        },
+        {
+          "client_id": "272611126110-qedq942hu1r5e3hqbg7fkgje2kj8emvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.tiebe.openbaarlyceumzeist",
+            "certificate_hash": "2ee306be02f3d180e41b1df93b6ba642e966fb9d"
+          }
+        },
+        {
+          "client_id": "272611126110-jbq6ubbclr7ks4qhrl0nq9q1j3ge1b88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjSvhCUMV1yE0f-moO67p8aVDZcb3X9cs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272611126110-jbq6ubbclr7ks4qhrl0nq9q1j3ge1b88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
