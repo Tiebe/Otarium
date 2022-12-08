@@ -26,7 +26,7 @@ import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GCGraph(grades: List<ServerGrade>) {
+internal fun GCGraph(grades: List<ServerGrade>) {
     ElevatedCard(
         modifier = Modifier.padding(10.dp),
     ) {

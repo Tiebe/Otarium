@@ -1,21 +1,21 @@
 {
   "name": "shared",
   "version": "1.0",
-  "homepage": "Link to the Shared Module homepage",
+  "homepage": "https://otarium.groosman.nl",
   "source": {
     "http": ""
   },
   "authors": "",
   "license": "",
-  "summary": "Some description for the Shared Module",
-  "vendored_frameworks": "build/cocoapods/framework/shared.framework",
+  "summary": "Multiplatform Compose Shared Test Module",
+  "vendored_frameworks": "build/cocoapods/framework/test.framework",
   "libraries": "c++",
   "platforms": {
-    "ios": "14.1"
+    "ios": "11.0"
   },
   "pod_target_xcconfig": {
     "KOTLIN_PROJECT_PATH": ":shared",
-    "PRODUCT_MODULE_NAME": "shared"
+    "PRODUCT_MODULE_NAME": "test"
   },
   "script_phases": [
     {

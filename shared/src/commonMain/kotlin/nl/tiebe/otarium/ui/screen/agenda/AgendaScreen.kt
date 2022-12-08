@@ -26,7 +26,7 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun AgendaScreen() {
+internal fun AgendaScreen() {
     val scope = rememberCoroutineScope()
 
     val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }

@@ -17,7 +17,7 @@ import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GCAverageCalculator(grades: List<ServerGrade>) {
+internal fun GCAverageCalculator(grades: List<ServerGrade>) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()

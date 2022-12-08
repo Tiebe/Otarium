@@ -6,7 +6,7 @@ import androidx.compose.runtime.collectAsState
 import nl.tiebe.otarium.ui.screen.grades.calculation.subject.GCSubjectList
 
 @Composable
-fun GCScreen() {
+internal fun GCScreen() {
     val viewModel = GCScreenModel()
     when (val state = viewModel.state.collectAsState().value) {
         GCScreenModel.State.Loading -> {

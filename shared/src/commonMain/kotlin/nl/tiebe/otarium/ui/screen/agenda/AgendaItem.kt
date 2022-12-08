@@ -23,7 +23,7 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
-fun AgendaItem(
+internal fun AgendaItem(
     currentPage: Int,
     totalDays: Int,
     now: LocalDateTime,

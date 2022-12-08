@@ -26,7 +26,7 @@ sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> 
 var adsShown by mutableStateOf(showAds())
 
 @Composable
-fun Navigation() {
+internal fun Navigation() {
     val screenState = remember { mutableStateOf<Screen>(Screen.Agenda) }
 
     BottomBar(screenState, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
@@ -40,4 +40,4 @@ fun Navigation() {
 }
 
 @Composable
-expect fun Ads()
+internal expect fun Ads()
