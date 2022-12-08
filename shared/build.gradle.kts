@@ -1,97 +1,104 @@
-@file:Suppress("UNUSED_VARIABLE")
 
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.library")
+    id("kotlinx-serialization")
+    id("org.jetbrains.compose") version Version.compose
     id("com.codingfeline.buildkonfig")
-    kotlin("plugin.serialization") version "1.7.10"
+    id("dev.icerock.mobile.multiplatform-resources")
+    id("com.google.gms.google-services")
 }
 
 version = "1.0"
 val versionCode = 15
 
+android {
+    compileSdk = AndroidSdk.compile
+    defaultConfig {
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
+    }
+
+    namespace = "nl.tiebe.otarium"
+
+    sourceSets["main"].apply {
+        manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+    }
+}
+
+@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
     android()
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    ios()
+    cocoapods {
+        summary = "Otarium"
+        homepage = "https://otarium.groosman.nl"
+        ios.deploymentTarget = iOSSdk.deploymentTarget
+        podfile = project.file("../iosApp/Podfile")
+        framework {
             baseName = "shared"
+            isStatic = true
         }
     }
-    
     sourceSets {
-        val ktorVersion = "2.0.3"
-
         val commonMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+                implementation(Ktor.client_core)
+                implementation(Ktor.client_content_negotiation)
+                implementation(Ktor.client_logging)
+                implementation(Ktor.serialization_json)
+                implementation(compose.ui)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.runtime)
+                api(precompose)
+                api(Moko.api)
 
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("com.russhwolf:multiplatform-settings-no-arg:0.9")
-                implementation("io.github.aakira:napier:2.6.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+                implementation(Kotlin.dateTime)
+                implementation(russhwolf_settings)
+                implementation(napier)
 
-                implementation("nl.tiebe:magisterapi:1.1.4")
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
+                implementation(Accompanist.pager)
+                implementation(Accompanist.pager_indicators)
+                implementation(Accompanist.swiperefresh)
+
+                implementation(magisterAPI)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.work:work-runtime-ktx:2.7.1")
-                implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-                implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+                implementation(Ktor.client_logging_jvm)
+                implementation(Ktor.client_json_jvm)
+                implementation(Ktor.client_android)
+
+                api(Moko.android)
+                implementation(admob)
+                implementation(project.dependencies.platform(Firebase.bom))
+                implementation(Firebase.analytics)
+                implementation(Firebase.messaging)
             }
         }
-        val androidTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+                implementation(Ktor.client_ios)
             }
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
 
-android {
-    compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 33
+kotlin {
+    targets.withType<KotlinNativeTarget> {
+        binaries.all {
+            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+        }
     }
-    namespace = "nl.tiebe.otarium"
-}
-dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
 }
 
 buildkonfig {
@@ -100,4 +107,8 @@ buildkonfig {
     defaultConfigs {
         buildConfigField(INT, "versionCode", versionCode.toString())
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "nl.tiebe.otarium"
 }

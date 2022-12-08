@@ -3,12 +3,16 @@ buildscript {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven("https://jitpack.io")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
-        classpath("com.android.tools.build:gradle:7.3.1")
-        classpath("com.google.gms:google-services:4.3.14")
-        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.12.0")
+        classpath(Kotlin.gradle)
+        classpath(Android.gradle)
+        classpath(Kotlin.serialization)
+        classpath(Moko.gradle)
+        classpath(BuildKonfig.gradle)
+        classpath(Firebase.classpath)
     }
 }
 
@@ -16,7 +20,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://jitpack.io")
 
         maven {
@@ -27,8 +31,4 @@ allprojects {
             }
         }
     }
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
 }
