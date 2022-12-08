@@ -14,7 +14,7 @@ import nl.tiebe.otarium.ui.onboarding.sections.TopSection
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
+internal fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
     val items = OnBoardingItems.getData()
     val scope = rememberCoroutineScope()
     val pageState = rememberPagerState()

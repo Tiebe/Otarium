@@ -15,7 +15,7 @@ import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecentGradeItem(grade: RecentGrade) {
+internal fun RecentGradeItem(grade: RecentGrade) {
     ListItem(
         modifier = Modifier
             .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),

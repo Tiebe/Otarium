@@ -1,7 +1,16 @@
-project 'Otarium.xcodeproj'
+source 'https://cdn.cocoapods.org'
+platform :ios, '11.0'
 
-target 'Otarium' do
+target 'iosApp' do
   use_frameworks!
-  platform :ios, '14.1'
   pod 'shared', :path => '../shared'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      # Force CocoaPods targets to always build for x86_64
+      config.build_settings['ARCHS[sdk=iphonesimulator*]'] = 'x86_64'
+    end
+  end
 end

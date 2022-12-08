@@ -13,7 +13,7 @@ import nl.tiebe.otarium.utils.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomBar(screenState: MutableState<Screen>, modifier: Modifier) {
+internal fun BottomBar(screenState: MutableState<Screen>, modifier: Modifier) {
     val items = listOf(
         Screen.Agenda,
         Screen.Grades,

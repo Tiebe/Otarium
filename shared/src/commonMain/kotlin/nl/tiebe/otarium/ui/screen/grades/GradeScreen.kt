@@ -19,7 +19,7 @@ import nl.tiebe.otarium.ui.screen.grades.recentgrades.RecentGradeScreen
 import nl.tiebe.otarium.utils.getLocalizedString
 
 @Composable
-fun GradeScreen() {
+internal fun GradeScreen() {
     var selectedTab by remember { mutableStateOf(0) }
 
     Column(modifier = Modifier.fillMaxSize()) {

@@ -16,7 +16,7 @@ import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GCSubjectList(grades: List<ServerGrade>) {
+internal fun GCSubjectList(grades: List<ServerGrade>) {
     val openSubject = remember { mutableStateOf<Subject?>(null)}
 
     val subjects = grades.map { it.grade.subject }.distinct().sortedBy { it.description.lowercase() }

@@ -21,7 +21,7 @@ import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.utils.getLocalizedString
 
-class OnBoardingItems(
+internal class OnBoardingItems(
 /*    val image: Int,*/
     val title: StringResource,
     val desc: StringResource,

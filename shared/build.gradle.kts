@@ -1,144 +1,97 @@
-@file:Suppress("UNUSED_VARIABLE", "OPT_IN_IS_NOT_ENABLED")
-
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    id("org.jetbrains.compose") version "1.3.0-beta03"
+    id("kotlinx-serialization")
+    id("org.jetbrains.compose") version Version.compose
     id("com.codingfeline.buildkonfig")
-    kotlin("plugin.serialization") version "1.7.21"
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
 version = "1.0"
 val versionCode = 15
 
-kotlin.sourceSets.all {
-    languageSettings.optIn("kotlin.RequiresOptIn")
-}
-
-@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-    android()
-
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        version = "1.0"
-        ios.deploymentTarget = "14.1"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
-            baseName = "shared"
-        }
-
-        //pod("Google-Mobile-Ads-SDK")
-    }
-    
-    sourceSets {
-        val ktorVersion = "2.0.3"
-
-        val commonMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("com.russhwolf:multiplatform-settings-no-arg:0.9")
-                implementation("io.github.aakira:napier:2.6.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-
-                implementation(compose.ui)
-                implementation(compose.foundation)
-                implementation(compose.material)
-                implementation(compose.runtime)
-                implementation(compose.animation)
-                implementation(compose.material3)
-
-                implementation("nl.tiebe:magisterapi:1.1.5")
-
-                implementation("ca.gosyer:accompanist-pager:0.25.2")
-                implementation("ca.gosyer:accompanist-pager-indicators:0.25.2")
-                implementation("ca.gosyer:accompanist-swiperefresh:0.25.2")
-
-                api("dev.icerock.moko:resources:0.20.1")
-                api("io.github.qdsfdhvh:image-loader:1.2.3")
-            }
-        }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation("dev.icerock.moko:resources-test:0.20.1")
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation("androidx.work:work-runtime-ktx:2.7.1")
-                implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-                implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-
-                api("dev.icerock.moko:resources-compose:0.20.1")
-                implementation("com.google.android.gms:play-services-ads:21.3.0")
-            }
-        }
-        val androidTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
-    }
-}
-
 android {
-    compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileSdk = AndroidSdk.compile
     defaultConfig {
-        minSdk = 21
-        targetSdk = 33
+        minSdk = AndroidSdk.min
+        targetSdk = AndroidSdk.target
     }
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     namespace = "nl.tiebe.otarium"
 
     sourceSets.getByName("main").res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
 
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
+}
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+kotlin {
+    android()
+    ios()
+    cocoapods {
+        summary = "Multiplatform Compose Shared Test Module"
+        homepage = "https://otarium.groosman.nl"
+        ios.deploymentTarget = iOSSdk.deploymentTarget
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "shared"
+            isStatic = true
+        }
     }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(Ktor.client_core)
+                implementation(Ktor.client_content_negotiation)
+                implementation(Ktor.client_logging)
+                implementation(Ktor.serialization_json)
+                implementation(compose.ui)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.runtime)
+                api(precompose)
+                api(Moko.api)
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+                implementation(Kotlin.dateTime)
+                implementation(russhwolf_settings)
+                implementation(napier)
+
+                implementation(Accompanist.pager)
+                implementation(Accompanist.pager_indicators)
+                implementation(Accompanist.swiperefresh)
+
+                implementation(magisterAPI)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(Ktor.client_logging_jvm)
+                implementation(Ktor.client_json_jvm)
+                implementation(Ktor.client_android)
+
+                api(Moko.android)
+                implementation(admob)
+            }
+        }
+        val iosMain by getting {
+            dependencies {
+                implementation(Ktor.client_ios)
+            }
+        }
     }
 }
-dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.activity:activity-compose:1.6.1")
+
+kotlin {
+    targets.withType<KotlinNativeTarget> {
+        binaries.all {
+            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+        }
+    }
 }
 
 buildkonfig {
@@ -151,8 +104,4 @@ buildkonfig {
 
 multiplatformResources {
     multiplatformResourcesPackage = "nl.tiebe.otarium"
-}
-
-compose {
-    kotlinCompilerPlugin.set("androidx.compose.compiler:compiler:1.4.0-alpha02")
 }
