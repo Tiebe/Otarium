@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui
+package nl.tiebe.otarium.ui.navigation
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -12,7 +12,7 @@ import nl.tiebe.otarium.BuildConfig
 import nl.tiebe.otarium.ageOfConsent
 
 @Composable
-actual fun Ads() {
+internal actual fun Ads() {
     AndroidView(
         modifier = Modifier.fillMaxWidth(),
         factory = { context ->

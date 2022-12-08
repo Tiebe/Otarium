@@ -23,7 +23,7 @@ import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
+internal fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
     CustomBackHandler {
         openSubject.value = null
     }
@@ -67,7 +67,7 @@ fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerG
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GradeList(grades: List<ServerGrade>) {
+internal fun GradeList(grades: List<ServerGrade>) {
     grades.forEach { grade ->
         ListItem(
             modifier = Modifier
@@ -103,4 +103,4 @@ fun GradeList(grades: List<ServerGrade>) {
 }
 
 @Composable
-expect fun CustomBackHandler(onBack: () -> Unit)
+internal expect fun CustomBackHandler(onBack: () -> Unit)

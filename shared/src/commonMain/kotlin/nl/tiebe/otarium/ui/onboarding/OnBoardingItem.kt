@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import nl.tiebe.otarium.utils.getLocalizedString
 
 @Composable
-fun OnBoardingItem(items: OnBoardingItems) {
+internal fun OnBoardingItem(items: OnBoardingItems) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

@@ -27,7 +27,7 @@ import nl.tiebe.otarium.utils.getLocalizedString
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun SettingsScreen() {
+internal fun SettingsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()

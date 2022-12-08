@@ -16,7 +16,7 @@ import nl.tiebe.otarium.magister.getSavedGrades
 import nl.tiebe.otarium.utils.server.getMagisterTokens
 
 @Composable
-fun RecentGradeScreen() {
+internal fun RecentGradeScreen() {
     val refreshState = rememberSwipeRefreshState(false)
     var recentGrades by remember { mutableStateOf(getSavedGrades()) }
     val scope = rememberCoroutineScope()

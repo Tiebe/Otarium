@@ -18,7 +18,7 @@ import nl.tiebe.otarium.ui.screen.grades.calculation.subject.CustomBackHandler
 import nl.tiebe.otarium.utils.parseHtml
 
 @Composable
-fun AgendaItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> Unit) {
+internal fun AgendaItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> Unit) {
     CustomBackHandler(onBack = onExit)
 
     Surface(Modifier.fillMaxSize()) {

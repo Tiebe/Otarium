@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TopSection(onBackClick: () -> Unit = {}, onSkipClick: () -> Unit = {}) {
+internal fun TopSection(onBackClick: () -> Unit = {}, onSkipClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

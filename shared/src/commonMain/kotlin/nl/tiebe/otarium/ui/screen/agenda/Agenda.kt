@@ -35,7 +35,7 @@ val dpPerHour = 80.dp // yes that .14 is needed. don't ask me how i found out
 
 @OptIn(ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
 @Composable
-fun Agenda(
+internal fun Agenda(
     initialPage: Int,
     dayPagerState: PagerState,
     days: List<String>,

@@ -21,7 +21,7 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DaySelector(
+internal fun DaySelector(
     dayPagerState: PagerState,
     days: List<String>,
     selectedWeek: State<Int>,

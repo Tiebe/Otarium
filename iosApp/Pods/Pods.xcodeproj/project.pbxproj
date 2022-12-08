@@ -20,13 +20,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0917BC4733F54E7F6A468CB6365234F1 /* Pods-Otarium-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C0CDE684D7020B13BCE1182F79A013B /* Pods-Otarium-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6527A735ECE0A6BEE4C1A77B52CF373C /* Pods-Otarium-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B1626C00D1E1479EA42B6BB970395089 /* Pods-Otarium-dummy.m */; };
-		77DDA41EA96242FA42C0038911FAF39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		648F16425FEF89525AE0325F5A984B86 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		8749C8E8DC500B064FA0BC7A78C38A2A /* Pods-iosApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A2475209BEE7612101900020629C625 /* Pods-iosApp-dummy.m */; };
+		8801CBFD38B946597BD07145B2EEFC9F /* Pods-iosApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 42DE4C0106600A5B6D599285368F3270 /* Pods-iosApp-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C67C3DCB4A1FB78745ECBFCBF82BC2F7 /* PBXContainerItemProxy */ = {
+		C1E4F2F8101E860063100BCC8448BC3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -36,49 +36,57 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		19C53626D62327608958286EF0444BA9 /* Pods-Otarium-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Otarium-Info.plist"; sourceTree = "<group>"; };
-		22E1381673F0F5AE21100D84F71EE7AF /* Pods-Otarium.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Otarium.debug.xcconfig"; sourceTree = "<group>"; };
+		0011AEE22E8296B3D9E0B0B2CDCAB2EE /* Pods-iosApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-iosApp-acknowledgements.plist"; sourceTree = "<group>"; };
+		1A2FB55B5C37861BC78ECD1420D818C3 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
 		35548E3BD8DA30925E8FE97E67B84868 /* shared.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = shared.release.xcconfig; sourceTree = "<group>"; };
-		3CC39807DA71E485B19A413B7099B509 /* Pods-Otarium-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Otarium-acknowledgements.plist"; sourceTree = "<group>"; };
-		5C0CDE684D7020B13BCE1182F79A013B /* Pods-Otarium-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Otarium-umbrella.h"; sourceTree = "<group>"; };
+		3A2475209BEE7612101900020629C625 /* Pods-iosApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-iosApp-dummy.m"; sourceTree = "<group>"; };
+		42DE4C0106600A5B6D599285368F3270 /* Pods-iosApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-iosApp-umbrella.h"; sourceTree = "<group>"; };
+		482384ADFE4EF692B16FACB8C2021970 /* Pods-iosApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-iosApp.modulemap"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		73D4D08B8C9FAD17B10E8E5C0EB49A76 /* shared.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = shared.framework; path = build/cocoapods/framework/shared.framework; sourceTree = "<group>"; };
 		95B09EA82E7AF9ACCCCAF3E55C859116 /* shared.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = shared.debug.xcconfig; sourceTree = "<group>"; };
-		9C06F2E09BBE579573C3E0EC67D8C095 /* Pods-Otarium.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Otarium.modulemap"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A0216E5FD62BF45082E8F3F47CFE6E10 /* Pods-Otarium.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Otarium.release.xcconfig"; sourceTree = "<group>"; };
-		B1626C00D1E1479EA42B6BB970395089 /* Pods-Otarium-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Otarium-dummy.m"; sourceTree = "<group>"; };
-		B4815357B934E56E83A58AB920F8EEE8 /* Pods-Otarium */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Otarium"; path = Pods_Otarium.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E13B5E4F1D21883232DA66C1C83A062 /* test.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = test.framework; path = build/cocoapods/framework/test.framework; sourceTree = "<group>"; };
+		A43877303056397968EC90C7AAFE17E8 /* Pods-iosApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-iosApp-acknowledgements.markdown"; sourceTree = "<group>"; };
+		A79C2AA5C063914B2D1BD80187FDF6DE /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
+		B097DD7534E741D5C41838011D755842 /* Pods-iosApp */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-iosApp"; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCAED803D074E2E9C3B1327F049C8C2A /* Pods-iosApp-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-iosApp-Info.plist"; sourceTree = "<group>"; };
 		FB1BF8BE937671FB0F330C2D28634477 /* shared.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = shared.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		FF8D455A6163568E5993BC2BF39A03F8 /* Pods-Otarium-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Otarium-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B27BDFBB7F84C9EA7B4B4A38463A903C /* Frameworks */ = {
+		CC3CD5459C4A5476C5A93268587E63E7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77DDA41EA96242FA42C0038911FAF39A /* Foundation.framework in Frameworks */,
+				648F16425FEF89525AE0325F5A984B86 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B92DBBE370E425E42453BF897D51ED3 /* Pods-Otarium */ = {
+		1F86AA6785DF34AFD5A71790761717DE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9C06F2E09BBE579573C3E0EC67D8C095 /* Pods-Otarium.modulemap */,
-				FF8D455A6163568E5993BC2BF39A03F8 /* Pods-Otarium-acknowledgements.markdown */,
-				3CC39807DA71E485B19A413B7099B509 /* Pods-Otarium-acknowledgements.plist */,
-				B1626C00D1E1479EA42B6BB970395089 /* Pods-Otarium-dummy.m */,
-				19C53626D62327608958286EF0444BA9 /* Pods-Otarium-Info.plist */,
-				5C0CDE684D7020B13BCE1182F79A013B /* Pods-Otarium-umbrella.h */,
-				22E1381673F0F5AE21100D84F71EE7AF /* Pods-Otarium.debug.xcconfig */,
-				A0216E5FD62BF45082E8F3F47CFE6E10 /* Pods-Otarium.release.xcconfig */,
+				B097DD7534E741D5C41838011D755842 /* Pods-iosApp */,
 			);
-			name = "Pods-Otarium";
-			path = "Target Support Files/Pods-Otarium";
+			name = Products;
+			sourceTree = "<group>";
+		};
+		310087C345B86EEF25A054485E0BB5CB /* Pods-iosApp */ = {
+			isa = PBXGroup;
+			children = (
+				482384ADFE4EF692B16FACB8C2021970 /* Pods-iosApp.modulemap */,
+				A43877303056397968EC90C7AAFE17E8 /* Pods-iosApp-acknowledgements.markdown */,
+				0011AEE22E8296B3D9E0B0B2CDCAB2EE /* Pods-iosApp-acknowledgements.plist */,
+				3A2475209BEE7612101900020629C625 /* Pods-iosApp-dummy.m */,
+				BCAED803D074E2E9C3B1327F049C8C2A /* Pods-iosApp-Info.plist */,
+				42DE4C0106600A5B6D599285368F3270 /* Pods-iosApp-umbrella.h */,
+				A79C2AA5C063914B2D1BD80187FDF6DE /* Pods-iosApp.debug.xcconfig */,
+				1A2FB55B5C37861BC78ECD1420D818C3 /* Pods-iosApp.release.xcconfig */,
+			);
+			name = "Pods-iosApp";
+			path = "Target Support Files/Pods-iosApp";
 			sourceTree = "<group>";
 		};
 		313FE5FE915A4A924C55AAC02A910D61 /* Development Pods */ = {
@@ -115,20 +123,20 @@
 			path = "../iosApp/Pods/Target Support Files/shared";
 			sourceTree = "<group>";
 		};
-		7DBF81461E18ACE1B4BD971BAC841CF7 /* Frameworks */ = {
+		A0DA8D513F1321FFEF5DA0FD082E35CE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				73D4D08B8C9FAD17B10E8E5C0EB49A76 /* shared.framework */,
+				9E13B5E4F1D21883232DA66C1C83A062 /* test.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		BE289F486C55EA6B132EBA0067F3D1AF /* Products */ = {
+		C9F6DDEE5D76F65BB478A349731F54F4 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				B4815357B934E56E83A58AB920F8EEE8 /* Pods-Otarium */,
+				310087C345B86EEF25A054485E0BB5CB /* Pods-iosApp */,
 			);
-			name = Products;
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -137,8 +145,8 @@
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				313FE5FE915A4A924C55AAC02A910D61 /* Development Pods */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				BE289F486C55EA6B132EBA0067F3D1AF /* Products */,
-				DB2B19A326E8ECF0F2F6F0397193AA11 /* Targets Support Files */,
+				1F86AA6785DF34AFD5A71790761717DE /* Products */,
+				C9F6DDEE5D76F65BB478A349731F54F4 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,18 +158,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DB2B19A326E8ECF0F2F6F0397193AA11 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				2B92DBBE370E425E42453BF897D51ED3 /* Pods-Otarium */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
 		EEF3277DCE2E4B31CF76A57AB68C2BA1 /* shared */ = {
 			isa = PBXGroup;
 			children = (
-				7DBF81461E18ACE1B4BD971BAC841CF7 /* Frameworks */,
+				A0DA8D513F1321FFEF5DA0FD082E35CE /* Frameworks */,
 				569B56E5B05425CAE32676C6049DC8CB /* Pod */,
 				5CB66AAACA3977B45E9869C360E9F289 /* Support Files */,
 			);
@@ -172,34 +172,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		8615BC8D223B4D7C73D0E5722399F3D3 /* Headers */ = {
+		DA71CB665A4F7860DB550FAA48FB6AD2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0917BC4733F54E7F6A468CB6365234F1 /* Pods-Otarium-umbrella.h in Headers */,
+				8801CBFD38B946597BD07145B2EEFC9F /* Pods-iosApp-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8858FFC61DFC66690AE0A4E308EEF83B /* Pods-Otarium */ = {
+		ED39C638569286489CD697A6C8964146 /* Pods-iosApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6CCF910E4E93FFE9D68DE7C53B63BF90 /* Build configuration list for PBXNativeTarget "Pods-Otarium" */;
+			buildConfigurationList = 9F1E85ECB672A0CC96333A6C6DF60EE6 /* Build configuration list for PBXNativeTarget "Pods-iosApp" */;
 			buildPhases = (
-				8615BC8D223B4D7C73D0E5722399F3D3 /* Headers */,
-				008A90B02EE3FD8D74ADAEEF5915A30B /* Sources */,
-				B27BDFBB7F84C9EA7B4B4A38463A903C /* Frameworks */,
-				A229FA9D87A84D643F1DCD85A79400A1 /* Resources */,
+				DA71CB665A4F7860DB550FAA48FB6AD2 /* Headers */,
+				EB28A529759E3D2117E28CE3CB8387D3 /* Sources */,
+				CC3CD5459C4A5476C5A93268587E63E7 /* Frameworks */,
+				0EC1C62FF9B25EAB2D236D122EAF4C98 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				F29E470923E38F39FCB544B0475CD7AA /* PBXTargetDependency */,
+				4A9525469F8E46F3883CC6599FCCFEDB /* PBXTargetDependency */,
 			);
-			name = "Pods-Otarium";
-			productName = Pods_Otarium;
-			productReference = B4815357B934E56E83A58AB920F8EEE8 /* Pods-Otarium */;
+			name = "Pods-iosApp";
+			productName = Pods_iosApp;
+			productReference = B097DD7534E741D5C41838011D755842 /* Pods-iosApp */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -220,18 +220,18 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = BE289F486C55EA6B132EBA0067F3D1AF /* Products */;
+			productRefGroup = 1F86AA6785DF34AFD5A71790761717DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8858FFC61DFC66690AE0A4E308EEF83B /* Pods-Otarium */,
+				ED39C638569286489CD697A6C8964146 /* Pods-iosApp */,
 				8777C9F6889E59EFFD631D80AEE9048B /* shared */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A229FA9D87A84D643F1DCD85A79400A1 /* Resources */ = {
+		0EC1C62FF9B25EAB2D236D122EAF4C98 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -254,31 +254,51 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		008A90B02EE3FD8D74ADAEEF5915A30B /* Sources */ = {
+		EB28A529759E3D2117E28CE3CB8387D3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6527A735ECE0A6BEE4C1A77B52CF373C /* Pods-Otarium-dummy.m in Sources */,
+				8749C8E8DC500B064FA0BC7A78C38A2A /* Pods-iosApp-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		F29E470923E38F39FCB544B0475CD7AA /* PBXTargetDependency */ = {
+		4A9525469F8E46F3883CC6599FCCFEDB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = shared;
 			target = 8777C9F6889E59EFFD631D80AEE9048B /* shared */;
-			targetProxy = C67C3DCB4A1FB78745ECBFCBF82BC2F7 /* PBXContainerItemProxy */;
+			targetProxy = C1E4F2F8101E860063100BCC8448BC3B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		2BD4EC2668FE24E8C5D85ED1FA340624 /* Debug */ = {
+		4F0FFBFA785EAF3A72CB1559C9071F7F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 22E1381673F0F5AE21100D84F71EE7AF /* Pods-Otarium.debug.xcconfig */;
+			baseConfigurationReference = 35548E3BD8DA30925E8FE97E67B84868 /* shared.release.xcconfig */;
+			buildSettings = {
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5B34339024A8102FC0DC82FCF8CA8A7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A79C2AA5C063914B2D1BD80187FDF6DE /* Pods-iosApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -288,16 +308,16 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Otarium/Pods-Otarium-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-iosApp/Pods-iosApp-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Otarium/Pods-Otarium.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-iosApp/Pods-iosApp.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -311,45 +331,25 @@
 			};
 			name = Debug;
 		};
-		34195F493A02F829392EA003FC583535 /* Release */ = {
+		637D53F1E4CF8852F6970A79DCAA1957 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0216E5FD62BF45082E8F3F47CFE6E10 /* Pods-Otarium.release.xcconfig */;
+			baseConfigurationReference = 95B09EA82E7AF9ACCCCAF3E55C859116 /* shared.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Otarium/Pods-Otarium-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Otarium/Pods-Otarium.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
-		593F10BFFA94DAC7D6E17FB8A7F32D72 /* Release */ = {
+		903A0004D3E6651EFD5D2E16214D101B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -399,7 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -411,7 +411,7 @@
 			};
 			name = Release;
 		};
-		A0374B8CF9A7D6A45F6D116D698D1C19 /* Debug */ = {
+		B4EFE046ACF8F37157F6E322C7FCFC28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -464,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -477,38 +477,42 @@
 			};
 			name = Debug;
 		};
-		A7B4967B71249851CABD6EC29251E481 /* Debug */ = {
+		E2000D467A6E76C177CA82B8C31DE3DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95B09EA82E7AF9ACCCCAF3E55C859116 /* shared.debug.xcconfig */;
+			baseConfigurationReference = 1A2FB55B5C37861BC78ECD1420D818C3 /* Pods-iosApp.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-iosApp/Pods-iosApp-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-iosApp/Pods-iosApp.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		A96D4527F178BD8C0DEB7EE72B9AAE09 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35548E3BD8DA30925E8FE97E67B84868 /* shared.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -518,17 +522,8 @@
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A0374B8CF9A7D6A45F6D116D698D1C19 /* Debug */,
-				593F10BFFA94DAC7D6E17FB8A7F32D72 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6CCF910E4E93FFE9D68DE7C53B63BF90 /* Build configuration list for PBXNativeTarget "Pods-Otarium" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2BD4EC2668FE24E8C5D85ED1FA340624 /* Debug */,
-				34195F493A02F829392EA003FC583535 /* Release */,
+				B4EFE046ACF8F37157F6E322C7FCFC28 /* Debug */,
+				903A0004D3E6651EFD5D2E16214D101B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -536,8 +531,17 @@
 		8349D8E2EC974421A14EF8ABFF6AD6DC /* Build configuration list for PBXAggregateTarget "shared" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A7B4967B71249851CABD6EC29251E481 /* Debug */,
-				A96D4527F178BD8C0DEB7EE72B9AAE09 /* Release */,
+				637D53F1E4CF8852F6970A79DCAA1957 /* Debug */,
+				4F0FFBFA785EAF3A72CB1559C9071F7F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F1E85ECB672A0CC96333A6C6DF60EE6 /* Build configuration list for PBXNativeTarget "Pods-iosApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B34339024A8102FC0DC82FCF8CA8A7B /* Debug */,
+				E2000D467A6E76C177CA82B8C31DE3DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
