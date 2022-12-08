@@ -10,6 +10,7 @@ plugins {
     id("org.jetbrains.compose") version Version.compose
     id("com.codingfeline.buildkonfig")
     id("dev.icerock.mobile.multiplatform-resources")
+    id("com.google.gms.google-services")
 }
 
 version = "1.0"

@@ -11,12 +11,13 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.activity.OnBackPressedCallback
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import moe.tlaster.precompose.navigation.BackHandler
@@ -24,6 +25,7 @@ import nl.tiebe.otarium.bypassStore
 import nl.tiebe.otarium.utils.server.LoginRequest
 import nl.tiebe.otarium.utils.server.exchangeUrl
 import nl.tiebe.otarium.utils.server.getUrl
+import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -90,8 +92,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                                 val login = exchangeUrl(LoginRequest(code, codeVerifier))
                                 onLogin()
 
-                                // TODO: get firebase token
-/*                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
                                     OnCompleteListener { task ->
                                         if (!task.isSuccessful) {
                                             Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
@@ -109,7 +110,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                                             }
                                         }
                                     }
-                                )*/
+                                )
 
 
                             }
