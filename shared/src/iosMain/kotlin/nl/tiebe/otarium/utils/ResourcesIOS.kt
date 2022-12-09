@@ -14,6 +14,6 @@ actual fun Float.format(decimals: Int): String {
     val formatter = NSNumberFormatter()
     formatter.minimumFractionDigits = 0u
     formatter.maximumFractionDigits = 2u
-    formatter.numberStyle = decimals //Decimal
-    return formatter.stringFromNumber(NSNumber(double))!!
+    formatter.numberStyle = decimals.toULong() //Decimal
+    return formatter.stringFromNumber(NSNumber(this))!!
 }
