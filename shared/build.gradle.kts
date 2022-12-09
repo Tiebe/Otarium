@@ -45,6 +45,9 @@ kotlin {
             baseName = "shared"
             isStatic = true
         }
+
+        pod("FirebaseAnalytics")
+        pod("FirebaseMessaging")
     }
     sourceSets {
         val commonMain by getting {
