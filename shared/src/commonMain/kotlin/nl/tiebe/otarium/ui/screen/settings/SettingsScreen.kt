@@ -25,7 +25,6 @@ import nl.tiebe.otarium.ui.icons.BugOutline
 import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.getLocalizedString
 
-//TODO add bug icon for bug screen
 //TODO complete redesign
 
 @OptIn(DelicateCoroutinesApi::class)
