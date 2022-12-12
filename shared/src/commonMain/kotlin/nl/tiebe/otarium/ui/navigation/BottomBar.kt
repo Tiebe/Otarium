@@ -6,9 +6,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import nl.tiebe.otarium.ui.screen.SettingsScreen
 import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.ui.screen.grades.GradeScreen
+import nl.tiebe.otarium.ui.screen.settings.SettingsScreen
 import nl.tiebe.otarium.utils.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)

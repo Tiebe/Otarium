@@ -37,4 +37,5 @@
     <string name="average">Gemiddelde</string>
     <string name="calculation">Berekenen</string>
     <string name="graph">Grafiek</string>
+    <string name="bug_report">meld een bug</string>
 </resources>
