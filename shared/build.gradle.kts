@@ -30,6 +30,10 @@ android {
         res.srcDirs("src/androidMain/res", "src/commonMain/resources")
         res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
     }
+    compileOptions {
+        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_11
+        targetCompatibility = org.gradle.api.JavaVersion.VERSION_11
+    }
 }
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
