@@ -46,12 +46,9 @@ kotlin {
         ios.deploymentTarget = iOSSdk.deploymentTarget
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "test"
             isStatic = true
         }
-
-        pod("FirebaseAnalytics")
-        pod("FirebaseMessaging")
     }
     sourceSets {
         val commonMain by getting {
