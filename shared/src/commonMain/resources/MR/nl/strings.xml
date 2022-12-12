@@ -38,4 +38,6 @@
     <string name="calculation">Berekenen</string>
     <string name="graph">Grafiek</string>
     <string name="bug_report">meld een bug</string>
+    <string name="bug_text_1">voor dat je een bug meld, probeer je cache te verwijderen met de knop hieronder.</string>
+    <string name="bug_text_2">als de bug blijft, neem contact met ons op bij [Insert E-Mail here].</string>
 </resources>
