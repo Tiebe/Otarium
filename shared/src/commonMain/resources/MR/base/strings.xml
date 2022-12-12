@@ -40,4 +40,7 @@
     <string name="average">Average</string>
     <string name="calculation">Calculation</string>
     <string name="graph">Graph</string>
+    <string name="bug_report">Report a bug</string>
+    <string name="bug_text_1">before reporting a bug, try clearing your cache by pressing the button below.</string>
+    <string name="bug_text_2">if the bug persists, please contact us at [Insert E-Mail here].</string>
 </resources>

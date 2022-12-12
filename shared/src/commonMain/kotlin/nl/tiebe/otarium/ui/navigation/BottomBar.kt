@@ -4,6 +4,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
+import nl.tiebe.otarium.ui.screen.grades.GradeScreen
+import nl.tiebe.otarium.ui.screen.settings.SettingsScreen
 import moe.tlaster.precompose.navigation.BackStackEntry
 import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.Navigator

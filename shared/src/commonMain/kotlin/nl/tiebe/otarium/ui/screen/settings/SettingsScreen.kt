@@ -1,11 +1,12 @@
-package nl.tiebe.otarium.ui.screen
+package nl.tiebe.otarium.ui.screen.settings
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,12 +21,18 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.showAds
+import nl.tiebe.otarium.ui.icons.BugOutline
 import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.getLocalizedString
+
+//TODO complete redesign
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
 internal fun SettingsScreen() {
+
+    val bugScreenPopup = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,6 +78,36 @@ internal fun SettingsScreen() {
                     adsShown = showAds()
                 }
             })
+        }
+
+        Divider()
+
+        Row(modifier = Modifier
+            .fillMaxWidth(0.95f)
+            .height(70.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically) {
+            Text(text = getLocalizedString(MR.strings.bug_report),
+                textAlign = TextAlign.Center)
+
+            Button(modifier = Modifier.width(50.dp), onClick = { bugScreenPopup.value = true }, contentPadding = PaddingValues(0.dp)) {
+                Icon(BugOutline, "Bug", modifier = Modifier.fillMaxWidth()) }
+        }
+
+        Divider()
+    }
+
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        AnimatedVisibility(
+            visible = bugScreenPopup.value,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            BugScreen() {
+                bugScreenPopup.value = false
+            }
         }
     }
 }
