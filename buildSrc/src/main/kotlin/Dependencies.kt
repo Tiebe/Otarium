@@ -9,6 +9,7 @@ object Version {
     const val compose_compiler = "1.3.2"
     const val precompose = "1.3.9"
     const val ktor = "2.1.2"
+    const val java = "11"
 }
 
 object Compose {
