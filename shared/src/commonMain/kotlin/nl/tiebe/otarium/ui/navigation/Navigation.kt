@@ -18,9 +18,9 @@ import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
 import nl.tiebe.otarium.ui.icons.Looks10Icon
 import nl.tiebe.otarium.ui.icons.SettingsIcon
-import nl.tiebe.otarium.ui.screen.SettingsScreen
 import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.ui.screen.grades.GradeScreen
+import nl.tiebe.otarium.ui.screen.settings.SettingsScreen
 
 sealed class Screen(val route: String, val resourceId: StringResource, val icon: @Composable () -> Unit) {
     object Agenda : Screen("/agenda", MR.strings.agendaItem, { Icon(CalendarTodayIcon, "Timetable") })
