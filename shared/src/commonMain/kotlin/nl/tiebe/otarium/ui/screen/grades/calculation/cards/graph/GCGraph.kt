@@ -64,7 +64,7 @@ internal fun GCGraph(grades: List<ServerGrade>) {
                 .fillMaxWidth()
                 .height(300.dp)
                 .padding(top = 20.dp, start = 30.dp)
-                .drawBehind { drawAxis(lineColor = axisLineColor, textColor = textColor) }
+                .drawBehind { drawAxis(lineColor = axisLineColor, textColor = textColor, textStyle = textStyle, fontFamilyResolver = fontFamilyResolver, density = density) }
                 .padding(horizontal = 4.dp)
 
         ) {
