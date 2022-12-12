@@ -11,8 +11,6 @@ import moe.tlaster.precompose.navigation.BackHandler
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.getLocalizedString
 
-// TODO make it look better
-
 @Composable
 internal fun BugScreen(onExit: () -> Unit) {
     BackHandler(onBack = onExit)
