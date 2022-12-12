@@ -1,5 +1,5 @@
 import SwiftUI
-import shared
+import test
 
 @UIApplicationMain
 class AppDelegate: NSObject, UIApplicationDelegate {

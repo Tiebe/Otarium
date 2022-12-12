@@ -7,7 +7,7 @@
   },
   "authors": "",
   "license": "",
-  "summary": "Multiplatform Compose Shared Test Module",
+  "summary": "Otarium",
   "vendored_frameworks": "build/cocoapods/framework/test.framework",
   "libraries": "c++",
   "platforms": {
