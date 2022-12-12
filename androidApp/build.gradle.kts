@@ -5,12 +5,13 @@ plugins {
 
 android {
     compileSdk = AndroidSdk.compile
+    namespace = "nl.tiebe.otarium.androidApp"
     defaultConfig {
         applicationId = "nl.tiebe.otarium"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 16
+        versionName = "2.0"
     }
     buildTypes {
         getByName("release") {
