@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.androidApp.androidApp
+package nl.tiebe.otarium.androidApp
 
 import android.graphics.Color
 import android.os.Bundle
