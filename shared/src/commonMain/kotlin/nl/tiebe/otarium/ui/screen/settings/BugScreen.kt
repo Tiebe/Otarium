@@ -17,24 +17,36 @@ internal fun BugScreen(onExit: () -> Unit) {
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp))
         {
-            Text(text = getLocalizedString(MR.strings.bug_text_1), Modifier.padding(bottom = 16.dp))
+            Text(
+                text = getLocalizedString(MR.strings.bug_text_1),
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
             Divider()
+
             Row(modifier = Modifier
                 .fillMaxWidth(0.95f)
                 .height(70.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Clear cache", textAlign = TextAlign.Center)
-                Button(onClick = { deleteCache() }) {
-                    Text("Clear")
-                }
+                    Text(
+                        text = "Clear cache",
+                        textAlign = TextAlign.Center)
+                    Button(
+                        onClick = { deleteCache() }) {
+                        Text("Clear")
+                    }
             }
+
             Divider()
-            Text(text = getLocalizedString(MR.strings.bug_text_2), Modifier.padding(vertical = 16.dp))
+
+            Text(
+                text = getLocalizedString(MR.strings.bug_text_2),
+                modifier = Modifier.padding(vertical = 16.dp))
         }
     }
 }
