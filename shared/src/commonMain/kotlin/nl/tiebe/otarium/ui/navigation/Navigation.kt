@@ -1,7 +1,6 @@
 package nl.tiebe.otarium.ui.navigation
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -13,16 +12,11 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
-import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.Navigator
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
 import nl.tiebe.otarium.ui.icons.Looks10Icon
 import nl.tiebe.otarium.ui.icons.SettingsIcon
-import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
-import nl.tiebe.otarium.ui.screen.grades.GradeScreen
-import nl.tiebe.otarium.ui.screen.settings.SettingsScreen
 
 sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> Unit) : Parcelable {
     @Parcelize
@@ -42,22 +36,6 @@ sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> 
 }*/
 
 var adsShown by mutableStateOf(showAds())
-
-@Composable
-internal fun NavHostController(navController: Navigator, innerPadding: PaddingValues) {
-    NavHost(navigator = navController, initialRoute = "/agenda", modifier = Modifier.padding(innerPadding)) {
-        scene("/agenda") {
-            AgendaScreen()
-        }
-        scene("/grades", deepLinks = listOf("https://otarium.groosman.nl/grades")) {
-            GradeScreen()
-        }
-        scene("/settings") {
-            SettingsScreen()
-        }
-    }
-}
-
 
 @Composable
 internal fun Navigation() {

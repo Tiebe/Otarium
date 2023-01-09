@@ -40,6 +40,7 @@ dependencies {
     implementation(Android.appcompat)
     implementation(Android.material)
 
+    implementation(Compose.activity)
     implementation(Compose.runtime)
     implementation(Compose.ui)
     implementation(Compose.foundationLayout)

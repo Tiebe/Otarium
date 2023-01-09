@@ -14,6 +14,7 @@ object Version {
 }
 
 object Compose {
+    const val activity = "androidx.activity:activity-compose:1.5.0"
     const val runtime = "androidx.compose.runtime:runtime:${Version.compose_android}"
     const val ui = "androidx.compose.ui:ui:${Version.compose_android}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Version.compose_android}"
