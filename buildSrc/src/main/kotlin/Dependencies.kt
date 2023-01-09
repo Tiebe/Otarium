@@ -7,9 +7,10 @@ object Version {
     const val compose = "1.3.0-beta04-dev885"
     const val compose_android = "1.2.1"
     const val compose_compiler = "1.3.2"
-    const val precompose = "1.3.9"
+    const val precompose = "1.3.13"
     const val ktor = "2.1.2"
     const val java = "11"
+    const val decompose = "1.0.0-beta-03-native-compose"
 }
 
 object Compose {
@@ -78,6 +79,11 @@ object Firebase {
     const val bom = "com.google.firebase:firebase-bom:31.1.0"
     const val analytics = "com.google.firebase:firebase-analytics-ktx"
     const val messaging = "com.google.firebase:firebase-messaging-ktx"
+}
+
+object Decompose {
+    const val core = "com.arkivanov.decompose:decompose:${Version.decompose}"
+    const val compose = "com.arkivanov.decompose:extensions-compose-jetbrains:${Version.decompose}"
 }
 
 const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:0.9"

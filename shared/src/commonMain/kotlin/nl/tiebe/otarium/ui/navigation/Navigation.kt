@@ -48,7 +48,19 @@ internal fun NavHostController(navController: Navigator, innerPadding: PaddingVa
 
 @Composable
 internal fun Navigation() {
-    val navigator = rememberNavigator()
+    val navigation = remember { StackNavigation<Screen>() }
+
+    ChildStack(
+        source = navigation,
+        initialStack = { listOf(Screen.List) },
+        handleBackButton = true,
+        animation = stackAnimation(fade() + scale()),
+    ) { screen ->
+        when (screen) {
+            is Screen.List -> ListContent(onItemClick = { navigation.push(Screen.Details(text = it)) })
+            is Screen.Details -> DetailsContent(text = screen.text, onBack = navigation::pop)
+        }
+    }
 
     BottomBar(navigator, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp), navigator.currentEntry.collectAsState(initial = null))
 
