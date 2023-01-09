@@ -2,14 +2,14 @@ package nl.tiebe.otarium.androidApp
 
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.arkivanov.decompose.defaultComponentContext
-import moe.tlaster.precompose.lifecycle.PreComposeActivity
-import moe.tlaster.precompose.lifecycle.setContent
 import nl.tiebe.otarium.RootView
 import nl.tiebe.otarium.utils.Android
 
-class MainActivity : PreComposeActivity() {
+class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {}

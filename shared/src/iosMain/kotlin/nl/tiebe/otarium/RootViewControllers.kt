@@ -3,12 +3,13 @@ package nl.tiebe.otarium
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.Text
 import androidx.compose.ui.unit.dp
-import moe.tlaster.precompose.PreComposeApplication
+import androidx.compose.ui.window.Application
 import org.jetbrains.skiko.SystemTheme
 import org.jetbrains.skiko.currentSystemTheme
 import platform.CoreGraphics.CGFloat
+import platform.UIKit.UIViewController
 
-fun RootViewController() = PreComposeApplication(title = "") {
+fun RootViewController(): UIViewController = Application {
     Text("test")
 }
 
