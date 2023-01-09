@@ -11,6 +11,7 @@ plugins {
     id("com.codingfeline.buildkonfig")
     id("dev.icerock.mobile.multiplatform-resources")
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
 }
 
 version = "1.0"

@@ -4,17 +4,19 @@ import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import com.arkivanov.decompose.DefaultComponentContext
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.ui.navigation.ProvideComponentContext
 import nl.tiebe.otarium.utils.Android
 import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 @Composable
-internal fun RootView() {
+fun RootView(rootComponentContext: DefaultComponentContext) {
     FirebaseApp.initializeApp(Android.context)
 
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -52,6 +54,7 @@ internal fun RootView() {
         }.start()
     })
 
-
-    Content()
+    ProvideComponentContext(rootComponentContext) {
+        Content()
+    }
 }
