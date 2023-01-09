@@ -1,40 +1,58 @@
 package nl.tiebe.otarium.ui.screen
 
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposeNode
-import kotlinx.cinterop.CValue
-import kotlinx.cinterop.cValue
-import kotlinx.cinterop.pointed
-import kotlinx.cinterop.ptr
-import nl.tiebe.otarium.ui.UIKitApplier
-import platform.CoreGraphics.CGRect
-import platform.CoreGraphics.CGRectMake
-import platform.CoreGraphics.CGRectZero
-import platform.Foundation.NSURL
-import platform.Foundation.NSURLRequest
-import platform.WebKit.WKWebView
-import platform.WebKit.WKWebViewConfiguration
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.runtime.*
+import io.ktor.client.call.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.magisterapi.api.requestGET
+import nl.tiebe.magisterapi.api.requestPOST
+import nl.tiebe.otarium.CODE_EXCHANGE_URL
+import nl.tiebe.otarium.EXCHANGE_URL
+import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.utils.server.LoginResponse
 
 @Composable
 internal actual fun LoginScreen(onLogin: () -> Unit) {
-    ComposeNode<WKWebView, UIKitApplier>(
-        factory = {
-            val config = WKWebViewConfiguration()
-            val frame = cValue<CGRect>()
-            frame.place(CGRectZero.ptr)
+    Column {
+        var code by remember { mutableStateOf("") }
+        val failed by remember { mutableStateOf(false) }
 
-            object : WKWebView(frame = frame, configuration = config) {
-
-            }.apply {
-
-                val request = NSURLRequest(NSURL(string = "https://google.com"))
-
-                this.loadRequest(request)
-            }
-        },
-        update = {
-
+        if (failed) {
+            Text("Failed to login")
         }
-    )
+
+
+        Text("Please enter the code you received from the companion app:")
+        TextField(value = code, onValueChange = { code = it })
+        Button(onClick = {
+            runBlocking {
+                launch {
+                    try {
+                        exchangeOTP(code)
+
+                        onLogin()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+
+
+                    }
+                }
+            }
+            //TODO: send firebase token from ios
+        }) {
+            Text("Login")
+        }
+    }
+}
+
+suspend fun exchangeOTP(otp: String): LoginResponse {
+    val response = requestGET(CODE_EXCHANGE_URL, hashMapOf("code" to otp)).body<LoginResponse>()
+
+    Tokens.saveTokens(response)
+
+    return response
 }

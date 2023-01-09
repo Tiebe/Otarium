@@ -14,7 +14,7 @@ import nl.tiebe.otarium.utils.Android
 import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 @Composable
-fun RootView() {
+internal fun RootView() {
     FirebaseApp.initializeApp(Android.context)
 
     FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
