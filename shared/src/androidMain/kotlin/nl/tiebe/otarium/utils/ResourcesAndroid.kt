@@ -2,6 +2,7 @@ package nl.tiebe.otarium.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
@@ -9,6 +10,7 @@ import dev.icerock.moko.resources.desc.StringDesc
 
 @SuppressLint("StaticFieldLeak")
 object Android {
+    lateinit var window: Window
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     lateinit var context: Context
 }

@@ -22,6 +22,8 @@ class MainActivity : PreComposeActivity() {
 
         Android.context = this
         Android.requestPermissionLauncher = requestPermissionLauncher
+        Android.window = window
+        
         setContent {
             RootView()
         }
