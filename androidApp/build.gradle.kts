@@ -11,12 +11,12 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
-        versionCode = 16
-        versionName = "2.0"
+        versionCode = 17
+        versionName = "2.0.1"
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
     compileOptions {

@@ -4,6 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import nl.tiebe.otarium.darkmodeState
 
 private val DarkColorScheme = darkColorScheme(
@@ -37,9 +38,13 @@ internal fun OtariumTheme(
         else -> LightColorScheme
     }
 
+    setWindowTheme(color = colorScheme.primary)
+
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
         content = content
     )
 }
+
+expect fun setWindowTheme(color: Color)
