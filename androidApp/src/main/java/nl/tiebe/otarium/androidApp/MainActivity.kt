@@ -3,6 +3,7 @@ package nl.tiebe.otarium.androidApp
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import com.arkivanov.decompose.defaultComponentContext
 import moe.tlaster.precompose.lifecycle.PreComposeActivity
 import moe.tlaster.precompose.lifecycle.setContent
 import nl.tiebe.otarium.RootView
@@ -23,9 +24,11 @@ class MainActivity : PreComposeActivity() {
         Android.context = this
         Android.requestPermissionLauncher = requestPermissionLauncher
         Android.window = window
-        
+
+        val rootComponentContext = defaultComponentContext()
+
         setContent {
-            RootView()
+            RootView(rootComponentContext)
         }
     }
 }

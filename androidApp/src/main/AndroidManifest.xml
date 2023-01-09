@@ -44,13 +44,14 @@
             </intent-filter>
         </activity>
 
-        <service
+        <!-- TODO: fix this shit -->
+<!--        <service
             android:name=".utils.MessagingService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
+        </service>-->
     </application>
 
 </manifest>

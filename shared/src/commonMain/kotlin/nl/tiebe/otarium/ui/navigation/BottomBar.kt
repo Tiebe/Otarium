@@ -1,21 +1,32 @@
 package nl.tiebe.otarium.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.replaceCurrent
 import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.ui.screen.grades.GradeScreen
 import nl.tiebe.otarium.ui.screen.settings.SettingsScreen
-import moe.tlaster.precompose.navigation.BackStackEntry
-import moe.tlaster.precompose.navigation.NavOptions
-import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.navigation.PopUpTo
 import nl.tiebe.otarium.utils.getLocalizedString
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalDecomposeApi::class)
 @Composable
-internal fun BottomBar(navigator: Navigator, modifier: Modifier, currentItemRoute: State<BackStackEntry?>) {
+internal fun BottomBar(
+    navigator: StackNavigation<Screen>,
+    modifier: Modifier
+) {
+    val currentScreen = remember { mutableStateOf<Screen>(Screen.Agenda) }
+
     val items = listOf(
         Screen.Agenda,
         Screen.Grades,
@@ -29,18 +40,30 @@ internal fun BottomBar(navigator: Navigator, modifier: Modifier, currentItemRout
                     NavigationBarItem(
                         icon = screen.icon,
                         label = { Text(getLocalizedString(screen.resourceId)) },
-                        selected = currentItemRoute.value?.route?.route == screen.route,
+                        selected = currentScreen.value == screen,
                         onClick = {
-                            navigator.navigate(screen.route, NavOptions(
-                                true,
-                                PopUpTo.First()
-                            ))
+                            navigator.replaceCurrent(screen)
                         }
                     )
                 }
             }
         }
     ) { innerPadding ->
-        NavHostController(navigator, innerPadding)
+        Box(Modifier.fillMaxSize().padding(innerPadding)) {
+            ChildStack(
+                source = navigator,
+                initialStack = { listOf(currentScreen.value) },
+                handleBackButton = true,
+                animation = stackAnimation(fade() + com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale()),
+            ) { screen ->
+                currentScreen.value = screen
+
+                when (screen) {
+                    is Screen.Agenda -> AgendaScreen()
+                    is Screen.Grades -> GradeScreen()
+                    is Screen.Settings -> SettingsScreen()
+                }
+            }
+        }
     }
 }

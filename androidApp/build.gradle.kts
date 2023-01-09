@@ -44,4 +44,6 @@ dependencies {
     implementation(Compose.ui)
     implementation(Compose.foundationLayout)
     implementation(Compose.material)
+
+    implementation(Decompose.core)
 }

@@ -22,15 +22,17 @@ internal inline fun <reified C : Parcelable> ChildStack(
 ) {
     val componentContext = LocalComponentContext.current
 
+    val childStack = remember {
+        componentContext.childStack(
+            source = source,
+            initialStack = initialStack,
+            handleBackButton = handleBackButton,
+            childFactory = { _, childComponentContext -> childComponentContext },
+        )
+    }
+
     Children(
-        stack = remember {
-            componentContext.childStack(
-                source = source,
-                initialStack = initialStack,
-                handleBackButton = handleBackButton,
-                childFactory = { _, childComponentContext -> childComponentContext },
-            )
-        },
+        stack = childStack,
         modifier = modifier,
         animation = animation,
     ) { child ->
