@@ -87,9 +87,10 @@ kotlin {
 
                 api(Moko.android)
                 implementation(admob)
-                implementation(project.dependencies.platform(Firebase.bom))
-                implementation(Firebase.analytics)
-                implementation(Firebase.messaging)
+
+                implementation(Guava.core)
+                implementation(Guava.coroutines)
+
             }
         }
         val iosMain by getting {

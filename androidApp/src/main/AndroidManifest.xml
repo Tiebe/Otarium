@@ -44,14 +44,22 @@
             </intent-filter>
         </activity>
 
-        <!-- TODO: fix this shit -->
-<!--        <service
-            android:name=".utils.MessagingService"
+        <receiver android:name=".BootService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+
+        <service
+            android:name=".MessagingService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>-->
+        </service>
     </application>
 
 </manifest>

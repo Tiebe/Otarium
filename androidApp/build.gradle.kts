@@ -11,8 +11,8 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
-        versionCode = 17
-        versionName = "2.0.1"
+        versionCode = 18
+        versionName = "2.1.0"
     }
     buildTypes {
         getByName("release") {
@@ -20,8 +20,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_11
-        targetCompatibility = org.gradle.api.JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -47,4 +47,8 @@ dependencies {
     implementation(Compose.material)
 
     implementation(Decompose.core)
+
+    implementation(project.dependencies.platform(Firebase.bom))
+    implementation(Firebase.analytics)
+    implementation(Firebase.messaging)
 }
