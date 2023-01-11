@@ -11,11 +11,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.russhwolf.settings.Settings
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.Tokens
 import nl.tiebe.otarium.ui.navigation.Navigation
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
 import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
+import nl.tiebe.otarium.utils.server.LoginRequest
+import nl.tiebe.otarium.utils.server.exchangeOTP
+import nl.tiebe.otarium.utils.server.exchangeUrl
 
 val settings: Settings = Settings()
 
@@ -70,10 +75,17 @@ internal fun MainActivityScreen() {
     val openMainScreen = remember { mutableStateOf(false) }
 
     if (openMainScreen.value) Navigation()
-
-    if (Tokens.getPastTokens() == null) {
+    else if (Tokens.getPastTokens() == null) {
         LoginScreen(onLogin = {
-            openMainScreen.value = true
+            if (storeBypass()) openMainScreen.value = true
+
+            else runBlocking {
+                launch {
+                    if (it.first) exchangeOTP(it.second.first) // use otp to login
+                    else exchangeUrl(useServer(), LoginRequest(it.second.first, it.second.second!!))
+                    openMainScreen.value = true
+                }
+            }
         })
     } else {
         Navigation()

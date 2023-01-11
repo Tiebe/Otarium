@@ -18,19 +18,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.essenty.backhandler.BackHandler
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.bypassStore
-import nl.tiebe.otarium.utils.server.LoginRequest
-import nl.tiebe.otarium.utils.server.exchangeUrl
 import nl.tiebe.otarium.utils.server.getUrl
-import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-internal actual fun LoginScreen(onLogin: () -> Unit)  {
+internal actual fun LoginScreen(onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit)  {
     val loginUrl = getUrl()
 
     var webView: CustomWebViewClient? = null
@@ -68,7 +63,7 @@ internal actual fun LoginScreen(onLogin: () -> Unit)  {
     })
 }
 
-class CustomWebViewClient(private var codeVerifier: String, private val backPressed: MutableState<Boolean>, val webView: WebView, private val onLogin: () -> Unit) :
+class CustomWebViewClient(private var codeVerifier: String, private val backPressed: MutableState<Boolean>, val webView: WebView, private val onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit) :
     WebViewClient() {
 
         override fun shouldOverrideUrlLoading(
@@ -90,10 +85,11 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                         runBlocking {
                             launch {
                                 backPressed.value = false
-                                val login = exchangeUrl(LoginRequest(code, codeVerifier))
-                                onLogin()
+                                onLogin(false to (code to codeVerifier))
 
-                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
+
+                                //todo
+                                /*FirebaseMessaging.getInstance().token.addOnCompleteListener(
                                     OnCompleteListener { task ->
                                         if (!task.isSuccessful) {
                                             Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
@@ -111,7 +107,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                                             }
                                         }
                                     }
-                                )
+                                )*/
 
 
                             }
@@ -132,7 +128,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                 Log.d("BrowserFragment", "Signing in: ${request?.url}")
                 backPressed.value = false
                 bypassStore(true)
-                onLogin()
+                onLogin(false to ("" to null))
             }
             return super.shouldInterceptRequest(view, request)
         }

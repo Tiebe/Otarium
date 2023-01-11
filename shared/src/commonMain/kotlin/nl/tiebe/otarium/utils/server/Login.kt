@@ -4,16 +4,28 @@ import io.ktor.client.call.*
 import kotlinx.serialization.Required
 import kotlinx.serialization.Serializable
 import nl.tiebe.magisterapi.api.account.LoginFlow
+import nl.tiebe.magisterapi.api.account.ProfileInfoFlow
 import nl.tiebe.magisterapi.api.requestPOST
 import nl.tiebe.magisterapi.response.TokenResponse
 import nl.tiebe.otarium.EXCHANGE_URL
 import nl.tiebe.otarium.magister.Tokens
 
-suspend fun exchangeUrl(loginRequest: LoginRequest): LoginResponse {
-    val response = requestPOST(EXCHANGE_URL, loginRequest).body<LoginResponse>()
+suspend fun exchangeUrl(useServer: Boolean, loginRequest: LoginRequest) {
+    println("yaya")
+    if (useServer) {
+        val response = requestPOST(EXCHANGE_URL, loginRequest).body<LoginResponse>()
 
-    Tokens.saveTokens(response)
-    return response
+        Tokens.saveTokens(response)
+    } else {
+        println("Getting tokens")
+        val response = LoginFlow.exchangeTokens(loginRequest.code, loginRequest.codeVerifier)
+
+        val tenantUrl = ProfileInfoFlow.getTenantUrl(response.accessToken)
+        val accountId = ProfileInfoFlow.getProfileInfo(tenantUrl.toString(), response.accessToken).person.id
+
+        Tokens.saveMagisterTokens(MagisterTokenResponse(accountId, tenantUrl.toString(), response))
+    }
+
 }
 
 fun getUrl(): Pair<String, String> {
