@@ -50,3 +50,11 @@ fun ageOfConsent(): Boolean {
 fun ageOfConsent(above: Boolean) {
     settings.putBoolean("age_of_consent", above)
 }
+
+fun useServer(): Boolean {
+    return settings.getBoolean("use_server", true)
+}
+
+fun useServer(state: Boolean) {
+    settings.putBoolean("use_server", state)
+}

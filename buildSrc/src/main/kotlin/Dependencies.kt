@@ -92,3 +92,8 @@ const val napier = "io.github.aakira:napier:2.6.1"
 const val admob = "com.google.android.gms:play-services-ads:21.3.0"
 
 const val magisterAPI = "nl.tiebe:magisterapi:1.1.5"
+
+object Guava {
+    const val core = "com.google.guava:guava:31.0.1-android"
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.0"
+}

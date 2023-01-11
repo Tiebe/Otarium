@@ -30,7 +30,6 @@ import nl.tiebe.otarium.utils.getLocalizedString
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
 internal fun SettingsScreen() {
-
     val bugScreenPopup = remember { mutableStateOf(false) }
 
     Column(
@@ -105,7 +104,7 @@ internal fun SettingsScreen() {
             exit = fadeOut(),
             modifier = Modifier.fillMaxSize()
         ) {
-            BugScreen() {
+            BugScreen {
                 bugScreenPopup.value = false
             }
         }
