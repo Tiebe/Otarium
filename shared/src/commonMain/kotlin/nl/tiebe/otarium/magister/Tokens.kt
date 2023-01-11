@@ -6,11 +6,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nl.tiebe.magisterapi.api.account.LoginFlow
-import nl.tiebe.magisterapi.api.requestGET
 import nl.tiebe.otarium.MAGISTER_TOKENS_URL
 import nl.tiebe.otarium.settings
 import nl.tiebe.otarium.useServer
-import nl.tiebe.otarium.utils.server.LoginResponse
+import nl.tiebe.otarium.utils.LoginResponse
+import nl.tiebe.otarium.utils.requestGET
 import nl.tiebe.otarium.utils.server.MagisterTokenResponse
 
 object Tokens {
@@ -39,7 +39,7 @@ object Tokens {
         settings.putString("magister_tokens", Json.encodeToString(tokens))
     }
 
-    private fun getSavedMagisterTokens(): MagisterTokenResponse? {
+    fun getSavedMagisterTokens(): MagisterTokenResponse? {
         return Json.decodeFromString(settings.getStringOrNull("magister_tokens") ?: return null)
     }
 

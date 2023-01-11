@@ -18,9 +18,9 @@ import nl.tiebe.otarium.ui.navigation.Navigation
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
 import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
-import nl.tiebe.otarium.utils.server.LoginRequest
+import nl.tiebe.otarium.utils.LoginRequest
+import nl.tiebe.otarium.utils.exchangeUrl
 import nl.tiebe.otarium.utils.server.exchangeOTP
-import nl.tiebe.otarium.utils.server.exchangeUrl
 
 val settings: Settings = Settings()
 

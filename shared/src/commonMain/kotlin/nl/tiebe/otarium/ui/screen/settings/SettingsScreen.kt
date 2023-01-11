@@ -23,7 +23,7 @@ import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.icons.BugOutline
 import nl.tiebe.otarium.ui.navigation.adsShown
-import nl.tiebe.otarium.utils.getLocalizedString
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 //TODO complete redesign
 

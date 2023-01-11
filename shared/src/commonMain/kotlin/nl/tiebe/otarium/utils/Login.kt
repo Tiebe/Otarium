@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.utils.server
+package nl.tiebe.otarium.utils
 
 import io.ktor.client.call.*
 import kotlinx.serialization.Required
@@ -9,15 +9,14 @@ import nl.tiebe.magisterapi.api.requestPOST
 import nl.tiebe.magisterapi.response.TokenResponse
 import nl.tiebe.otarium.EXCHANGE_URL
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.utils.server.MagisterTokenResponse
 
 suspend fun exchangeUrl(useServer: Boolean, loginRequest: LoginRequest) {
-    println("yaya")
     if (useServer) {
         val response = requestPOST(EXCHANGE_URL, loginRequest).body<LoginResponse>()
 
         Tokens.saveTokens(response)
     } else {
-        println("Getting tokens")
         val response = LoginFlow.exchangeTokens(loginRequest.code, loginRequest.codeVerifier)
 
         val tenantUrl = ProfileInfoFlow.getTenantUrl(response.accessToken)

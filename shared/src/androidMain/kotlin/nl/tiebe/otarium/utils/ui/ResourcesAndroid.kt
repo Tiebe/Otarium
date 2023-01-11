@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.utils
+package nl.tiebe.otarium.utils.ui
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -18,7 +18,7 @@ import nl.tiebe.otarium.ui.screen.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.utils.format
+import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class)

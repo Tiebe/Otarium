@@ -20,7 +20,7 @@ import nl.tiebe.otarium.ageOfConsent
 import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.useServer
-import nl.tiebe.otarium.utils.getLocalizedString
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 internal class OnBoardingItems(
 /*    val image: Int,*/

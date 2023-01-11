@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.utils
+package nl.tiebe.otarium.utils.ui
 
 import dev.icerock.moko.resources.StringResource
 

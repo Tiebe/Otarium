@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
-import nl.tiebe.otarium.utils.getLocalizedString
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTextApi::class)
