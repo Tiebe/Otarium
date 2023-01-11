@@ -20,8 +20,8 @@ import kotlinx.datetime.*
 import nl.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.*
+import nl.tiebe.otarium.magister.Tokens.getMagisterTokens
 import nl.tiebe.otarium.utils.getLocalizedString
-import nl.tiebe.otarium.utils.server.getMagisterTokens
 import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)

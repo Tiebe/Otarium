@@ -12,11 +12,11 @@ import nl.tiebe.magisterapi.response.TokenResponse
 import nl.tiebe.magisterapi.response.general.year.grades.Grade
 import nl.tiebe.magisterapi.response.general.year.grades.GradeInfo
 import nl.tiebe.magisterapi.utils.MagisterException
+import nl.tiebe.otarium.CODE_EXCHANGE_URL
 import nl.tiebe.otarium.DEVICE_ADD_URL
-import nl.tiebe.otarium.MAGISTER_TOKENS_URL
 import nl.tiebe.otarium.SERVER_GRADES_URL
 import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.magister.isAfterNow
+import nl.tiebe.otarium.useServer
 
 val client = HttpClient {
     install(ContentNegotiation) {
@@ -28,6 +28,8 @@ val client = HttpClient {
 }
 
 suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
+    if (!useServer()) return false
+
     return try {
         requestPOST(DEVICE_ADD_URL, DeviceAddRequest(token), accessToken)
         true
@@ -36,21 +38,18 @@ suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
     }
 }
 
-suspend fun getMagisterTokens(accessToken: String?): MagisterTokenResponse? {
-    if (Tokens.getSavedMagisterTokens()?.tokens?.expiresAt?.isAfterNow == true) {
-        Tokens.getSavedMagisterTokens()?.let { return it }
-    }
-
-    if (accessToken == null) {
-        return null
-    }
-
-    return requestGET(MAGISTER_TOKENS_URL, hashMapOf(), accessToken).body<MagisterTokenResponse>().also { Tokens.saveMagisterTokens(it) }
-}
-
 suspend fun getGradesFromServer(accessToken: String): List<ServerGrade>? {
     return requestGET(SERVER_GRADES_URL, hashMapOf(), accessToken).body()
 }
+
+suspend fun exchangeOTP(otp: String): LoginResponse {
+    val response = requestGET(CODE_EXCHANGE_URL, hashMapOf("code" to otp)).body<LoginResponse>()
+
+    Tokens.saveTokens(response)
+
+    return response
+}
+
 
 @Serializable
 data class DeviceAddRequest(val firebaseToken: String)

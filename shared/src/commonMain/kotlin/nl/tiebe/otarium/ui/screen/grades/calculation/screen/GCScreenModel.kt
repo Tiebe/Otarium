@@ -5,6 +5,7 @@ import com.arkivanov.decompose.value.Value
 import kotlinx.coroutines.*
 import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.useServer
 import nl.tiebe.otarium.utils.server.ServerGrade
 import nl.tiebe.otarium.utils.server.getGradesFromServer
 
@@ -24,12 +25,14 @@ class GCScreenModel {
     init {
         runBlocking {
             try {
-                Tokens.getPastTokens()?.accessTokens?.accessToken?.let { token ->
-                    _state.value = State.Data(getGradesFromServer(token)?.filter {
-                        it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
-                                it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
-                    } ?: return@let)
-                    return@runBlocking
+                if (useServer()) {
+                    Tokens.getPastTokens()?.accessTokens?.accessToken?.let { token ->
+                        _state.value = State.Data(getGradesFromServer(token)?.filter {
+                            it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                                    it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+                        } ?: return@let)
+                        return@runBlocking
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

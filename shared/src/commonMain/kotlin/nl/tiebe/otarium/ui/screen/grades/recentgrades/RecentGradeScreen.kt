@@ -11,9 +11,9 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 import nl.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.magister.Tokens.getMagisterTokens
 import nl.tiebe.otarium.magister.getRecentGrades
 import nl.tiebe.otarium.magister.getSavedGrades
-import nl.tiebe.otarium.utils.server.getMagisterTokens
 
 @Composable
 internal fun RecentGradeScreen() {
@@ -27,7 +27,6 @@ internal fun RecentGradeScreen() {
             try {
                 getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
                     println("refreshing grades")
-
 
                     recentGrades = getRecentGrades(tokens.accountId, tokens.tenantUrl, tokens.tokens.accessToken)
                 }
