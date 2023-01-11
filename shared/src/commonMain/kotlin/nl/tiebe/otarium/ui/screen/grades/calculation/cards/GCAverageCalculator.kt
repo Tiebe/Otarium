@@ -11,8 +11,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.utils.format
-import nl.tiebe.otarium.utils.getLocalizedString
+import nl.tiebe.otarium.utils.ui.format
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 import nl.tiebe.otarium.utils.server.ServerGrade
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,8 +72,10 @@ internal fun GCAverageCalculator(grades: List<ServerGrade>) {
                         value.replace(",", ".").toFloatOrNull() != null) || value.isBlank()) enteredGrade = value },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    placeholder = { Text(getLocalizedString(
-                            if (type == 1) MR.strings.new_grade_calculation_placeholder else MR.strings.average_calculation_placeholder)) },
+                    placeholder = { Text(
+                        getLocalizedString(
+                            if (type == 1) MR.strings.new_grade_calculation_placeholder else MR.strings.average_calculation_placeholder)
+                    ) },
                     modifier = Modifier.width(200.dp)
                 )
 

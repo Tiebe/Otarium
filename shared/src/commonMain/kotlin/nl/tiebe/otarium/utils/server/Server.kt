@@ -1,13 +1,7 @@
 package nl.tiebe.otarium.utils.server
 
-import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import nl.tiebe.magisterapi.api.requestGET
-import nl.tiebe.magisterapi.api.requestPOST
 import nl.tiebe.magisterapi.response.TokenResponse
 import nl.tiebe.magisterapi.response.general.year.grades.Grade
 import nl.tiebe.magisterapi.response.general.year.grades.GradeInfo
@@ -17,15 +11,9 @@ import nl.tiebe.otarium.DEVICE_ADD_URL
 import nl.tiebe.otarium.SERVER_GRADES_URL
 import nl.tiebe.otarium.magister.Tokens
 import nl.tiebe.otarium.useServer
-
-val client = HttpClient {
-    install(ContentNegotiation) {
-        json(json = Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-        })
-    }
-}
+import nl.tiebe.otarium.utils.LoginResponse
+import nl.tiebe.otarium.utils.requestGET
+import nl.tiebe.otarium.utils.requestPOST
 
 suspend fun sendFirebaseToken(accessToken: String, token: String): Boolean {
     if (!useServer()) return false

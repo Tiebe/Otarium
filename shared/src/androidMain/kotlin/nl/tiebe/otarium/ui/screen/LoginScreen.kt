@@ -21,7 +21,7 @@ import com.arkivanov.essenty.backhandler.BackHandler
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.bypassStore
-import nl.tiebe.otarium.utils.server.getUrl
+import nl.tiebe.otarium.utils.getUrl
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable

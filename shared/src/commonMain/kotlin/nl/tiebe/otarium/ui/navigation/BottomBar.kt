@@ -17,7 +17,7 @@ import com.arkivanov.decompose.router.stack.replaceCurrent
 import nl.tiebe.otarium.ui.screen.agenda.AgendaScreen
 import nl.tiebe.otarium.ui.screen.grades.GradeScreen
 import nl.tiebe.otarium.ui.screen.settings.SettingsScreen
-import nl.tiebe.otarium.utils.getLocalizedString
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalDecomposeApi::class)
 @Composable
