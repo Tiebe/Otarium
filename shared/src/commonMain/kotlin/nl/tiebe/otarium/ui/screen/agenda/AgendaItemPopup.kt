@@ -10,16 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.ui.screen.grades.calculation.subject.CustomBackHandler
+import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.parseHtml
 
 @Composable
-internal fun AgendaItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> Unit) {
-    CustomBackHandler(onBack = onExit)
+internal fun AgendaItemPopup(componentContext: ComponentContext, agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> Unit) {
+    CBackHandler(componentContext, onBack = onExit)
 
     Surface(Modifier.fillMaxSize()) {
         Column(

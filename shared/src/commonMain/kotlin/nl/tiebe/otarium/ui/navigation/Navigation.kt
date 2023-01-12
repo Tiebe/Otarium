@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
@@ -38,10 +39,10 @@ sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> 
 var adsShown by mutableStateOf(showAds())
 
 @Composable
-internal fun Navigation() {
+internal fun Navigation(componentContext: ComponentContext) {
     val navigation = remember { StackNavigation<Screen>() }
 
-    BottomBar(navigation, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
+    BottomBar(componentContext, navigation, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
 
     if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {

@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.replaceCurrent
@@ -22,6 +24,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalDecomposeApi::class)
 @Composable
 internal fun BottomBar(
+    componentContext: ComponentContext,
     navigator: StackNavigation<Screen>,
     modifier: Modifier
 ) {
@@ -42,6 +45,7 @@ internal fun BottomBar(
                         label = { Text(getLocalizedString(screen.resourceId)) },
                         selected = currentScreen.value == screen,
                         onClick = {
+                            currentScreen.value = screen
                             navigator.replaceCurrent(screen)
                         }
                     )
@@ -54,14 +58,12 @@ internal fun BottomBar(
                 source = navigator,
                 initialStack = { listOf(currentScreen.value) },
                 handleBackButton = true,
-                animation = stackAnimation(fade() + com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale()),
+                animation = stackAnimation(fade() + scale()),
             ) { screen ->
-                currentScreen.value = screen
-
                 when (screen) {
-                    is Screen.Agenda -> AgendaScreen()
-                    is Screen.Grades -> GradeScreen()
-                    is Screen.Settings -> SettingsScreen()
+                    is Screen.Agenda -> AgendaScreen(componentContext)
+                    is Screen.Grades -> GradeScreen(componentContext)
+                    is Screen.Settings -> SettingsScreen(componentContext)
                 }
             }
         }

@@ -7,13 +7,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.ui.screen.grades.calculation.subject.CustomBackHandler
+import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun BugScreen(onExit: () -> Unit) {
-    CustomBackHandler(onBack = onExit)
+internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
+    CBackHandler(componentContext, onBack = onExit)
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(

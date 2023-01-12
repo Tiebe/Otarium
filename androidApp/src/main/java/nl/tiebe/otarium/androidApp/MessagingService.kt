@@ -2,6 +2,7 @@ package nl.tiebe.otarium.androidApp
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.util.Log
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
@@ -45,7 +46,7 @@ class MessagingService : FirebaseMessagingService() {
                 .setContentTitle(remoteMessage.notification!!.title)
                 .setContentText(remoteMessage.notification!!.body)
                 .setAutoCancel(true)
-                .setContentIntent(PendingIntent.getActivity(this, 0, intent, 0))
+                .setContentIntent(PendingIntent.getActivity(this, 0, intent, FLAG_CANCEL_CURRENT))
                 .setGroup(System.currentTimeMillis().toString())
                 .setColor(Blue80.toArgb())
 

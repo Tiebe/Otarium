@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.RootView
 import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.utils.Android
+import nl.tiebe.otarium.utils.ui.Android
 import nl.tiebe.otarium.utils.server.sendFirebaseToken
 
 class MainActivity : AppCompatActivity() {

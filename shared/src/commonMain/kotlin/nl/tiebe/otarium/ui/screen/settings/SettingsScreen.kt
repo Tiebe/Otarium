@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -29,7 +30,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-internal fun SettingsScreen() {
+internal fun SettingsScreen(componentContext: ComponentContext) {
     val bugScreenPopup = remember { mutableStateOf(false) }
 
     Column(
@@ -104,7 +105,7 @@ internal fun SettingsScreen() {
             exit = fadeOut(),
             modifier = Modifier.fillMaxSize()
         ) {
-            BugScreen {
+            BugScreen(componentContext) {
                 bugScreenPopup.value = false
             }
         }

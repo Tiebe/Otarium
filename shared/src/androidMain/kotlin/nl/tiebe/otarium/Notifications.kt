@@ -8,8 +8,8 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
-import nl.tiebe.otarium.utils.Android
-import nl.tiebe.otarium.utils.Android.context
+import nl.tiebe.otarium.utils.ui.Android
+import nl.tiebe.otarium.utils.ui.Android.context
 
 actual fun setupNotifications() {
     createNotificationChannel(context)

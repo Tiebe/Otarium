@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ComponentContext
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -20,11 +21,12 @@ import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
 import nl.tiebe.otarium.utils.LoginRequest
 import nl.tiebe.otarium.utils.exchangeUrl
+import nl.tiebe.otarium.utils.refreshGrades
 import nl.tiebe.otarium.utils.server.exchangeOTP
 
 val settings: Settings = Settings()
 
-val darkmodeState = mutableStateOf(false)
+val darkModeState = mutableStateOf(false)
 val safeAreaState = mutableStateOf(PaddingValues())
 
 fun setup() {
@@ -40,7 +42,7 @@ fun setup() {
 }
 
 @Composable
-internal fun Content() {
+internal fun Content(componentContext: ComponentContext) {
     setup()
 
     OtariumTheme {
@@ -49,46 +51,49 @@ internal fun Content() {
             color = MaterialTheme.colorScheme.background
         ) {
             val openLoginScreen = remember { mutableStateOf(false) }
-            if (openLoginScreen.value) MainActivityScreen()
+            if (openLoginScreen.value) MainActivityScreen(componentContext)
 
             if (!isFinishedOnboarding()) {
                 OnBoarding(onFinish = {
                     openLoginScreen.value = true
                     finishOnboarding()
                 }, notifications = { setupNotifications() })
-            } else MainActivityScreen()
+            } else MainActivityScreen(componentContext)
         }
     }
 
     val darkMode = isSystemInDarkTheme()
-    LaunchedEffect(key1 = Unit, block = {
-        darkmodeState.value = darkMode
+    LaunchedEffect(key1 = darkMode, block = {
+        darkModeState.value = darkMode
     })
 }
 
 
 @Composable
-internal fun MainActivityScreen() {
+internal fun MainActivityScreen(componentContext: ComponentContext) {
     if (storeBypass()) {
-        Navigation(); return
+        Navigation(componentContext); return
     }
     val openMainScreen = remember { mutableStateOf(false) }
 
-    if (openMainScreen.value) Navigation()
-    else if (Tokens.getPastTokens() == null) {
-        LoginScreen(onLogin = {
+    if (openMainScreen.value) Navigation(componentContext)
+    else if (Tokens.getSavedMagisterTokens() == null) {
+        LoginScreen(componentContext, onLogin = {
             if (storeBypass()) openMainScreen.value = true
 
             else runBlocking {
                 launch {
                     if (it.first) exchangeOTP(it.second.first) // use otp to login
                     else exchangeUrl(useServer(), LoginRequest(it.second.first, it.second.second!!))
+
                     openMainScreen.value = true
+                    refreshGrades()
+
                 }
             }
         })
     } else {
-        Navigation()
+        Navigation(componentContext)
     }
 }
 

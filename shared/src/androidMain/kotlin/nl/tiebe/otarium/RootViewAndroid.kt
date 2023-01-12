@@ -7,6 +7,6 @@ import nl.tiebe.otarium.ui.navigation.ProvideComponentContext
 @Composable
 fun RootView(rootComponentContext: DefaultComponentContext) {
     ProvideComponentContext(rootComponentContext) {
-        Content()
+        Content(rootComponentContext)
     }
 }

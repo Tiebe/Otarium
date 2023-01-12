@@ -20,7 +20,7 @@ internal actual fun Ads() {
 
             AdView(context).apply {
                 adUnitId =
-                    if (BuildConfig.DEBUG) "ca-app-pub-3940256099942544/6300978111" // test ads
+                    if (BuildConfig.DEBUG) "ca-app-pub-3940256099942544~3347511713" // test ads
                     else "ca-app-pub-1684141915170982/7736101438" // prod ads
                 setAdSize(AdSize.BANNER)
 

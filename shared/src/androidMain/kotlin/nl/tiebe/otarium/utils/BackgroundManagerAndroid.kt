@@ -1,11 +1,20 @@
 package nl.tiebe.otarium.utils
 
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_CANCEL_CURRENT
+import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Context
 import android.os.Build
+import androidx.compose.ui.graphics.toArgb
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.ui.theme.Blue80
+import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
 
 actual fun reloadTokensBackground() {
@@ -41,7 +50,7 @@ actual fun refreshGradesBackground() {
 class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
     override fun startWork(): ListenableFuture<Result> {
         runBlocking {
-            refreshTokens()
+            refreshTokens(null)
         }
 
         return Futures.immediateFuture(Result.success())
@@ -57,4 +66,23 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
 
         return Futures.immediateFuture(Result.success())
     }
+}
+
+actual fun sendNotification(title: String, message: String) {
+    val intent = Android.context.packageManager.getLaunchIntentForPackage(Android.context.packageName)
+    intent?.action = ".MainActivity"
+    intent?.flags = 0
+    val builder = NotificationCompat.Builder(Android.context, "grades")
+        .setSmallIcon(MR.images.ic_launcher.drawableResId)
+        .setContentTitle(title)
+        .setContentText(message)
+        .setAutoCancel(true)
+        .setContentIntent(PendingIntent.getActivity(Android.context, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT))
+        .setGroup(System.currentTimeMillis().toString())
+        .setColor(Blue80.toArgb())
+
+    with(NotificationManagerCompat.from(Android.context)) {
+        notify(System.currentTimeMillis().toInt(), builder.build())
+    }
+
 }

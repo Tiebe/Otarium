@@ -1,16 +1,12 @@
 package nl.tiebe.otarium.magister
 
-import io.ktor.client.call.*
 import kotlinx.datetime.Clock
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.magisterapi.api.account.LoginFlow
-import nl.tiebe.otarium.MAGISTER_TOKENS_URL
 import nl.tiebe.otarium.settings
-import nl.tiebe.otarium.useServer
 import nl.tiebe.otarium.utils.LoginResponse
-import nl.tiebe.otarium.utils.requestGET
+import nl.tiebe.otarium.utils.refreshTokens
 import nl.tiebe.otarium.utils.server.MagisterTokenResponse
 
 object Tokens {
@@ -33,6 +29,7 @@ object Tokens {
 
     fun clearTokens() {
         settings.remove("login_tokens")
+        settings.remove("magister_tokens")
     }
 
     fun saveMagisterTokens(tokens: MagisterTokenResponse) {
@@ -45,27 +42,13 @@ object Tokens {
 
     suspend fun getMagisterTokens(accessToken: String?): MagisterTokenResponse? {
         val savedTokens = getSavedMagisterTokens()
-        if (savedTokens?.tokens?.expiresAt?.isAfterNow == true) {
+        if (savedTokens?.tokens?.expiresAt?.isAfterNow == false) {
             return savedTokens
         }
 
-        if (!useServer()) {
-            val newTokens = LoginFlow.refreshToken(savedTokens?.tokens?.refreshToken ?: return null)
-
-            return MagisterTokenResponse(savedTokens.accountId, savedTokens.tenantUrl, newTokens)
-        } else {
-            if (accessToken == null) {
-                return null
-            }
-
-            return requestGET(
-                MAGISTER_TOKENS_URL,
-                hashMapOf(),
-                accessToken
-            ).body<MagisterTokenResponse>().also { Tokens.saveMagisterTokens(it) }
-        }
+        return refreshTokens(accessToken)
     }
 }
 
 val Long.isAfterNow: Boolean
-    get() = this > Clock.System.now().toEpochMilliseconds()/1000 - 20
+    get() = Clock.System.now().toEpochMilliseconds()/1000 + 20 > this
