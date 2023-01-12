@@ -1,6 +1,10 @@
 package nl.tiebe.otarium
 
 import io.ktor.http.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import nl.tiebe.otarium.utils.server.ServerGrade
 
 val RELEASE_SERVER_URL = Url("https://otarium.groosman.nl")
 @Suppress("unused")
@@ -57,4 +61,12 @@ fun useServer(): Boolean {
 
 fun useServer(state: Boolean) {
     settings.putBoolean("use_server", state)
+}
+
+fun getSavedFullGradeList(): List<ServerGrade> {
+    return Json.decodeFromString(settings.getString("full_grade_list", "[]"))
+}
+
+fun saveFullGradeList(gradeList: List<ServerGrade>) {
+    settings.putString("full_grade_list", Json.encodeToString(gradeList))
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun AgendaScreen() {
+internal fun AgendaScreen(componentContext: ComponentContext) {
     val scope = rememberCoroutineScope()
 
     val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
@@ -139,7 +140,7 @@ internal fun AgendaScreen() {
             val savedAgendaItem = remember {
                 agendaItemPopup.value
             }
-            AgendaItemPopup(savedAgendaItem!!) {
+            AgendaItemPopup(componentContext, savedAgendaItem!!) {
                 agendaItemPopup.value = null
             }
         }

@@ -11,29 +11,25 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
-import com.arkivanov.essenty.backhandler.BackHandler
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.bypassStore
 import nl.tiebe.otarium.utils.getUrl
+import nl.tiebe.otarium.utils.ui.CBackHandler
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-internal actual fun LoginScreen(onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit)  {
+internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit)  {
     val loginUrl = getUrl()
 
     var webView: CustomWebViewClient? = null
 
-    val backHandlerEnabled = remember { mutableStateOf(false) }
-
-    BackHandler(OnBackPressedDispatcher {
-        if (backHandlerEnabled.value) {
+    val component = remember {
+        CBackHandler(componentContext) {
             if (webView != null && webView!!.webView.canGoBack()) {
                 webView!!.webView.goBack()
             } else {
@@ -42,9 +38,7 @@ internal actual fun LoginScreen(onLogin: (Pair<Boolean, Pair<String, String?>>) 
                 }
             }
         }
-    })
-
-    backHandlerEnabled.value = true
+    }
 
     AndroidView(factory = {
         WebView(it).apply {
@@ -53,7 +47,7 @@ internal actual fun LoginScreen(onLogin: (Pair<Boolean, Pair<String, String?>>) 
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            val customWebViewClient = CustomWebViewClient(loginUrl.second, backHandlerEnabled, this, onLogin)
+            val customWebViewClient = CustomWebViewClient(loginUrl.second, { component.enableBackCallback(false) }, this, onLogin)
             webViewClient = customWebViewClient
             webView = customWebViewClient
             loadUrl(loginUrl.first)
@@ -63,7 +57,7 @@ internal actual fun LoginScreen(onLogin: (Pair<Boolean, Pair<String, String?>>) 
     })
 }
 
-class CustomWebViewClient(private var codeVerifier: String, private val backPressed: MutableState<Boolean>, val webView: WebView, private val onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit) :
+class CustomWebViewClient(private var codeVerifier: String, private val disableBackHandler: () -> Unit, val webView: WebView, private val onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit) :
     WebViewClient() {
 
         override fun shouldOverrideUrlLoading(
@@ -84,7 +78,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                     ?.let { code ->
                         runBlocking {
                             launch {
-                                backPressed.value = false
+                                disableBackHandler()
                                 onLogin(false to (code to codeVerifier))
 
 
@@ -126,7 +120,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
         ): WebResourceResponse? {
             if (request?.url.toString().contains("playconsolelogin")) {
                 Log.d("BrowserFragment", "Signing in: ${request?.url}")
-                backPressed.value = false
+                disableBackHandler()
                 bypassStore(true)
                 onLogin(false to ("" to null))
             }

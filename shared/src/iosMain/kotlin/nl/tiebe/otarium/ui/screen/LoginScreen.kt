@@ -5,11 +5,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 @Composable
-internal actual fun LoginScreen(onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit) {
+internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit) {
     Column {
         var code by remember { mutableStateOf("") }
         val failed by remember { mutableStateOf(false) }

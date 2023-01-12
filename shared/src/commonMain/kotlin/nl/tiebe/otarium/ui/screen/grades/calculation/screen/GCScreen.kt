@@ -5,12 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.ui.screen.grades.calculation.subject.GCSubjectList
 
 @Composable
-internal fun GCScreen() {
-    val screenModel by remember { mutableStateOf(GCScreenModel()) }
+internal fun GCScreen(componentContext: ComponentContext) {
+    val screenModel by remember { mutableStateOf(GCScreenModel(componentContext)) }
     val state by screenModel.state.subscribeAsState()
 
     when (state) {
@@ -18,7 +19,7 @@ internal fun GCScreen() {
             Text("Loading")
         }
         is GCScreenModel.State.Data -> {
-            GCSubjectList((state as GCScreenModel.State.Data).data)
+            GCSubjectList(componentContext, (state as GCScreenModel.State.Data).data)
         }
         is GCScreenModel.State.Failed -> {
             Text("Something went wrong while retrieving your grades")

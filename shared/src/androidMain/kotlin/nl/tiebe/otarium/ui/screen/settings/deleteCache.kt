@@ -2,7 +2,7 @@ package nl.tiebe.otarium.ui.screen.settings
 
 import android.content.Intent
 import androidx.core.content.ContextCompat.startActivity
-import nl.tiebe.otarium.utils.Android
+import nl.tiebe.otarium.utils.ui.Android
 
 actual fun deleteCache() {
     Android.context.cacheDir.deleteRecursively()

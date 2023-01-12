@@ -13,18 +13,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.server.ServerGrade
+import nl.tiebe.otarium.utils.ui.CBackHandler
+import nl.tiebe.otarium.utils.ui.format
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
-    CustomBackHandler {
+internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
+    CBackHandler(componentContext) {
         openSubject.value = null
     }
 
@@ -101,6 +102,3 @@ internal fun GradeList(grades: List<ServerGrade>) {
         )
     }
 }
-
-@Composable
-internal expect fun CustomBackHandler(onBack: () -> Unit)
