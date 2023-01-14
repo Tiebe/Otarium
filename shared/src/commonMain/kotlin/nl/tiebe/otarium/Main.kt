@@ -22,8 +22,8 @@ import nl.tiebe.otarium.ui.navigation.Navigation
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
 import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
-import nl.tiebe.otarium.utils.LoginRequest
-import nl.tiebe.otarium.utils.exchangeUrl
+import nl.tiebe.otarium.magister.MagisterLogin
+import nl.tiebe.otarium.magister.exchangeUrl
 import nl.tiebe.otarium.utils.refreshGrades
 
 val settings: Settings = Settings()
@@ -86,7 +86,7 @@ internal fun MainActivityScreen(componentContext: ComponentContext) {
             else runBlocking {
                 launch {
                     println(it)
-                    exchangeUrl(LoginRequest(it.first, it.second!!))
+                    exchangeUrl(MagisterLogin(it.first, it.second!!))
 
                     openMainScreen.value = true
                     refreshGrades()
