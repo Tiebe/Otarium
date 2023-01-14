@@ -30,11 +30,11 @@ import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.utils.ui.getLocalizedString
-import nl.tiebe.otarium.utils.server.ServerGrade
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalTextApi::class)
 @Composable
-internal fun GCGraph(grades: List<ServerGrade>) {
+internal fun GCGraph(grades: List<GradeWithGradeInfo>) {
     ElevatedCard(
         modifier = Modifier.padding(10.dp),
     ) {

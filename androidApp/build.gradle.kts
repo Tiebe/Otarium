@@ -50,5 +50,4 @@ dependencies {
 
     implementation(project.dependencies.platform(Firebase.bom))
     implementation(Firebase.analytics)
-    implementation(Firebase.messaging)
 }

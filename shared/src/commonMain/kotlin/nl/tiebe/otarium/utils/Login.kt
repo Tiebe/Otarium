@@ -1,30 +1,20 @@
 package nl.tiebe.otarium.utils
 
-import io.ktor.client.call.*
 import kotlinx.serialization.Required
 import kotlinx.serialization.Serializable
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.api.account.ProfileInfoFlow
-import nl.tiebe.magisterapi.api.requestPOST
 import nl.tiebe.magisterapi.response.TokenResponse
-import nl.tiebe.otarium.EXCHANGE_URL
 import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.utils.server.MagisterTokenResponse
+import nl.tiebe.otarium.magister.MagisterAccount
 
-suspend fun exchangeUrl(useServer: Boolean, loginRequest: LoginRequest) {
-    if (useServer) {
-        val response = requestPOST(EXCHANGE_URL, loginRequest).body<LoginResponse>()
+suspend fun exchangeUrl(loginRequest: LoginRequest) {
+    val response = LoginFlow.exchangeTokens(loginRequest.code, loginRequest.codeVerifier)
 
-        Tokens.saveTokens(response)
-    } else {
-        val response = LoginFlow.exchangeTokens(loginRequest.code, loginRequest.codeVerifier)
+    val tenantUrl = ProfileInfoFlow.getTenantUrl(response.accessToken)
+    val accountId = ProfileInfoFlow.getProfileInfo(tenantUrl.toString(), response.accessToken).person.id
 
-        val tenantUrl = ProfileInfoFlow.getTenantUrl(response.accessToken)
-        val accountId = ProfileInfoFlow.getProfileInfo(tenantUrl.toString(), response.accessToken).person.id
-
-        Tokens.saveMagisterTokens(MagisterTokenResponse(accountId, tenantUrl.toString(), response))
-    }
-
+    Tokens.saveMagisterTokens(MagisterAccount(accountId, tenantUrl.toString(), response))
 }
 
 fun getUrl(): Pair<String, String> {

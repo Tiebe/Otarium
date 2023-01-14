@@ -19,12 +19,12 @@ import nl.tiebe.otarium.ui.screen.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.utils.server.ServerGrade
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.format
 
 @Composable
-internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
+internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: MutableState<Subject?>, gradeList: List<GradeWithGradeInfo>) {
     CBackHandler(componentContext) {
         openSubject.value = null
     }
@@ -68,7 +68,7 @@ internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: Mu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GradeList(grades: List<ServerGrade>) {
+internal fun GradeList(grades: List<GradeWithGradeInfo>) {
     grades.forEach { grade ->
         ListItem(
             modifier = Modifier

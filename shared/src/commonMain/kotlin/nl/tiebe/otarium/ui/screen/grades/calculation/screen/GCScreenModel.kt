@@ -6,11 +6,8 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import kotlinx.coroutines.*
 import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
-import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.useServer
 import nl.tiebe.otarium.utils.refreshGrades
-import nl.tiebe.otarium.utils.server.ServerGrade
-import nl.tiebe.otarium.utils.server.getGradesFromServer
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
 @OptIn(DelicateCoroutinesApi::class)
 
@@ -18,7 +15,7 @@ import nl.tiebe.otarium.utils.server.getGradesFromServer
 class GCScreenModel(componentContext: ComponentContext) : ComponentContext by componentContext {
     sealed class State {
         object Loading: State()
-        data class Data(val data: List<ServerGrade>): State()
+        data class Data(val data: List<GradeWithGradeInfo>): State()
         object Failed: State()
     }
 
@@ -31,22 +28,11 @@ class GCScreenModel(componentContext: ComponentContext) : ComponentContext by co
                 launch {
                     //todo this shouldnt block the thread
                     try {
-                        if (useServer()) {
-                            Tokens.getPastTokens()?.accessTokens?.accessToken?.let { token ->
-                                _state.value = State.Data(getGradesFromServer(token)?.filter {
-                                    it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
-                                            it.grade.grade?.replace(",", ".")
-                                                ?.toDoubleOrNull() != null
-                                } ?: return@let)
-                                return@launch
-                            }
-                        } else {
-                            _state.value = State.Data(refreshGrades()?.filter {
-                                it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
-                                        it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
-                            } ?: return@launch)
-                            return@launch
-                        }
+                        _state.value = State.Data(refreshGrades()?.filter {
+                            it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                                    it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+                        } ?: return@launch)
+                        return@launch
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

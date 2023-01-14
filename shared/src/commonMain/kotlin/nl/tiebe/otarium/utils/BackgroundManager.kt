@@ -1,49 +1,35 @@
 package nl.tiebe.otarium.utils
 
-import io.ktor.client.call.*
 import io.ktor.http.*
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.api.general.GeneralFlow
 import nl.tiebe.magisterapi.api.grades.GradeFlow
-import nl.tiebe.otarium.MAGISTER_TOKENS_URL
-import nl.tiebe.otarium.getSavedFullGradeList
+import nl.tiebe.otarium.Data.Magister.Grades.getSavedFullGradeList
+import nl.tiebe.otarium.Data.Magister.Grades.saveFullGradeList
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.saveFullGradeList
-import nl.tiebe.otarium.useServer
-import nl.tiebe.otarium.utils.server.MagisterTokenResponse
-import nl.tiebe.otarium.utils.server.ServerGrade
 
 expect fun reloadTokensBackground()
 
 expect fun refreshGradesBackground()
 
-suspend fun refreshTokens(accessToken: String?): MagisterTokenResponse? {
-    if (useServer()) {
-        val newTokens: MagisterTokenResponse = requestGET(
-            MAGISTER_TOKENS_URL,
-            hashMapOf(),
-            accessToken
-        ).body()
+suspend fun refreshTokens(): MagisterAccount? {
+    val savedTokens = Tokens.getSavedMagisterTokens()
+    val newTokens = LoginFlow.refreshToken(savedTokens?.tokens?.refreshToken ?: return null)
 
-        Tokens.saveMagisterTokens(newTokens)
-        return newTokens
-    } else {
-        val savedTokens = Tokens.getSavedMagisterTokens()
-        val newTokens = LoginFlow.refreshToken(savedTokens?.tokens?.refreshToken ?: return null)
-
-        Tokens.saveMagisterTokens(MagisterTokenResponse(savedTokens.accountId, savedTokens.tenantUrl, newTokens))
-        return MagisterTokenResponse(savedTokens.accountId, savedTokens.tenantUrl, newTokens)
-    }
+    Tokens.saveMagisterTokens(MagisterAccount(savedTokens.accountId, savedTokens.tenantUrl, newTokens))
+    return MagisterAccount(savedTokens.accountId, savedTokens.tenantUrl, newTokens)
 }
 
-suspend fun refreshGrades(): List<ServerGrade>? {
-    val tokens = Tokens.getMagisterTokens(null) ?: return null
+suspend fun refreshGrades(): List<GradeWithGradeInfo>? {
+    val tokens = Tokens.getMagisterTokens() ?: return null
     val oldGradeList = getSavedFullGradeList()
 
     val years = GeneralFlow.getYears(tokens.tenantUrl, tokens.tokens.accessToken, tokens.accountId)
     val grades = GradeFlow.getGrades(Url(tokens.tenantUrl), tokens.tokens.accessToken, tokens.accountId, years[0])
 
-    val fullGradeList: MutableList<ServerGrade> = oldGradeList.toMutableList()
+    val fullGradeList: MutableList<GradeWithGradeInfo> = oldGradeList.toMutableList()
 
     newGrades@ for (grade in grades) {
         for (oldGrade in oldGradeList) {
@@ -58,7 +44,7 @@ suspend fun refreshGrades(): List<ServerGrade>? {
                         )
 
                         fullGradeList.remove(oldGrade)
-                        fullGradeList.add(ServerGrade("", grade, gradeInfo))
+                        fullGradeList.add(GradeWithGradeInfo(grade, gradeInfo))
 
                         sendNotification(
                             "Je cijfer is gewijzigd: ${grade.subject.description.trim()}",
@@ -78,7 +64,7 @@ suspend fun refreshGrades(): List<ServerGrade>? {
                 tokens.accountId,
                 grade
             )
-            fullGradeList.add(ServerGrade("", grade, gradeInfo))
+            fullGradeList.add(GradeWithGradeInfo(grade, gradeInfo))
             println(oldGradeList)
 
             if (oldGradeList.isNotEmpty()) {

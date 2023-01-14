@@ -14,6 +14,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.Data.Onboarding.finishOnboarding
+import nl.tiebe.otarium.Data.Onboarding.isFinishedOnboarding
+import nl.tiebe.otarium.Data.Onboarding.storeBypass
 import nl.tiebe.otarium.magister.Tokens
 import nl.tiebe.otarium.ui.navigation.Navigation
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
@@ -22,7 +25,6 @@ import nl.tiebe.otarium.ui.theme.OtariumTheme
 import nl.tiebe.otarium.utils.LoginRequest
 import nl.tiebe.otarium.utils.exchangeUrl
 import nl.tiebe.otarium.utils.refreshGrades
-import nl.tiebe.otarium.utils.server.exchangeOTP
 
 val settings: Settings = Settings()
 
@@ -83,8 +85,8 @@ internal fun MainActivityScreen(componentContext: ComponentContext) {
 
             else runBlocking {
                 launch {
-                    if (it.first) exchangeOTP(it.second.first) // use otp to login
-                    else exchangeUrl(useServer(), LoginRequest(it.second.first, it.second.second!!))
+                    println(it)
+                    exchangeUrl(LoginRequest(it.first, it.second!!))
 
                     openMainScreen.value = true
                     refreshGrades()

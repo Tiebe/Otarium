@@ -12,6 +12,9 @@ import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.theme.Blue80
 import nl.tiebe.otarium.utils.ui.Android
@@ -33,13 +36,17 @@ actual fun reloadTokensBackground() {
 }
 
 actual fun refreshGradesBackground() {
+    val startTime = Clock.System.now()
+    val dateTime = startTime.toLocalDateTime(TimeZone.UTC)
+    val minutes = dateTime.minute % 15
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(GradeRefreshWorker::class.java, 15, TimeUnit.MINUTES).setConstraints(
             Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
                 .build()
-        ).build()
+        ).setInitialDelay((15 - minutes).toLong(), TimeUnit.MINUTES).build()
 
         WorkManager.getInstance(Android.context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
     } else {
@@ -53,7 +60,7 @@ class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
 
         runBlocking {
             try {
-                refreshTokens(null)
+                refreshTokens()
                 outputData.putBoolean("success", true)
             } catch (e: Exception) {
                 outputData.putString("error", e.toString())
@@ -64,7 +71,6 @@ class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
 
         return Futures.immediateFuture(Result.success(outputData.build()))
     }
-
 }
 
 class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {

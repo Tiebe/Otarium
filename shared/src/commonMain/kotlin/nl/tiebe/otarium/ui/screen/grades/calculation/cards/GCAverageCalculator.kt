@@ -13,11 +13,11 @@ import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
-import nl.tiebe.otarium.utils.server.ServerGrade
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCAverageCalculator(grades: List<ServerGrade>) {
+internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -117,7 +117,7 @@ internal fun GCAverageCalculator(grades: List<ServerGrade>) {
     }
 }
 
-fun calculateAverage(grades: List<ServerGrade>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
+fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
     var sum = addedGrade * addedGradeWeight
     var weight = addedGradeWeight
 
@@ -131,7 +131,7 @@ fun calculateAverage(grades: List<ServerGrade>, addedGrade: Float = 0f, addedGra
     return sum/weight
 }
 
-fun calculateNewGrade(grades: List<ServerGrade>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
     var sum = 0f
     var weight = newGradeWeight
 
