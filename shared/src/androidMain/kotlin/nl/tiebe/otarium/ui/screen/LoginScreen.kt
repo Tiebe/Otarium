@@ -17,14 +17,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.otarium.Data.Onboarding.bypassStore
-import nl.tiebe.otarium.utils.getUrl
 import nl.tiebe.otarium.utils.ui.CBackHandler
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pair<String, String?>) -> Unit)  {
-    val loginUrl = getUrl()
+    val loginUrl = LoginFlow.createAuthURL()
 
     var webView: CustomWebViewClient? = null
 
@@ -47,13 +47,13 @@ internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pa
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            val customWebViewClient = CustomWebViewClient(loginUrl.second, { component.enableBackCallback(false) }, this, onLogin)
+            val customWebViewClient = CustomWebViewClient(loginUrl.codeVerifier, { component.enableBackCallback(false) }, this, onLogin)
             webViewClient = customWebViewClient
             webView = customWebViewClient
-            loadUrl(loginUrl.first)
+            loadUrl(loginUrl.url)
         }
     }, update = {
-        it.loadUrl(loginUrl.first)
+        it.loadUrl(loginUrl.url)
     })
 }
 
@@ -69,9 +69,10 @@ class CustomWebViewClient(private var codeVerifier: String, private val disableB
                 val uri = Uri.parse(webResourceRequest.url.toString().replace("#", "?"))
                 uri.getQueryParameter("error")?.let {
                     Log.d("BrowserFragment", "Error: $it")
-                    val loginUrl = getUrl()
-                    codeVerifier = loginUrl.second
-                    view.loadUrl(loginUrl.first)
+                    val loginUrl = LoginFlow.createAuthURL()
+
+                    codeVerifier = loginUrl.url
+                    view.loadUrl(loginUrl.codeVerifier)
                 }
                 val code = uri.getQueryParameter("code") ?: return true
 
