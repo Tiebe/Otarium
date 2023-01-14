@@ -8,9 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
+import nl.tiebe.otarium.Data.Magister.Grades.getSavedFullGradeList
+import nl.tiebe.otarium.Data.Magister.Grades.saveFullGradeList
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.getLocalizedString
+import kotlin.random.Random
 
 @Composable
 internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
@@ -41,6 +44,28 @@ internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
                         onClick = { deleteCache() }) {
                         Text("Clear")
                     }
+            }
+
+            Divider()
+
+            Row(modifier = Modifier
+                .fillMaxWidth(0.95f)
+                .height(70.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Remove random grade",
+                    textAlign = TextAlign.Center)
+                Button(
+                    onClick = {
+                        val savedGrades = getSavedFullGradeList().toMutableList()
+
+                        savedGrades.removeAt(Random.nextInt(savedGrades.size))
+                        saveFullGradeList(savedGrades)
+
+                    }) {
+                    Text("remove")
+                }
             }
 
             Divider()

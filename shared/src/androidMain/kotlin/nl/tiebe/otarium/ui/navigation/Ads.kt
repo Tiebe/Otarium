@@ -9,7 +9,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import nl.tiebe.otarium.BuildConfig
-import nl.tiebe.otarium.ageOfConsent
+import nl.tiebe.otarium.Data.Ads.ageOfConsent
 
 @Composable
 internal actual fun Ads() {

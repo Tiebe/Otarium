@@ -15,11 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.StringResource
+import nl.tiebe.otarium.Data.Ads.ageOfConsent
+import nl.tiebe.otarium.Data.Ads.showAds
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.ageOfConsent
-import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.utils.LabelledCheckBox
-import nl.tiebe.otarium.useServer
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 internal class OnBoardingItems(
@@ -38,16 +37,6 @@ internal class OnBoardingItems(
                     title = MR.strings.onboarding_title_2,
                     desc = MR.strings.onboarding_desc_2
                 ), OnBoardingItems(
-                    title = MR.strings.use_server_onboarding_title,
-                    desc = MR.strings.use_server_onboarding_description
-                ) {
-                    val checkbox = remember { mutableStateOf(true) }
-
-                    LabelledCheckBox(checked = checkbox.value, onCheckedChange = {
-                        checkbox.value = it
-                        useServer(checkbox.value)
-                    }, label = getLocalizedString(MR.strings.use_server))
-                }, OnBoardingItems(
                     title = MR.strings.onboarding_title_4,
                     desc = MR.strings.onboarding_desc_4
                 ) {

@@ -40,7 +40,4 @@
     <string name="bug_report">Meld een bug</string>
     <string name="bug_text_1">Voordat je een bug meld, probeer je cache te verwijderen met de knop hieronder.</string>
     <string name="bug_text_2">Als de bug blijft, neem contact met ons op: otarium@tiebe.dev.</string>
-    <string name="use_server_onboarding_title">Server</string>
-    <string name="use_server_onboarding_description">Wil je de server gebruiken voor snellere cijfernotificaties? Deze instelling kan je na het inloggen niet meer veranderen zonder de app te herinstalleren.</string>
-    <string name="use_server">Gebruik de server</string>
 </resources>

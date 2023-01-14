@@ -17,13 +17,13 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import nl.tiebe.otarium.bypassStore
+import nl.tiebe.otarium.Data.Onboarding.bypassStore
 import nl.tiebe.otarium.utils.getUrl
 import nl.tiebe.otarium.utils.ui.CBackHandler
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit)  {
+internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pair<String, String?>) -> Unit)  {
     val loginUrl = getUrl()
 
     var webView: CustomWebViewClient? = null
@@ -57,7 +57,7 @@ internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pa
     })
 }
 
-class CustomWebViewClient(private var codeVerifier: String, private val disableBackHandler: () -> Unit, val webView: WebView, private val onLogin: (Pair<Boolean, Pair<String, String?>>) -> Unit) :
+class CustomWebViewClient(private var codeVerifier: String, private val disableBackHandler: () -> Unit, val webView: WebView, private val onLogin: (Pair<String, String?>) -> Unit) :
     WebViewClient() {
 
         override fun shouldOverrideUrlLoading(
@@ -73,40 +73,14 @@ class CustomWebViewClient(private var codeVerifier: String, private val disableB
                     codeVerifier = loginUrl.second
                     view.loadUrl(loginUrl.first)
                 }
+                val code = uri.getQueryParameter("code") ?: return true
 
-                uri.getQueryParameter("code")
-                    ?.let { code ->
-                        runBlocking {
-                            launch {
-                                disableBackHandler()
-                                onLogin(false to (code to codeVerifier))
-
-
-                                //todo
-                                /*FirebaseMessaging.getInstance().token.addOnCompleteListener(
-                                    OnCompleteListener { task ->
-                                        if (!task.isSuccessful) {
-                                            Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
-                                            return@OnCompleteListener
-                                        }
-
-                                        // Get new FCM registration token
-                                        val token = task.result
-                                        runBlocking {
-                                            launch {
-                                                sendFirebaseToken(
-                                                    login.accessTokens.accessToken,
-                                                    token
-                                                )
-                                            }
-                                        }
-                                    }
-                                )*/
-
-
-                            }
-                        }
+                runBlocking {
+                    launch {
+                        disableBackHandler()
+                        onLogin(code to codeVerifier)
                     }
+                }
 
             } else {
                 view.loadUrl(webResourceRequest.url.toString())
@@ -122,7 +96,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val disableB
                 Log.d("BrowserFragment", "Signing in: ${request?.url}")
                 disableBackHandler()
                 bypassStore(true)
-                onLogin(false to ("" to null))
+                onLogin("" to null)
             }
             return super.shouldInterceptRequest(view, request)
         }

@@ -19,9 +19,9 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import nl.tiebe.otarium.Data.Ads.ageOfConsent
+import nl.tiebe.otarium.Data.Ads.showAds
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.ageOfConsent
-import nl.tiebe.otarium.showAds
 import nl.tiebe.otarium.ui.icons.BugOutline
 import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.ui.getLocalizedString

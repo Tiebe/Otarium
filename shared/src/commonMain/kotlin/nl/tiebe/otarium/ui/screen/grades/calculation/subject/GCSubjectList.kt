@@ -13,11 +13,11 @@ import androidx.compose.ui.graphics.SolidColor
 import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.utils.server.ServerGrade
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCSubjectList(componentContext: ComponentContext, grades: List<ServerGrade>) {
+internal fun GCSubjectList(componentContext: ComponentContext, grades: List<GradeWithGradeInfo>) {
     val openSubject = remember { mutableStateOf<Subject?>(null)}
 
     val subjects = grades.map { it.grade.subject }.distinct().sortedBy { it.description.lowercase() }

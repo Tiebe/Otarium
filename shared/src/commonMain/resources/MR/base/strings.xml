@@ -43,7 +43,4 @@
     <string name="bug_report">Report a bug</string>
     <string name="bug_text_1">Before reporting a bug, try clearing your cache by pressing the button below.</string>
     <string name="bug_text_2">If the bug persists, please contact us at otarium@tiebe.dev</string>
-    <string name="use_server_onboarding_title">Server</string>
-    <string name="use_server_onboarding_description">Would you like to use the server for faster grade notifications? You will need to reinstall the app to change this setting after logging in.</string>
-    <string name="use_server">Use server</string>
 </resources>
