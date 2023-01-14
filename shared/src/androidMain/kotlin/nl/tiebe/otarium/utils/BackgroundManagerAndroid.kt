@@ -49,11 +49,20 @@ actual fun refreshGradesBackground() {
 
 class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
     override fun startWork(): ListenableFuture<Result> {
+        val outputData = Data.Builder()
+
         runBlocking {
-            refreshTokens(null)
+            try {
+                refreshTokens(null)
+                outputData.putBoolean("success", true)
+            } catch (e: Exception) {
+                outputData.putString("error", e.toString())
+                e.stackTrace.forEachIndexed { index, stackTraceElement -> outputData.putString("error$index", stackTraceElement.toString()) }
+                e.printStackTrace()
+            }
         }
 
-        return Futures.immediateFuture(Result.success())
+        return Futures.immediateFuture(Result.success(outputData.build()))
     }
 
 }

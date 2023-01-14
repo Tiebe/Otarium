@@ -45,7 +45,6 @@ class GCScreenModel(componentContext: ComponentContext) : ComponentContext by co
                                 it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
                                         it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
                             } ?: return@launch)
-                            println(_state.value)
                             return@launch
                         }
                     } catch (e: Exception) {

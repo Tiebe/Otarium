@@ -53,7 +53,7 @@ object Ktor {
     const val serialization_json = "io.ktor:ktor-serialization-kotlinx-json:${Version.ktor}"
     const val client_logging_jvm = "io.ktor:ktor-client-logging-jvm:${Version.ktor}"
     const val client_json_jvm = "io.ktor:ktor-client-json-jvm:${Version.ktor}"
-    const val client_android = "io.ktor:ktor-client-android:${Version.ktor}"
+    const val client_android = "io.ktor:ktor-client-okhttp:${Version.ktor}"
     const val client_ios = "io.ktor:ktor-client-ios:${Version.ktor}"
 }
 
