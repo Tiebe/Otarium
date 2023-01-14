@@ -26,8 +26,6 @@ suspend fun requestPOST(
     accessToken: String? = null,
     retries: Int = 0
 ): HttpResponse {
-
-
     val response = client.submitForm(url.toString(),
         formParameters = Parameters.build {
             for ((key, value) in body) {
