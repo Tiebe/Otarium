@@ -15,7 +15,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.R
 import nl.tiebe.otarium.ui.theme.Blue80
 import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
@@ -88,7 +88,7 @@ actual fun sendNotification(title: String, message: String) {
     intent?.action = ".MainActivity"
     intent?.flags = 0
     val builder = NotificationCompat.Builder(Android.context, "grades")
-        .setSmallIcon(MR.images.ic_launcher.drawableResId)
+        .setSmallIcon(R.drawable.ic_notification_foreground)
         .setContentTitle(title)
         .setContentText(message)
         .setAutoCancel(true)
