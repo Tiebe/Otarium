@@ -15,11 +15,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.magisterapi.response.general.year.grades.Subject
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.format
 
@@ -69,19 +69,19 @@ internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: Mu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun GradeList(grades: List<GradeWithGradeInfo>) {
-    grades.forEach { grade ->
+    grades.sortedBy { it.grade.dateEntered }.reversed().forEach { grade ->
         ListItem(
             modifier = Modifier
                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-            headlineText = { Text(grade.gradeInfo.columnDescription ?: ":(") },
-            supportingText = { Text(grade.grade.dateEntered ?: ":(") },
+            headlineText = { Text(grade.gradeInfo.columnDescription ?: "") },
+            supportingText = { Text(grade.grade.dateEntered ?: "") },
             trailingContent = {
                 Box(
                     modifier = Modifier
                         .size(48.dp)
                 ) {
                     Text(
-                        text = grade.grade.grade ?: ":(",
+                        text = grade.grade.grade ?: "",
                         modifier = Modifier
                             .align(Alignment.Center),
                         style = MaterialTheme.typography.displaySmall.copy(fontSize = 18.sp),
