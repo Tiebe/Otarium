@@ -20,4 +20,3 @@ fun setSafeArea(start: CGFloat, top: CGFloat, end: CGFloat, bottom: CGFloat) {
 fun setDarkMode() {
     darkModeState.value = currentSystemTheme == SystemTheme.DARK
 }
-// TODO: between 28f7ef3c802ef4b85530ea42fcff61a7510a9f7e and HEAD

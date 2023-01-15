@@ -28,7 +28,7 @@ android {
 
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        res.srcDirs("src/androidMain/resources", "src/commonMain/resources")
         res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
     }
     compileOptions {
