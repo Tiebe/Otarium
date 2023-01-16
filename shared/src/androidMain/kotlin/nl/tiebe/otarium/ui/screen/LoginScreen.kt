@@ -19,12 +19,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.otarium.Data.Onboarding.bypassStore
+import nl.tiebe.otarium.magister.MagisterLogin
 import nl.tiebe.otarium.utils.ui.CBackHandler
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pair<String, String?>) -> Unit)  {
-    val loginUrl = LoginFlow.createAuthURL()
+internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (MagisterLogin) -> Unit)  {
+    val loginUrl = remember { LoginFlow.createAuthURL() }
+    println(loginUrl.url)
+    println(loginUrl.codeVerifier)
 
     var webView: CustomWebViewClient? = null
 
@@ -57,7 +60,7 @@ internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (Pa
     })
 }
 
-class CustomWebViewClient(private var codeVerifier: String, private val disableBackHandler: () -> Unit, val webView: WebView, private val onLogin: (Pair<String, String?>) -> Unit) :
+class CustomWebViewClient(private var codeVerifier: String, private val disableBackHandler: () -> Unit, val webView: WebView, private val onLogin: (MagisterLogin) -> Unit) :
     WebViewClient() {
 
         override fun shouldOverrideUrlLoading(
@@ -79,7 +82,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val disableB
                 runBlocking {
                     launch {
                         disableBackHandler()
-                        onLogin(code to codeVerifier)
+                        onLogin(MagisterLogin(code, codeVerifier))
                     }
                 }
 
@@ -97,7 +100,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val disableB
                 Log.d("BrowserFragment", "Signing in: ${request?.url}")
                 disableBackHandler()
                 bypassStore(true)
-                onLogin("" to null)
+                onLogin(MagisterLogin("", ""))
             }
             return super.shouldInterceptRequest(view, request)
         }
