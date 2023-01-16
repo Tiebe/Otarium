@@ -32,10 +32,11 @@ fun createNotificationChannel(context: Context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val name = context.getString(R.string.grades_channel)
         val descriptionText = context.getString(R.string.grades_channel_description)
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel("grades", name, importance).apply {
             description = descriptionText
         }
+        channel.enableVibration(true)
 
         val notificationManager: NotificationManager =
             context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

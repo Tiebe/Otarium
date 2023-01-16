@@ -4,6 +4,7 @@ import io.ktor.http.*
 import nl.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.magisterapi.api.general.GeneralFlow
 import nl.tiebe.magisterapi.api.grades.GradeFlow
+import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import nl.tiebe.otarium.Data.Magister.Grades.getSavedFullGradeList
 import nl.tiebe.otarium.Data.Magister.Grades.saveFullGradeList
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
@@ -27,7 +28,10 @@ suspend fun refreshGrades(): List<GradeWithGradeInfo>? {
     val oldGradeList = getSavedFullGradeList()
 
     val years = GeneralFlow.getYears(tokens.tenantUrl, tokens.tokens.accessToken, tokens.accountId)
-    val grades = GradeFlow.getGrades(Url(tokens.tenantUrl), tokens.tokens.accessToken, tokens.accountId, years[0])
+    val grades = GradeFlow.getGrades(Url(tokens.tenantUrl), tokens.tokens.accessToken, tokens.accountId, years[0]).filter {
+        it.gradeColumn.type == GradeColumn.Type.Grade ||
+                it.gradeColumn.type == GradeColumn.Type.Text
+    }
 
     val fullGradeList: MutableList<GradeWithGradeInfo> = oldGradeList.toMutableList()
 
