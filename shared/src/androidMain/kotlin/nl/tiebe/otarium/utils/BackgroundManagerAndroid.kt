@@ -91,6 +91,7 @@ actual fun sendNotification(title: String, message: String) {
         .setSmallIcon(R.drawable.ic_notification_foreground)
         .setContentTitle(title)
         .setContentText(message)
+        .setPriority(1)
         .setAutoCancel(true)
         .setContentIntent(PendingIntent.getActivity(Android.context, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT))
         .setGroup(System.currentTimeMillis().toString())
