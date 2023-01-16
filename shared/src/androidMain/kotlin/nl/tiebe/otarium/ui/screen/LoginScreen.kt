@@ -26,9 +26,6 @@ import nl.tiebe.otarium.utils.ui.CBackHandler
 @Composable
 internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (MagisterLogin) -> Unit)  {
     val loginUrl = remember { LoginFlow.createAuthURL() }
-    println(loginUrl.url)
-    println(loginUrl.codeVerifier)
-
     var webView: CustomWebViewClient? = null
 
     val component = remember {
