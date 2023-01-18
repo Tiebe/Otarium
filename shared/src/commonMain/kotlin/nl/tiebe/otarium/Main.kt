@@ -39,6 +39,10 @@ fun setup() {
         settings.remove("agenda")
     }
 
+    if (version <= 17) {
+        settings.clear()
+    }
+
     settings.putInt("version", BuildKonfig.versionCode)
 }
 

@@ -14,8 +14,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
-version = "1.0"
-val versionCode = 15
+version = Version.appVersion
 
 android {
     compileSdk = AndroidSdk.compile
@@ -113,7 +112,7 @@ buildkonfig {
     packageName = "nl.tiebe.otarium"
 
     defaultConfigs {
-        buildConfigField(INT, "versionCode", versionCode.toString())
+        buildConfigField(INT, "versionCode", Version.appVersionCode.toString())
     }
 }
 

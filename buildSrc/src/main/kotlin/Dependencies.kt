@@ -1,5 +1,8 @@
 
 object Version {
+    const val appVersion = "2.1.0"
+    const val appVersionCode = 20
+
     const val kotlin = "1.7.20"
     const val gradle = "7.3.1"
     const val appcompat = "1.4.0"
@@ -43,8 +46,6 @@ object Kotlin {
     const val serialization = "org.jetbrains.kotlin:kotlin-serialization:${Version.kotlin}"
     const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
-
-const val precompose = "moe.tlaster:precompose:${Version.precompose}"
 
 object Ktor {
     const val client_core = "io.ktor:ktor-client-core:${Version.ktor}"
