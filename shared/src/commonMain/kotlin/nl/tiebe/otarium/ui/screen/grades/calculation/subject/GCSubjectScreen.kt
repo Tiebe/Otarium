@@ -69,7 +69,7 @@ internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: Mu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun GradeList(grades: List<GradeWithGradeInfo>) {
-    grades.sortedBy { it.grade.dateEntered }.reversed().forEach { grade ->
+    grades.reversed().forEach { grade ->
         ListItem(
             modifier = Modifier
                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
