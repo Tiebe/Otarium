@@ -99,7 +99,8 @@ internal fun Agenda(
     }
 
     DisposableEffect(Unit) {
-            GlobalScope.launch {
+        GlobalScope.launch {
+            while (true) {
                 now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
                 val minutes = ((now.hour - 8) * 60) + now.minute
@@ -112,6 +113,7 @@ internal fun Agenda(
 
                 delay(60_000)
             }
+        }
 
         onDispose {}
     }
