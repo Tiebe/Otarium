@@ -76,6 +76,8 @@ kotlin {
                 implementation(Accompanist.swiperefresh)
 
                 implementation(magisterAPI)
+
+                lintChecks(project(":lint-rules"))
             }
         }
         val androidMain by getting {
