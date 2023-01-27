@@ -19,7 +19,7 @@ internal fun GCScreen(componentContext: ComponentContext) {
             Text("Loading")
         }
         is GCScreenModel.State.Data -> {
-            GCSubjectList(componentContext, (state as GCScreenModel.State.Data).data)
+            GCSubjectList(componentContext, (state as GCScreenModel.State.Data).data.sortedBy { it.grade.dateEntered })
         }
         is GCScreenModel.State.Failed -> {
             Text("Something went wrong while retrieving your grades")
