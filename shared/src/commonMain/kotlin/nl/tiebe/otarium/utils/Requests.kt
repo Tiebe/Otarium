@@ -9,7 +9,7 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
-import nl.tiebe.magisterapi.utils.MagisterException
+import dev.tiebe.magisterapi.utils.MagisterException
 
 val client = HttpClient {
     install(ContentNegotiation) {

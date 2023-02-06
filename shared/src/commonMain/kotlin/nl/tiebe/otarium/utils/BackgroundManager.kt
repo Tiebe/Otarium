@@ -1,10 +1,10 @@
 package nl.tiebe.otarium.utils
 
 import io.ktor.http.*
-import nl.tiebe.magisterapi.api.account.LoginFlow
-import nl.tiebe.magisterapi.api.general.GeneralFlow
-import nl.tiebe.magisterapi.api.grades.GradeFlow
-import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
+import dev.tiebe.magisterapi.api.account.LoginFlow
+import dev.tiebe.magisterapi.api.general.GeneralFlow
+import dev.tiebe.magisterapi.api.grades.GradeFlow
+import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import nl.tiebe.otarium.Data.Magister.Grades.getSavedFullGradeList
 import nl.tiebe.otarium.Data.Magister.Grades.saveFullGradeList
 import nl.tiebe.otarium.magister.GradeWithGradeInfo

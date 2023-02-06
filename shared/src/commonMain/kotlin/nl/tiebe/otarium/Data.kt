@@ -1,9 +1,9 @@
 package nl.tiebe.otarium
 
+import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 

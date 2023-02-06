@@ -31,7 +31,7 @@ val darkModeState = mutableStateOf(false)
 val safeAreaState = mutableStateOf(PaddingValues())
 
 fun setup() {
-    val version = settings.getInt("version", 0)
+    val version = settings.getInt("version", 1000)
 
     //REMINDER: UPDATE VERSION CODE IN BOTH THE ANDROID MODULE AND SHARED BUILDKONFIG MODULE!!
 
@@ -41,6 +41,10 @@ fun setup() {
 
     if (version <= 17) {
         settings.clear()
+    }
+
+    if (version <= 20) {
+        setupNotifications()
     }
 
     settings.putInt("version", BuildKonfig.versionCode)

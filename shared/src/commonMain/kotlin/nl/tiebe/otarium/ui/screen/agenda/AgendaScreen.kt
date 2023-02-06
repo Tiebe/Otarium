@@ -18,7 +18,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import nl.tiebe.magisterapi.utils.MagisterException
+import dev.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.otarium.Data.Magister.Agenda.getSavedAgenda
 import nl.tiebe.otarium.Data.Magister.Agenda.saveAgenda
 import nl.tiebe.otarium.MR

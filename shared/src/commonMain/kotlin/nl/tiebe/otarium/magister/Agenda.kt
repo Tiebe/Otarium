@@ -2,8 +2,8 @@ package nl.tiebe.otarium.magister
 
 import io.ktor.http.*
 import kotlinx.datetime.LocalDate
-import nl.tiebe.magisterapi.api.agenda.AgendaFlow.getAgenda
-import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
+import dev.tiebe.magisterapi.api.agenda.AgendaFlow.getAgenda
+import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 
 suspend fun getMagisterAgenda(
     accountId: Int,

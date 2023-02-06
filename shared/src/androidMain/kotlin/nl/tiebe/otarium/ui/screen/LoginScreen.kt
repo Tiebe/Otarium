@@ -17,7 +17,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import nl.tiebe.magisterapi.api.account.LoginFlow
+import dev.tiebe.magisterapi.api.account.LoginFlow
 import nl.tiebe.otarium.Data.Onboarding.bypassStore
 import nl.tiebe.otarium.magister.MagisterLogin
 import nl.tiebe.otarium.utils.ui.CBackHandler

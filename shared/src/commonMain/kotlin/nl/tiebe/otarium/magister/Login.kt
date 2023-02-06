@@ -1,8 +1,8 @@
 package nl.tiebe.otarium.magister
 
 import kotlinx.serialization.Serializable
-import nl.tiebe.magisterapi.api.account.LoginFlow
-import nl.tiebe.magisterapi.api.account.ProfileInfoFlow
+import dev.tiebe.magisterapi.api.account.LoginFlow
+import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 
 suspend fun exchangeUrl(magisterLogin: MagisterLogin) {
     val response = LoginFlow.exchangeTokens(magisterLogin.code, magisterLogin.codeVerifier)

@@ -10,7 +10,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import nl.tiebe.magisterapi.utils.MagisterException
+import dev.tiebe.magisterapi.utils.MagisterException
 import nl.tiebe.otarium.Data.Magister.Grades.getSavedGrades
 import nl.tiebe.otarium.magister.Tokens.getMagisterTokens
 import nl.tiebe.otarium.magister.getRecentGrades
