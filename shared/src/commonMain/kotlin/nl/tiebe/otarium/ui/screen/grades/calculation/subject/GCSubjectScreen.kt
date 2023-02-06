@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.ComponentContext
-import nl.tiebe.magisterapi.response.general.year.grades.Subject
+import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage

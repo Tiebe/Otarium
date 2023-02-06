@@ -1,7 +1,7 @@
 
 object Version {
-    const val appVersion = "2.1.0"
-    const val appVersionCode = 20
+    const val appVersion = "2.1.1"
+    const val appVersionCode = 21
 
     const val kotlin = "1.7.20"
     const val gradle = "7.3.1"
@@ -89,7 +89,7 @@ const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:0.9"
 const val napier = "io.github.aakira:napier:2.6.1"
 const val admob = "com.google.android.gms:play-services-ads:21.3.0"
 
-const val magisterAPI = "nl.tiebe:magisterapi:1.1.5"
+const val magisterAPI = "dev.tiebe:magisterapi:1.1.7"
 
 object Guava {
     const val core = "com.google.guava:guava:31.0.1-android"

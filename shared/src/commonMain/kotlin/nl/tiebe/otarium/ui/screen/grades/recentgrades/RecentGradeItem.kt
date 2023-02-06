@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nl.tiebe.magisterapi.response.general.year.grades.RecentGrade
+import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -2,6 +2,7 @@ buildscript {
     repositories {
         gradlePluginPortal()
         google()
+        mavenLocal()
         mavenCentral()
         maven("https://jitpack.io")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
@@ -19,6 +20,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenLocal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://jitpack.io")

@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import com.arkivanov.decompose.ComponentContext
-import nl.tiebe.magisterapi.response.general.year.grades.Subject
+import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 

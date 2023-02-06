@@ -5,7 +5,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import kotlinx.coroutines.*
-import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
+import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import nl.tiebe.otarium.utils.refreshGrades
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
