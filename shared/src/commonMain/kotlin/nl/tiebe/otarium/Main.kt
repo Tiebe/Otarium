@@ -14,39 +14,29 @@ import com.arkivanov.decompose.ComponentContext
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import nl.tiebe.otarium.Data.Onboarding.finishOnboarding
-import nl.tiebe.otarium.Data.Onboarding.isFinishedOnboarding
-import nl.tiebe.otarium.Data.Onboarding.storeBypass
-import nl.tiebe.otarium.magister.Tokens
 import nl.tiebe.otarium.magister.exchangeUrl
+import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.navigation.Navigation
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
 import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
-import nl.tiebe.otarium.utils.refreshGrades
+import nl.tiebe.otarium.utils.runVersionCheck
 
 val settings: Settings = Settings()
 
 val darkModeState = mutableStateOf(false)
 val safeAreaState = mutableStateOf(PaddingValues())
 
+// multi-user support
+// todo: save settings with user id
+// todo: switch user in settings
+
+
 fun setup() {
-    val version = settings.getInt("version", 1000)
+    val oldVersion = settings.getInt("version", 1000)
 
     //REMINDER: UPDATE VERSION CODE IN BOTH THE ANDROID MODULE AND SHARED BUILDKONFIG MODULE!!
-
-    if (version <= 14) {
-        settings.remove("agenda")
-    }
-
-    if (version <= 17) {
-        settings.clear()
-    }
-
-    if (version <= 20) {
-        setupNotifications()
-    }
-
+    runVersionCheck(oldVersion)
     settings.putInt("version", BuildKonfig.versionCode)
 }
 
@@ -62,10 +52,10 @@ internal fun Content(componentContext: ComponentContext) {
             val openLoginScreen = remember { mutableStateOf(false) }
             if (openLoginScreen.value) MainActivityScreen(componentContext)
 
-            if (!isFinishedOnboarding()) {
+            if (!Data.finishedOnboarding) {
                 OnBoarding(onFinish = {
                     openLoginScreen.value = true
-                    finishOnboarding()
+                    Data.finishedOnboarding = true
                 }, notifications = { setupNotifications() })
             } else MainActivityScreen(componentContext)
         }
@@ -80,22 +70,24 @@ internal fun Content(componentContext: ComponentContext) {
 
 @Composable
 internal fun MainActivityScreen(componentContext: ComponentContext) {
-    if (storeBypass()) {
+    if (Data.storeLoginBypass) {
         Navigation(componentContext); return
     }
     val openMainScreen = remember { mutableStateOf(false) }
 
     if (openMainScreen.value) Navigation(componentContext)
-    else if (Tokens.getSavedMagisterTokens() == null) {
+    else if (Data.accounts.isEmpty()) {
         LoginScreen(componentContext, onLogin = {
-            if (storeBypass()) openMainScreen.value = true
+            if (Data.storeLoginBypass) openMainScreen.value = true
 
             else runBlocking {
                 launch {
-                    exchangeUrl(it)
+                    val account = exchangeUrl(it)
+
+                    Data.accounts = Data.accounts.toMutableList().apply { add(account) }
 
                     openMainScreen.value = true
-                    refreshGrades()
+                    account.refreshGrades()
                 }
             }
         })

@@ -15,8 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.StringResource
-import nl.tiebe.otarium.Data.Ads.ageOfConsent
-import nl.tiebe.otarium.Data.Ads.showAds
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.utils.ui.getLocalizedString
@@ -43,11 +42,11 @@ internal class OnBoardingItems(
                     val checkedState = remember { mutableStateOf(true) }
                     val checkedState2 = remember { mutableStateOf(false) }
 
-                    remember { showAds(true) }
+                    remember { Data.showAds = true }
 
                     LabelledCheckBox(checked = checkedState.value, onCheckedChange = {
                         checkedState.value = it
-                        showAds(it)
+                        Data.showAds = it
                     }, label = getLocalizedString(MR.strings.show_ads_checkbox))
 
                     LabelledCheckBox(
@@ -55,7 +54,7 @@ internal class OnBoardingItems(
                         checked = checkedState2.value,
                         onCheckedChange = {
                             checkedState2.value = it
-                            ageOfConsent(it)
+                            Data.ageOfConsent = true
                         },
                         label = getLocalizedString(MR.strings.age_checkbox)
                     )

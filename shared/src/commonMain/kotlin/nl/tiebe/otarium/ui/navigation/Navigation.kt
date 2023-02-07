@@ -13,7 +13,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
-import nl.tiebe.otarium.Data.Ads.showAds
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
 import nl.tiebe.otarium.ui.icons.Looks10Icon
@@ -36,7 +36,7 @@ sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> 
     object Settings : Screen("/settings", MR.strings.settings_title, { Icon(SettingsIcon, "Settings") })
 }*/
 
-var adsShown by mutableStateOf(showAds())
+var adsShown by mutableStateOf(Data.showAds)
 
 @Composable
 internal fun Navigation(componentContext: ComponentContext) {

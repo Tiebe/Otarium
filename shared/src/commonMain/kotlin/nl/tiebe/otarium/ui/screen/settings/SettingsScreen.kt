@@ -19,8 +19,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import nl.tiebe.otarium.Data.Ads.ageOfConsent
-import nl.tiebe.otarium.Data.Ads.showAds
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.icons.BugOutline
 import nl.tiebe.otarium.ui.navigation.adsShown
@@ -45,14 +44,14 @@ internal fun SettingsScreen(componentContext: ComponentContext) {
             .height(70.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically) {
-            val checkedStateAds = remember { mutableStateOf(showAds()) }
+            val checkedStateAds = remember { mutableStateOf(Data.showAds) }
 
             Text(text = getLocalizedString(MR.strings.show_ads_checkbox),
                 textAlign = TextAlign.Center)
 
             Switch(checked = checkedStateAds.value, onCheckedChange = {
                 checkedStateAds.value = it
-                showAds(it)
+                Data.showAds = it
                 adsShown = it
             })
         }
@@ -64,7 +63,7 @@ internal fun SettingsScreen(componentContext: ComponentContext) {
             .height(70.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically) {
-            val checkedStateAge = remember { mutableStateOf(ageOfConsent()) }
+            val checkedStateAge = remember { mutableStateOf(Data.ageOfConsent) }
 
             Text(text = getLocalizedString(MR.strings.age_checkbox),
             textAlign = TextAlign.Center)
@@ -72,10 +71,10 @@ internal fun SettingsScreen(componentContext: ComponentContext) {
             Switch(checked = checkedStateAge.value, onCheckedChange = {
                GlobalScope.launch {
                     checkedStateAge.value = it
-                    ageOfConsent(it)
+                    Data.ageOfConsent = it
                     adsShown = false
                     delay(500)
-                    adsShown = showAds()
+                    adsShown = Data.showAds
                 }
             })
         }

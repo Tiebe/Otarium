@@ -1,78 +1,33 @@
 package nl.tiebe.otarium
 
-import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.MagisterAccount
 
 object Data {
-    object Onboarding {
-        fun finishOnboarding() {
-            settings.putBoolean("finished_onboarding", true)
-        }
+    var finishedOnboarding: Boolean
+        get() = settings.getBoolean("finished_onboarding", false)
+        set(value) = settings.putBoolean("finished_onboarding", value)
 
-        fun isFinishedOnboarding(): Boolean {
-            return settings.getBoolean("finished_onboarding", false)
-        }
+    var storeLoginBypass: Boolean
+        get() = settings.getBoolean("bypass", false)
+        set(value) = settings.putBoolean("bypass", value)
 
-        fun storeBypass(): Boolean {
-            return settings.getBoolean("bypass", false)
-        }
+    var showAds: Boolean
+        get() = settings.getBoolean("show_ads", false)
+        set(value) = settings.putBoolean("show_ads", value)
 
-        fun bypassStore(bypass: Boolean) {
-            settings.putBoolean("bypass", bypass)
-        }
-    }
+    var ageOfConsent: Boolean
+        get() = settings.getBoolean("age_of_consent", false)
+        set(value) = settings.putBoolean("age_of_consent", value)
 
-    object Ads {
-        fun showAds(): Boolean {
-            return settings.getBoolean("show_ads", false)
-        }
+    var accounts: List<MagisterAccount>
+        get() = settings.getString("accounts", "[]").let { Json.decodeFromString(it) }
+        set(value) = settings.putString("accounts", Json.encodeToString(value))
 
-        fun showAds(show: Boolean) {
-            settings.putBoolean("show_ads", show)
-        }
-
-        fun ageOfConsent(): Boolean {
-            return settings.getBoolean("age_of_consent", false)
-        }
-
-        fun ageOfConsent(above: Boolean) {
-            settings.putBoolean("age_of_consent", above)
-        }
-    }
-
-    object Magister {
-        object Grades {
-            fun getSavedGrades(): List<RecentGrade> {
-                return settings.getStringOrNull("grades")?.let { Json.decodeFromString(it) } ?: emptyList()
-            }
-
-            fun saveGrades(grades: List<RecentGrade>) {
-                settings.putString("grades", Json.encodeToString(grades))
-            }
-
-            fun getSavedFullGradeList(): List<GradeWithGradeInfo> {
-                return Json.decodeFromString(settings.getString("full_grade_list", "[]"))
-            }
-
-            fun saveFullGradeList(gradeList: List<GradeWithGradeInfo>) {
-                settings.putString("full_grade_list", Json.encodeToString(gradeList))
-            }
-        }
-
-        object Agenda {
-            fun getSavedAgenda(): List<AgendaItemWithAbsence> {
-                return settings.getStringOrNull("agenda")?.let { Json.decodeFromString(it) } ?: emptyList()
-            }
-
-            fun saveAgenda(agenda: List<AgendaItemWithAbsence>) {
-                settings.putString("agenda", Json.encodeToString(agenda))
-            }
-        }
-    }
+    var selectedAccount: MagisterAccount
+        get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: throw IllegalStateException("No accounts found!")
+        set(value) = settings.putInt("selected_account", value.accountId)
 
 }
-
