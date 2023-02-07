@@ -31,7 +31,7 @@ import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.utils.topRectBorder
 
 val timesShown = 8..17
-val dpPerHour = 80.dp // yes that .14 is needed. don't ask me how i found out
+val dpPerHour = 80.dp
 
 @OptIn(ExperimentalPagerApi::class, DelicateCoroutinesApi::class)
 @Composable

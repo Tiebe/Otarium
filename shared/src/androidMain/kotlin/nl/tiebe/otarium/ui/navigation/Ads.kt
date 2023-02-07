@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.ui.navigation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,8 +10,9 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import nl.tiebe.otarium.BuildConfig
-import nl.tiebe.otarium.Data.Ads.ageOfConsent
+import nl.tiebe.otarium.Data
 
+@SuppressLint("VisibleForTests")
 @Composable
 internal actual fun Ads() {
     AndroidView(
@@ -26,8 +28,8 @@ internal actual fun Ads() {
 
                 val requestConfiguration = MobileAds.getRequestConfiguration()
                     .toBuilder()
-                    .setTagForChildDirectedTreatment(ageOfConsent().compareTo(false))
-                    .setTagForUnderAgeOfConsent(ageOfConsent().compareTo(false))
+                    .setTagForChildDirectedTreatment(Data.ageOfConsent.compareTo(false))
+                    .setTagForUnderAgeOfConsent(Data.ageOfConsent.compareTo(false))
                     .build()
                 MobileAds.setRequestConfiguration(requestConfiguration)
 

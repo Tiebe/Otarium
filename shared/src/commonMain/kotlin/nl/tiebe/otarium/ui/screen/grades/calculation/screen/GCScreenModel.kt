@@ -4,10 +4,11 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnCreate
-import kotlinx.coroutines.*
 import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
-import nl.tiebe.otarium.utils.refreshGrades
+import kotlinx.coroutines.*
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.refreshGrades
 
 @OptIn(DelicateCoroutinesApi::class)
 
@@ -28,10 +29,10 @@ class GCScreenModel(componentContext: ComponentContext) : ComponentContext by co
                 launch {
                     //todo this shouldnt block the thread
                     try {
-                        _state.value = State.Data(refreshGrades()?.filter {
+                        _state.value = State.Data(Data.selectedAccount.refreshGrades().filter {
                             it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
                                     it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
-                        } ?: return@launch)
+                        })
                         return@launch
                     } catch (e: Exception) {
                         e.printStackTrace()

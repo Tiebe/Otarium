@@ -8,8 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
-import nl.tiebe.otarium.Data.Magister.Grades.getSavedFullGradeList
-import nl.tiebe.otarium.Data.Magister.Grades.saveFullGradeList
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.getLocalizedString
@@ -58,10 +57,11 @@ internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
                     textAlign = TextAlign.Center)
                 Button(
                     onClick = {
-                        val savedGrades = getSavedFullGradeList().toMutableList()
+                        val account = Data.selectedAccount
+                        val savedGrades = account.fullGradeList.toMutableList()
 
                         savedGrades.removeAt(Random.nextInt(savedGrades.size))
-                        saveFullGradeList(savedGrades)
+                        account.fullGradeList = savedGrades
 
                     }) {
                     Text("remove")

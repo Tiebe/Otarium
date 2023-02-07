@@ -1,18 +1,77 @@
 package nl.tiebe.otarium.magister
 
-import io.ktor.http.*
-import kotlinx.serialization.Serializable
+import dev.tiebe.magisterapi.api.general.GeneralFlow
 import dev.tiebe.magisterapi.api.grades.GradeFlow
 import dev.tiebe.magisterapi.response.general.year.grades.Grade
+import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import dev.tiebe.magisterapi.response.general.year.grades.GradeInfo
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
-import nl.tiebe.otarium.Data.Magister.Grades.saveGrades
+import io.ktor.http.*
+import kotlinx.serialization.Serializable
+import nl.tiebe.otarium.utils.sendNotification
 
-suspend fun getRecentGrades(accountId: Int, tenantUrl: String, accessToken: String): List<RecentGrade> {
-    val grades = GradeFlow.getRecentGrades(Url(tenantUrl), accessToken, accountId, 30, 0)
+suspend fun MagisterAccount.getRecentGrades(): List<RecentGrade> {
+    val newGrades = GradeFlow.getRecentGrades(Url(tenantUrl), tokens.accessToken, accountId, 30, 0)
 
-    saveGrades(grades)
-    return grades
+    grades = newGrades
+    return newGrades
+}
+
+suspend fun MagisterAccount.refreshGrades(): List<GradeWithGradeInfo> {
+    val years = GeneralFlow.getYears(tenantUrl, tokens.accessToken, accountId)
+    val grades = GradeFlow.getGrades(Url(tenantUrl), tokens.accessToken, accountId, years[0]).filter {
+        it.gradeColumn.type == GradeColumn.Type.Grade ||
+                it.gradeColumn.type == GradeColumn.Type.Text
+    }
+
+    val newFullGradeList: MutableList<GradeWithGradeInfo> = fullGradeList.toMutableList()
+
+    newGrades@ for (grade in grades) {
+        for (oldGrade in fullGradeList) {
+            if (grade.id == oldGrade.grade.id) {
+                if (grade.grade != oldGrade.grade.grade) {
+                    try {
+                        val gradeInfo = GradeFlow.getGradeInfo(
+                            Url(tenantUrl),
+                            tokens.accessToken,
+                            accountId,
+                            grade
+                        )
+
+                        newFullGradeList.remove(oldGrade)
+                        newFullGradeList.add(GradeWithGradeInfo(grade, gradeInfo))
+
+                        sendNotification(
+                            "Je cijfer is gewijzigd: ${grade.subject.description.trim()}",
+                            "Je hebt nu een ${grade.grade?.trim()} voor ${gradeInfo.columnDescription?.trim()}"
+                        )
+
+                    } catch (e: Exception) { e.printStackTrace() }
+                }
+                continue@newGrades
+            }
+        }
+
+        try {
+            val gradeInfo = GradeFlow.getGradeInfo(
+                Url(tenantUrl),
+                tokens.accessToken,
+                accountId,
+                grade
+            )
+            newFullGradeList.add(GradeWithGradeInfo(grade, gradeInfo))
+
+            if (fullGradeList.isNotEmpty()) {
+                sendNotification(
+                    "Nieuw cijfer: ${grade.subject.description.trim()}",
+                    "Je hebt een ${grade.grade?.trim()} voor ${gradeInfo.columnDescription?.trim()} gekregen."
+                )
+            }
+        } catch (e: Exception) { e.printStackTrace() }
+    }
+
+    fullGradeList = newFullGradeList
+    return fullGradeList
 }
 
 @Serializable

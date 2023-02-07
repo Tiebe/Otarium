@@ -1,16 +1,21 @@
 package nl.tiebe.otarium.magister
 
-import kotlinx.serialization.Serializable
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
+import kotlinx.serialization.Serializable
 
-suspend fun exchangeUrl(magisterLogin: MagisterLogin) {
+suspend fun exchangeUrl(magisterLogin: MagisterLogin): MagisterAccount {
     val response = LoginFlow.exchangeTokens(magisterLogin.code, magisterLogin.codeVerifier)
 
     val tenantUrl = ProfileInfoFlow.getTenantUrl(response.accessToken)
-    val accountId = ProfileInfoFlow.getProfileInfo(tenantUrl.toString(), response.accessToken).person.id
+    val profileInfo = ProfileInfoFlow.getProfileInfo(tenantUrl.toString(), response.accessToken)
 
-    Tokens.saveMagisterTokens(MagisterAccount(accountId, tenantUrl.toString(), response))
+    return MagisterAccount(
+        accountId = profileInfo.person.id,
+        profileInfo = profileInfo,
+        tenantUrl = tenantUrl.toString(),
+        savedTokens = response
+    )
 }
 
 @Serializable

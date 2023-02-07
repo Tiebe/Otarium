@@ -16,20 +16,20 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import dev.tiebe.magisterapi.utils.MagisterException
-import nl.tiebe.otarium.Data.Magister.Agenda.getSavedAgenda
-import nl.tiebe.otarium.Data.Magister.Agenda.saveAgenda
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.*
-import nl.tiebe.otarium.magister.Tokens.getMagisterTokens
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun AgendaScreen(componentContext: ComponentContext) {
+    val account = remember { Data.selectedAccount }
+
     val scope = rememberCoroutineScope()
 
     val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
@@ -48,7 +48,7 @@ internal fun AgendaScreen(componentContext: ComponentContext) {
         getLocalizedString(MR.strings.sunday)
     )
 
-    val savedAgenda = remember { getSavedAgenda() }
+    val savedAgenda = remember { account.agenda }
     val loadedAgendas = remember {
         mutableStateMapOf(
             Pair(100, days.indices.map {
@@ -74,7 +74,7 @@ internal fun AgendaScreen(componentContext: ComponentContext) {
 
     LaunchedEffect(selectedWeek.value) {
         val newAgenda =
-            refreshAgenda(firstDayOfSelectedWeek.value, days.size - 1, selectedWeek.value)
+            account.refreshAgenda(firstDayOfSelectedWeek.value, days.size - 1, selectedWeek.value)
                 ?: loadedAgendas[selectedWeek.value + 100]
         if (newAgenda != null) {
             loadedAgendas[selectedWeek.value + 100] = newAgenda
@@ -97,7 +97,7 @@ internal fun AgendaScreen(componentContext: ComponentContext) {
             refresh = {
                 scope.launch {
                     it.isRefreshing = true
-                    loadedAgendas[selectedWeek.value + 100] = refreshAgenda(
+                    loadedAgendas[selectedWeek.value + 100] = account.refreshAgenda(
                         firstDayOfSelectedWeek.value,
                         days.size - 1,
                         selectedWeek.value
@@ -149,42 +149,41 @@ internal fun AgendaScreen(componentContext: ComponentContext) {
     }
 }
 
-suspend fun refreshAgenda(
+suspend fun MagisterAccount.refreshAgenda(
     start: LocalDate,
     totalDays: Int,
     selectedWeek: Int
 ): List<List<AgendaItemWithAbsence>>? {
     try {
-        getMagisterTokens()?.let { tokens ->
-            println("Refreshing agenda for week $selectedWeek")
+        println("Refreshing agenda for week $selectedWeek")
 
-            val end = start.plus(totalDays, DateTimeUnit.DAY)
+        val end = start.plus(totalDays, DateTimeUnit.DAY)
 
-            val agenda = getAbsences(
-                tokens.accountId,
-                tokens.tenantUrl,
-                tokens.tokens.accessToken,
-                "${start.year}-${start.month}-${start.dayOfMonth}",
-                "${end.year}-${end.month}-${end.dayOfMonth}",
-                getMagisterAgenda(
-                    tokens.accountId,
-                    tokens.tenantUrl,
-                    tokens.tokens.accessToken,
-                    start,
-                    end
-                )
+        val timeTableWeek = getAbsences(
+            accountId,
+            tenantUrl,
+            tokens.accessToken,
+            "${start.year}-${start.month}-${start.dayOfMonth}",
+            "${end.year}-${end.month}-${end.dayOfMonth}",
+            getMagisterAgenda(
+                accountId,
+                tenantUrl,
+                tokens.accessToken,
+                start,
+                end
             )
+        )
 
-            if (selectedWeek == 0) {
-                println("Saving agenda for current week")
-                saveAgenda(agenda)
-            }
-
-            return (0..totalDays).map { agenda.getAgendaForDay(it) }
+        if (selectedWeek == 0) {
+            println("Saving agenda for current week")
+            agenda = timeTableWeek
         }
+
+        return (0..totalDays).map { timeTableWeek.getAgendaForDay(it) }
     } catch (e: MagisterException) {
         e.printStackTrace()
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
     return null
 }
