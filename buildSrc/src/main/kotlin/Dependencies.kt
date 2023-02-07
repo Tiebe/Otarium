@@ -7,7 +7,7 @@ object Version {
     const val gradle = "7.3.1"
     const val appcompat = "1.4.0"
     const val material = "1.4.0"
-    const val compose = "1.3.0-beta04-dev885"
+    const val compose = "1.3.0"
     const val compose_android = "1.2.1"
     const val compose_compiler = "1.3.2"
     const val ktor = "2.1.2"

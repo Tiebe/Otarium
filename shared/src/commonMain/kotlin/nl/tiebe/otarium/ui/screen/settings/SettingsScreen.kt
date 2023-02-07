@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.icons.BugOutline
+import nl.tiebe.otarium.ui.icons.SettingsIcon
 import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
@@ -29,8 +30,9 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-internal fun SettingsScreen(componentContext: ComponentContext) {
+internal fun SettingsScreen(componentContext: ComponentContext, onNewUser: () -> Unit) {
     val bugScreenPopup = remember { mutableStateOf(false) }
+    val changeUserPopup = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -38,6 +40,21 @@ internal fun SettingsScreen(componentContext: ComponentContext) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Row(modifier = Modifier
+            .fillMaxWidth(0.95f)
+            .height(70.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+
+            Text(text = getLocalizedString(MR.strings.switch_user_text),
+                textAlign = TextAlign.Center)
+
+            Button(modifier = Modifier.width(50.dp), onClick = { changeUserPopup.value = true }, contentPadding = PaddingValues(0.dp)) {
+                Icon(SettingsIcon, "Bug", modifier = Modifier.fillMaxWidth())
+            }
+        }
+
+        Divider()
 
         Row(modifier = Modifier
             .fillMaxWidth(0.95f)
@@ -107,6 +124,19 @@ internal fun SettingsScreen(componentContext: ComponentContext) {
             BugScreen(componentContext) {
                 bugScreenPopup.value = false
             }
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        AnimatedVisibility(
+            visible = changeUserPopup.value,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            ChangeUserScreen(componentContext, {
+                changeUserPopup.value = false
+            }, onNewUser)
         }
     }
 }

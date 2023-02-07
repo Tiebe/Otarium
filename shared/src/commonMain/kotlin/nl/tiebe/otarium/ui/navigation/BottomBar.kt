@@ -26,7 +26,8 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 internal fun BottomBar(
     componentContext: ComponentContext,
     navigator: StackNavigation<Screen>,
-    modifier: Modifier
+    modifier: Modifier,
+    onNewUser: () -> Unit
 ) {
     val currentScreen = remember { mutableStateOf<Screen>(Screen.Agenda) }
 
@@ -63,7 +64,7 @@ internal fun BottomBar(
                 when (screen) {
                     is Screen.Agenda -> AgendaScreen(componentContext)
                     is Screen.Grades -> GradeScreen(componentContext)
-                    is Screen.Settings -> SettingsScreen(componentContext)
+                    is Screen.Settings -> SettingsScreen(componentContext, onNewUser)
                 }
             }
         }
