@@ -39,10 +39,10 @@ sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> 
 var adsShown by mutableStateOf(Data.showAds)
 
 @Composable
-internal fun Navigation(componentContext: ComponentContext) {
+internal fun Navigation(componentContext: ComponentContext, onNewUser: () -> Unit) {
     val navigation = remember { StackNavigation<Screen>() }
 
-    BottomBar(componentContext, navigation, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp))
+    BottomBar(componentContext, navigation, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp), onNewUser)
 
     if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {

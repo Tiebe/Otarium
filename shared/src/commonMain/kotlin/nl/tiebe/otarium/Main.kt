@@ -27,11 +27,6 @@ val settings: Settings = Settings()
 val darkModeState = mutableStateOf(false)
 val safeAreaState = mutableStateOf(PaddingValues())
 
-// multi-user support
-// todo: save settings with user id
-// todo: switch user in settings
-
-
 fun setup() {
     val oldVersion = settings.getInt("version", 1000)
 
@@ -71,28 +66,37 @@ internal fun Content(componentContext: ComponentContext) {
 @Composable
 internal fun MainActivityScreen(componentContext: ComponentContext) {
     if (Data.storeLoginBypass) {
-        Navigation(componentContext); return
+        Navigation(componentContext) {}; return
     }
     val openMainScreen = remember { mutableStateOf(false) }
+    val openLoginScreen = remember { mutableStateOf(false) }
 
-    if (openMainScreen.value) Navigation(componentContext)
-    else if (Data.accounts.isEmpty()) {
-        LoginScreen(componentContext, onLogin = {
-            if (Data.storeLoginBypass) openMainScreen.value = true
+    if (openLoginScreen.value) LoginScreen(componentContext, onLogin = {
+        if (Data.storeLoginBypass) openMainScreen.value = true
 
-            else runBlocking {
-                launch {
-                    val account = exchangeUrl(it)
+        else runBlocking {
+            launch {
+                val account = exchangeUrl(it)
 
+                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } != null) {
                     Data.accounts = Data.accounts.toMutableList().apply { add(account) }
-
-                    openMainScreen.value = true
-                    account.refreshGrades()
                 }
+
+                openLoginScreen.value = false
+                openMainScreen.value = true
+
+                account.refreshGrades()
             }
-        })
+        }
+    })
+
+    else if (openMainScreen.value) Navigation(componentContext) { openLoginScreen.value = true }
+    else if (Data.accounts.isEmpty()) {
+        openLoginScreen.value = true
     } else {
-        Navigation(componentContext)
+        Navigation(componentContext) {
+            openLoginScreen.value = true
+        }
     }
 }
 
