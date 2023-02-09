@@ -13,20 +13,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import nl.tiebe.magisterapi.utils.MagisterException
+import dev.tiebe.magisterapi.utils.MagisterException
+import nl.tiebe.otarium.Data.Magister.Agenda.getSavedAgenda
+import nl.tiebe.otarium.Data.Magister.Agenda.saveAgenda
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.*
-import nl.tiebe.otarium.utils.getLocalizedString
-import nl.tiebe.otarium.utils.server.getMagisterTokens
+import nl.tiebe.otarium.magister.Tokens.getMagisterTokens
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-internal fun AgendaScreen() {
+internal fun AgendaScreen(componentContext: ComponentContext) {
     val scope = rememberCoroutineScope()
 
     val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
@@ -139,7 +142,7 @@ internal fun AgendaScreen() {
             val savedAgendaItem = remember {
                 agendaItemPopup.value
             }
-            AgendaItemPopup(savedAgendaItem!!) {
+            AgendaItemPopup(componentContext, savedAgendaItem!!) {
                 agendaItemPopup.value = null
             }
         }
@@ -152,7 +155,7 @@ suspend fun refreshAgenda(
     selectedWeek: Int
 ): List<List<AgendaItemWithAbsence>>? {
     try {
-        getMagisterTokens(Tokens.getPastTokens()?.accessTokens?.accessToken)?.let { tokens ->
+        getMagisterTokens()?.let { tokens ->
             println("Refreshing agenda for week $selectedWeek")
 
             val end = start.plus(totalDays, DateTimeUnit.DAY)

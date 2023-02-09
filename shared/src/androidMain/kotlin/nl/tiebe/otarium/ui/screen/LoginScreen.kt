@@ -12,32 +12,24 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
+import com.arkivanov.decompose.ComponentContext
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import moe.tlaster.precompose.navigation.BackHandler
-import nl.tiebe.otarium.bypassStore
-import nl.tiebe.otarium.utils.server.LoginRequest
-import nl.tiebe.otarium.utils.server.exchangeUrl
-import nl.tiebe.otarium.utils.server.getUrl
-import nl.tiebe.otarium.utils.server.sendFirebaseToken
+import dev.tiebe.magisterapi.api.account.LoginFlow
+import nl.tiebe.otarium.Data.Onboarding.bypassStore
+import nl.tiebe.otarium.magister.MagisterLogin
+import nl.tiebe.otarium.utils.ui.CBackHandler
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-internal actual fun LoginScreen(onLogin: () -> Unit)  {
-    val loginUrl = getUrl()
-
+internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (MagisterLogin) -> Unit)  {
+    val loginUrl = remember { LoginFlow.createAuthURL() }
     var webView: CustomWebViewClient? = null
 
-    val backHandlerEnabled = remember { mutableStateOf(false) }
-
-    BackHandler {
-        if (backHandlerEnabled.value) {
+    val component = remember {
+        CBackHandler(componentContext) {
             if (webView != null && webView!!.webView.canGoBack()) {
                 webView!!.webView.goBack()
             } else {
@@ -48,8 +40,6 @@ internal actual fun LoginScreen(onLogin: () -> Unit)  {
         }
     }
 
-    backHandlerEnabled.value = true
-
     AndroidView(factory = {
         WebView(it).apply {
             settings.javaScriptEnabled = true
@@ -57,17 +47,17 @@ internal actual fun LoginScreen(onLogin: () -> Unit)  {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            val customWebViewClient = CustomWebViewClient(loginUrl.second, backHandlerEnabled, this, onLogin)
+            val customWebViewClient = CustomWebViewClient(loginUrl.codeVerifier, { component.enableBackCallback(false) }, this, onLogin)
             webViewClient = customWebViewClient
             webView = customWebViewClient
-            loadUrl(loginUrl.first)
+            loadUrl(loginUrl.url)
         }
     }, update = {
-        it.loadUrl(loginUrl.first)
+        it.loadUrl(loginUrl.url)
     })
 }
 
-class CustomWebViewClient(private var codeVerifier: String, private val backPressed: MutableState<Boolean>, val webView: WebView, private val onLogin: () -> Unit) :
+class CustomWebViewClient(private var codeVerifier: String, private val disableBackHandler: () -> Unit, val webView: WebView, private val onLogin: (MagisterLogin) -> Unit) :
     WebViewClient() {
 
         override fun shouldOverrideUrlLoading(
@@ -79,43 +69,19 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
                 val uri = Uri.parse(webResourceRequest.url.toString().replace("#", "?"))
                 uri.getQueryParameter("error")?.let {
                     Log.d("BrowserFragment", "Error: $it")
-                    val loginUrl = getUrl()
-                    codeVerifier = loginUrl.second
-                    view.loadUrl(loginUrl.first)
+                    val loginUrl = LoginFlow.createAuthURL()
+
+                    codeVerifier = loginUrl.url
+                    view.loadUrl(loginUrl.codeVerifier)
                 }
+                val code = uri.getQueryParameter("code") ?: return true
 
-                uri.getQueryParameter("code")
-                    ?.let { code ->
-                        runBlocking {
-                            launch {
-                                backPressed.value = false
-                                val login = exchangeUrl(LoginRequest(code, codeVerifier))
-                                onLogin()
-
-                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
-                                    OnCompleteListener { task ->
-                                        if (!task.isSuccessful) {
-                                            Log.w("Firebase", "Fetching FCM registration token failed", task.exception)
-                                            return@OnCompleteListener
-                                        }
-
-                                        // Get new FCM registration token
-                                        val token = task.result
-                                        runBlocking {
-                                            launch {
-                                                sendFirebaseToken(
-                                                    login.accessTokens.accessToken,
-                                                    token
-                                                )
-                                            }
-                                        }
-                                    }
-                                )
-
-
-                            }
-                        }
+                runBlocking {
+                    launch {
+                        disableBackHandler()
+                        onLogin(MagisterLogin(code, codeVerifier))
                     }
+                }
 
             } else {
                 view.loadUrl(webResourceRequest.url.toString())
@@ -129,9 +95,9 @@ class CustomWebViewClient(private var codeVerifier: String, private val backPres
         ): WebResourceResponse? {
             if (request?.url.toString().contains("playconsolelogin")) {
                 Log.d("BrowserFragment", "Signing in: ${request?.url}")
-                backPressed.value = false
+                disableBackHandler()
                 bypassStore(true)
-                onLogin()
+                onLogin(MagisterLogin("", ""))
             }
             return super.shouldInterceptRequest(view, request)
         }

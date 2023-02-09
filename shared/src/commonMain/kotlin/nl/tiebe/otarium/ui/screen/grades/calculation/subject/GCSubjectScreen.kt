@@ -13,18 +13,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import nl.tiebe.magisterapi.response.general.year.grades.Subject
+import com.arkivanov.decompose.ComponentContext
+import dev.tiebe.magisterapi.response.general.year.grades.Subject
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.screen.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.utils.format
-import nl.tiebe.otarium.utils.server.ServerGrade
+import nl.tiebe.otarium.utils.ui.CBackHandler
+import nl.tiebe.otarium.utils.ui.format
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: List<ServerGrade>) {
-    CustomBackHandler {
+internal fun GCSubjectScreen(componentContext: ComponentContext, openSubject: MutableState<Subject?>, gradeList: List<GradeWithGradeInfo>) {
+    CBackHandler(componentContext) {
         openSubject.value = null
     }
 
@@ -67,20 +68,20 @@ internal fun GCSubjectScreen(openSubject: MutableState<Subject?>, gradeList: Lis
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GradeList(grades: List<ServerGrade>) {
-    grades.forEach { grade ->
+internal fun GradeList(grades: List<GradeWithGradeInfo>) {
+    grades.reversed().forEach { grade ->
         ListItem(
             modifier = Modifier
                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-            headlineText = { Text(grade.gradeInfo.columnDescription ?: ":(") },
-            supportingText = { Text(grade.grade.dateEntered ?: ":(") },
+            headlineText = { Text(grade.gradeInfo.columnDescription ?: "") },
+            supportingText = { Text(grade.grade.dateEntered ?: "") },
             trailingContent = {
                 Box(
                     modifier = Modifier
                         .size(48.dp)
                 ) {
                     Text(
-                        text = grade.grade.grade ?: ":(",
+                        text = grade.grade.grade ?: "",
                         modifier = Modifier
                             .align(Alignment.Center),
                         style = MaterialTheme.typography.displaySmall.copy(fontSize = 18.sp),
@@ -101,6 +102,3 @@ internal fun GradeList(grades: List<ServerGrade>) {
         )
     }
 }
-
-@Composable
-internal expect fun CustomBackHandler(onBack: () -> Unit)

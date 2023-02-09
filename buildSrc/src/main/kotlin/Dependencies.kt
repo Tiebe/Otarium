@@ -1,5 +1,8 @@
 
 object Version {
+    const val appVersion = "2.1.1"
+    const val appVersionCode = 21
+
     const val kotlin = "1.7.20"
     const val gradle = "7.3.1"
     const val appcompat = "1.4.0"
@@ -7,11 +10,12 @@ object Version {
     const val compose = "1.3.0-beta04-dev885"
     const val compose_android = "1.2.1"
     const val compose_compiler = "1.3.2"
-    const val precompose = "1.3.9"
     const val ktor = "2.1.2"
+    const val decompose = "1.0.0-beta-03-native-compose"
 }
 
 object Compose {
+    const val activity = "androidx.activity:activity-compose:1.5.0"
     const val runtime = "androidx.compose.runtime:runtime:${Version.compose_android}"
     const val ui = "androidx.compose.ui:ui:${Version.compose_android}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Version.compose_android}"
@@ -41,8 +45,6 @@ object Kotlin {
     const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
-const val precompose = "moe.tlaster:precompose:${Version.precompose}"
-
 object Ktor {
     const val client_core = "io.ktor:ktor-client-core:${Version.ktor}"
     const val client_content_negotiation = "io.ktor:ktor-client-content-negotiation:${Version.ktor}"
@@ -50,7 +52,7 @@ object Ktor {
     const val serialization_json = "io.ktor:ktor-serialization-kotlinx-json:${Version.ktor}"
     const val client_logging_jvm = "io.ktor:ktor-client-logging-jvm:${Version.ktor}"
     const val client_json_jvm = "io.ktor:ktor-client-json-jvm:${Version.ktor}"
-    const val client_android = "io.ktor:ktor-client-android:${Version.ktor}"
+    const val client_android = "io.ktor:ktor-client-okhttp:${Version.ktor}"
     const val client_ios = "io.ktor:ktor-client-ios:${Version.ktor}"
 }
 
@@ -76,11 +78,20 @@ object Firebase {
     const val classpath = "com.google.gms:google-services:4.3.14"
     const val bom = "com.google.firebase:firebase-bom:31.1.0"
     const val analytics = "com.google.firebase:firebase-analytics-ktx"
-    const val messaging = "com.google.firebase:firebase-messaging-ktx"
+}
+
+object Decompose {
+    const val core = "com.arkivanov.decompose:decompose:${Version.decompose}"
+    const val compose = "com.arkivanov.decompose:extensions-compose-jetbrains:${Version.decompose}"
 }
 
 const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:0.9"
 const val napier = "io.github.aakira:napier:2.6.1"
 const val admob = "com.google.android.gms:play-services-ads:21.3.0"
 
-const val magisterAPI = "nl.tiebe:magisterapi:1.1.5"
+const val magisterAPI = "dev.tiebe:magisterapi:1.1.7"
+
+object Guava {
+    const val core = "com.google.guava:guava:31.0.1-android"
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.0"
+}

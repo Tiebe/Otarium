@@ -11,10 +11,10 @@ plugins {
     id("com.codingfeline.buildkonfig")
     id("dev.icerock.mobile.multiplatform-resources")
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
 }
 
-version = "1.0"
-val versionCode = 15
+version = Version.appVersion
 
 android {
     compileSdk = AndroidSdk.compile
@@ -27,8 +27,12 @@ android {
 
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
-        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        res.srcDirs("src/androidMain/resources", "src/commonMain/resources")
         res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+    }
+    compileOptions {
+        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_11
+        targetCompatibility = org.gradle.api.JavaVersion.VERSION_11
     }
 }
 
@@ -42,12 +46,9 @@ kotlin {
         ios.deploymentTarget = iOSSdk.deploymentTarget
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "test"
             isStatic = true
         }
-
-        pod("FirebaseAnalytics")
-        pod("FirebaseMessaging")
     }
     sourceSets {
         val commonMain by getting {
@@ -61,12 +62,14 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.runtime)
-                api(precompose)
                 api(Moko.api)
 
                 implementation(Kotlin.dateTime)
                 implementation(russhwolf_settings)
                 implementation(napier)
+
+                implementation(Decompose.core)
+                implementation(Decompose.compose)
 
                 implementation(Accompanist.pager)
                 implementation(Accompanist.pager_indicators)
@@ -83,9 +86,10 @@ kotlin {
 
                 api(Moko.android)
                 implementation(admob)
-                implementation(project.dependencies.platform(Firebase.bom))
-                implementation(Firebase.analytics)
-                implementation(Firebase.messaging)
+
+                implementation(Guava.core)
+                implementation(Guava.coroutines)
+
             }
         }
         val iosMain by getting {
@@ -108,7 +112,7 @@ buildkonfig {
     packageName = "nl.tiebe.otarium"
 
     defaultConfigs {
-        buildConfigField(INT, "versionCode", versionCode.toString())
+        buildConfigField(INT, "versionCode", Version.appVersionCode.toString())
     }
 }
 

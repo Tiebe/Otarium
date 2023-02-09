@@ -1,40 +1,42 @@
 package nl.tiebe.otarium.ui.screen.grades.calculation.screen
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import nl.tiebe.magisterapi.response.general.year.grades.GradeColumn
-import nl.tiebe.otarium.magister.Tokens
-import nl.tiebe.otarium.utils.server.ServerGrade
-import nl.tiebe.otarium.utils.server.getGradesFromServer
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnCreate
+import kotlinx.coroutines.*
+import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
+import nl.tiebe.otarium.utils.refreshGrades
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
-class GCScreenModel {
+@OptIn(DelicateCoroutinesApi::class)
+
+//TODO: FIX THIS
+class GCScreenModel(componentContext: ComponentContext) : ComponentContext by componentContext {
     sealed class State {
         object Loading: State()
-        data class Data(val data: List<ServerGrade>): State()
+        data class Data(val data: List<GradeWithGradeInfo>): State()
         object Failed: State()
     }
 
-    private var _state = MutableStateFlow<State>(State.Loading)
-    val state = _state.asStateFlow()
+    private var _state = MutableValue<State>(State.Loading)
+    val state: Value<State> = _state
 
     init {
-        runBlocking {
-            launch {
-                while (isActive) {
+        lifecycle.doOnCreate {
+            runBlocking {
+                launch {
+                    //todo this shouldnt block the thread
                     try {
-                        Tokens.getPastTokens()?.accessTokens?.accessToken?.let { token ->
-                            _state.value = State.Data(getGradesFromServer(token)?.filter {
-                                it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
-                                        it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
-                            } ?: return@let)
-                            return@launch
-                        }
-                    } catch (e: Exception) { e.printStackTrace() }
+                        _state.value = State.Data(refreshGrades()?.filter {
+                            it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                                    it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+                        } ?: return@launch)
+                        return@launch
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                     _state.value = State.Failed
-                    break
                 }
             }
         }

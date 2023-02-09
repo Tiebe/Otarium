@@ -13,13 +13,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.screen.grades.calculation.screen.GCScreen
 import nl.tiebe.otarium.ui.screen.grades.recentgrades.RecentGradeScreen
-import nl.tiebe.otarium.utils.getLocalizedString
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun GradeScreen() {
+internal fun GradeScreen(componentContext: ComponentContext) {
     var selectedTab by remember { mutableStateOf(0) }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -51,7 +52,7 @@ internal fun GradeScreen() {
 
         when (selectedTab) {
             0 -> RecentGradeScreen()
-            1 -> GCScreen()
+            1 -> GCScreen(componentContext)
         }
     }
 }

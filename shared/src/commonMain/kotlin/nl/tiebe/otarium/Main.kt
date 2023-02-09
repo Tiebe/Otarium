@@ -10,20 +10,28 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ComponentContext
 import com.russhwolf.settings.Settings
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.Data.Onboarding.finishOnboarding
+import nl.tiebe.otarium.Data.Onboarding.isFinishedOnboarding
+import nl.tiebe.otarium.Data.Onboarding.storeBypass
 import nl.tiebe.otarium.magister.Tokens
+import nl.tiebe.otarium.magister.exchangeUrl
 import nl.tiebe.otarium.ui.navigation.Navigation
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
 import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
+import nl.tiebe.otarium.utils.refreshGrades
 
 val settings: Settings = Settings()
 
-val darkmodeState = mutableStateOf(false)
+val darkModeState = mutableStateOf(false)
 val safeAreaState = mutableStateOf(PaddingValues())
 
 fun setup() {
-    val version = settings.getInt("version", 0)
+    val version = settings.getInt("version", 1000)
 
     //REMINDER: UPDATE VERSION CODE IN BOTH THE ANDROID MODULE AND SHARED BUILDKONFIG MODULE!!
 
@@ -31,11 +39,19 @@ fun setup() {
         settings.remove("agenda")
     }
 
+    if (version <= 17) {
+        settings.clear()
+    }
+
+    if (version <= 20) {
+        setupNotifications()
+    }
+
     settings.putInt("version", BuildKonfig.versionCode)
 }
 
 @Composable
-internal fun Content() {
+internal fun Content(componentContext: ComponentContext) {
     setup()
 
     OtariumTheme {
@@ -44,39 +60,47 @@ internal fun Content() {
             color = MaterialTheme.colorScheme.background
         ) {
             val openLoginScreen = remember { mutableStateOf(false) }
-            if (openLoginScreen.value) MainActivityScreen()
+            if (openLoginScreen.value) MainActivityScreen(componentContext)
 
             if (!isFinishedOnboarding()) {
                 OnBoarding(onFinish = {
                     openLoginScreen.value = true
                     finishOnboarding()
                 }, notifications = { setupNotifications() })
-            } else MainActivityScreen()
+            } else MainActivityScreen(componentContext)
         }
     }
 
     val darkMode = isSystemInDarkTheme()
-    LaunchedEffect(key1 = Unit, block = {
-        darkmodeState.value = darkMode
+    LaunchedEffect(key1 = darkMode, block = {
+        darkModeState.value = darkMode
     })
 }
 
 
 @Composable
-internal fun MainActivityScreen() {
+internal fun MainActivityScreen(componentContext: ComponentContext) {
     if (storeBypass()) {
-        Navigation(); return
+        Navigation(componentContext); return
     }
     val openMainScreen = remember { mutableStateOf(false) }
 
-    if (openMainScreen.value) Navigation()
+    if (openMainScreen.value) Navigation(componentContext)
+    else if (Tokens.getSavedMagisterTokens() == null) {
+        LoginScreen(componentContext, onLogin = {
+            if (storeBypass()) openMainScreen.value = true
 
-    if (Tokens.getPastTokens() == null) {
-        LoginScreen(onLogin = {
-            openMainScreen.value = true
+            else runBlocking {
+                launch {
+                    exchangeUrl(it)
+
+                    openMainScreen.value = true
+                    refreshGrades()
+                }
+            }
         })
     } else {
-        Navigation()
+        Navigation(componentContext)
     }
 }
 

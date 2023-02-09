@@ -1,19 +1,19 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'shared'
-    spec.version                  = '1.0'
+    spec.version                  = '2.1.0'
     spec.homepage                 = 'https://otarium.groosman.nl'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Otarium'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/test.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '11.0'
-    spec.dependency 'FirebaseAnalytics'
+                
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared',
-        'PRODUCT_MODULE_NAME' => 'shared',
+        'PRODUCT_MODULE_NAME' => 'test',
     }
                 
     spec.script_phases = [

@@ -2,33 +2,24 @@ package nl.tiebe.otarium.magister
 
 import io.ktor.http.*
 import kotlinx.datetime.LocalDate
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import nl.tiebe.magisterapi.api.agenda.AgendaFlow.getAgenda
-import nl.tiebe.magisterapi.response.general.year.agenda.AgendaItem
-import nl.tiebe.otarium.settings
+import dev.tiebe.magisterapi.api.agenda.AgendaFlow.getAgenda
+import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 
-suspend fun getMagisterAgenda(accountId: Int, tenantUrl: String, accessToken: String, start: LocalDate, end: LocalDate): List<AgendaItem> {
-    val agenda = getAgenda(
+suspend fun getMagisterAgenda(
+    accountId: Int,
+    tenantUrl: String,
+    accessToken: String,
+    start: LocalDate,
+    end: LocalDate
+): List<AgendaItem> {
+    return getAgenda(
         Url(tenantUrl),
         accessToken,
         accountId,
         "${start.year}-${start.monthNumber}-${start.dayOfMonth}",
         "${end.year}-${end.monthNumber}-${end.dayOfMonth}"
     )
-
-    return agenda
 }
-
-fun getSavedAgenda(): List<AgendaItemWithAbsence> {
-    return settings.getStringOrNull("agenda")?.let { Json.decodeFromString(it) } ?: emptyList()
-}
-
-fun saveAgenda(agenda: List<AgendaItemWithAbsence>) {
-    settings.putString("agenda", Json.encodeToString(agenda))
-}
-
 
 fun List<AgendaItemWithAbsence>.getAgendaForDay(day: Int): List<AgendaItemWithAbsence> {
     return this.filter { item ->

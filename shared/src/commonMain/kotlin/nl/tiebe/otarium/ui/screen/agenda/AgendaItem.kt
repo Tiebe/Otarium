@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
-import nl.tiebe.otarium.utils.parseHtml
+import nl.tiebe.otarium.utils.ui.parseHtml
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
