@@ -4,12 +4,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
@@ -39,10 +44,8 @@ sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> 
 var adsShown by mutableStateOf(Data.showAds)
 
 @Composable
-internal fun Navigation(componentContext: ComponentContext, onNewUser: () -> Unit) {
-    val navigation = remember { StackNavigation<Screen>() }
-
-    BottomBar(componentContext, navigation, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp), onNewUser)
+internal fun Navigation(childStack: Value<ChildStack<Screen, ComponentContext>>, navigation: StackNavigation<Screen>, componentContext: ComponentContext, onNewUser: () -> Unit) {
+    BottomBar(childStack, componentContext, navigation, Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp), onNewUser)
 
     if (adsShown) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {

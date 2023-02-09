@@ -11,12 +11,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.exchangeUrl
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.navigation.Navigation
+import nl.tiebe.otarium.ui.navigation.Screen
 import nl.tiebe.otarium.ui.onboarding.OnBoarding
 import nl.tiebe.otarium.ui.screen.LoginScreen
 import nl.tiebe.otarium.ui.theme.OtariumTheme
@@ -32,6 +35,7 @@ fun setup() {
 
     //REMINDER: UPDATE VERSION CODE IN BOTH THE ANDROID MODULE AND SHARED BUILDKONFIG MODULE!!
     runVersionCheck(oldVersion)
+
     settings.putInt("version", BuildKonfig.versionCode)
 }
 
@@ -65,11 +69,33 @@ internal fun Content(componentContext: ComponentContext) {
 
 @Composable
 internal fun MainActivityScreen(componentContext: ComponentContext) {
-    if (Data.storeLoginBypass) {
-        Navigation(componentContext) {}; return
+    val navigation = remember { StackNavigation<Screen>() }
+
+    val childStack = remember {
+        componentContext.childStack(
+            source = navigation,
+            initialStack = { listOf(Screen.Agenda) },
+            handleBackButton = true,
+            childFactory = { _, childComponentContext -> childComponentContext },
+        )
     }
-    val openMainScreen = remember { mutableStateOf(false) }
+
+
+    if (Data.storeLoginBypass) {
+        Navigation(childStack, navigation, componentContext) {}; return
+    }
+
+    val openMainScreen = remember { mutableStateOf(true) }
     val openLoginScreen = remember { mutableStateOf(false) }
+
+    if (openMainScreen.value) Navigation(childStack, navigation, componentContext) { openLoginScreen.value = true }
+    else if (Data.accounts.isEmpty()) {
+        openLoginScreen.value = true
+    } else {
+        Navigation(childStack, navigation, componentContext) {
+            openLoginScreen.value = true
+        }
+    }
 
     if (openLoginScreen.value) LoginScreen(componentContext, onLogin = {
         if (Data.storeLoginBypass) openMainScreen.value = true
@@ -78,26 +104,17 @@ internal fun MainActivityScreen(componentContext: ComponentContext) {
             launch {
                 val account = exchangeUrl(it)
 
-                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } != null) {
+                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
                     Data.accounts = Data.accounts.toMutableList().apply { add(account) }
                 }
 
+                account.refreshGrades()
+
                 openLoginScreen.value = false
                 openMainScreen.value = true
-
-                account.refreshGrades()
             }
         }
     })
-
-    else if (openMainScreen.value) Navigation(componentContext) { openLoginScreen.value = true }
-    else if (Data.accounts.isEmpty()) {
-        openLoginScreen.value = true
-    } else {
-        Navigation(componentContext) {
-            openLoginScreen.value = true
-        }
-    }
 }
 
 expect fun setupNotifications()
