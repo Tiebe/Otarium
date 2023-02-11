@@ -14,8 +14,7 @@ suspend fun exchangeUrl(magisterLogin: MagisterLogin): MagisterAccount {
         accountId = profileInfo.person.id,
         profileInfo = profileInfo,
         tenantUrl = tenantUrl.toString(),
-        savedTokens = response
-    )
+    ).also { it.tokens = response }
 }
 
 @Serializable

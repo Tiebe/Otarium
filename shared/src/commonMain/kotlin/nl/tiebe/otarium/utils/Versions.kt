@@ -4,12 +4,8 @@ import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.TokenResponse
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.magister.MagisterAccount
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.*
 import nl.tiebe.otarium.settings
 import nl.tiebe.otarium.setupNotifications
 
@@ -34,24 +30,35 @@ fun runVersionCheck(oldVersion: Int) {
 
             val profileInfo = ProfileInfoFlow.getProfileInfo(currentAccount["tenantUrl"]!!.jsonPrimitive.content, tokens.accessToken)
 
-            val newAccount = MagisterAccount(
-                accountId = accountId,
-                profileInfo = profileInfo,
-                tenantUrl = currentAccount["tenantUrl"]!!.jsonPrimitive.content,
-                savedTokens = tokens
+            val newAccount = mutableMapOf(
+                "accountId" to accountId.toString(),
+                "profileInfo" to Json.encodeToString(profileInfo),
+                "tenantUrl" to currentAccount["tenantUrl"]!!.jsonPrimitive.content,
+                "savedTokens" to Json.encodeToString(tokens)
             )
 
-            newAccount.grades = settings.getStringOrNull("grades")?.let { Json.decodeFromString(it) } ?: emptyList()
-            newAccount.fullGradeList = Json.decodeFromString(settings.getString("full_grade_list", "[]"))
-
-            newAccount.agenda = settings.getStringOrNull("agenda")?.let { Json.decodeFromString(it) } ?: emptyList()
+            settings.putString("grades-$accountId", settings.getString("grades", "[]"))
+            settings.putString("full_grade_list-$accountId", settings.getString("full_grade_list", "[]"))
+            settings.putString("agenda-$accountId", settings.getString("agenda", "[]"))
 
             settings.remove("grades")
             settings.remove("full_grade_list")
             settings.remove("agenda")
             settings.remove("magister_tokens")
 
-            Data.accounts = Data.accounts.toMutableList().apply { add(newAccount) }
+            settings.putString("accounts", Json.encodeToString(listOf(newAccount)))
         }
+    }
+
+    if (oldVersion <= 22) {
+        val accounts: MutableList<JsonObject> = settings.getString("accounts", "[]").let<String, List<JsonObject>> { Json.decodeFromString(it) }.toMutableList()
+
+        for (account in accounts) {
+            settings.putString("tokens-${account["accountId"]!!.jsonPrimitive.content}", account["savedTokens"]!!.jsonObject.toString())
+
+            accounts[accounts.indexOf(account)] = Json.encodeToJsonElement(account.toMutableMap().apply { remove("savedTokens") }).jsonObject
+        }
+
+        settings.putString("accounts", Json.encodeToString(accounts))
     }
 }
