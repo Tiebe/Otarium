@@ -37,6 +37,7 @@ fun setup() {
     runVersionCheck(oldVersion)
 
     settings.putInt("version", BuildKonfig.versionCode)
+
 }
 
 @Composable

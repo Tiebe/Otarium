@@ -10,7 +10,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.settings
 
 @Serializable
@@ -18,7 +17,6 @@ data class MagisterAccount(
     val accountId: Int,
     val profileInfo: ProfileInfo,
     val tenantUrl: String,
-    private val savedTokens: TokenResponse
 ) {
     var agenda: List<AgendaItemWithAbsence>
         get() = settings.getStringOrNull("agenda-$accountId")?.let { Json.decodeFromString(it) } ?: emptyList()
@@ -34,9 +32,13 @@ data class MagisterAccount(
 
     var tokens: TokenResponse
         get() = runBlocking {
+            val savedTokens: TokenResponse = settings.getStringOrNull("tokens-$accountId")?.let { Json.decodeFromString(it) } ?: throw IllegalStateException("No tokens found!")
+
+            println(savedTokens.expiresAt)
+            println(savedTokens.expiresAt.isAfterNow)
             if (!savedTokens.expiresAt.isAfterNow) {
                 savedTokens
-            } else refreshTokens().tokens
+            } else refreshTokens()
         }
 
         set(value) {
@@ -46,15 +48,13 @@ data class MagisterAccount(
     private val Long.isAfterNow: Boolean
         get() = Clock.System.now().toEpochMilliseconds()/1000 + 20 > this
 
-    suspend fun refreshTokens(): MagisterAccount {
+    suspend fun refreshTokens(): TokenResponse {
+        val savedTokens: TokenResponse = settings.getStringOrNull("tokens-$accountId")?.let { Json.decodeFromString(it) } ?: throw IllegalStateException("No tokens found!")
         val newTokens = LoginFlow.refreshToken(savedTokens.refreshToken)
 
-        Data.accounts = Data.accounts.map {
-            if (it.accountId == accountId) MagisterAccount(it.accountId, it.profileInfo, it.tenantUrl, newTokens)
-            else it
-        }
+        tokens = newTokens
 
-        return MagisterAccount(accountId, profileInfo, tenantUrl, newTokens)
+        return newTokens
     }
 
 }
