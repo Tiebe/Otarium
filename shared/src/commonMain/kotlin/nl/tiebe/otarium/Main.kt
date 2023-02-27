@@ -44,6 +44,11 @@ fun setup() {
 internal fun Content(componentContext: ComponentContext) {
     setup()
 
+    val darkMode = isSystemInDarkTheme()
+    LaunchedEffect(key1 = darkMode, block = {
+        darkModeState.value = darkMode
+    })
+
     OtariumTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -60,11 +65,6 @@ internal fun Content(componentContext: ComponentContext) {
             } else MainActivityScreen(componentContext)
         }
     }
-
-    val darkMode = isSystemInDarkTheme()
-    LaunchedEffect(key1 = darkMode, block = {
-        darkModeState.value = darkMode
-    })
 }
 
 
@@ -89,10 +89,9 @@ internal fun MainActivityScreen(componentContext: ComponentContext) {
     val openMainScreen = remember { mutableStateOf(true) }
     val openLoginScreen = remember { mutableStateOf(false) }
 
-    if (openMainScreen.value) Navigation(childStack, navigation, componentContext) { openLoginScreen.value = true }
-    else if (Data.accounts.isEmpty()) {
+    if (Data.accounts.isEmpty()) {
         openLoginScreen.value = true
-    } else {
+    } else if (openMainScreen.value) {
         Navigation(childStack, navigation, componentContext) {
             openLoginScreen.value = true
         }

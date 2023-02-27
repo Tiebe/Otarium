@@ -6,6 +6,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +24,6 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.icons.BugOutline
-import nl.tiebe.otarium.ui.icons.SettingsIcon
 import nl.tiebe.otarium.ui.navigation.adsShown
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
@@ -50,7 +51,7 @@ internal fun SettingsScreen(componentContext: ComponentContext, onNewUser: () ->
                 textAlign = TextAlign.Center)
 
             Button(modifier = Modifier.width(50.dp), onClick = { changeUserPopup.value = true }, contentPadding = PaddingValues(0.dp)) {
-                Icon(SettingsIcon, "Bug", modifier = Modifier.fillMaxWidth())
+                Icon(Icons.Default.AccountCircle, "Account switch", modifier = Modifier.fillMaxWidth())
             }
         }
 
