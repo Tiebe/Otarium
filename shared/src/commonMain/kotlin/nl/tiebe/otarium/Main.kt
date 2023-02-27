@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -27,13 +27,12 @@ import nl.tiebe.otarium.utils.runVersionCheck
 
 val settings: Settings = Settings()
 
-val darkModeState = mutableStateOf(false)
+lateinit var darkModeState: MutableState<Boolean>
 val safeAreaState = mutableStateOf(PaddingValues())
 
 fun setup() {
     val oldVersion = settings.getInt("version", 1000)
 
-    //REMINDER: UPDATE VERSION CODE IN BOTH THE ANDROID MODULE AND SHARED BUILDKONFIG MODULE!!
     runVersionCheck(oldVersion)
 
     settings.putInt("version", BuildKonfig.versionCode)
@@ -43,11 +42,7 @@ fun setup() {
 @Composable
 internal fun Content(componentContext: ComponentContext) {
     setup()
-
-    val darkMode = isSystemInDarkTheme()
-    LaunchedEffect(key1 = darkMode, block = {
-        darkModeState.value = darkMode
-    })
+    darkModeState = mutableStateOf(isSystemInDarkTheme())
 
     OtariumTheme {
         Surface(

@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.screen.settings
+package nl.tiebe.otarium.ui.screen.settings.popups
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -15,7 +15,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.random.Random
 
 @Composable
-internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
+internal fun BugReportPopup(componentContext: ComponentContext, onExit: () -> Unit) {
     CBackHandler(componentContext, onBack = onExit)
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -28,22 +28,6 @@ internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
                 text = getLocalizedString(MR.strings.bug_text_1),
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-
-            Divider()
-
-            Row(modifier = Modifier
-                .fillMaxWidth(0.95f)
-                .height(70.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "Clear cache",
-                        textAlign = TextAlign.Center)
-                    Button(
-                        onClick = { deleteCache() }) {
-                        Text("Clear")
-                    }
-            }
 
             Divider()
 
@@ -76,5 +60,3 @@ internal fun BugScreen(componentContext: ComponentContext, onExit: () -> Unit) {
         }
     }
 }
-
-expect fun deleteCache()

@@ -25,6 +25,8 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.icons.BugOutline
 import nl.tiebe.otarium.ui.navigation.adsShown
+import nl.tiebe.otarium.ui.screen.settings.popups.BugReportPopup
+import nl.tiebe.otarium.ui.screen.settings.popups.ChangeUserPopup
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 //TODO complete redesign
@@ -32,8 +34,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
 internal fun SettingsScreen(componentContext: ComponentContext, onNewUser: () -> Unit) {
-    val bugScreenPopup = remember { mutableStateOf(false) }
-    val changeUserPopup = remember { mutableStateOf(false) }
+    val currentPopup = remember { mutableStateOf<Pair<Boolean, (@Composable () -> Unit)?>>(false to null) }
 
     Column(
         modifier = Modifier
@@ -50,7 +51,13 @@ internal fun SettingsScreen(componentContext: ComponentContext, onNewUser: () ->
             Text(text = getLocalizedString(MR.strings.switch_user_text),
                 textAlign = TextAlign.Center)
 
-            Button(modifier = Modifier.width(50.dp), onClick = { changeUserPopup.value = true }, contentPadding = PaddingValues(0.dp)) {
+            Button(modifier = Modifier.width(50.dp), onClick = {
+                                                               currentPopup.value = true to {
+                                                                   ChangeUserPopup(componentContext, {
+                                                                       currentPopup.value = false to currentPopup.value.second
+                                                                   }, onNewUser)
+                                                               }
+            }, contentPadding = PaddingValues(0.dp)) {
                 Icon(Icons.Default.AccountCircle, "Account switch", modifier = Modifier.fillMaxWidth())
             }
         }
@@ -107,7 +114,13 @@ internal fun SettingsScreen(componentContext: ComponentContext, onNewUser: () ->
             Text(text = getLocalizedString(MR.strings.bug_report),
                 textAlign = TextAlign.Center)
 
-            Button(modifier = Modifier.width(50.dp), onClick = { bugScreenPopup.value = true }, contentPadding = PaddingValues(0.dp)) {
+            Button(modifier = Modifier.width(50.dp), onClick = {
+                currentPopup.value = true to {
+                    BugReportPopup(componentContext) {
+                        currentPopup.value = false to currentPopup.value.second
+                    }
+                }
+            }, contentPadding = PaddingValues(0.dp)) {
                 Icon(BugOutline, "Bug", modifier = Modifier.fillMaxWidth()) }
         }
 
@@ -117,27 +130,12 @@ internal fun SettingsScreen(componentContext: ComponentContext, onNewUser: () ->
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         AnimatedVisibility(
-            visible = bugScreenPopup.value,
+            visible = currentPopup.value.first,
             enter = fadeIn(),
             exit = fadeOut(),
             modifier = Modifier.fillMaxSize()
         ) {
-            BugScreen(componentContext) {
-                bugScreenPopup.value = false
-            }
-        }
-    }
-
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        AnimatedVisibility(
-            visible = changeUserPopup.value,
-            enter = fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            ChangeUserScreen(componentContext, {
-                changeUserPopup.value = false
-            }, onNewUser)
+            currentPopup.value.second?.invoke()
         }
     }
 }
