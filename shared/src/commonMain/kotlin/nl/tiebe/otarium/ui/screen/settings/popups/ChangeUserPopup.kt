@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.screen.settings
+package nl.tiebe.otarium.ui.screen.settings.popups
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,7 +19,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ChangeUserScreen(componentContext: ComponentContext, onExit: () -> Unit, onNewUser: () -> Unit) {
+internal fun ChangeUserPopup(componentContext: ComponentContext, onExit: () -> Unit, onNewUser: () -> Unit) {
     CBackHandler(componentContext, onBack = onExit)
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {

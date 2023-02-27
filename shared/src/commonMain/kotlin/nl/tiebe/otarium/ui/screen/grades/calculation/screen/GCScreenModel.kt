@@ -10,8 +10,6 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.refreshGrades
 
-@OptIn(DelicateCoroutinesApi::class)
-
 //TODO: FIX THIS
 class GCScreenModel(componentContext: ComponentContext) : ComponentContext by componentContext {
     sealed class State {
