@@ -13,7 +13,7 @@ import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 
 interface HomeComponent {
-    val dialog: Value<ChildOverlay<*, ComponentContext>>
+    val dialog: Value<ChildOverlay<*, MenuItemComponent>>
 
     @Parcelize
     sealed interface MenuItem: Parcelable {
@@ -36,10 +36,10 @@ class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, C
                 is HomeComponent.MenuItem.Agenda -> agendaComponent(componentContext)
                 is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
                 is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
-            }
+            } as MenuItemComponent
         }
 
-    override val dialog: Value<ChildOverlay<*, ComponentContext>> = _dialog
+    override val dialog: Value<ChildOverlay<*, MenuItemComponent>> = _dialog
 
     private fun agendaComponent(componentContext: ComponentContext) =
         DefaultAgendaComponent(
