@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.sp
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun OnBoardingItem(items: OnBoardingItems) {
+internal fun OnboardingMenuItem(items: OnboardingItems) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -22,7 +22,6 @@ internal fun OnBoardingItem(items: OnBoardingItems) {
         Text(
             text = getLocalizedString(items.title),
             style = MaterialTheme.typography.headlineMedium,
-            // fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
