@@ -15,7 +15,7 @@ import nl.tiebe.otarium.ui.onboarding.sections.TopSection
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
-    val items = OnBoardingItems.getData()
+    val items = OnboardingItems.getData()
     val scope = rememberCoroutineScope()
     val pageState = rememberPagerState()
 
@@ -40,7 +40,7 @@ internal fun OnBoarding(onFinish: () -> Unit, notifications: () -> Unit) {
                 .fillMaxHeight(0.9f)
                 .fillMaxWidth()
         ) { page ->
-            OnBoardingItem(items = items[page])
+            OnboardingMenuItem(items = items[page])
         }
         BottomSection(size = items.size, index = pageState.currentPage) {
             if (pageState.currentPage + 1 < items.size) {

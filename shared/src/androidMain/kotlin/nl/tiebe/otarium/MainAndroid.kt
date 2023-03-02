@@ -61,3 +61,9 @@ fun askBatteryOptimizationPermission(context: Context) {
         )
     }
 }
+
+actual fun closeApp() {
+    val i = Intent(Intent.ACTION_MAIN)
+    i.addCategory(Intent.CATEGORY_HOME)
+    context.startActivity(i)
+}

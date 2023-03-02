@@ -113,3 +113,5 @@ internal fun MainActivityScreen(componentContext: ComponentContext) {
 }
 
 expect fun setupNotifications()
+
+expect fun closeApp()

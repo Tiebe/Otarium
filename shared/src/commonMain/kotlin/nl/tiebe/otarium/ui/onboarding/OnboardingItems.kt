@@ -20,22 +20,21 @@ import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
-internal class OnBoardingItems(
-/*    val image: Int,*/
+internal class OnboardingItems(
     val title: StringResource,
     val desc: StringResource,
     val extraItems: @Composable () -> Unit = {}
 ) {
     companion object{
-        fun getData(): List<OnBoardingItems>{
+        fun getData(): List<OnboardingItems>{
             return listOf(
-                OnBoardingItems(
+                OnboardingItems(
                     title = MR.strings.onboarding_title_1,
                     desc = MR.strings.onboarding_desc_1
-                ), OnBoardingItems(
+                ), OnboardingItems(
                     title = MR.strings.onboarding_title_2,
                     desc = MR.strings.onboarding_desc_2
-                ), OnBoardingItems(
+                ), OnboardingItems(
                     title = MR.strings.onboarding_title_4,
                     desc = MR.strings.onboarding_desc_4
                 ) {
@@ -70,7 +69,7 @@ internal class OnBoardingItems(
                             letterSpacing = 1.sp,
                         )
                     }
-                }, OnBoardingItems(
+                }, OnboardingItems(
 
                     title = MR.strings.onboarding_title_3,
                     desc = MR.strings.onboarding_desc_3
