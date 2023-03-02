@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.russhwolf.settings.Settings
@@ -18,11 +16,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.exchangeUrl
 import nl.tiebe.otarium.magister.refreshGrades
-import nl.tiebe.otarium.ui.navigation.Navigation
-import nl.tiebe.otarium.ui.navigation.Screen
-import nl.tiebe.otarium.ui.onboarding.OnBoarding
-import nl.tiebe.otarium.ui.screen.LoginScreen
-import nl.tiebe.otarium.ui.theme.OtariumTheme
+import nl.tiebe.otarium.oldui.navigation.Navigation
+import nl.tiebe.otarium.oldui.navigation.Screen
+import nl.tiebe.otarium.oldui.screen.LoginScreen
+import nl.tiebe.otarium.oldui.theme.OtariumTheme
+import nl.tiebe.otarium.ui.home.HomeScreen
+import nl.tiebe.otarium.ui.root.DefaultRootComponent
+import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.utils.runVersionCheck
 
 val settings: Settings = Settings()
@@ -41,23 +41,23 @@ fun setup() {
 
 @Composable
 internal fun Content(componentContext: ComponentContext) {
+    Content(component = DefaultRootComponent(componentContext))
+}
+
+@Composable
+internal fun Content(component: RootComponent) {
     setup()
     darkModeState = mutableStateOf(isSystemInDarkTheme())
+    val currentScreen by component.currentScreen.subscribeAsState()
 
     OtariumTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            val openLoginScreen = remember { mutableStateOf(false) }
-            if (openLoginScreen.value) MainActivityScreen(componentContext)
-
-            if (!Data.finishedOnboarding) {
-                OnBoarding(onFinish = {
-                    openLoginScreen.value = true
-                    Data.finishedOnboarding = true
-                }, notifications = { setupNotifications() })
-            } else MainActivityScreen(componentContext)
+            when (val screen = currentScreen) {
+                is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
+            }
         }
     }
 }
@@ -74,11 +74,6 @@ internal fun MainActivityScreen(componentContext: ComponentContext) {
             handleBackButton = true,
             childFactory = { _, childComponentContext -> childComponentContext },
         )
-    }
-
-
-    if (Data.storeLoginBypass) {
-        Navigation(childStack, navigation, componentContext) {}; return
     }
 
     val openMainScreen = remember { mutableStateOf(true) }
