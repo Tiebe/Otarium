@@ -2,12 +2,13 @@ package nl.tiebe.otarium.ui.home.agenda
 
 import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.otarium.ui.home.HomeComponent
+import nl.tiebe.otarium.ui.home.MenuItemComponent
 
-interface AgendaComponent {
+interface TimetableComponent : MenuItemComponent {
 }
 
-class DefaultAgendaComponent(
+class DefaultTimetableComponent(
     componentContext: ComponentContext,
     navigate: (menuItem: HomeComponent.MenuItem) -> Unit
-): AgendaComponent, ComponentContext by componentContext {
+): TimetableComponent, ComponentContext by componentContext {
 }
