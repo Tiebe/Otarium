@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.ui.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -11,18 +12,17 @@ import nl.tiebe.otarium.oldui.navigation.Ads
 import nl.tiebe.otarium.oldui.navigation.adsShown
 
 @Composable
-fun HomeScreen(component: HomeComponent) {
-    BottomBar(
-        childStack,
-        componentContext,
-        navigation,
-        Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp),
-        onNewUser
-    )
+internal fun HomeScreen(component: HomeComponent) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        BottomBar(
+            component,
+            Modifier.padding(bottom = if (adsShown) 50.dp else 0.dp)
+        )
 
-    if (adsShown) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            Ads()
+        if (adsShown) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+                Ads()
+            }
         }
     }
 }
