@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.agenda
+package nl.tiebe.otarium.ui.home.timetable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,17 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.ComponentContext
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.utils.ui.CBackHandler
 import nl.tiebe.otarium.utils.ui.parseHtml
 
 @Composable
-internal fun AgendaItemPopup(componentContext: ComponentContext, agendaItemWithAbsence: AgendaItemWithAbsence, onExit: () -> Unit) {
-    CBackHandler(componentContext, onBack = onExit)
+internal fun TimetableItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence) {
+
 
     Surface(Modifier.fillMaxSize()) {
         Column(

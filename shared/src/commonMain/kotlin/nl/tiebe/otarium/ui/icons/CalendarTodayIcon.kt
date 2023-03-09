@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.icons
+package nl.tiebe.otarium.ui.icons
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath

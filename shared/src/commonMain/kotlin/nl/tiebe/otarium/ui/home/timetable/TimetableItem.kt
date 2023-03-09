@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.agenda
+package nl.tiebe.otarium.ui.home.timetable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,49 +14,46 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.*
-import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.ui.parseHtml
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AgendaItem(
+internal fun TimetableItem(
+    component: TimetableComponent,
     currentPage: Int,
-    totalDays: Int,
-    now: LocalDateTime,
     timesShown: IntRange,
     dpPerHour: Dp,
-    loadedAgendas: MutableMap<Int, List<List<AgendaItemWithAbsence>>>,
-    openAgendaItemWithAbsence: (AgendaItemWithAbsence) -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val dayOfWeek = (currentPage.mod(totalDays))
-
         val pageWeek = if (currentPage >= 0) {
-            currentPage / totalDays
+            currentPage / component.days.size
         } else {
-            floor((currentPage / totalDays.toFloat())).toInt()
+            floor((currentPage / component.days.size.toFloat())).toInt()
         }
 
-        val dayOfWeekStartMillis = now.date.minus(
-            now.date.dayOfWeek.ordinal,
+        val startOfWeekDate = component.now.value.date.minus(
+            component.now.value.date.dayOfWeek.ordinal,
             DateTimeUnit.DAY
         ) // first day of week
             .plus(pageWeek * 7, DateTimeUnit.DAY) // add weeks to get to selected week
             .plus(
-                currentPage - (pageWeek * totalDays),
+                currentPage - (pageWeek * component.days.size),
                 DateTimeUnit.DAY
             ) // add days to get to selected day
-            .atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds()
 
-        val timeTop: Long = dayOfWeekStartMillis + (timesShown.first() * 60 * 60 * 1000)
+        val timeTop: Long = startOfWeekDate.atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds() + (timesShown.first() * 60 * 60 * 1000)
 
-        loadedAgendas[pageWeek + 100]?.getOrNull(dayOfWeek)?.forEach { agendaItemWithAbsence ->
+        val timetable = component.timetable.subscribeAsState()
+
+        component.getTimetableForWeek(timetable.value, startOfWeekDate).forEach { agendaItemWithAbsence ->
+            //.forEach { agendaItemWithAbsence ->
             val agendaItem = agendaItemWithAbsence.agendaItem
             val absence = agendaItemWithAbsence.absence
             val startTime =
@@ -93,7 +90,7 @@ internal fun AgendaItem(
                     .padding(start = 40.5.dp, top = distanceAfterTop)
                     .height(height)
                     .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
-                    .clickable { openAgendaItemWithAbsence(agendaItemWithAbsence) },
+                    .clickable { /* todo: function to open timetable item */ },
                 headlineText = { Text(agendaItem.description ?: "") },
                 supportingText = {
                     Text(

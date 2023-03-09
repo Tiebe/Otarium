@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.agenda
+package nl.tiebe.otarium.ui.home.timetable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.*
@@ -8,24 +8,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 import nl.tiebe.otarium.oldui.utils.pagerTabIndicatorOffset
-import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun DaySelector(
+    component: TimetableComponent,
     dayPagerState: PagerState,
-    days: List<String>,
-    selectedWeek: State<Int>,
-    firstDayOfWeek: LocalDate
 ) {
     val scope = rememberCoroutineScope()
     val weekPagerState = rememberPagerState(100)
@@ -37,18 +34,18 @@ internal fun DaySelector(
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(
                         week - 100,
-                        selectedWeek,
+                        component.selectedWeek.subscribeAsState().value,
                         dayPagerState,
                         tabPositions
                     )
                 )
             }) {
-            days.forEachIndexed { index, title ->
+            component.days.forEachIndexed { index, title ->
                 Tab(
-                    selected = dayPagerState.currentPage == index && selectedWeek.value == week,
+                    selected = dayPagerState.currentPage == index && component.selectedWeek.subscribeAsState().value == week,
                     onClick = {
                         scope.launch {
-                            dayPagerState.animateScrollToPage((week-100)*days.size + index + (dayPagerState.pageCount / 2))
+                            dayPagerState.animateScrollToPage((week-100)*component.days.size + index + (component.amountOfDays / 2))
                         }
                     },
                     text = {
@@ -61,7 +58,10 @@ internal fun DaySelector(
                                 fontSize = 13.sp
                             )
                             Text(
-                                text = firstDayOfWeek.plus(
+                                text = component.firstDayOfWeek.plus(
+                                    component.selectedWeek.value * 7,
+                                    DateTimeUnit.DAY
+                                ).plus(
                                     (week - 100) * 7 + index,
                                     DateTimeUnit.DAY
                                 ).toString()
@@ -76,19 +76,5 @@ internal fun DaySelector(
             }
         }
 
-        var currentPage by remember { mutableStateOf(dayPagerState.currentPage) }
-
-        // update selected week when swiping days
-        LaunchedEffect(dayPagerState.currentPage) {
-                scope.launch {
-                    if (currentPage != dayPagerState.currentPage) {
-                        if (selectedWeek.value == floor(((dayPagerState.currentPage) - (dayPagerState.pageCount / 2)).toFloat() / days.size).toInt()) {
-                            weekPagerState.animateScrollToPage(selectedWeek.value + 100)
-                        }
-
-                        currentPage = dayPagerState.currentPage
-                    }
-                }
-        }
     }
 }
