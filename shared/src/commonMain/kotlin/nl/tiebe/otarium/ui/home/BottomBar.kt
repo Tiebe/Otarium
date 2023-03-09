@@ -7,8 +7,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.ui.home.agenda.TimetableComponent
-import nl.tiebe.otarium.ui.home.agenda.TimetableScreen
+import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.TimetableScreen
 import nl.tiebe.otarium.ui.home.grades.GradesComponent
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent

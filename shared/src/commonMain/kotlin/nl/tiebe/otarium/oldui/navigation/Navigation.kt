@@ -20,9 +20,9 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.oldui.icons.CalendarTodayIcon
-import nl.tiebe.otarium.oldui.icons.Looks10Icon
-import nl.tiebe.otarium.oldui.icons.SettingsIcon
+import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
+import nl.tiebe.otarium.ui.icons.Looks10Icon
+import nl.tiebe.otarium.ui.icons.SettingsIcon
 
 sealed class Screen(val resourceId: StringResource, val icon: @Composable () -> Unit) : Parcelable {
     @Parcelize

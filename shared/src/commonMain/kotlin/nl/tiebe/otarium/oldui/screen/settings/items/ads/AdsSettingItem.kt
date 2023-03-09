@@ -10,8 +10,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.oldui.icons.Advertisements
-import nl.tiebe.otarium.oldui.icons.AdvertisementsOff
+import nl.tiebe.otarium.ui.icons.Advertisements
+import nl.tiebe.otarium.ui.icons.AdvertisementsOff
 import nl.tiebe.otarium.oldui.screen.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.oldui.screen.settings.utils.SettingsItem
 import nl.tiebe.otarium.utils.ui.getLocalizedString
@@ -21,7 +21,8 @@ internal class AdsSettingItem(parent: SettingsItem?) : SettingsItem(parent) {
     override fun ItemContent() {
         SettingRowIconButton(
             leftText = AnnotatedString(getLocalizedString(MR.strings.advertisements)),
-            icon = if (Data.showAds) Advertisements else AdvertisementsOff) {
+            icon = if (Data.showAds) Advertisements else AdvertisementsOff
+        ) {
             openAsPopup()
         }
     }
