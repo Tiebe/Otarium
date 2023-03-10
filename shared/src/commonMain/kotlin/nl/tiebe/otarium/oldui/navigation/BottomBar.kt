@@ -8,18 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
-import nl.tiebe.otarium.oldui.screen.agenda.AgendaScreen
-import nl.tiebe.otarium.oldui.screen.grades.GradeScreen
-import nl.tiebe.otarium.oldui.screen.settings.SettingsScreen
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalDecomposeApi::class)
@@ -56,16 +49,7 @@ internal fun BottomBar(
         }
     ) { innerPadding ->
         Box(Modifier.fillMaxSize().padding(innerPadding)) {
-            ChildStack(
-                childStack = childStack,
-                animation = stackAnimation(fade() + scale()),
-            ) { screen ->
-                when (screen) {
-                    is Screen.Agenda -> AgendaScreen(componentContext)
-                    is Screen.Grades -> GradeScreen(componentContext)
-                    is Screen.Settings -> SettingsScreen(componentContext, onNewUser)
-                }
-            }
+
         }
     }
 }

@@ -4,12 +4,17 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.utils.MagisterException
+import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.magister.*
+import nl.tiebe.otarium.magister.AgendaItemWithAbsence
+import nl.tiebe.otarium.magister.MagisterAccount
+import nl.tiebe.otarium.magister.getAbsences
+import nl.tiebe.otarium.magister.getMagisterAgenda
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.home.MenuItemComponent
+import nl.tiebe.otarium.ui.root.componentCoroutineScope
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
@@ -29,14 +34,24 @@ interface TimetableComponent : MenuItemComponent {
 
     val selectedWeek: Value<Int>
 
+    val isRefreshingTimetable: Value<Boolean>
+
     fun changeDay(day: Int)
 
-    suspend fun refreshTimetable(
-        account: MagisterAccount,
-        start: LocalDate,
-        totalDays: Int,
-        selectedWeek: Int
-    ): List<List<AgendaItemWithAbsence>>?
+    fun refreshTimetable(from: LocalDate, to: LocalDate)
+
+    fun refreshSelectedWeek() {
+        refreshTimetable(
+            firstDayOfWeek.plus(
+                selectedWeek.value * 7,
+                DateTimeUnit.DAY
+            ),
+            firstDayOfWeek.plus(
+                selectedWeek.value * 7,
+                DateTimeUnit.DAY
+            ).plus(days.size, DateTimeUnit.DAY)
+        )
+    }
 
     fun getTimetableForWeek(timetable: List<AgendaItemWithAbsence>, startOfWeekDate: LocalDate): List<AgendaItemWithAbsence> {
         return timetable.filter {
@@ -68,11 +83,13 @@ class DefaultTimetableComponent(
         getLocalizedString(MR.strings.sunday)
     )
 
-    override val timetable: Value<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
+    override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
     override val account: MagisterAccount = Data.selectedAccount
     override val openedTimetableItem: Value<Pair<Boolean, AgendaItemWithAbsence?>> = MutableValue(false to null)
 
     override val selectedWeek = MutableValue(floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt())
+
+    override val isRefreshingTimetable = MutableValue(false)
 
     override fun changeDay(day: Int) {
         currentPage.value = day
@@ -80,44 +97,54 @@ class DefaultTimetableComponent(
         selectedWeek.value = floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt()
     }
 
-    override suspend fun refreshTimetable(
-        account: MagisterAccount,
-        start: LocalDate,
-        totalDays: Int,
-        selectedWeek: Int
-    ): List<List<AgendaItemWithAbsence>>? {
-        try {
-            println("Refreshing agenda for week $selectedWeek")
+    private val scope = componentCoroutineScope()
 
-            val end = start.plus(totalDays, DateTimeUnit.DAY)
+    override fun refreshTimetable(from: LocalDate, to: LocalDate) {
+        scope.launch {
+            isRefreshingTimetable.value = true
+            try {
+                println("Refreshing agenda for week $selectedWeek")
 
-            val timeTableWeek = getAbsences(
-                account.accountId,
-                account.tenantUrl,
-                account.tokens.accessToken,
-                "${start.year}-${start.month}-${start.dayOfMonth}",
-                "${end.year}-${end.month}-${end.dayOfMonth}",
-                getMagisterAgenda(
+                val timeTableWeek = getAbsences(
                     account.accountId,
                     account.tenantUrl,
                     account.tokens.accessToken,
-                    start,
-                    end
+                    "${from.year}-${from.month}-${from.dayOfMonth}",
+                    "${to.year}-${to.month}-${to.dayOfMonth}",
+                    getMagisterAgenda(
+                        account.accountId,
+                        account.tenantUrl,
+                        account.tokens.accessToken,
+                        from,
+                        to
+                    )
                 )
-            )
 
-            if (selectedWeek == 0) {
-                println("Saving agenda for current week")
-                account.agenda = timeTableWeek
+                if (selectedWeek.value == 0) {
+                    println("Saving agenda for current week")
+                    account.agenda = timeTableWeek
+                }
+
+                timeTableWeek.forEach {
+                    if (timetable.value.find { item -> item.agendaItem.id == it.agendaItem.id } == null) {
+                        timetable.value = timetable.value + it
+                    } else {
+                        timetable.value = timetable.value.map { item ->
+                            if (item.agendaItem.id == it.agendaItem.id) {
+                                it
+                            } else {
+                                item
+                            }
+                        }
+                    }
+                }
+            } catch (e: MagisterException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-            return (0..totalDays).map { timeTableWeek.getAgendaForDay(it) }
-        } catch (e: MagisterException) {
-            e.printStackTrace()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            isRefreshingTimetable.value = false
         }
-        return null
     }
 }
 
@@ -137,19 +164,6 @@ class DefaultTimetableComponent(
 val newAgenda =
             component.refreshTimetable(component.account, component.firstDayOfSelectedWeek, component.days.size - 1, component.selectedWeek)
                 ?: loadedAgendas[selectedWeek.value + 100]
- */
-
-//todo: refresh function
-/*
-                scope.launch {
-                    it.isRefreshing = true
-                    loadedAgendas[selectedWeek.value + 100] = account.refreshAgenda(
-                        firstDayOfSelectedWeek.value,
-                        days.size - 1,
-                        selectedWeek.value
-                    ) ?: loadedAgendas[selectedWeek.value + 100] ?: listOf()
-                    it.isRefreshing = false
-                }
  */
 
 //todo: update now variable

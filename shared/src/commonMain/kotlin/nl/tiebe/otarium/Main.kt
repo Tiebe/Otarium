@@ -57,6 +57,19 @@ internal fun Content(component: RootComponent) {
         ) {
             when (val screen = currentScreen) {
                 is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
+                is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component.componentContext) {
+                    runBlocking {
+                        launch {
+                            val account = exchangeUrl(it)
+
+                            if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
+                                Data.accounts = Data.accounts.toMutableList().apply { add(account) }
+                            }
+
+                            account.refreshGrades()
+                        }
+                    }
+                }
             }
         }
     }

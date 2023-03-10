@@ -3,9 +3,16 @@ package nl.tiebe.otarium.ui.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.Lifecycle
+import com.arkivanov.essenty.lifecycle.doOnDestroy
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.DefaultHomeComponent
 import nl.tiebe.otarium.ui.home.HomeComponent
+import nl.tiebe.otarium.ui.login.DefaultLoginComponent
 
 interface RootComponent {
     val currentScreen: Value<ChildScreen>
@@ -13,7 +20,7 @@ interface RootComponent {
     sealed class ChildScreen {
         class HomeChild(val component: HomeComponent): ChildScreen()
         //class OnboardingChild(val component: OnboardingComponent): ChildScreen()
-        //class LoginChild(val component: LoginComponent): ChildScreen()
+        class LoginChild(val component: DefaultLoginComponent): ChildScreen()
     }
 
 }
@@ -24,7 +31,7 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
     private fun getScreenOnStart(): RootComponent.ChildScreen {
         return if (Data.accounts.isEmpty()) {
             //RootComponent.ChildScreen.OnboardingChild(onboardingComponent(componentContext))
-            RootComponent.ChildScreen.HomeChild(homeComponent(this))
+            RootComponent.ChildScreen.LoginChild(loginComponent(this))
         } else {
             RootComponent.ChildScreen.HomeChild(homeComponent(this))
         }
@@ -34,4 +41,23 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
         DefaultHomeComponent(
             componentContext = componentContext
         )
+
+    private fun loginComponent(componentContext: ComponentContext): DefaultLoginComponent =
+        DefaultLoginComponent(
+            componentContext = componentContext
+        )
+}
+
+fun ComponentContext.componentCoroutineScope(): CoroutineScope {
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
+    if (lifecycle.state != Lifecycle.State.DESTROYED) {
+        lifecycle.doOnDestroy {
+            scope.cancel()
+        }
+    } else {
+        scope.cancel()
+    }
+
+    return scope
 }
