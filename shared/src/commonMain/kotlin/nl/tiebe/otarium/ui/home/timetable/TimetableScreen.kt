@@ -67,11 +67,6 @@ internal fun TimetableScreen(component: TimetableComponent) {
             exit = fadeOut(),
             modifier = Modifier.fillMaxSize()
         ) {
-            // todo: backhandler
-            // CBackHandler(componentContext, onBack = {
-            //                agendaItemPopup.value = null
-            //            })
-
             TimetableItemPopup(popupItem.value.second!!)
         }
     }

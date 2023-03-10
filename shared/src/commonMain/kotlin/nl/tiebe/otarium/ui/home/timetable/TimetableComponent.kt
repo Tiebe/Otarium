@@ -3,7 +3,9 @@ package nl.tiebe.otarium.ui.home.timetable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.utils.MagisterException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
@@ -64,16 +66,24 @@ interface TimetableComponent : MenuItemComponent {
             )
         }
     }
+
+    val backCallbackOpenItem: BackCallback
+
+    fun openTimeTableItem(item: AgendaItemWithAbsence) {
+        backCallbackOpenItem.isEnabled = true
+
+        (openedTimetableItem as MutableValue).value = true to item
+    }
 }
 
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
     navigate: (menuItem: HomeComponent.MenuItem) -> Unit
 ): TimetableComponent, ComponentContext by componentContext {
-    override val now: Value<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
+    override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
 
-    override val days =  listOf(
+    override val days = listOf(
         getLocalizedString(MR.strings.monday),
         getLocalizedString(MR.strings.tuesday),
         getLocalizedString(MR.strings.wednesday),
@@ -85,7 +95,7 @@ class DefaultTimetableComponent(
 
     override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
     override val account: MagisterAccount = Data.selectedAccount
-    override val openedTimetableItem: Value<Pair<Boolean, AgendaItemWithAbsence?>> = MutableValue(false to null)
+    override val openedTimetableItem: MutableValue<Pair<Boolean, AgendaItemWithAbsence?>> = MutableValue(false to null)
 
     override val selectedWeek = MutableValue(floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt())
 
@@ -94,7 +104,9 @@ class DefaultTimetableComponent(
     override fun changeDay(day: Int) {
         currentPage.value = day
 
-        selectedWeek.value = floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt()
+        if (selectedWeek.value != floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt()) {
+            selectedWeek.value = floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt()
+        }
     }
 
     private val scope = componentCoroutineScope()
@@ -146,45 +158,31 @@ class DefaultTimetableComponent(
             isRefreshingTimetable.value = false
         }
     }
-}
 
-/*
-    val loadedAgendas = remember {
-        mutableStateMapOf(
-            Pair(100, days.indices.map {
-                savedAgenda.getAgendaForDay(it)
-            })
-        )
+    override val backCallbackOpenItem: BackCallback = BackCallback(false) {
+        closeItemPopup()
     }
-* */
+
+    private fun closeItemPopup() {
+        openedTimetableItem.value = false to openedTimetableItem.value.second
+        backCallbackOpenItem.isEnabled = false
+    }
 
 
-//todo: update agenda when switching weeks
-/*
-val newAgenda =
-            component.refreshTimetable(component.account, component.firstDayOfSelectedWeek, component.days.size - 1, component.selectedWeek)
-                ?: loadedAgendas[selectedWeek.value + 100]
- */
+    init {
+        backHandler.register(backCallbackOpenItem)
 
-//todo: update now variable
-/*
-    DisposableEffect(Unit) {
-        GlobalScope.launch {
+        selectedWeek.subscribe {
+            refreshSelectedWeek()
+        }
+
+        scope.launch {
             while (true) {
-                now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
-
-                val minutes = ((now.hour - 8) * 60) + now.minute
-
-                if (minutes < 0) {
-                    timeLinePosition.value = 0.dp
-                } else {
-                    timeLinePosition.value = minutes / 60f * dpPerHour
-                }
+                now.value = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
                 delay(60_000)
             }
         }
-
-        onDispose {}
     }
- */
+
+}
