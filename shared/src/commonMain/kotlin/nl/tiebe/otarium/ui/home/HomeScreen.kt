@@ -26,3 +26,6 @@ internal fun HomeScreen(component: HomeComponent) {
         }
     }
 }
+
+@Composable
+internal expect fun Ads()

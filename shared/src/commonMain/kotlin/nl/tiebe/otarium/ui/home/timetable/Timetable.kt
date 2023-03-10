@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -28,7 +29,6 @@ internal fun Timetable(
     component: TimetableComponent,
     dayPagerState: PagerState,
 ) {
-    val refreshState = rememberSwipeRefreshState(false)
 
     val timeLinePosition = remember {
         mutableStateOf(0.dp)
@@ -40,8 +40,8 @@ internal fun Timetable(
         state = dayPagerState,
     ) { page ->
         SwipeRefresh(
-            state = refreshState,
-            onRefresh = { /* todo: refresh here and update refreshstate once done */ }
+            state = rememberSwipeRefreshState(isRefreshing = component.isRefreshingTimetable.subscribeAsState().value),
+            onRefresh = { component.refreshSelectedWeek() }
         ) {
             val scrollState = rememberScrollState()
 
