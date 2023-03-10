@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.*
+import nl.tiebe.otarium.magister.getAgendaForDay
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.ui.parseHtml
 import kotlin.math.floor
@@ -52,8 +53,7 @@ internal fun TimetableItem(
 
         val timetable = component.timetable.subscribeAsState()
 
-        component.getTimetableForWeek(timetable.value, startOfWeekDate).forEach { agendaItemWithAbsence ->
-            //.forEach { agendaItemWithAbsence ->
+        component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(currentPage - (pageWeek * component.days.size)).forEach { agendaItemWithAbsence ->
             val agendaItem = agendaItemWithAbsence.agendaItem
             val absence = agendaItemWithAbsence.absence
             val startTime =
@@ -90,7 +90,7 @@ internal fun TimetableItem(
                     .padding(start = 40.5.dp, top = distanceAfterTop)
                     .height(height)
                     .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
-                    .clickable { /* todo: function to open timetable item */ },
+                    .clickable { component.openTimeTableItem(agendaItemWithAbsence) },
                 headlineText = { Text(agendaItem.description ?: "") },
                 supportingText = {
                     Text(

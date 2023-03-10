@@ -7,11 +7,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -30,10 +29,6 @@ internal fun Timetable(
     dayPagerState: PagerState,
 ) {
 
-    val timeLinePosition = remember {
-        mutableStateOf(0.dp)
-    }
-
 
     HorizontalPager(
         count = 1000,
@@ -46,11 +41,15 @@ internal fun Timetable(
             val scrollState = rememberScrollState()
 
             Box(Modifier.verticalScroll(scrollState)) {
-                if (timeLinePosition.value > 0.dp && page == component.amountOfDays / 2 ) {
+                val now = component.now.subscribeAsState().value
+
+                val minutes = ((now.hour - 8) * 60) + now.minute
+
+                if (minutes > 0 && page == component.amountOfDays / 2 ) {
                     Divider(
                         Modifier
                             .width(40.dp)
-                            .padding(top = timeLinePosition.value),
+                            .padding(top = minutes / 60f * dpPerHour),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
