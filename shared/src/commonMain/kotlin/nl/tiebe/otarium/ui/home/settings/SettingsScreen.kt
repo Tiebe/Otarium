@@ -1,11 +1,19 @@
 package nl.tiebe.otarium.ui.home.settings
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildScreen
+import nl.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
+
 
 @Composable
 internal fun SettingsScreen(component: SettingsComponent) {
-    Text("Settingds")
+    val screen = component.childStack.subscribeAsState()
 
-    
+    when (val child = screen.value.active.instance) {
+        is SettingsComponent.Child.MainChild -> MainChildScreen(child.component)
+        is SettingsComponent.Child.AdsChild -> AdsChildScreen(child.component)
+    }
+
+
 }
