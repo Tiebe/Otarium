@@ -7,12 +7,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.TimetableScreen
 import nl.tiebe.otarium.ui.home.grades.GradesComponent
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.SettingsScreen
+import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.main.TimetableScreen
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,7 +21,6 @@ internal fun BottomBar(
     component: HomeComponent,
     modifier: Modifier,
 ) {
-    println("sSAdsadsa")
     val dialog = component.dialog.subscribeAsState()
     val overlay = dialog.value.overlay ?: return
 
@@ -30,8 +29,6 @@ internal fun BottomBar(
         HomeComponent.MenuItem.Grades,
         HomeComponent.MenuItem.Settings
     )
-    println("Overlay: ${overlay.configuration}")
-    println("Fasfdsadfsdafas")
 
     Scaffold(
         bottomBar = {

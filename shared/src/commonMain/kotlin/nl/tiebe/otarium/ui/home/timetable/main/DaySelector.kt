@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.timetable
+package nl.tiebe.otarium.ui.home.timetable.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.*
@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import nl.tiebe.otarium.oldui.utils.pagerTabIndicatorOffset
+import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable

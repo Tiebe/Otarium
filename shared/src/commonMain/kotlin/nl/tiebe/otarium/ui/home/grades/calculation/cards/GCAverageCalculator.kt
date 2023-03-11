@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.grades.calculation.cards
+package nl.tiebe.otarium.ui.home.grades.calculation.cards
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable

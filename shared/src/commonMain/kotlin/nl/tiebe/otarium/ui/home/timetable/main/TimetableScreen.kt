@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.timetable
+package nl.tiebe.otarium.ui.home.timetable.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -17,12 +17,13 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.*
+import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
 
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun TimetableScreen(component: TimetableComponent) {
-
     val dayPagerState = rememberPagerState(component.currentPage.value)
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -40,7 +41,7 @@ internal fun TimetableScreen(component: TimetableComponent) {
     if (dayPagerState.currentPage != component.amountOfDays / 2) {
         Box(Modifier.fillMaxSize()) {
             Button(
-                onClick = { /* todo: scope.launch { dayPagerState.animateScrollToPage(500) } */ },
+                onClick = { component.scrollToPage(500, dayPagerState) },
                 modifier = Modifier
                     .size(60.dp)
                     .padding(10.dp)

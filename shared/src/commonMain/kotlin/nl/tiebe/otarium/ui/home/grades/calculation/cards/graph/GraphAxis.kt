@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.grades.calculation.cards.graph
+package nl.tiebe.otarium.ui.home.grades.calculation.cards.graph
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color

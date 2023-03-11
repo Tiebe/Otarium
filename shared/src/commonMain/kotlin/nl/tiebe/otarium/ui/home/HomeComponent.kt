@@ -12,12 +12,12 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
+import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
+import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
 import nl.tiebe.otarium.ui.icons.Looks10Icon
 import nl.tiebe.otarium.ui.icons.SettingsIcon
-import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
-import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
-import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 
 interface HomeComponent {
     val dialog: Value<ChildOverlay<MenuItem, MenuItemComponent>>
@@ -35,21 +35,19 @@ interface HomeComponent {
 class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, ComponentContext by componentContext {
     private val dialogNavigation = OverlayNavigation<HomeComponent.MenuItem>()
 
-    private val _dialog =
-        childOverlay(
-            source = dialogNavigation,
-            initialConfiguration = { HomeComponent.MenuItem.Timetable },
-            // persistent = false, // Disable navigation state saving, if needed
-            handleBackButton = false, // Close the dialog on back button press
-        ) { config, componentContext ->
-            when (config) {
-                is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
-                is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
-                is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
-            } as MenuItemComponent
-        }
 
-    override val dialog: Value<ChildOverlay<HomeComponent.MenuItem, MenuItemComponent>> = _dialog
+    override val dialog: Value<ChildOverlay<HomeComponent.MenuItem, MenuItemComponent>> = childOverlay(
+        source = dialogNavigation,
+        initialConfiguration = { HomeComponent.MenuItem.Timetable },
+        // persistent = false, // Disable navigation state saving, if needed
+        handleBackButton = false, // Close the dialog on back button press
+    ) { config, componentContext ->
+        when (config) {
+            is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
+            is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
+            is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
+        } as MenuItemComponent
+    }
 
     private fun timetableComponent(componentContext: ComponentContext) =
         DefaultTimetableComponent(
@@ -59,8 +57,7 @@ class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, C
 
     private fun gradesComponent(componentContext: ComponentContext) =
         DefaultGradesComponent(
-            componentContext = componentContext,
-            navigate = ::navigate
+            componentContext = componentContext
         )
 
     private fun settingsComponent(componentContext: ComponentContext) =
