@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.grades.recentgrades
+package nl.tiebe.otarium.ui.home.grades.recentgrades
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size

@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen.grades.recentgrades
+package nl.tiebe.otarium.ui.home.grades.recentgrades
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,8 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.getRecentGrades
 
 @Composable
-internal fun RecentGradeScreen() {
+internal fun RecentGradesChild(component: RecentGradesChildComponent) {
+    //todo: put this stuff in component
     val refreshState = rememberSwipeRefreshState(false)
     var recentGrades by remember { mutableStateOf(Data.selectedAccount.grades) }
     val scope = rememberCoroutineScope()

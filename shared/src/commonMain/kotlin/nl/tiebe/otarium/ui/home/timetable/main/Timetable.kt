@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.timetable
+package nl.tiebe.otarium.ui.home.timetable.main
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +18,8 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import nl.tiebe.otarium.oldui.utils.topRectBorder
+import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.item.TimetableItem
 
 val timesShown = 8..17
 val dpPerHour = 80.dp

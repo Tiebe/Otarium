@@ -4,6 +4,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -74,6 +76,9 @@ interface TimetableComponent : MenuItemComponent {
 
         (openedTimetableItem as MutableValue).value = true to item
     }
+
+    @OptIn(ExperimentalPagerApi::class)
+    fun scrollToPage(page: Int, pagerState: PagerState)
 }
 
 class DefaultTimetableComponent(
@@ -166,6 +171,14 @@ class DefaultTimetableComponent(
     private fun closeItemPopup() {
         openedTimetableItem.value = false to openedTimetableItem.value.second
         backCallbackOpenItem.isEnabled = false
+    }
+
+    @OptIn(ExperimentalPagerApi::class)
+    override fun scrollToPage(page: Int, pagerState: PagerState) {
+        scope.launch {
+            pagerState.animateScrollToPage(page)
+        }
+        currentPage.value = page
     }
 
 

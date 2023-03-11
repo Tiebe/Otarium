@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.timetable
+package nl.tiebe.otarium.ui.home.timetable.item
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

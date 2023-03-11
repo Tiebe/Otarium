@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.timetable
+package nl.tiebe.otarium.ui.home.timetable.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +18,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.getAgendaForDay
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
+import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.utils.ui.parseHtml
 import kotlin.math.floor
 
