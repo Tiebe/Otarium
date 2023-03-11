@@ -17,7 +17,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.R
 import nl.tiebe.otarium.magister.refreshGrades
-import nl.tiebe.otarium.oldui.theme.Blue80
+import nl.tiebe.otarium.ui.theme.Blue80
 import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
 
