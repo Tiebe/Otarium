@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.screen
+package nl.tiebe.otarium.ui.login
 
 import android.annotation.SuppressLint
 import android.app.Activity

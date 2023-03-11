@@ -13,8 +13,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.oldui.screen.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
+import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.ui.icons.Advertisements
 import nl.tiebe.otarium.ui.icons.AdvertisementsOff
 import nl.tiebe.otarium.utils.ui.getLocalizedString

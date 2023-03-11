@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.theme
+package nl.tiebe.otarium.ui.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb

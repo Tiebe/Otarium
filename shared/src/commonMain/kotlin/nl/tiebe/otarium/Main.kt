@@ -9,20 +9,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.exchangeUrl
 import nl.tiebe.otarium.magister.refreshGrades
-import nl.tiebe.otarium.oldui.navigation.Navigation
-import nl.tiebe.otarium.oldui.navigation.Screen
-import nl.tiebe.otarium.oldui.screen.LoginScreen
-import nl.tiebe.otarium.oldui.theme.OtariumTheme
 import nl.tiebe.otarium.ui.home.HomeScreen
+import nl.tiebe.otarium.ui.login.LoginScreen
 import nl.tiebe.otarium.ui.root.DefaultRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
+import nl.tiebe.otarium.ui.theme.OtariumTheme
 import nl.tiebe.otarium.utils.runVersionCheck
 
 val settings: Settings = Settings()
@@ -75,51 +71,14 @@ internal fun Content(component: RootComponent) {
     }
 }
 
-
-@Composable
-internal fun MainActivityScreen(componentContext: ComponentContext) {
-    val navigation = remember { StackNavigation<Screen>() }
-
-    val childStack = remember {
-        componentContext.childStack(
-            source = navigation,
-            initialStack = { listOf(Screen.Agenda) },
-            handleBackButton = true,
-            childFactory = { _, childComponentContext -> childComponentContext },
-        )
-    }
-
-    val openMainScreen = remember { mutableStateOf(true) }
-    val openLoginScreen = remember { mutableStateOf(false) }
-
-    if (Data.accounts.isEmpty()) {
-        openLoginScreen.value = true
-    } else if (openMainScreen.value) {
-        Navigation(childStack, navigation, componentContext) {
-            openLoginScreen.value = true
-        }
-    }
-
-    if (openLoginScreen.value) LoginScreen(componentContext, onLogin = {
-        if (Data.storeLoginBypass) openMainScreen.value = true
-
-        else runBlocking {
-            launch {
-                val account = exchangeUrl(it)
-
-                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
-                    Data.accounts = Data.accounts.toMutableList().apply { add(account) }
-                }
-
-                account.refreshGrades()
-
-                openLoginScreen.value = false
-                openMainScreen.value = true
-            }
-        }
-    })
-}
-
 expect fun setupNotifications()
 
 expect fun closeApp()
+
+val LocalComponentContext: ProvidableCompositionLocal<ComponentContext> =
+    staticCompositionLocalOf { error("Root component context was not provided") }
+
+@Composable
+internal fun ProvideComponentContext(componentContext: ComponentContext, content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalComponentContext provides componentContext, content = content)
+}
