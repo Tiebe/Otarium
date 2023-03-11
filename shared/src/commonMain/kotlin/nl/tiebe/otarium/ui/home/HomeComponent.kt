@@ -46,7 +46,7 @@ class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, C
             is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
             is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
-        } as MenuItemComponent
+        }
     }
 
     private fun timetableComponent(componentContext: ComponentContext) =
@@ -62,8 +62,7 @@ class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, C
 
     private fun settingsComponent(componentContext: ComponentContext) =
         DefaultSettingsComponent(
-            componentContext = componentContext,
-            navigate = ::navigate
+            componentContext = componentContext
         )
 
     override fun navigate(item: HomeComponent.MenuItem) {
