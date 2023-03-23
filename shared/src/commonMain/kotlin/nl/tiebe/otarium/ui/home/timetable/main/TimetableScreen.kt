@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.*
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
@@ -25,11 +26,13 @@ import nl.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
 @Composable
 internal fun TimetableScreen(component: TimetableComponent) {
     val dayPagerState = rememberPagerState(component.currentPage.value)
+    val weekPagerState = rememberPagerState(100)
 
     Column(modifier = Modifier.fillMaxSize()) {
         DaySelector(
             component = component,
-            dayPagerState = dayPagerState
+            dayPagerState = dayPagerState,
+            weekPagerState = weekPagerState
         )
 
         Timetable(
@@ -38,10 +41,12 @@ internal fun TimetableScreen(component: TimetableComponent) {
         )
     }
 
-    if (dayPagerState.currentPage != component.amountOfDays / 2) {
+    val scope = rememberCoroutineScope()
+
+    if (dayPagerState.currentPage != 500 + component.now.value.date.dayOfWeek.ordinal) {
         Box(Modifier.fillMaxSize()) {
             Button(
-                onClick = { component.scrollToPage(500, dayPagerState) },
+                onClick = { component.scrollToPage(scope, 500 + component.now.value.date.dayOfWeek.ordinal, dayPagerState) },
                 modifier = Modifier
                     .size(60.dp)
                     .padding(10.dp)
@@ -78,6 +83,12 @@ internal fun TimetableScreen(component: TimetableComponent) {
         if (currentPage != dayPagerState.currentPage) {
             currentPage = dayPagerState.currentPage
             component.changeDay(dayPagerState.currentPage)
+        }
+    }
+
+    component.selectedWeek.subscribe { week ->
+        scope.launch {
+            weekPagerState.animateScrollToPage(week + 100)
         }
     }
 }

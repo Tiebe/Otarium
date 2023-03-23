@@ -30,8 +30,6 @@ internal fun Timetable(
     component: TimetableComponent,
     dayPagerState: PagerState,
 ) {
-
-
     HorizontalPager(
         count = 1000,
         state = dayPagerState,
@@ -71,7 +69,7 @@ internal fun Timetable(
 
                 TimetableItem(
                     component = component,
-                    currentPage = page - (dayPagerState.pageCount / 2),
+                    page = page - (dayPagerState.pageCount / 2),
                     timesShown = timesShown,
                     dpPerHour = dpPerHour,
                 )
