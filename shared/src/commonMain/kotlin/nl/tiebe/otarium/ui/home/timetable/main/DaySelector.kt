@@ -12,21 +12,20 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
-import nl.tiebe.otarium.oldui.utils.pagerTabIndicatorOffset
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.utils.pagerTabIndicatorOffset
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun DaySelector(
     component: TimetableComponent,
     dayPagerState: PagerState,
+    weekPagerState: PagerState,
 ) {
     val scope = rememberCoroutineScope()
-    val weekPagerState = rememberPagerState(100)
 
     HorizontalPager(count = 200, state = weekPagerState) { week ->
         TabRow(
@@ -35,7 +34,7 @@ internal fun DaySelector(
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(
                         week - 100,
-                        component.selectedWeek.subscribeAsState().value,
+                        (dayPagerState.currentPage - (dayPagerState.pageCount / 2)) / 7,
                         dayPagerState,
                         tabPositions
                     )
@@ -43,7 +42,7 @@ internal fun DaySelector(
             }) {
             component.days.forEachIndexed { index, title ->
                 Tab(
-                    selected = dayPagerState.currentPage == index && component.selectedWeek.subscribeAsState().value == week,
+                    selected = (dayPagerState.currentPage - (dayPagerState.pageCount / 2)) % 7 == index && week == 100 + component.selectedWeek.subscribeAsState().value,
                     onClick = {
                         scope.launch {
                             dayPagerState.animateScrollToPage((week-100)*component.days.size + index + (component.amountOfDays / 2))
@@ -60,9 +59,6 @@ internal fun DaySelector(
                             )
                             Text(
                                 text = component.firstDayOfWeek.plus(
-                                    component.selectedWeek.value * 7,
-                                    DateTimeUnit.DAY
-                                ).plus(
                                     (week - 100) * 7 + index,
                                     DateTimeUnit.DAY
                                 ).toString()
@@ -76,6 +72,5 @@ internal fun DaySelector(
                 )
             }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.oldui.utils
+package nl.tiebe.otarium.ui.utils
 
 import androidx.compose.material3.TabPosition
 import androidx.compose.ui.Modifier

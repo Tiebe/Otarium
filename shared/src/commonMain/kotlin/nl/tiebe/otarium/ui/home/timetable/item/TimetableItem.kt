@@ -26,7 +26,7 @@ import kotlin.math.floor
 @Composable
 internal fun TimetableItem(
     component: TimetableComponent,
-    currentPage: Int,
+    page: Int,
     timesShown: IntRange,
     dpPerHour: Dp,
 ) {
@@ -34,11 +34,12 @@ internal fun TimetableItem(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val pageWeek = if (currentPage >= 0) {
-            currentPage / component.days.size
+        val pageWeek = if (page >= 0) {
+            page / component.days.size
         } else {
-            floor((currentPage / component.days.size.toFloat())).toInt()
+            floor((page / component.days.size.toFloat())).toInt()
         }
+        println(pageWeek)
 
         val startOfWeekDate = component.now.value.date.minus(
             component.now.value.date.dayOfWeek.ordinal,
@@ -46,7 +47,7 @@ internal fun TimetableItem(
         ) // first day of week
             .plus(pageWeek * 7, DateTimeUnit.DAY) // add weeks to get to selected week
             .plus(
-                currentPage - (pageWeek * component.days.size),
+                page - (pageWeek * component.days.size),
                 DateTimeUnit.DAY
             ) // add days to get to selected day
 
@@ -54,7 +55,7 @@ internal fun TimetableItem(
 
         val timetable = component.timetable.subscribeAsState()
 
-        component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(currentPage - (pageWeek * component.days.size)).forEach { agendaItemWithAbsence ->
+        component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * component.days.size)).forEach { agendaItemWithAbsence ->
             val agendaItem = agendaItemWithAbsence.agendaItem
             val absence = agendaItemWithAbsence.absence
             val startTime =

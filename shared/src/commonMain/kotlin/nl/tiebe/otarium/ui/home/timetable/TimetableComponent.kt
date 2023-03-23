@@ -7,8 +7,7 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
@@ -78,7 +77,7 @@ interface TimetableComponent : MenuItemComponent {
     }
 
     @OptIn(ExperimentalPagerApi::class)
-    fun scrollToPage(page: Int, pagerState: PagerState)
+    fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState)
 }
 
 class DefaultTimetableComponent(
@@ -109,9 +108,8 @@ class DefaultTimetableComponent(
     override fun changeDay(day: Int) {
         currentPage.value = day
 
-        if (selectedWeek.value != floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt()) {
-            selectedWeek.value = floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt()
-        }
+        if (selectedWeek.value != floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt())
+            selectedWeek.value = floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt()
     }
 
     private val scope = componentCoroutineScope()
@@ -174,8 +172,8 @@ class DefaultTimetableComponent(
     }
 
     @OptIn(ExperimentalPagerApi::class)
-    override fun scrollToPage(page: Int, pagerState: PagerState) {
-        scope.launch {
+    override fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {
+        coroutineScope.launch {
             pagerState.animateScrollToPage(page)
         }
         currentPage.value = page
