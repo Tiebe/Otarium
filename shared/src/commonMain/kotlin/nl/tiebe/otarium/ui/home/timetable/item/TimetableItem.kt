@@ -39,7 +39,6 @@ internal fun TimetableItem(
         } else {
             floor((page / component.days.size.toFloat())).toInt()
         }
-        println(pageWeek)
 
         val startOfWeekDate = component.now.value.date.minus(
             component.now.value.date.dayOfWeek.ordinal,
