@@ -17,6 +17,7 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.utils.pagerTabIndicatorOffset
+import kotlin.math.floor
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -34,7 +35,7 @@ internal fun DaySelector(
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(
                         week - 100,
-                        (dayPagerState.currentPage - (dayPagerState.pageCount / 2)) / 7,
+                        floor((dayPagerState.currentPage - (dayPagerState.pageCount / 2)).toFloat() / 7).toInt(),
                         dayPagerState,
                         tabPositions
                     )
