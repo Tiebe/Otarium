@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
-        android:allowBackup="false"
-        android:fullBackupOnly="false"
         android:icon="@mipmap/ic_launcher"
         android:label="Otarium"
         android:supportsRtl="true"

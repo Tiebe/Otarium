@@ -16,6 +16,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.R
+import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.theme.Blue80
 import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
@@ -60,7 +61,9 @@ class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
 
         runBlocking {
             try {
-                refreshTokens()
+                nl.tiebe.otarium.Data.accounts.forEach {
+                    it.refreshTokens()
+                }
                 outputData.putBoolean("success", true)
             } catch (e: Exception) {
                 outputData.putString("error", e.toString())
@@ -76,7 +79,7 @@ class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
 class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
     override fun startWork(): ListenableFuture<Result> {
         runBlocking {
-            refreshGrades()
+            nl.tiebe.otarium.Data.selectedAccount.refreshGrades()
         }
 
         return Futures.immediateFuture(Result.success())

@@ -21,8 +21,14 @@ actual fun getLocalizedString(string: StringResource): String {
 
 actual fun Float.format(decimals: Int): String {
     val df = java.text.DecimalFormat()
-    df.isGroupingUsed = false
-    df.maximumFractionDigits = 2
-    df.isDecimalSeparatorAlwaysShown = false
-    return df.format(this)
+    df.isGroupingUsed = true
+    df.maximumFractionDigits = decimals
+    df.isDecimalSeparatorAlwaysShown = true
+    val formatted = df.format(this).replace(".", ",")
+
+    if (formatted.split(",")[1].length < decimals) {
+        return formatted + "0".repeat(decimals - formatted.split(",")[1].length)
+    }
+
+    return formatted
 }

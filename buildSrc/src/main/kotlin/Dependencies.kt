@@ -1,13 +1,13 @@
 
 object Version {
-    const val appVersion = "2.1.1"
-    const val appVersionCode = 21
+    const val appVersion = "2.2.1"
+    const val appVersionCode = 23
 
     const val kotlin = "1.7.20"
     const val gradle = "7.3.1"
     const val appcompat = "1.4.0"
     const val material = "1.4.0"
-    const val compose = "1.3.0-beta04-dev885"
+    const val compose = "1.3.0"
     const val compose_android = "1.2.1"
     const val compose_compiler = "1.3.2"
     const val ktor = "2.1.2"
