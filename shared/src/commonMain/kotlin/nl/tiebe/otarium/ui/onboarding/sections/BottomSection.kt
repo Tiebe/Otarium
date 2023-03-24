@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.onboarding.sections
+package nl.tiebe.otarium.oldui.onboarding.sections
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState

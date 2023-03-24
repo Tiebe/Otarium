@@ -45,4 +45,5 @@
     <string name="bug_text_2">If the bug persists, please contact us at otarium@tiebe.dev</string>
     <string name="switch_user_text">Switch user</string>
     <string name="new_account">New account</string>
+    <string name="advertisements">Advertisements</string>
 </resources>
