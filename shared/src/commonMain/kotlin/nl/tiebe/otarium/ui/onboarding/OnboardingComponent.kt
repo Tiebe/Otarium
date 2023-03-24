@@ -1,9 +1,11 @@
 package nl.tiebe.otarium.ui.onboarding
 
+import com.arkivanov.decompose.ComponentContext
+
 interface OnboardingComponent {
 }
 
-interface DefaultOnboardingComponent: OnboardingComponent {
+class DefaultOnboardingComponent(val componentContext: ComponentContext): OnboardingComponent, ComponentContext by componentContext {
 
 
 }

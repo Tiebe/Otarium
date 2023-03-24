@@ -13,20 +13,22 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.DefaultHomeComponent
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.login.DefaultLoginComponent
+import nl.tiebe.otarium.ui.onboarding.DefaultOnboardingComponent
+import nl.tiebe.otarium.ui.onboarding.OnboardingComponent
 
 interface RootComponent {
     val currentScreen: Value<ChildScreen>
 
     sealed class ChildScreen {
         class HomeChild(val component: HomeComponent): ChildScreen()
-        //class OnboardingChild(val component: OnboardingComponent): ChildScreen()
+        class OnboardingChild(val component: OnboardingComponent): ChildScreen()
         class LoginChild(val component: DefaultLoginComponent): ChildScreen()
     }
 
 }
 
 class DefaultRootComponent(componentContext: ComponentContext): RootComponent, ComponentContext by componentContext {
-    override val currentScreen: Value<RootComponent.ChildScreen> = MutableValue(getScreenOnStart())
+    override val currentScreen: MutableValue<RootComponent.ChildScreen> = MutableValue(getScreenOnStart())
 
     private fun getScreenOnStart(): RootComponent.ChildScreen {
         return if (Data.accounts.isEmpty()) {
@@ -39,11 +41,19 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
 
     private fun homeComponent(componentContext: ComponentContext): HomeComponent =
         DefaultHomeComponent(
-            componentContext = componentContext
+            componentContext = componentContext,
+            navigateRootComponent = { screen ->
+                currentScreen.value = screen
+            }
         )
 
     private fun loginComponent(componentContext: ComponentContext): DefaultLoginComponent =
         DefaultLoginComponent(
+            componentContext = componentContext
+        )
+
+    private fun onboardingComponent(componentContext: ComponentContext): OnboardingComponent =
+        DefaultOnboardingComponent(
             componentContext = componentContext
         )
 }

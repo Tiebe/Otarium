@@ -66,6 +66,7 @@ internal fun Content(component: RootComponent) {
                         }
                     }
                 }
+                is RootComponent.ChildScreen.OnboardingChild -> TODO()
             }
         }
     }

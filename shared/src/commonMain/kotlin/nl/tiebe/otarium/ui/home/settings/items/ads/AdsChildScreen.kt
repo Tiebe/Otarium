@@ -17,6 +17,8 @@ internal fun AdsChildScreen(component: AdsChildComponent) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
+        //todo: ads settings ui
+
         Text(
             text = getLocalizedString(MR.strings.advertisements),
             modifier = Modifier.padding(bottom = 16.dp)

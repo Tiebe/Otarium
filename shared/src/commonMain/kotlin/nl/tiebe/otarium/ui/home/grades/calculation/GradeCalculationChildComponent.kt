@@ -14,6 +14,8 @@ import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.home.grades.GradesChildComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
+//todo: more component shit?
+
 interface GradeCalculationChildComponent : GradesChildComponent {
     val openedSubject: Value<Pair<Boolean, Subject?>>
 
