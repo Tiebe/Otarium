@@ -15,10 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.decompose.ComponentContext
+import dev.tiebe.magisterapi.api.account.LoginFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import dev.tiebe.magisterapi.api.account.LoginFlow
-import nl.tiebe.otarium.Data.Onboarding.bypassStore
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.MagisterLogin
 import nl.tiebe.otarium.utils.ui.CBackHandler
 
@@ -96,7 +96,7 @@ class CustomWebViewClient(private var codeVerifier: String, private val disableB
             if (request?.url.toString().contains("playconsolelogin")) {
                 Log.d("BrowserFragment", "Signing in: ${request?.url}")
                 disableBackHandler()
-                bypassStore(true)
+                Data.storeLoginBypass = true
                 onLogin(MagisterLogin("", ""))
             }
             return super.shouldInterceptRequest(view, request)

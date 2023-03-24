@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.onboarding
+package nl.tiebe.otarium.ui.screen.settings
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,7 +21,7 @@ import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 internal class OnBoardingItems(
-/*    val image: Int,*/
+    /*    val image: Int,*/
     val title: StringResource,
     val desc: StringResource,
     val extraItems: @Composable () -> Unit = {}
