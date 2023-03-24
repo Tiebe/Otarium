@@ -18,6 +18,7 @@ import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
 import nl.tiebe.otarium.ui.icons.Looks10Icon
 import nl.tiebe.otarium.ui.icons.SettingsIcon
+import nl.tiebe.otarium.ui.root.RootComponent
 
 interface HomeComponent {
     val dialog: Value<ChildOverlay<MenuItem, MenuItemComponent>>
@@ -29,10 +30,11 @@ interface HomeComponent {
         object Settings: MenuItem(MR.strings.settings_title, { Icon(SettingsIcon, "Settings") })
     }
 
+    val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
     fun navigate(item: MenuItem)
 }
 
-class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, ComponentContext by componentContext {
+class DefaultHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): HomeComponent, ComponentContext by componentContext {
     private val dialogNavigation = OverlayNavigation<HomeComponent.MenuItem>()
 
 
@@ -62,7 +64,8 @@ class DefaultHomeComponent(componentContext: ComponentContext): HomeComponent, C
 
     private fun settingsComponent(componentContext: ComponentContext) =
         DefaultSettingsComponent(
-            componentContext = componentContext
+            componentContext = componentContext,
+            navigateRootComponent = navigateRootComponent
         )
 
     override fun navigate(item: HomeComponent.MenuItem) {
