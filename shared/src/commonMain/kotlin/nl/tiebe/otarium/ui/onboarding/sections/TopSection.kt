@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.onboarding.sections
+package nl.tiebe.otarium.oldui.onboarding.sections
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues

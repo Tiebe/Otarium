@@ -1,7 +1,6 @@
 package nl.tiebe.otarium.ui.utils
 
 import androidx.compose.material3.TabPosition
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
@@ -12,12 +11,14 @@ import com.google.accompanist.pager.PagerState
 @ExperimentalPagerApi
 fun Modifier.pagerTabIndicatorOffset(
     tabWeek: Int,
-    selectedWeek: State<Int>,
+    selectedWeek: Int,
     dayPagerState: PagerState,
     tabPositions: List<TabPosition>,
     pageIndexMapping: (Int) -> Int = { it },
 ): Modifier = layout { measurable, constraints ->
-    if (tabPositions.isEmpty() || tabWeek != selectedWeek.value) {
+    println(tabWeek)
+    println(selectedWeek)
+    if (tabPositions.isEmpty() || tabWeek != selectedWeek) {
         layout(constraints.maxWidth, 0) {}
     } else {
         val currentPage = minOf(tabPositions.lastIndex, pageIndexMapping((dayPagerState.currentPage-(dayPagerState.pageCount/2)).mod(tabPositions.lastIndex+1)))

@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.utils
+package nl.tiebe.otarium.oldui.utils
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

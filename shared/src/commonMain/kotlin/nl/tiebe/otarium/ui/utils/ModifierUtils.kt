@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.utils
+package nl.tiebe.otarium.oldui.utils
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
