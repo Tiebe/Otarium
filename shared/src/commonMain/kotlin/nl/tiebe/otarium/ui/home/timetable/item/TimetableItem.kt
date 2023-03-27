@@ -107,7 +107,6 @@ internal fun TimetableItem(
                         Spacer(modifier = Modifier.size(16.dp))
                     }
                 },
-                trailingContent = {
                     if (absence?.justified == true) {
                         Box(
                             modifier = Modifier
@@ -121,7 +120,6 @@ internal fun TimetableItem(
                                 modifier = Modifier.padding(2.dp),
                                 color = MaterialTheme.colorScheme.onSecondary
                             )
-                        }
                     } else if (absence?.justified == false) {
                         Box(
                             modifier = Modifier
@@ -135,9 +133,6 @@ internal fun TimetableItem(
                                 modifier = Modifier.padding(2.dp),
                                 color = MaterialTheme.colorScheme.onTertiary
                             )
-                        }
-                    }
-                },
                 colors = ListItemDefaults.colors(
                     containerColor = MaterialTheme.colorScheme.inverseOnSurface
                 ),

@@ -62,7 +62,6 @@ internal fun TimetableItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence) {
 
             Text(
                 (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml(),
-                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
