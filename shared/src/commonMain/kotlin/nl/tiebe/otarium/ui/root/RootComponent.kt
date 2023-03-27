@@ -31,8 +31,9 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
     override val currentScreen: MutableValue<RootComponent.ChildScreen> = MutableValue(getScreenOnStart())
 
     private fun getScreenOnStart(): RootComponent.ChildScreen {
-        return if (Data.accounts.isEmpty()) {
-            //RootComponent.ChildScreen.OnboardingChild(onboardingComponent(componentContext))
+        return if (!Data.finishedOnboarding) {
+            RootComponent.ChildScreen.OnboardingChild(onboardingComponent(this))
+        } else if (Data.accounts.isEmpty()) {
             RootComponent.ChildScreen.LoginChild(loginComponent(this))
         } else {
             RootComponent.ChildScreen.HomeChild(homeComponent(this))
