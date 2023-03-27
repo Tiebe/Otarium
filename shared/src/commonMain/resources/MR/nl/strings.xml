@@ -16,13 +16,11 @@
     <string name="onboarding_desc_4">Wil je niet-storende advertenties in de app? Het zou me heel erg helpen!</string>
     <string name="show_ads_checkbox">Laat advertenties zien</string>
     <string name="age_checkbox">Ik ben ouder dan 16</string>
-    <string name="settings_title">Instellingen</string>
     <string name="monday">ma</string>
     <string name="tuesday">di</string>
     <string name="wednesday">wo</string>
     <string name="thursday">do</string>
     <string name="friday">vr</string>
-    <string name="age_requirement">Je hoeft geen 16 te zijn om de app te gebruiken of om advertenties te zien. Het gaat alleen over de type advertenties die je te zien krijgt.</string>
     <string name="gradesItem">Cijfers</string>
     <string name="saturday">za</string>
     <string name="sunday">zo</string>

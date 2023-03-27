@@ -19,13 +19,11 @@
     <string name="onboarding_desc_4">Would you like unobtrusive ads in this app? It would really help me out!</string>
     <string name="show_ads_checkbox">Show ads</string>
     <string name="age_checkbox">I am older than 16</string>
-    <string name="settings_title">Settings</string>
     <string name="monday">mon</string>
     <string name="tuesday">tue</string>
     <string name="wednesday">wed</string>
     <string name="thursday">thu</string>
     <string name="friday">fri</string>
-    <string name="age_requirement">You don\'t need to be 16 to use the app or see ads. It\'s just about the type of ads you\'ll see.</string>
     <string name="gradesItem">Grades</string>
     <string name="saturday">sat</string>
     <string name="sunday">sun</string>
@@ -40,7 +38,6 @@
     <string name="average">Average</string>
     <string name="calculation">Calculation</string>
     <string name="graph">Graph</string>
-    <string name="bug_report">Report a bug</string>
     <string name="bug_text_1">Before reporting a bug, try clearing your cache by pressing the button below.</string>
     <string name="bug_text_2">If the bug persists, please contact us at otarium@tiebe.dev</string>
     <string name="switch_user_text">Switch user</string>
