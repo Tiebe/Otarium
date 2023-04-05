@@ -1,8 +1,10 @@
 package nl.tiebe.otarium
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
@@ -42,31 +44,34 @@ internal fun Content(componentContext: ComponentContext) {
 
 @Composable
 internal fun Content(component: RootComponent) {
-    setup()
-    darkModeState = mutableStateOf(isSystemInDarkTheme())
-    val currentScreen by component.currentScreen.subscribeAsState()
+    Box(modifier = Modifier.padding(safeAreaState.value)) {
+        setup()
+        darkModeState = mutableStateOf(isSystemInDarkTheme())
+        val currentScreen by component.currentScreen.subscribeAsState()
 
-    OtariumTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            when (val screen = currentScreen) {
-                is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
-                is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component.componentContext) {
-                    runBlocking {
-                        launch {
-                            val account = exchangeUrl(it)
+        OtariumTheme {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                when (val screen = currentScreen) {
+                    is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
+                    is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component.componentContext) {
+                        runBlocking {
+                            launch {
+                                val account = exchangeUrl(it)
 
-                            if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
-                                Data.accounts = Data.accounts.toMutableList().apply { add(account) }
+                                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
+                                    Data.accounts =
+                                        Data.accounts.toMutableList().apply { add(account) }
+                                }
+
+                                account.refreshGrades()
                             }
-
-                            account.refreshGrades()
                         }
                     }
+                    is RootComponent.ChildScreen.OnboardingChild -> TODO()
                 }
-                is RootComponent.ChildScreen.OnboardingChild -> TODO()
             }
         }
     }
@@ -76,7 +81,7 @@ expect fun setupNotifications()
 
 expect fun closeApp()
 
-val LocalComponentContext: ProvidableCompositionLocal<ComponentContext> =
+internal val LocalComponentContext: ProvidableCompositionLocal<ComponentContext> =
     staticCompositionLocalOf { error("Root component context was not provided") }
 
 @Composable

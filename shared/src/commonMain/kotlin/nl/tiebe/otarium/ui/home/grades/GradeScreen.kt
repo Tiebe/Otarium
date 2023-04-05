@@ -24,7 +24,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 @Composable
 internal fun GradesScreen(component: GradesComponent) {
     val dialog = component.dialog.subscribeAsState().value
-    val overlay = dialog.overlay ?: return
+    val overlay = dialog.child ?: return
 
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(selectedTabIndex = overlay.configuration.id) {
