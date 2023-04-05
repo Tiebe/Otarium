@@ -1,10 +1,10 @@
 package nl.tiebe.otarium.ui.home.grades
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.ChildOverlay
-import com.arkivanov.decompose.router.overlay.OverlayNavigation
-import com.arkivanov.decompose.router.overlay.activate
-import com.arkivanov.decompose.router.overlay.childOverlay
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
@@ -13,7 +13,7 @@ import nl.tiebe.otarium.ui.home.grades.calculation.DefaultGradeCalculationChildC
 import nl.tiebe.otarium.ui.home.grades.recentgrades.DefaultRecentGradesChildComponent
 
 interface GradesComponent : MenuItemComponent {
-    val dialog: Value<ChildOverlay<GradesChild, GradesChildComponent>>
+    val dialog: Value<ChildSlot<GradesChild, GradesChildComponent>>
 
     @Parcelize
     sealed class GradesChild(val id: Int): Parcelable {
@@ -28,20 +28,20 @@ interface GradesComponent : MenuItemComponent {
 class DefaultGradesComponent(
     componentContext: ComponentContext
 ): GradesComponent, ComponentContext by componentContext {
-    private val dialogNavigation = OverlayNavigation<GradesComponent.GradesChild>()
+    private val dialogNavigation = SlotNavigation<GradesComponent.GradesChild>()
 
 
-    override val dialog: Value<ChildOverlay<GradesComponent.GradesChild, GradesChildComponent>> = childOverlay(
-        source = dialogNavigation,
-        initialConfiguration = { GradesComponent.GradesChild.RecentGrades },
-        // persistent = false, // Disable navigation state saving, if needed
-        handleBackButton = false, // Close the dialog on back button press
-    ) { config, componentContext ->
-        when (config) {
-            is GradesComponent.GradesChild.RecentGrades -> recentGradesComponent(componentContext)
-            is GradesComponent.GradesChild.Calculation -> gradeCalculationComponent(componentContext)
-        } as GradesChildComponent
-    }
+    override val dialog: Value<ChildSlot<GradesComponent.GradesChild, GradesChildComponent>> = childSlot<GradesComponent.GradesChild, GradesChildComponent>(
+            dialogNavigation,
+            "DefaultChildOverlay", { GradesComponent.GradesChild.RecentGrades },
+            persistent = true,
+            handleBackButton = false
+        ) { config, componentContext ->
+            when (config) {
+                is GradesComponent.GradesChild.RecentGrades -> recentGradesComponent(componentContext)
+                is GradesComponent.GradesChild.Calculation -> gradeCalculationComponent(componentContext)
+            } as GradesChildComponent
+        }
 
     private fun recentGradesComponent(componentContext: ComponentContext) =
         DefaultRecentGradesChildComponent(

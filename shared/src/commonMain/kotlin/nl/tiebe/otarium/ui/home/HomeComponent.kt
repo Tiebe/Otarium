@@ -3,10 +3,10 @@ package nl.tiebe.otarium.ui.home
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.ChildOverlay
-import com.arkivanov.decompose.router.overlay.OverlayNavigation
-import com.arkivanov.decompose.router.overlay.activate
-import com.arkivanov.decompose.router.overlay.childOverlay
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
@@ -21,7 +21,7 @@ import nl.tiebe.otarium.ui.icons.SettingsIcon
 import nl.tiebe.otarium.ui.root.RootComponent
 
 interface HomeComponent {
-    val dialog: Value<ChildOverlay<MenuItem, MenuItemComponent>>
+    val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit): Parcelable {
@@ -35,14 +35,13 @@ interface HomeComponent {
 }
 
 class DefaultHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): HomeComponent, ComponentContext by componentContext {
-    private val dialogNavigation = OverlayNavigation<HomeComponent.MenuItem>()
+    private val dialogNavigation = SlotNavigation<HomeComponent.MenuItem>()
 
-
-    override val dialog: Value<ChildOverlay<HomeComponent.MenuItem, MenuItemComponent>> = childOverlay(
-        source = dialogNavigation,
-        initialConfiguration = { HomeComponent.MenuItem.Timetable },
-        // persistent = false, // Disable navigation state saving, if needed
-        handleBackButton = false, // Close the dialog on back button press
+    override val dialog: Value<ChildSlot<HomeComponent.MenuItem, MenuItemComponent>> = childSlot<HomeComponent.MenuItem, MenuItemComponent>(
+        dialogNavigation,
+        "DefaultChildOverlay", { HomeComponent.MenuItem.Timetable },
+        persistent = true,
+        handleBackButton = false
     ) { config, componentContext ->
         when (config) {
             is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
