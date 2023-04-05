@@ -3,15 +3,15 @@ object Version {
     const val appVersion = "3.0.1"
     const val appVersionCode = 25
 
-    const val kotlin = "1.7.20"
-    const val gradle = "7.3.1"
+    const val kotlin = "1.8.0"
+    const val gradle = "7.4.1"
     const val appcompat = "1.4.0"
     const val material = "1.4.0"
-    const val compose = "1.3.0"
-    const val compose_android = "1.2.1"
-    const val compose_compiler = "1.3.2"
+    const val compose = "1.4.0-rc01"
+    const val compose_android = "1.4.0"
+    const val compose_compiler = "1.4.0"
     const val ktor = "2.1.2"
-    const val decompose = "1.0.0-beta-03-native-compose"
+    const val decompose = "2.0.0-compose-experimental-alpha-01"
 }
 
 object Compose {
