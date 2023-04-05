@@ -7,7 +7,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 
 @Composable
-fun SettingsRowToggle(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle, checked: Boolean, onClick: ((Boolean) -> Unit)?) {
+internal fun SettingsRowToggle(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle, checked: Boolean, onClick: ((Boolean) -> Unit)?) {
     SettingRow(modifier = modifier, text = leftText, textStyle = textStyle) {
         Switch(checked = checked, onCheckedChange = onClick)
     }

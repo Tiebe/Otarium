@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.DefaultComponentContext
 
 @Composable
-fun RootView(rootComponentContext: DefaultComponentContext) {
+internal fun RootView(rootComponentContext: DefaultComponentContext) {
     ProvideComponentContext(rootComponentContext) {
         Content(componentContext = rootComponentContext)
     }

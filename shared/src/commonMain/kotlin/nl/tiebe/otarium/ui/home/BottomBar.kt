@@ -22,7 +22,7 @@ internal fun BottomBar(
     modifier: Modifier,
 ) {
     val dialog = component.dialog.subscribeAsState()
-    val overlay = dialog.value.overlay ?: return
+    val overlay = dialog.value.child ?: return
 
     val items = listOf(
         HomeComponent.MenuItem.Timetable,
