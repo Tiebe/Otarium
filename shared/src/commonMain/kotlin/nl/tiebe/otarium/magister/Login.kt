@@ -2,10 +2,9 @@ package nl.tiebe.otarium.magister
 
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
-import kotlinx.serialization.Serializable
 
-suspend fun exchangeUrl(magisterLogin: MagisterLogin): MagisterAccount {
-    val response = LoginFlow.exchangeTokens(magisterLogin.code, magisterLogin.codeVerifier)
+suspend fun exchangeUrl(code: String, codeVerifier: String): MagisterAccount {
+    val response = LoginFlow.exchangeTokens(code, codeVerifier)
 
     val tenantUrl = ProfileInfoFlow.getTenantUrl(response.accessToken)
     val profileInfo = ProfileInfoFlow.getProfileInfo(tenantUrl.toString(), response.accessToken)
@@ -16,6 +15,3 @@ suspend fun exchangeUrl(magisterLogin: MagisterLogin): MagisterAccount {
         tenantUrl = tenantUrl.toString(),
     ).also { it.tokens = response }
 }
-
-@Serializable
-data class MagisterLogin(val code: String, val codeVerifier: String)

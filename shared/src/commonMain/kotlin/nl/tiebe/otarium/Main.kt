@@ -12,10 +12,6 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.russhwolf.settings.Settings
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import nl.tiebe.otarium.magister.exchangeUrl
-import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.home.HomeScreen
 import nl.tiebe.otarium.ui.login.LoginScreen
 import nl.tiebe.otarium.ui.root.DefaultRootComponent
@@ -56,20 +52,7 @@ internal fun Content(component: RootComponent) {
             ) {
                 when (val screen = currentScreen) {
                     is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
-                    is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component.componentContext) {
-                        runBlocking {
-                            launch {
-                                val account = exchangeUrl(it)
-
-                                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
-                                    Data.accounts =
-                                        Data.accounts.toMutableList().apply { add(account) }
-                                }
-
-                                account.refreshGrades()
-                            }
-                        }
-                    }
+                    is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
                     is RootComponent.ChildScreen.OnboardingChild -> TODO()
                 }
             }
