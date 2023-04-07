@@ -3,6 +3,7 @@ package nl.tiebe.otarium.ui.home.grades.recentgrades
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.launch
@@ -15,7 +16,24 @@ interface RecentGradesChildComponent : GradesChildComponent {
     val refreshState: Value<Boolean>
     val grades: Value<List<RecentGrade>>
 
+    val openedGrade: Value<Pair<Boolean, RecentGrade?>>
+
     fun refreshGrades()
+
+    val backCallbackOpenItem: BackCallback
+
+    fun openRecentGrade(item: RecentGrade) {
+        backCallbackOpenItem.isEnabled = true
+
+        (openedGrade as MutableValue).value = true to item
+    }
+
+    fun closeRecentGrade() {
+        (openedGrade as MutableValue).value = false to openedGrade.value.second
+        backCallbackOpenItem.isEnabled = false
+    }
+
+
 
 }
 
@@ -24,6 +42,7 @@ class DefaultRecentGradesChildComponent(componentContext: ComponentContext) : Re
     private val scope = componentCoroutineScope()
 
     override val grades: MutableValue<List<RecentGrade>> = MutableValue(Data.selectedAccount.grades)
+    override val openedGrade = MutableValue<Pair<Boolean, RecentGrade?>>(false to null)
 
     override fun refreshGrades() {
         scope.launch {
@@ -38,8 +57,14 @@ class DefaultRecentGradesChildComponent(componentContext: ComponentContext) : Re
         }
     }
 
+    override val backCallbackOpenItem = BackCallback(false) {
+        closeRecentGrade()
+    }
+
 
     init {
+        backHandler.register(backCallbackOpenItem)
+
         refreshGrades()
     }
 

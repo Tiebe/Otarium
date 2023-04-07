@@ -15,10 +15,11 @@ import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RecentGradeItem(grade: RecentGrade) {
+internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: RecentGrade) {
     ListItem(
         modifier = Modifier
-            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
+            /*todo: after that, enable this again .clickable { component.openRecentGrade(grade) }*/,
         headlineText = { Text(grade.description) },
         supportingText = { Text(grade.subject.description.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase() else it.toString()

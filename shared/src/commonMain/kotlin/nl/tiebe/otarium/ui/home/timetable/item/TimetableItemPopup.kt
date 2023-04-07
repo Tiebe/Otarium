@@ -18,8 +18,6 @@ import nl.tiebe.otarium.utils.ui.parseHtml
 
 @Composable
 internal fun TimetableItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence) {
-
-
     Surface(Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
