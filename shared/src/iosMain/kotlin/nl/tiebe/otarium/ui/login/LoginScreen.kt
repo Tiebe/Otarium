@@ -19,7 +19,7 @@ import platform.WebKit.*
 import platform.darwin.NSObject
 
 @Composable
-internal actual fun LoginScreen(componentContext: ComponentContext, onLogin: (MagisterLogin) -> Unit) {
+internal actual fun LoginScreen(component: LoginComponent) {
     var loginUrl = remember { LoginFlow.createAuthURL() }
 
     UIKitView(
