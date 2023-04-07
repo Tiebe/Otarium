@@ -5,24 +5,44 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import io.ktor.http.*
 import kotlinx.coroutines.launch
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.magister.exchangeUrl
+import nl.tiebe.otarium.magister.refreshGrades
+import nl.tiebe.otarium.ui.home.DefaultHomeComponent
+import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface LoginComponent {
     var loginUrl: LoginFlow.AuthURL
 
+    fun navigateToHomeScreen()
+
     fun checkUrl(inputUrl: String): Boolean
 
-    fun login(code: String, codeVerifier: String)
+    suspend fun login(code: String, codeVerifier: String)
 
     fun addBackHandler(onBack: BackCallback)
 }
 
-class DefaultLoginComponent(val componentContext: ComponentContext): LoginComponent, ComponentContext by componentContext {
+class DefaultLoginComponent(val componentContext: ComponentContext, val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): LoginComponent, ComponentContext by componentContext {
     override var loginUrl: LoginFlow.AuthURL = LoginFlow.createAuthURL()
+
+    override fun navigateToHomeScreen() {
+        navigateRootComponent(RootComponent.ChildScreen.HomeChild(DefaultHomeComponent(componentContext, navigateRootComponent)))
+    }
+
     private val scope = componentCoroutineScope()
 
-    override fun login(code: String, codeVerifier: String) {
+    override suspend fun login(code: String, codeVerifier: String) {
+        val account = exchangeUrl(code, codeVerifier)
 
+        if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
+            Data.accounts =
+                Data.accounts.toMutableList().apply { add(account) }
+        }
+
+        account.refreshGrades()
+        navigateToHomeScreen()
     }
 
     override fun checkUrl(inputUrl: String): Boolean {
@@ -49,7 +69,7 @@ class DefaultLoginComponent(val componentContext: ComponentContext): LoginCompon
             }
         }
 
-        return false
+        return true
     }
 
     private var onBack: BackCallback? = null

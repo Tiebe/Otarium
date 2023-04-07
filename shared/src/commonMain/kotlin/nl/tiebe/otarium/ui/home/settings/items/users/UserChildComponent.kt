@@ -25,8 +25,10 @@ class DefaultUserChildComponent(
     override val openLoginScreen: () -> Unit = {
         navigateRootComponent(RootComponent.ChildScreen.LoginChild(
             DefaultLoginComponent(
-            componentContext = this
-        )))
+                componentContext = this,
+                navigateRootComponent
+            )
+        ))
     }
 
 }

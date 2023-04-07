@@ -50,7 +50,10 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
 
     private fun loginComponent(componentContext: ComponentContext): DefaultLoginComponent =
         DefaultLoginComponent(
-            componentContext = componentContext
+            componentContext = componentContext,
+            navigateRootComponent = { screen ->
+                currentScreen.value = screen
+            }
         )
 
     private fun onboardingComponent(componentContext: ComponentContext): OnboardingComponent =
