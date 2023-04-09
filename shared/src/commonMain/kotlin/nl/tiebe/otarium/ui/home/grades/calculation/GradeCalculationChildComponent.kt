@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
-import com.arkivanov.essenty.lifecycle.doOnCreate
 import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import kotlinx.coroutines.launch
@@ -51,21 +50,19 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
     private val scope = componentCoroutineScope()
 
     init {
-        lifecycle.doOnCreate {
-            backHandler.register(backCallbackOpenItem)
+        backHandler.register(backCallbackOpenItem)
 
-            scope.launch {
-                try {
-                    state.value = GradeCalculationChildComponent.State.Data(Data.selectedAccount.refreshGrades().filter {
-                        it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
-                                it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
-                    })
-                    return@launch
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-                state.value = GradeCalculationChildComponent.State.Failed
+        scope.launch {
+            try {
+                state.value = GradeCalculationChildComponent.State.Data(Data.selectedAccount.refreshGrades().filter {
+                    it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                            it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+                })
+                return@launch
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+            state.value = GradeCalculationChildComponent.State.Failed
         }
     }
 

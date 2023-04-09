@@ -10,8 +10,8 @@ import io.ktor.http.*
 import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.utils.sendNotification
 
-suspend fun MagisterAccount.getRecentGrades(): List<RecentGrade> {
-    val newGrades = GradeFlow.getRecentGrades(Url(tenantUrl), tokens.accessToken, accountId, 100, 0)
+suspend fun MagisterAccount.getRecentGrades(amount: Int, skip: Int): List<RecentGrade> {
+    val newGrades = GradeFlow.getRecentGrades(Url(tenantUrl), tokens.accessToken, accountId, amount, skip)
 
     grades = newGrades
     return newGrades

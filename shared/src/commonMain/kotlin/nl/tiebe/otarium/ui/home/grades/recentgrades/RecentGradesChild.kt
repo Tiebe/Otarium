@@ -2,11 +2,11 @@ package nl.tiebe.otarium.ui.home.grades.recentgrades
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -23,18 +23,24 @@ internal fun RecentGradesChild(component: RecentGradesChildComponent) {
         modifier = Modifier.fillMaxSize()
     ) { visible ->
         if (visible) {
-            RecentGradePopup(recentGrade = popupItem.value.second!!)
+            RecentGradePopup(component = component, recentGrade = popupItem.value.second!!)
         } else {
             SwipeRefresh(state = refreshState, onRefresh = { component.refreshGrades() }) {
-                Column(
+                val grades = component.grades.subscribeAsState().value
+
+                LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .verticalScroll(rememberScrollState()),
                 ) {
-                    val grades = component.grades.subscribeAsState().value
-
-                    grades.forEach {
+                    items(grades) {
                         RecentGradeItem(component = component, grade = it)
+                    }
+
+                    item {
+                        LaunchedEffect(true) {
+                            if (!refreshState.isRefreshing)
+                            component.loadNextGrades()
+                        }
                     }
                 }
             }

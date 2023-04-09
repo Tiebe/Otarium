@@ -1,9 +1,13 @@
 package nl.tiebe.otarium.ui.home.grades.recentgrades
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
@@ -16,10 +20,13 @@ import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: RecentGrade) {
+    var showExtraInfo by remember { mutableStateOf(false) }
+
+
     ListItem(
         modifier = Modifier
             .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
-            /*todo: after that, enable this again .clickable { component.openRecentGrade(grade) }*/,
+            .clickable { showExtraInfo = !showExtraInfo },
         headlineText = { Text(grade.description) },
         supportingText = { Text(grade.subject.description.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase() else it.toString()
@@ -49,4 +56,8 @@ internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: Recen
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
         ),
     )
+
+    AnimatedVisibility(visible = showExtraInfo, enter = expandVertically(), exit = shrinkVertically()) {
+        ListItem({Text("fasd")})
+    }
 }
