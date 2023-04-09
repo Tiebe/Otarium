@@ -40,9 +40,11 @@ internal fun Content(componentContext: ComponentContext) {
 
 @Composable
 internal fun Content(component: RootComponent) {
+    setup()
+    darkModeState = mutableStateOf(isSystemInDarkTheme())
+
     Box(modifier = Modifier.padding(safeAreaState.value)) {
-        setup()
-        darkModeState = mutableStateOf(isSystemInDarkTheme())
+
         val currentScreen by component.currentScreen.subscribeAsState()
 
         OtariumTheme {
