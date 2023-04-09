@@ -33,6 +33,8 @@ interface RecentGradesChildComponent : GradesChildComponent {
         backCallbackOpenItem.isEnabled = false
     }
 
+    fun loadNextGrades()
+
 
 
 }
@@ -48,7 +50,7 @@ class DefaultRecentGradesChildComponent(componentContext: ComponentContext) : Re
         scope.launch {
             refreshState.value = true
             try {
-                grades.value = Data.selectedAccount.getRecentGrades()
+                grades.value = Data.selectedAccount.getRecentGrades(30, 0)
             } catch (e: MagisterException) {
                 e.printStackTrace()
             } catch (_: Exception) {
@@ -57,8 +59,23 @@ class DefaultRecentGradesChildComponent(componentContext: ComponentContext) : Re
         }
     }
 
+
+
     override val backCallbackOpenItem = BackCallback(false) {
         closeRecentGrade()
+    }
+
+    override fun loadNextGrades() {
+        scope.launch {
+            refreshState.value = true
+            try {
+                grades.value = listOf(grades.value, Data.selectedAccount.getRecentGrades(30, grades.value.size)).flatten()
+            } catch (e: MagisterException) {
+                e.printStackTrace()
+            } catch (_: Exception) {
+            }
+            refreshState.value = false
+        }
     }
 
 
