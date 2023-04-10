@@ -13,8 +13,6 @@ import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.home.grades.GradesChildComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
-//todo: more component shit?
-
 interface GradeCalculationChildComponent : GradesChildComponent {
     val openedSubject: Value<Pair<Boolean, Subject?>>
 
@@ -65,7 +63,31 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
             state.value = GradeCalculationChildComponent.State.Failed
         }
     }
+}
 
 
+fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
+    var sum = addedGrade * addedGradeWeight
+    var weight = addedGradeWeight
 
+    grades.forEach {
+        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
+        weight += it.gradeInfo.weight.toFloat()
+    }
+
+    if (weight == 0f) return 0f
+
+    return sum/weight
+}
+
+fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+    var sum = 0f
+    var weight = newGradeWeight
+
+    grades.forEach {
+        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
+        weight += it.gradeInfo.weight.toFloat()
+    }
+
+    return ((newAverage * weight) - sum) / newGradeWeight
 }
