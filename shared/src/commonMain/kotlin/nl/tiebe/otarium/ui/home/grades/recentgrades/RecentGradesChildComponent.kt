@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.getRecentGrades
 import nl.tiebe.otarium.ui.home.grades.GradesChildComponent
+import nl.tiebe.otarium.ui.home.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface RecentGradesChildComponent : GradesChildComponent {
@@ -19,6 +20,17 @@ interface RecentGradesChildComponent : GradesChildComponent {
 
     fun loadNextGrades()
 
+    fun calculateAverageBeforeAfter(grade: RecentGrade): Pair<Float, Float> {
+        val grades = Data.selectedAccount.fullGradeList.filter { it.grade.subject.abbreviation == grade.subject.code }.sortedBy { it.grade.dateEntered }
+
+        val index = grades.find { it.grade.gradeColumn.id == grade.gradeColumnId }?.let { grades.indexOf(it) } ?: return 0f to 0f
+
+        println(grades.subList(0, index))
+        val before = calculateAverage(grades.subList(0, index))
+        val after = calculateAverage(grades.subList(0, index + 1))
+
+        return before to after
+    }
 
 
 }
