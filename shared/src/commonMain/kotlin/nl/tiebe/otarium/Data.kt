@@ -23,7 +23,9 @@ object Data {
         set(value) = settings.putBoolean("age_of_consent", value)
 
     var accounts: List<MagisterAccount>
-        get() = settings.getString("accounts", "[]").let { Json.decodeFromString(it) }
+        get() = settings.getString("accounts", "[]").let {
+            println(it)
+            Json.decodeFromString(it) }
         set(value) = settings.putString("accounts", Json.encodeToString(value))
 
     var selectedAccount: MagisterAccount

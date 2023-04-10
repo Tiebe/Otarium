@@ -6,6 +6,7 @@ import com.arkivanov.decompose.DefaultComponentContext
 @Composable
 fun RootView(rootComponentContext: DefaultComponentContext) {
     ProvideComponentContext(rootComponentContext) {
+        setup()
         Content(componentContext = rootComponentContext)
     }
 }

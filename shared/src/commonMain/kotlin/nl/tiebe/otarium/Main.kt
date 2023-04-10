@@ -18,7 +18,7 @@ import nl.tiebe.otarium.ui.onboarding.OnboardingScreen
 import nl.tiebe.otarium.ui.root.DefaultRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.ui.theme.OtariumTheme
-import nl.tiebe.otarium.utils.runVersionCheck
+import nl.tiebe.otarium.utils.versions.runVersionCheck
 
 val settings: Settings = Settings()
 
@@ -26,7 +26,9 @@ lateinit var darkModeState: MutableState<Boolean>
 val safeAreaState = mutableStateOf(PaddingValues())
 
 fun setup() {
+    println("test2")
     val oldVersion = settings.getInt("version", 1000)
+    println(oldVersion)
 
     runVersionCheck(oldVersion)
 
@@ -41,7 +43,6 @@ internal fun Content(componentContext: ComponentContext) {
 
 @Composable
 internal fun Content(component: RootComponent) {
-    setup()
     darkModeState = mutableStateOf(isSystemInDarkTheme())
 
     Box(modifier = Modifier.padding(safeAreaState.value)) {
