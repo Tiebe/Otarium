@@ -11,9 +11,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateNewGrade
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
-import nl.tiebe.otarium.magister.GradeWithGradeInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -115,30 +117,4 @@ internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
             }
         }
     }
-}
-
-fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
-    var sum = addedGrade * addedGradeWeight
-    var weight = addedGradeWeight
-
-    grades.forEach {
-        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
-        weight += it.gradeInfo.weight.toFloat()
-    }
-
-    if (weight == 0f) return 0f
-
-    return sum/weight
-}
-
-fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
-    var sum = 0f
-    var weight = newGradeWeight
-
-    grades.forEach {
-        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
-        weight += it.gradeInfo.weight.toFloat()
-    }
-
-    return ((newAverage * weight) - sum) / newGradeWeight
 }

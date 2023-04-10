@@ -14,6 +14,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.russhwolf.settings.Settings
 import nl.tiebe.otarium.ui.home.HomeScreen
 import nl.tiebe.otarium.ui.login.LoginScreen
+import nl.tiebe.otarium.ui.onboarding.OnboardingScreen
 import nl.tiebe.otarium.ui.root.DefaultRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.ui.theme.OtariumTheme
@@ -55,7 +56,7 @@ internal fun Content(component: RootComponent) {
                 when (val screen = currentScreen) {
                     is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
                     is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
-                    is RootComponent.ChildScreen.OnboardingChild -> TODO()
+                    is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component)
                 }
             }
         }

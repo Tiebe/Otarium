@@ -43,4 +43,5 @@
     <string name="switch_user_text">Wissel gebruiker</string>
     <string name="new_account">Nieuwe gebruiker</string>
     <string name="advertisements">Advertenties</string>
+    <string name="entered_on">Ingevoerd op</string>
 </resources>

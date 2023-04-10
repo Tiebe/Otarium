@@ -1,7 +1,8 @@
-                                                     plugins {
+plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-parcelize")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -16,7 +17,9 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     compileOptions {
