@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
-import nl.tiebe.otarium.ui.home.grades.calculation.cards.calculateAverage
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalTextApi::class)
