@@ -45,7 +45,7 @@ internal fun Timetable(
 
                 val minutes = ((now.hour - 8) * 60) + now.minute
 
-                if (minutes > 0 && page == component.amountOfDays / 2 ) {
+                if (minutes > 0 && page == (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal) {
                     Divider(
                         Modifier
                             .width(40.dp)
