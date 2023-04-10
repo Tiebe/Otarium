@@ -1,6 +1,5 @@
 package nl.tiebe.otarium.ui.home.grades.recentgrades
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,32 +15,22 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @Composable
 internal fun RecentGradesChild(component: RecentGradesChildComponent) {
     val refreshState = rememberSwipeRefreshState(component.refreshState.subscribeAsState().value)
-    val popupItem = component.openedGrade.subscribeAsState()
 
-    AnimatedContent(
-        targetState = popupItem.value.first,
-        modifier = Modifier.fillMaxSize()
-    ) { visible ->
-        if (visible) {
-            RecentGradePopup(component = component, recentGrade = popupItem.value.second!!)
-        } else {
-            SwipeRefresh(state = refreshState, onRefresh = { component.refreshGrades() }) {
-                val grades = component.grades.subscribeAsState().value
+    SwipeRefresh(state = refreshState, onRefresh = { component.refreshGrades() }) {
+        val grades = component.grades.subscribeAsState().value
 
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    items(grades) {
-                        RecentGradeItem(component = component, grade = it)
-                    }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            items(grades) {
+                RecentGradeItem(component = component, grade = it)
+            }
 
-                    item {
-                        LaunchedEffect(true) {
-                            if (!refreshState.isRefreshing)
-                            component.loadNextGrades()
-                        }
-                    }
+            item {
+                LaunchedEffect(true) {
+                    if (!refreshState.isRefreshing)
+                        component.loadNextGrades()
                 }
             }
         }

@@ -58,6 +58,6 @@ internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: Recen
     )
 
     AnimatedVisibility(visible = showExtraInfo, enter = expandVertically(), exit = shrinkVertically()) {
-        ListItem({Text("fasd")})
+        //todo: add extra info here
     }
 }
