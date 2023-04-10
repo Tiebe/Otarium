@@ -2,17 +2,14 @@ package nl.tiebe.otarium.ui.home.settings.items.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
@@ -47,10 +44,6 @@ internal fun MainChildScreen(component: MainChildComponent) {
         }
 
         //bug report
-        Text(
-            text = getLocalizedString(MR.strings.bug_text_1),
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
         SettingRowIconButton(
             leftText = AnnotatedString(getLocalizedString(MR.strings.bug_report)),
             icon = BugOutline

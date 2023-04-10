@@ -16,14 +16,13 @@ import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
 import nl.tiebe.otarium.ui.home.grades.calculation.cards.GCAverageCalculator
-import nl.tiebe.otarium.ui.home.grades.calculation.cards.calculateAverage
 import nl.tiebe.otarium.ui.home.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.utils.ui.format
 
 @Composable
 internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: Subject, gradeList: List<GradeWithGradeInfo>) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()

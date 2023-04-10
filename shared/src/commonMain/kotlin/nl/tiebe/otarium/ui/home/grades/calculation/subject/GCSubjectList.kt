@@ -19,7 +19,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
-import nl.tiebe.otarium.ui.home.grades.calculation.cards.calculateAverage
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
 import nl.tiebe.otarium.utils.ui.format
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)

@@ -16,7 +16,7 @@ import nl.tiebe.otarium.utils.ui.Android
 import nl.tiebe.otarium.utils.ui.Android.context
 
 
- actual fun setupNotifications() {
+actual fun setupNotifications() {
     createNotificationChannel(context)
     askNotificationPermission(context)
 
