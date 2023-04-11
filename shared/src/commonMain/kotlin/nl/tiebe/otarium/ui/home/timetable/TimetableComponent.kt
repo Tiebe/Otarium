@@ -7,7 +7,9 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
@@ -42,6 +44,38 @@ interface TimetableComponent : MenuItemComponent {
     fun changeDay(day: Int)
 
     fun refreshTimetable(from: LocalDate, to: LocalDate)
+
+    fun getTotalAmountOfOverlaps(item: AgendaItemWithAbsence, items: List<AgendaItemWithAbsence>): Pair<List<AgendaItemWithAbsence>, Int> {
+        val overlaps = getAmountOfOverlaps(item, items)
+
+        var childOverlaps = 0
+
+        for (overlap in overlaps) {
+            childOverlaps += getTotalAmountOfOverlaps(overlap, overlaps).second
+        }
+
+        return overlaps to overlaps.size + childOverlaps
+    }
+
+    fun getAmountOfOverlaps(item: AgendaItemWithAbsence,
+                            items: List<AgendaItemWithAbsence>
+    ): List<AgendaItemWithAbsence> {
+        return items.filter {
+            it != item &&
+                    item.overlaps(it)
+        }
+    }
+
+    fun AgendaItemWithAbsence.overlaps(item: AgendaItemWithAbsence): Boolean {
+        //check if this item overlaps with the given item
+        val startTime = this.agendaItem.start.substring(0, 26).toLocalDateTime().toInstant(TimeZone.of("Europe/Amsterdam")).epochSeconds + 1
+        val endTime = this.agendaItem.einde.substring(0, 26).toLocalDateTime().toInstant(TimeZone.of("Europe/Amsterdam")).epochSeconds - 1
+
+        val startTime2 = item.agendaItem.start.substring(0, 26).toLocalDateTime().toInstant(TimeZone.of("Europe/Amsterdam")).epochSeconds + 1
+        val endTime2 = item.agendaItem.einde.substring(0, 26).toLocalDateTime().toInstant(TimeZone.of("Europe/Amsterdam")).epochSeconds - 1
+
+        return startTime in startTime2..endTime2 || endTime in startTime2..endTime2
+    }
 
     fun refreshSelectedWeek() {
         refreshTimetable(
