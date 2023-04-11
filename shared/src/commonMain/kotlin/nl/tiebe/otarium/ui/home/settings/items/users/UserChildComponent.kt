@@ -21,7 +21,6 @@ class DefaultUserChildComponent(
         _navigate(child)
     }
 
-    //todo: make this better one day
     override val openLoginScreen: () -> Unit = {
         navigateRootComponent(RootComponent.ChildScreen.LoginChild(
             DefaultLoginComponent(

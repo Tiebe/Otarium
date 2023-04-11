@@ -1,20 +1,20 @@
 package nl.tiebe.otarium.utils
 
+import android.Manifest
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.R
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.theme.Blue80
@@ -37,17 +37,13 @@ actual fun reloadTokensBackground() {
 }
 
 actual fun refreshGradesBackground() {
-    val startTime = Clock.System.now()
-    val dateTime = startTime.toLocalDateTime(TimeZone.UTC)
-    val minutes = dateTime.minute % 15
-
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(GradeRefreshWorker::class.java, 15, TimeUnit.MINUTES).setConstraints(
             Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
                 .build()
-        ).setInitialDelay((15 - minutes).toLong(), TimeUnit.MINUTES).build()
+        ).build()
 
         WorkManager.getInstance(Android.context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
     } else {
@@ -101,6 +97,20 @@ actual fun sendNotification(title: String, message: String) {
         .setColor(Blue80.toArgb())
 
     with(NotificationManagerCompat.from(Android.context)) {
+        if (ActivityCompat.checkSelfPermission(
+                Android.context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         notify(System.currentTimeMillis().toInt(), builder.build())
     }
 

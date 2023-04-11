@@ -7,7 +7,6 @@ import nl.tiebe.otarium.ui.home.settings.items.bugs.BugsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildScreen
 
-
 @Composable
 internal fun SettingsScreen(component: SettingsComponent) {
     val screen = component.childStack.subscribeAsState()
@@ -18,6 +17,4 @@ internal fun SettingsScreen(component: SettingsComponent) {
         is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
         is SettingsComponent.Child.BugsChild -> BugsChildScreen(child.component)
     }
-
-
 }

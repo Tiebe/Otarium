@@ -46,4 +46,5 @@
     <string name="switch_user_text">Switch user</string>
     <string name="new_account">New account</string>
     <string name="advertisements">Advertisements</string>
+    <string name="entered_on">Entered on</string>
 </resources>

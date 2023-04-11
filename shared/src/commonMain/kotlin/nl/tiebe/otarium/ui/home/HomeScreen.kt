@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.Data
 
-val adsShown = mutableStateOf(Data.showAds)
+var adsShown = mutableStateOf(Data.showAds)
 
 @Composable
 internal fun HomeScreen(component: HomeComponent) {
