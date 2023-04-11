@@ -21,6 +21,7 @@ fun RootViewController(): UIViewController = ComposeUIViewController {
 
 
     ProvideComponentContext(componentContext) {
+        setup()
         Content(componentContext = componentContext)
     }
 }

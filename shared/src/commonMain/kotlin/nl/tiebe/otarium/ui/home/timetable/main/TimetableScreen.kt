@@ -7,8 +7,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,8 +22,6 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.*
-import nl.tiebe.otarium.magister.*
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
 
@@ -43,10 +47,10 @@ internal fun TimetableScreen(component: TimetableComponent) {
 
     val scope = rememberCoroutineScope()
 
-    if (dayPagerState.currentPage != 500 + component.now.value.date.dayOfWeek.ordinal) {
+    if (dayPagerState.currentPage != (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal) {
         Box(Modifier.fillMaxSize()) {
             Button(
-                onClick = { component.scrollToPage(scope, 500 + component.now.value.date.dayOfWeek.ordinal, dayPagerState) },
+                onClick = { component.scrollToPage(scope, (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal, dayPagerState) },
                 modifier = Modifier
                     .size(60.dp)
                     .padding(10.dp)

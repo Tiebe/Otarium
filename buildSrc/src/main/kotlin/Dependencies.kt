@@ -1,7 +1,7 @@
 
 object Version {
-    const val appVersion = "3.0.1"
-    const val appVersionCode = 25
+    const val appVersion = "3.1.0"
+    const val appVersionCode = 26
 
     const val kotlin = "1.8.0"
     const val gradle = "7.4.1"

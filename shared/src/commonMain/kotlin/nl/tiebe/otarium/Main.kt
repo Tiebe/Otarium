@@ -14,10 +14,11 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.russhwolf.settings.Settings
 import nl.tiebe.otarium.ui.home.HomeScreen
 import nl.tiebe.otarium.ui.login.LoginScreen
+import nl.tiebe.otarium.ui.onboarding.OnboardingScreen
 import nl.tiebe.otarium.ui.root.DefaultRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.ui.theme.OtariumTheme
-import nl.tiebe.otarium.utils.runVersionCheck
+import nl.tiebe.otarium.utils.versions.runVersionCheck
 
 val settings: Settings = Settings()
 
@@ -40,9 +41,10 @@ internal fun Content(componentContext: ComponentContext) {
 
 @Composable
 internal fun Content(component: RootComponent) {
+    darkModeState = mutableStateOf(isSystemInDarkTheme())
+
     Box(modifier = Modifier.padding(safeAreaState.value)) {
-        setup()
-        darkModeState = mutableStateOf(isSystemInDarkTheme())
+
         val currentScreen by component.currentScreen.subscribeAsState()
 
         OtariumTheme {
@@ -53,7 +55,7 @@ internal fun Content(component: RootComponent) {
                 when (val screen = currentScreen) {
                     is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
                     is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
-                    is RootComponent.ChildScreen.OnboardingChild -> TODO()
+                    is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component)
                 }
             }
         }
