@@ -53,8 +53,16 @@ internal fun TimetableItem(
         val timeTop: Long = startOfWeekDate.atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds() + (timesShown.first() * 60 * 60 * 1000)
 
         val timetable = component.timetable.subscribeAsState()
+        val timetableForDay = component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * component.days.size))
+        val timetableMap = timetableForDay.map { it to component.getTotalAmountOfOverlaps(it, timetableForDay) }
 
-        component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * component.days.size)).forEach { agendaItemWithAbsence ->
+        timetableMap.forEach { pair ->
+            val agendaItemWithAbsence = pair.first
+            val overlappingItems = pair.second
+
+            //does this item have the most amount of overlapping items compared to other overlapping items?
+            val isMostOverlapping = overlappingItems.second > overlappingItems.first.maxOf { component.getAmountOfOverlaps(it, timetableForDay).size }
+
             val agendaItem = agendaItemWithAbsence.agendaItem
             val absence = agendaItemWithAbsence.absence
             val startTime =
@@ -89,9 +97,17 @@ internal fun TimetableItem(
             ListItem(
                 modifier = Modifier
                     .padding(start = 40.5.dp, top = distanceAfterTop)
+                    .fillMaxWidth(1/(overlappingItems.second.toFloat()+1))
                     .height(height)
                     .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
-                    .clickable { component.openTimeTableItem(agendaItemWithAbsence) },
+                    .clickable { component.openTimeTableItem(agendaItemWithAbsence) }.let {
+                        if (isMostOverlapping) {
+                            it.align(Alignment.TopEnd)
+                        } else {
+                            it
+                        }
+                    }
+                ,
                 headlineText = { Text(agendaItem.description ?: "") },
                 supportingText = {
                     Text(
