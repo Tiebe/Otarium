@@ -56,6 +56,7 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
                     it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
                             it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
                 })
+
                 return@launch
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -5,6 +5,7 @@ import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.StringDesc
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
+import platform.Foundation.NSNumberFormatterDecimalStyle
 
 actual fun getLocalizedString(string: StringResource): String {
     return StringDesc.Resource(string).localized()
@@ -12,8 +13,8 @@ actual fun getLocalizedString(string: StringResource): String {
 
 actual fun Float.format(decimals: Int): String {
     val formatter = NSNumberFormatter()
-    formatter.minimumFractionDigits = 0u
-    formatter.maximumFractionDigits = 2u
-    formatter.numberStyle = decimals.toULong() //Decimal
+    formatter.minimumFractionDigits = decimals.toULong()
+    formatter.maximumFractionDigits = decimals.toULong()
+    formatter.numberStyle = NSNumberFormatterDecimalStyle
     return formatter.stringFromNumber(NSNumber(this))!!
 }
