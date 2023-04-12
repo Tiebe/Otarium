@@ -21,9 +21,6 @@ import nl.tiebe.otarium.oldui.utils.topRectBorder
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.item.TimetableItem
 
-val timesShown = 8..17
-val dpPerHour = 80.dp
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun Timetable(

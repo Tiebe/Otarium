@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.ui.home.timetable
 
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
@@ -23,6 +24,9 @@ import nl.tiebe.otarium.ui.root.componentCoroutineScope
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
+val timesShown = 8..17
+val dpPerHour = 80.dp
+
 interface TimetableComponent : MenuItemComponent {
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
@@ -40,6 +44,24 @@ interface TimetableComponent : MenuItemComponent {
     val selectedWeek: Value<Int>
 
     val isRefreshingTimetable: Value<Boolean>
+
+    fun getWeekFromPage(page: Int): Int = if (page >= 0) {
+        page / days.size
+    } else {
+        floor((page / days.size.toFloat())).toInt()
+    }
+
+    fun getDateStartOfWeek(page: Int) = now.value.date.minus(
+            now.value.date.dayOfWeek.ordinal,
+            DateTimeUnit.DAY
+        ) // first day of week
+            .plus(getWeekFromPage(page) * 7, DateTimeUnit.DAY) // add weeks to get to selected week
+            .plus(
+                page - (getWeekFromPage(page) * days.size),
+                DateTimeUnit.DAY
+            ) // add days to get to selected day
+
+    fun getTimeFromTop(page: Int) = getDateStartOfWeek(page).atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).toEpochMilliseconds() + (timesShown.first() * 60 * 60 * 1000)
 
     fun changeDay(day: Int)
 
