@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import kotlinx.datetime.toLocalDateTime
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.ui.format
@@ -93,7 +94,7 @@ internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: Recen
                     modifier = Modifier
                         .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
                     headlineText = {
-                        Text("${beforeAfterAverage.first.format(2)} -> ${beforeAfterAverage.second.format(2)}")
+                        Text("${beforeAfterAverage.first.format(Data.decimals)} -> ${beforeAfterAverage.second.format(Data.decimals)}")
                     },
                     overlineText = {
                         Text(getLocalizedString(MR.strings.average))
