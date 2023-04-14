@@ -34,8 +34,6 @@ data class MagisterAccount(
         get() = runBlocking {
             val savedTokens: TokenResponse = settings.getStringOrNull("tokens-$accountId")?.let { Json.decodeFromString(it) } ?: throw IllegalStateException("No tokens found!")
 
-            println(savedTokens.expiresAt)
-            println(savedTokens.expiresAt.isAfterNow)
             if (!savedTokens.expiresAt.isAfterNow) {
                 savedTokens
             } else refreshTokens()
