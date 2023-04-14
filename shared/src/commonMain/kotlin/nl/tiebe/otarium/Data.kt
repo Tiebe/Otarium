@@ -32,4 +32,8 @@ object Data {
         get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: throw IllegalStateException("No accounts found!")
         set(value) = settings.putInt("selected_account", value.accountId)
 
+    var decimals: Int
+        get() = settings.getInt("decimals", 2)
+        set(value) = settings.putInt("decimals", value)
+
 }
