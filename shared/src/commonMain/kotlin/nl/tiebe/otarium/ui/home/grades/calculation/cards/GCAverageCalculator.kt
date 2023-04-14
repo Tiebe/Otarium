@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
@@ -97,7 +98,7 @@ internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
 
             Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Text(
-                    text = if (calculatedAverage != null) calculatedAverage?.format(2) ?: "" else "",
+                    text = if (calculatedAverage != null) calculatedAverage?.format(Data.decimals) ?: "" else "",
                     style = MaterialTheme.typography.displayMedium
                 )
 

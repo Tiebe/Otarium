@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.essenty.backhandler.BackCallback
@@ -19,9 +17,6 @@ import nl.tiebe.otarium.Data
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 internal actual fun LoginScreen(component: LoginComponent) {
-    Text("sad")
-    println("teesdfdsxcfdsfds")
-
     AndroidView(factory = {
         val webViewClient: WebViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
@@ -41,7 +36,6 @@ internal actual fun LoginScreen(component: LoginComponent) {
                 request: WebResourceRequest?
             ): WebResourceResponse? {
                 if (request?.url.toString().contains("playconsolelogin")) {
-                    Log.d("BrowserFragment", "Signing in: ${request?.url}")
                     Data.storeLoginBypass = true
                     component.navigateToHomeScreen()
 
