@@ -6,6 +6,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,14 @@ internal fun MainChildScreen(component: MainChildComponent) {
             icon = BugOutline
         ) {
             component.navigate(SettingsComponent.Config.Bugs)
+        }
+
+        //ui
+        SettingRowIconButton(
+            leftText = AnnotatedString("UI"), //getLocalizedString(MR.strings.ui_settings)),
+            icon = Icons.Default.Menu
+        ) {
+            component.navigate(SettingsComponent.Config.UI)
         }
     }
 }

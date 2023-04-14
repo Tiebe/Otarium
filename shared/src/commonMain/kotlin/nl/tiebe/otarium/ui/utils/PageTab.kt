@@ -16,8 +16,6 @@ fun Modifier.pagerTabIndicatorOffset(
     tabPositions: List<TabPosition>,
     pageIndexMapping: (Int) -> Int = { it },
 ): Modifier = layout { measurable, constraints ->
-    println(tabWeek)
-    println(selectedWeek)
     if (tabPositions.isEmpty() || tabWeek != selectedWeek) {
         layout(constraints.maxWidth, 0) {}
     } else {
