@@ -5,6 +5,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.bugs.BugsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
+import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildScreen
 
 @Composable
@@ -16,5 +17,6 @@ internal fun SettingsScreen(component: SettingsComponent) {
         is SettingsComponent.Child.AdsChild -> AdsChildScreen(child.component)
         is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
         is SettingsComponent.Child.BugsChild -> BugsChildScreen(child.component)
+        is SettingsComponent.Child.UIChild -> UIChildScreen(child.component)
     }
 }
