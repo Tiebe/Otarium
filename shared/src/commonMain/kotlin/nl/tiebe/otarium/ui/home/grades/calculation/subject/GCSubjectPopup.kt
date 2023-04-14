@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
 import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
@@ -42,7 +43,7 @@ internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: 
             ElevatedCard(modifier = Modifier.size(50.dp)) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        text = calculateAverage(gradeList).format(2),
+                        text = calculateAverage(gradeList).format(Data.decimals),
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Center
                     )

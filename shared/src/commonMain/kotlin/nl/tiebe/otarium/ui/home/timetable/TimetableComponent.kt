@@ -7,7 +7,9 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
@@ -118,8 +120,6 @@ class DefaultTimetableComponent(
         scope.launch {
             isRefreshingTimetable.value = true
             try {
-                println("Refreshing agenda for week $selectedWeek")
-
                 val timeTableWeek = getAbsences(
                     account.accountId,
                     account.tenantUrl,
@@ -136,7 +136,6 @@ class DefaultTimetableComponent(
                 )
 
                 if (selectedWeek.value == 0) {
-                    println("Saving agenda for current week")
                     account.agenda = timeTableWeek
                 }
 
