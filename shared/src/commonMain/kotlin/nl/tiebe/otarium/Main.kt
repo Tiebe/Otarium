@@ -1,5 +1,6 @@
 package nl.tiebe.otarium
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -42,6 +43,8 @@ internal fun Content(componentContext: ComponentContext) {
 @Composable
 internal fun Content(component: RootComponent) {
     darkModeState = mutableStateOf(isSystemInDarkTheme())
+
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {}
 
     Box(modifier = Modifier.padding(safeAreaState.value)) {
 
