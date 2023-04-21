@@ -15,6 +15,7 @@ import nl.tiebe.otarium.setupNotifications
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.utils.getClipboardText
 import nl.tiebe.otarium.utils.refreshGradesBackground
+import nl.tiebe.otarium.utils.sendNotification
 import kotlin.random.Random
 
 @Composable
@@ -25,6 +26,13 @@ internal fun DebugScreen(component: DebugComponent) {
             icon = Icons.Default.Notifications
         ) {
             setupNotifications()
+        }
+
+        SettingRowIconButton(
+            leftText = AnnotatedString("Send test notification"),
+            icon = Icons.Default.Notifications
+        ) {
+            sendNotification("Test notification", "This is a test notification")
         }
 
         SettingRowIconButton(

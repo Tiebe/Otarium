@@ -4,7 +4,7 @@ platform :ios, '11.0'
 target 'iosApp' do
   use_frameworks!
   pod 'shared', :path => '../shared'
-  pod 'Google-Mobile-Ads-SDK'
+  #pod 'Google-Mobile-Ads-SDK'
 end
 
 post_install do |installer|
