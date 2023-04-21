@@ -1,5 +1,10 @@
 package nl.tiebe.otarium.utils
 
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.magister.refreshGrades
+import platform.BackgroundTasks.BGTaskScheduler
+import platform.BackgroundTasks.BGAppRefreshTaskRequest
+import platform.Foundation.NSDate
 import platform.Foundation.NSUUID
 import platform.UserNotifications.UNMutableNotificationContent
 import platform.UserNotifications.UNNotification
@@ -11,12 +16,66 @@ import platform.UserNotifications.UNUserNotificationCenter
 import platform.UserNotifications.UNUserNotificationCenterDelegateProtocol
 import platform.darwin.NSObject
 
-actual fun reloadTokensBackground() {
+actual fun reloadTokensBackground(delay: Long) {
+    val request = BGAppRefreshTaskRequest(identifier = "nl.tiebe.otarium.tokenrefresh")
+    request.earliestBeginDate = NSDate(timeIntervalSinceReferenceDate = delay.toDouble())
+
+    try {
+        BGTaskScheduler.sharedScheduler.submitTaskRequest(request, null)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
 
 }
 
-actual fun refreshGradesBackground() {
+actual fun refreshGradesBackground(delay: Long) {
+    val request = BGAppRefreshTaskRequest(identifier = "nl.tiebe.otarium.graderefresh")
+    request.earliestBeginDate = NSDate(timeIntervalSinceReferenceDate = delay.toDouble())
 
+    try {
+        BGTaskScheduler.sharedScheduler.submitTaskRequest(request, null)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun registerBackgroundTasks() {
+    BGTaskScheduler.sharedScheduler.registerForTaskWithIdentifier(
+        identifier = "nl.tiebe.otarium.graderefresh",
+        usingQueue = null,
+        launchHandler = { task ->
+            refreshGradesBackground(15*60)
+            runBlocking {
+                try {
+                    nl.tiebe.otarium.Data.selectedAccount.refreshGrades()
+                    task?.setTaskCompletedWithSuccess(true)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    task?.setTaskCompletedWithSuccess(false)
+                }
+            }
+        }
+    )
+
+    BGTaskScheduler.sharedScheduler.registerForTaskWithIdentifier(
+        identifier = "nl.tiebe.otarium.tokenrefresh",
+        usingQueue = null,
+        launchHandler = { task ->
+            reloadTokensBackground(15*60)
+
+            runBlocking {
+                try {
+                    nl.tiebe.otarium.Data.accounts.forEach {
+                        it.refreshTokens()
+                    }
+                    task?.setTaskCompletedWithSuccess(true)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    task?.setTaskCompletedWithSuccess(false)
+                }
+            }
+        }
+    )
 }
 
 actual fun sendNotification(title: String, message: String) {

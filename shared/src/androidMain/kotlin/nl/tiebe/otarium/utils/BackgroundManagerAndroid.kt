@@ -21,14 +21,14 @@ import nl.tiebe.otarium.ui.theme.Blue80
 import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
 
-actual fun reloadTokensBackground() {
+actual fun reloadTokensBackground(delay: Long) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(TokenRefreshWorker::class.java, 45, TimeUnit.MINUTES).setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .setRequiresBatteryNotLow(true)
                     .build()
-            ).build()
+            ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
         WorkManager.getInstance(Android.context).enqueueUniquePeriodicWork("tokens", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
     } else {
@@ -36,14 +36,14 @@ actual fun reloadTokensBackground() {
     }
 }
 
-actual fun refreshGradesBackground() {
+actual fun refreshGradesBackground(delay: Long) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(GradeRefreshWorker::class.java, 15, TimeUnit.MINUTES).setConstraints(
             Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
                 .build()
-        ).build()
+        ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
         WorkManager.getInstance(Android.context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
     } else {
