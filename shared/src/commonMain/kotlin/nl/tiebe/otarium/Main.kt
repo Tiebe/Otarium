@@ -44,13 +44,13 @@ internal fun Content(componentContext: ComponentContext) {
 internal fun Content(component: RootComponent) {
     darkModeState = mutableStateOf(isSystemInDarkTheme())
 
-    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {}
+    OtariumTheme {
+        Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {}
 
-    Box(modifier = Modifier.padding(safeAreaState.value)) {
+        Box(modifier = Modifier.padding(safeAreaState.value)) {
 
-        val currentScreen by component.currentScreen.subscribeAsState()
+            val currentScreen by component.currentScreen.subscribeAsState()
 
-        OtariumTheme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
