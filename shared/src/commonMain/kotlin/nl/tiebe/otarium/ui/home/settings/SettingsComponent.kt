@@ -1,13 +1,11 @@
 package nl.tiebe.otarium.ui.home.settings
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.MenuItemComponent
 import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ads.DefaultAdsChildComponent
@@ -20,11 +18,21 @@ import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.DefaultUserChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildComponent
 import nl.tiebe.otarium.ui.root.RootComponent
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 interface SettingsComponent: MenuItemComponent {
-    val childStack: Value<ChildStack<*, Child>>
+    val navigation: StackNavigation<Config>
+    val childStack: Value<ChildStack<Config, Child>>
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
+
+    fun navigate(child: SettingsComponent.Config) {
+        navigation.push(child)
+    }
+
+    fun back() {
+        navigation.pop()
+    }
 
     sealed class Child {
         class MainChild(val component: MainChildComponent) : Child()
@@ -34,31 +42,32 @@ interface SettingsComponent: MenuItemComponent {
         class UIChild(val component: UIChildComponent) : Child()
     }
 
-    sealed class Config : Parcelable {
+    sealed class Config(val localizedString: String) : Parcelable {
         @Parcelize
-        object Main : Config()
+        object Main : Config("")
 
         @Parcelize
-        object Ads : Config()
+        object Ads : Config(getLocalizedString(MR.strings.advertisements))
 
         @Parcelize
-        object Bugs : Config()
+        object Bugs : Config(getLocalizedString(MR.strings.bug_report))
 
         @Parcelize
-        object Users : Config()
+        object Users : Config(getLocalizedString(MR.strings.switch_user_text))
 
         @Parcelize
-        object UI : Config()
+        object UI : Config(getLocalizedString(MR.strings.ui_settings))
     }
+
 }
 
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
     override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit,
 ): SettingsComponent, ComponentContext by componentContext {
-    private val navigation = StackNavigation<SettingsComponent.Config>()
+    override val navigation = StackNavigation<SettingsComponent.Config>()
 
-    override val childStack: Value<ChildStack<*, SettingsComponent.Child>> =
+    override val childStack: Value<ChildStack<SettingsComponent.Config, SettingsComponent.Child>> =
         childStack(
             source = navigation,
             initialConfiguration = SettingsComponent.Config.Main,
@@ -105,9 +114,4 @@ class DefaultSettingsComponent(
             componentContext = componentContext,
             _navigate = ::navigate
         )
-
-    private fun navigate(child: SettingsComponent.Config) {
-        navigation.push(child)
-    }
-
 }
