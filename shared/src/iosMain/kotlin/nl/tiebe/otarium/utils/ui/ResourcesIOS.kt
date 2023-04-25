@@ -6,10 +6,10 @@ import dev.icerock.moko.resources.desc.StringDesc
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterDecimalStyle
-import platform.UIKit.UIWindow
+import platform.UIKit.UIViewController
 
 object IOS {
-    lateinit var window: UIWindow
+    lateinit var viewController: UIViewController
 }
 
 actual fun getLocalizedString(string: StringResource): String {

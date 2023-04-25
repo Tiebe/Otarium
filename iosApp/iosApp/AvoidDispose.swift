@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import test
+import shared
 
 // ComposeWindow is disposed on viewDidDisappear so but it inside a container view:
 // https://github.com/JetBrains/androidx/blob/jb-main/compose/ui/ui/src/uikitMain/kotlin/androidx/compose/ui/window/ComposeWindow.uikit.kt

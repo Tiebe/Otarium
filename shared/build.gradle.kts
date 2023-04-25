@@ -46,8 +46,12 @@ kotlin {
         ios.deploymentTarget = iOSSdk.deploymentTarget
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = "test"
-            isStatic = true
+            baseName = "shared"
+            isStatic = false
+        }
+
+        pod("Google-Mobile-Ads-SDK") {
+            moduleName = "GoogleMobileAds"
         }
     }
     sourceSets {
