@@ -45,4 +45,5 @@
     <string name="advertisements">Advertenties</string>
     <string name="entered_on">Ingevoerd op</string>
     <string name="decimals_slider">Aantal decimalen in het gemiddelde:</string>
+    <string name="ui_settings">UI</string>
 </resources>

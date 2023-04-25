@@ -12,13 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.ui.icons.Advertisements
 import nl.tiebe.otarium.ui.icons.AdvertisementsOff
 import nl.tiebe.otarium.ui.icons.BugOutline
-import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
 internal fun MainChildScreen(component: MainChildComponent) {
@@ -30,7 +28,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
     ) {
         //users
         SettingRowIconButton(
-            leftText = AnnotatedString(getLocalizedString(MR.strings.switch_user_text)),
+            leftText = AnnotatedString(SettingsComponent.Config.Users.localizedString),
             icon = Icons.Default.AccountCircle
         ) {
             component.navigate(SettingsComponent.Config.Users)
@@ -38,7 +36,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
 
         //ads
         SettingRowIconButton(
-            leftText = AnnotatedString(getLocalizedString(MR.strings.advertisements)),
+            leftText = AnnotatedString(SettingsComponent.Config.Ads.localizedString),
             icon = if (Data.showAds) Advertisements else AdvertisementsOff
         ) {
             component.navigate(SettingsComponent.Config.Ads)
@@ -46,7 +44,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
 
         //bug report
         SettingRowIconButton(
-            leftText = AnnotatedString(getLocalizedString(MR.strings.bug_report)),
+            leftText = AnnotatedString(SettingsComponent.Config.Bugs.localizedString),
             icon = BugOutline
         ) {
             component.navigate(SettingsComponent.Config.Bugs)
@@ -54,7 +52,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
 
         //ui
         SettingRowIconButton(
-            leftText = AnnotatedString("UI"), //getLocalizedString(MR.strings.ui_settings)),
+            leftText = AnnotatedString(SettingsComponent.Config.UI.localizedString),
             icon = Icons.Default.Menu
         ) {
             component.navigate(SettingsComponent.Config.UI)

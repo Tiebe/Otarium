@@ -1,7 +1,10 @@
 package nl.tiebe.otarium.ui.home.settings.items.users
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -21,8 +24,7 @@ internal fun UserChildScreen(component: UserChildComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp))
-    {
+    ) {
         var currentlySelected by remember { mutableStateOf(Data.selectedAccount.accountId) }
         var currentAccounts by remember { mutableStateOf(Data.accounts) }
 
