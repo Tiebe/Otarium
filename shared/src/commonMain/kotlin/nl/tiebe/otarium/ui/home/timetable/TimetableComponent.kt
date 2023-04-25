@@ -78,6 +78,11 @@ interface TimetableComponent : MenuItemComponent {
         (openedTimetableItem as MutableValue).value = true to item
     }
 
+    fun closeItemPopup() {
+        (openedTimetableItem as MutableValue).value = false to openedTimetableItem.value.second
+        backCallbackOpenItem.isEnabled = false
+    }
+
     @OptIn(ExperimentalPagerApi::class)
     fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState)
 }
@@ -163,11 +168,6 @@ class DefaultTimetableComponent(
 
     override val backCallbackOpenItem: BackCallback = BackCallback(false) {
         closeItemPopup()
-    }
-
-    private fun closeItemPopup() {
-        openedTimetableItem.value = false to openedTimetableItem.value.second
-        backCallbackOpenItem.isEnabled = false
     }
 
     @OptIn(ExperimentalPagerApi::class)

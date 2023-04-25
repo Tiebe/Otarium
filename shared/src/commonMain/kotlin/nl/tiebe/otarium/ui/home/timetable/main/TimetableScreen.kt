@@ -77,7 +77,7 @@ internal fun TimetableScreen(component: TimetableComponent) {
             exit = fadeOut(),
             modifier = Modifier.fillMaxSize()
         ) {
-            TimetableItemPopup(popupItem.value.second!!)
+            TimetableItemPopup(component, popupItem.value.second!!)
         }
     }
 
