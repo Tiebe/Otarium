@@ -26,8 +26,8 @@ internal actual fun Ads() {
 
                 val requestConfiguration = MobileAds.getRequestConfiguration()
                     .toBuilder()
-                    .setTagForChildDirectedTreatment(Data.ageOfConsent.compareTo(false))
-                    .setTagForUnderAgeOfConsent(Data.ageOfConsent.compareTo(false))
+                    .setTagForChildDirectedTreatment((!Data.ageOfConsent).compareTo(false))
+                    .setTagForUnderAgeOfConsent((!Data.ageOfConsent).compareTo(false))
                     .build()
                 MobileAds.setRequestConfiguration(requestConfiguration)
 

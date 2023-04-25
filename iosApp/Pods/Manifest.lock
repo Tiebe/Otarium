@@ -46,7 +46,8 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.2.0)
-  - shared (3.1.0)
+  - shared (3.1.0):
+    - Google-Mobile-Ads-SDK
 
 DEPENDENCIES:
   - Google-Mobile-Ads-SDK
@@ -72,7 +73,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
-  shared: 1824cc914b692d285c245c55314b7d4b76fbf1d3
+  shared: e9147a65a273dda98f8c735b5f01082f8cae0455
 
 PODFILE CHECKSUM: 0ff34af07d7d0db9f35691a142ac560ed910c18a
 

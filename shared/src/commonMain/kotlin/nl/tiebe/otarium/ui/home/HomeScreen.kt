@@ -14,10 +14,10 @@ var adsShown = mutableStateOf(Data.showAds)
 
 @Composable
 internal fun HomeScreen(component: HomeComponent) {
-    BottomBar(
+    /*BottomBar(
         component,
         Modifier.padding(bottom = if (adsShown.value) 50.dp else 0.dp)
-    )
+    )*/
 
     if (adsShown.value) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {

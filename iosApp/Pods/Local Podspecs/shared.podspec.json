@@ -8,14 +8,19 @@
   "authors": "",
   "license": "",
   "summary": "Otarium",
-  "vendored_frameworks": "build/cocoapods/framework/test.framework",
+  "vendored_frameworks": "build/cocoapods/framework/shared.framework",
   "libraries": "c++",
   "platforms": {
     "ios": "11.0"
   },
+  "dependencies": {
+    "Google-Mobile-Ads-SDK": [
+
+    ]
+  },
   "pod_target_xcconfig": {
     "KOTLIN_PROJECT_PATH": ":shared",
-    "PRODUCT_MODULE_NAME": "test"
+    "PRODUCT_MODULE_NAME": "shared"
   },
   "script_phases": [
     {
