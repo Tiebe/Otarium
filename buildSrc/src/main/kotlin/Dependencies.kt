@@ -1,21 +1,32 @@
 
 object Version {
-    const val appVersion = "3.1.0"
-    const val appVersionCode = 26
+    const val appVersion = "3.1.1"
+    const val appVersionCode = 27
+
+    const val magister = "1.1.7"
 
     const val kotlin = "1.8.0"
     const val gradle = "7.4.1"
-    const val appcompat = "1.4.0"
+    const val appcompat = "1.6.1"
     const val material = "1.4.0"
-    const val compose = "1.4.0-rc01"
+    const val compose = "1.4.0"
     const val compose_android = "1.4.0"
     const val compose_compiler = "1.4.0"
-    const val ktor = "2.1.2"
-    const val decompose = "2.0.0-compose-experimental-alpha-01"
+    const val ktor = "2.3.0"
+    const val decompose = "2.0.0-compose-experimental-alpha-02"
+    const val moko = "0.22.0"
+    const val buildkonfig = "0.13.3"
+    const val accompanist = "0.25.2"
+    const val gms = "4.3.15"
+    const val firebase = "31.5.0"
+    const val multiplatform_settings = "1.0.0"
+    const val admob = "22.0.0"
+    const val guava = "31.1-android"
+    const val guava_coroutines = "1.7.0-RC"
 }
 
 object Compose {
-    const val activity = "androidx.activity:activity-compose:1.5.0"
+    const val activity = "androidx.activity:activity-compose:1.7.1"
     const val runtime = "androidx.compose.runtime:runtime:${Version.compose_android}"
     const val ui = "androidx.compose.ui:ui:${Version.compose_android}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Version.compose_android}"
@@ -57,26 +68,26 @@ object Ktor {
 }
 
 object Moko {
-    const val gradle = "dev.icerock.moko:resources-generator:0.20.1"
+    const val gradle = "dev.icerock.moko:resources-generator:${Version.moko}"
     const val plugin = "dev.icerock.mobile.multiplatform-resources"
-    const val api = "dev.icerock.moko:resources:0.20.1"
-    const val android = "dev.icerock.moko:resources-compose:0.20.1"
+    const val api = "dev.icerock.moko:resources:${Version.moko}"
+    const val android = "dev.icerock.moko:resources-compose:${Version.moko}"
 }
 
 object BuildKonfig {
-    const val gradle = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.12.0"
+    const val gradle = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Version.buildkonfig}"
     const val plugin = "com.codingfeline.buildkonfig"
 }
 
 object Accompanist {
-    const val pager = "ca.gosyer:accompanist-pager:0.25.2"
-    const val pager_indicators = "ca.gosyer:accompanist-pager-indicators:0.25.2"
-    const val swiperefresh = "ca.gosyer:accompanist-swiperefresh:0.25.2"
+    const val pager = "ca.gosyer:accompanist-pager:${Version.accompanist}"
+    const val pager_indicators = "ca.gosyer:accompanist-pager-indicators:${Version.accompanist}"
+    const val swiperefresh = "ca.gosyer:accompanist-swiperefresh:${Version.accompanist}"
 }
 
 object Firebase {
-    const val classpath = "com.google.gms:google-services:4.3.14"
-    const val bom = "com.google.firebase:firebase-bom:31.1.0"
+    const val classpath = "com.google.gms:google-services:${Version.gms}"
+    const val bom = "com.google.firebase:firebase-bom:${Version.firebase}"
     const val analytics = "com.google.firebase:firebase-analytics-ktx"
 }
 
@@ -85,13 +96,12 @@ object Decompose {
     const val compose = "com.arkivanov.decompose:extensions-compose-jetbrains:${Version.decompose}"
 }
 
-const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:0.9"
-const val napier = "io.github.aakira:napier:2.6.1"
-const val admob = "com.google.android.gms:play-services-ads:21.3.0"
+const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:${Version.multiplatform_settings}"
+const val admob = "com.google.android.gms:play-services-ads:${Version.admob}"
 
-const val magisterAPI = "dev.tiebe:magisterapi:1.1.7"
+const val magisterAPI = "dev.tiebe:magisterapi:${Version.magister}"
 
 object Guava {
-    const val core = "com.google.guava:guava:31.0.1-android"
-    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.0"
+    const val core = "com.google.guava:guava:${Version.guava}"
+    const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-guava:${Version.guava_coroutines}"
 }

@@ -70,7 +70,6 @@ kotlin {
 
                 implementation(Kotlin.dateTime)
                 implementation(russhwolf_settings)
-                implementation(napier)
 
                 implementation(Decompose.core)
                 implementation(Decompose.compose)
