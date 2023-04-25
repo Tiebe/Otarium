@@ -1,4 +1,33 @@
 PODS:
+  - FirebaseAnalytics (10.8.0):
+    - FirebaseAnalytics/AdIdSupport (= 10.8.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (10.8.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleAppMeasurement (= 10.8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (10.9.0):
+    - FirebaseCoreInternal (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreInternal (10.9.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseInstallations (10.9.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
   - Google-Mobile-Ads-SDK (10.3.0):
     - GoogleAppMeasurement (< 11.0, >= 7.0)
     - GoogleUserMessagingPlatform (>= 1.1)
@@ -40,6 +69,8 @@ PODS:
   - "GoogleUtilities/NSData+zlib (7.11.1)"
   - GoogleUtilities/Reachability (7.11.1):
     - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.11.1):
+    - GoogleUtilities/Logger
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
@@ -50,11 +81,16 @@ PODS:
     - Google-Mobile-Ads-SDK
 
 DEPENDENCIES:
+  - FirebaseAnalytics
   - Google-Mobile-Ads-SDK
   - shared (from `../shared`)
 
 SPEC REPOS:
   trunk:
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseCoreInternal
+    - FirebaseInstallations
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleUserMessagingPlatform
@@ -67,6 +103,10 @@ EXTERNAL SOURCES:
     :path: "../shared"
 
 SPEC CHECKSUMS:
+  FirebaseAnalytics: e1fc758bd5d71823bba970c076abee4b2450a5f4
+  FirebaseCore: b68d3616526ec02e4d155166bbafb8eca64af557
+  FirebaseCoreInternal: d2b4acb827908e72eca47a9fd896767c3053921e
+  FirebaseInstallations: c58489c9caacdbf27d1da60891a87318e20218e0
   Google-Mobile-Ads-SDK: eba3109a9aa504596a207e4d18d433b329596b76
   GoogleAppMeasurement: 0ba93018e916f7badf915c2337d43cc1fa96b3f9
   GoogleUserMessagingPlatform: 5f8b30daf181805317b6b985bb51c1ff3beca054
@@ -75,6 +115,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   shared: e9147a65a273dda98f8c735b5f01082f8cae0455
 
-PODFILE CHECKSUM: 0ff34af07d7d0db9f35691a142ac560ed910c18a
+PODFILE CHECKSUM: 1956413cc6e8dfcfe69cff320ed53605486f7cac
 
 COCOAPODS: 1.12.1

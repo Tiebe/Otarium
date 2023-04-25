@@ -27,7 +27,8 @@ internal actual fun Ads() {
 
             val banner = GAMBannerView(adSize = cValue {GADAdSizeBanner})
 
-            banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+            banner.adUnitID = "ca-app-pub-1684141915170982/3587740616" //debug
+            //banner.adUnitID = "ca-app-pub-3940256099942544/2934735716" //prod
             banner.rootViewController = IOS.viewController
             banner.translatesAutoresizingMaskIntoConstraints = false
 
