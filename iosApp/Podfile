@@ -5,6 +5,7 @@ target 'iosApp' do
   use_frameworks!
   pod 'shared', :path => '../shared'
   pod 'Google-Mobile-Ads-SDK'
+  pod 'FirebaseAnalytics'
 end
 
 post_install do |installer|

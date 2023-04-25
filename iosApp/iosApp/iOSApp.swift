@@ -1,6 +1,6 @@
 import SwiftUI
 import shared
-import GoogleMobileAds
+import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -21,6 +21,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         window.makeKeyAndVisible()
         self.window = window
         
+        FirebaseApp.configure()
         BackgroundManagerIOSKt.registerBackgroundTasks()
         
         return true
