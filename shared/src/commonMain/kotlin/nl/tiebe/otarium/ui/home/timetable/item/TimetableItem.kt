@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.getAgendaForDay
-import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
+import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.utils.ui.parseHtml
+import nl.tiebe.otarium.ui.utils.parseHtml
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import dev.icerock.moko.resources.StringResource
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.oldui.utils.LabelledCheckBox
+import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 internal class OnboardingItems(

@@ -17,7 +17,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import nl.tiebe.otarium.oldui.utils.topRectBorder
+import nl.tiebe.otarium.ui.utils.topRectBorder
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.item.TimetableItem
 
