@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.utils.ui
+package nl.tiebe.otarium.ui.utils
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle

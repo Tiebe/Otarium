@@ -20,7 +20,7 @@ import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.oldui.utils.topBottomRectBorder
+import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 

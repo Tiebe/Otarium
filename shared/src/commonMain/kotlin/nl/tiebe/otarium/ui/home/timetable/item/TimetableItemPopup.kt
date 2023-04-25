@@ -14,7 +14,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.utils.ui.parseHtml
+import nl.tiebe.otarium.ui.utils.parseHtml
 
 @Composable
 internal fun TimetableItemPopup(agendaItemWithAbsence: AgendaItemWithAbsence) {
