@@ -24,6 +24,11 @@ interface GradeCalculationChildComponent : GradesChildComponent {
         (openedSubject as MutableValue).value = true to subject
     }
 
+    fun closeSubject() {
+        backCallbackOpenItem.isEnabled = false
+        (openedSubject as MutableValue).value = false to openedSubject.value.second
+    }
+
     sealed class State {
         object Loading: State()
         data class Data(val data: List<GradeWithGradeInfo>): State()
@@ -37,11 +42,6 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
     override val openedSubject: MutableValue<Pair<Boolean, Subject?>> = MutableValue(false to null)
     override val backCallbackOpenItem = BackCallback(false) {
         closeSubject()
-    }
-
-    private fun closeSubject() {
-        backCallbackOpenItem.isEnabled = false
-        openedSubject.value = false to openedSubject.value.second
     }
 
     override val state: MutableValue<GradeCalculationChildComponent.State> = MutableValue(GradeCalculationChildComponent.State.Loading)
