@@ -28,7 +28,7 @@ fun DrawScope.drawAxis(
                 drawText(
                     textMeasurer = TextMeasurer(fontFamilyResolver, density, LayoutDirection.Ltr),
                     text = (10-index).toString(),
-                    topLeft = Offset(-25f, position + 10),
+                    topLeft = Offset(-30f - (((10-index).toString().length-1) * 15), position-20),
                     style = textStyle.copy(color = textColor)
                 )
 
