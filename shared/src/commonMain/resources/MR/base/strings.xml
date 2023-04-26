@@ -49,4 +49,5 @@
     <string name="entered_on">Entered on</string>
     <string name="decimals_slider">Amount of decimals shown in averages:</string>
     <string name="ui_settings">UI</string>
+    <string name="messagesItem">Messages</string>
 </resources>

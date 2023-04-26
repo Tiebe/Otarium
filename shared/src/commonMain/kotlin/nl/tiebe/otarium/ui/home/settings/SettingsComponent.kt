@@ -26,7 +26,7 @@ interface SettingsComponent: MenuItemComponent {
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
 
-    fun navigate(child: SettingsComponent.Config) {
+    fun navigate(child: Config) {
         navigation.push(child)
     }
 

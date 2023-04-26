@@ -11,25 +11,49 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
+import dev.icerock.moko.resources.compose.painterResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
+import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
-import nl.tiebe.otarium.ui.icons.CalendarTodayIcon
-import nl.tiebe.otarium.ui.icons.Looks10Icon
-import nl.tiebe.otarium.ui.icons.SettingsIcon
 import nl.tiebe.otarium.ui.root.RootComponent
 
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
     @Parcelize
-    sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit): Parcelable {
-        object Timetable: MenuItem(MR.strings.agendaItem, { Icon(CalendarTodayIcon, "Timetable") })
-        object Grades: MenuItem(MR.strings.gradesItem, { Icon(Looks10Icon, "Grades") })
-        object Settings: MenuItem(MR.strings.settings_title, { Icon(SettingsIcon, "Settings") })
-        object Debug: MenuItem(MR.strings.settings_title, { Icon(SettingsIcon, "Debug") })
+    sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
+        object Timetable: MenuItem(
+            MR.strings.agendaItem,
+            { Icon(painterResource(MR.images.calendar_today_outline), "Timetable") },
+            { Icon(painterResource(MR.images.calendar_today_filled), "Timetable") }
+        )
+
+        object Grades: MenuItem(
+            MR.strings.gradesItem,
+            { Icon(painterResource(MR.images.box_10_outline), "Grades") },
+            { Icon(painterResource(MR.images.box_10_filled), "Grades") }
+        )
+
+        object Messages: MenuItem(
+            MR.strings.messagesItem,
+            { Icon(painterResource(MR.images.email_outline), "Messages") },
+            { Icon(painterResource(MR.images.email_filled), "Messages") }
+        )
+
+        object Settings: MenuItem(
+            MR.strings.settings_title,
+            { Icon(painterResource(MR.images.cog_outline), "Settings") },
+            { Icon(painterResource(MR.images.cog_filled), "Settings") }
+        )
+
+        object Debug: MenuItem(
+            MR.strings.settings_title,
+            { Icon(painterResource(MR.images.box_10_outline), "Debug") },
+            { Icon(painterResource(MR.images.box_10_filled), "Debug") }
+        )
     }
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
@@ -48,6 +72,7 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
         when (config) {
             is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
             is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
+            is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
             is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
         }
@@ -61,6 +86,11 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     private fun gradesComponent(componentContext: ComponentContext) =
         DefaultGradesComponent(
+            componentContext = componentContext
+        )
+
+    private fun messagesComponent(componentContext: ComponentContext) =
+        DefaultMessagesComponent(
             componentContext = componentContext
         )
 
@@ -87,7 +117,7 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
             item to 0
         }
 
-        if (clickCount.second >= 5) {
+        if (clickCount.second >= 8) {
             dialogNavigation.activate(HomeComponent.MenuItem.Debug)
         }
     }

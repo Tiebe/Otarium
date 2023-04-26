@@ -67,6 +67,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
                 api(Moko.api)
+                api(Moko.compose)
 
                 implementation(Kotlin.dateTime)
                 implementation(russhwolf_settings)
@@ -87,7 +88,6 @@ kotlin {
                 implementation(Ktor.client_json_jvm)
                 implementation(Ktor.client_android)
 
-                api(Moko.android)
                 implementation(admob)
 
                 implementation(Guava.core)
