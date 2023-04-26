@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.pop
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
+import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,6 +25,7 @@ internal fun MessagesScreen(component: MessagesComponent) {
         if (screen.value.active.instance !is MessagesComponent.Child.MainChild) {
             val name = when (val child = screen.value.active.instance) {
                 is MessagesComponent.Child.FolderChild -> child.component.folder.name
+                is MessagesComponent.Child.MessageChild -> child.component.message.subscribeAsState().value.subject
                 else -> ""
             }
 
@@ -40,6 +43,7 @@ internal fun MessagesScreen(component: MessagesComponent) {
             when (val child = screen.value.active.instance) {
                 is MessagesComponent.Child.FolderChild -> FolderScreen(child.component)
                 is MessagesComponent.Child.MainChild -> MessagesFolderSelectScreen(child.component)
+                is MessagesComponent.Child.MessageChild -> MessageScreen(child.component)
             }
         }
     }
@@ -47,19 +51,18 @@ internal fun MessagesScreen(component: MessagesComponent) {
 
 @Composable
 internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
-    val foldersState = component.foldersState.subscribeAsState()
+    val foldersState = component.folders.subscribeAsState()
 
     SwipeRefresh(
         state = component.refreshState,
         onRefresh = component::getFolders
     ) {
-        if (foldersState.value is MessagesComponent.FoldersState.Data) {
-            val folders = (foldersState.value as MessagesComponent.FoldersState.Data).data.filter { it.parentId == 0 }
+        val folders = foldersState.value.filter { it.parentId == 0 }
 
-            Column(modifier = Modifier.fillMaxSize()) {
-                folders.forEach { folder ->
-                    MessageFolderItem(component, folder)
-                }
+        Column(modifier = Modifier.fillMaxSize()) {
+            folders.forEach { folder ->
+                MessageFolderItem(component::navigateToFolder, folder)
+                Divider()
             }
         }
     }

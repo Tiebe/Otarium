@@ -11,12 +11,17 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import dev.tiebe.magisterapi.api.messages.MessageFlow
+import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.MenuItemComponent
+import nl.tiebe.otarium.ui.home.messages.folder.DefaultFolderComponent
+import nl.tiebe.otarium.ui.home.messages.folder.FolderComponent
+import nl.tiebe.otarium.ui.home.messages.message.DefaultMessageComponent
+import nl.tiebe.otarium.ui.home.messages.message.MessageComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface MessagesComponent: MenuItemComponent {
@@ -26,8 +31,6 @@ interface MessagesComponent: MenuItemComponent {
     val refreshState: SwipeRefreshState
     val scope: CoroutineScope
 
-    var selectedFolder: MessageFolder?
-
     fun getFolders()
 
     fun navigate(child: Config) {
@@ -35,21 +38,19 @@ interface MessagesComponent: MenuItemComponent {
     }
 
     fun navigateToFolder(folder: MessageFolder) {
-        selectedFolder = folder
-        navigate(Config.Folder)
+        navigate(Config.Folder(folder.id))
     }
 
-    sealed class FoldersState {
-        object Loading: FoldersState()
-        data class Data(val data: List<MessageFolder>): FoldersState()
-        object Failed: FoldersState()
+    fun navigateToMessage(message: Message) {
+        navigate(Config.Message(message.links.self.href))
     }
 
-    val foldersState: Value<FoldersState>
+    val folders: Value<List<MessageFolder>>
 
     sealed class Child {
         class MainChild(val component: MessagesComponent) : Child()
         class FolderChild(val component: FolderComponent) : Child()
+        class MessageChild(val component: MessageComponent) : Child()
     }
 
     sealed class Config : Parcelable {
@@ -57,7 +58,10 @@ interface MessagesComponent: MenuItemComponent {
         object Main : Config()
 
         @Parcelize
-        object Folder : Config()
+        data class Folder(val folderId: Int) : Config()
+
+        @Parcelize
+        data class Message(val messageLink: String) : Config()
     }
 }
 
@@ -67,8 +71,7 @@ class DefaultMessagesComponent(
     override val refreshState: SwipeRefreshState = SwipeRefreshState(isRefreshing = false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
-    override var selectedFolder: MessageFolder? = null
-    override val foldersState: MutableValue<MessagesComponent.FoldersState> = MutableValue(MessagesComponent.FoldersState.Loading)
+    override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
 
     override val navigation = StackNavigation<MessagesComponent.Config>()
 
@@ -83,30 +86,36 @@ class DefaultMessagesComponent(
     private fun createChild(config: MessagesComponent.Config, componentContext: ComponentContext): MessagesComponent.Child =
         when (config) {
             is MessagesComponent.Config.Main -> MessagesComponent.Child.MainChild(this)
-            is MessagesComponent.Config.Folder -> MessagesComponent.Child.FolderChild(createFolderComponent(componentContext, selectedFolder!!))
+            is MessagesComponent.Config.Folder -> MessagesComponent.Child.FolderChild(createFolderComponent(componentContext, folders.value.first { it.id == config.folderId }))
+            is MessagesComponent.Config.Message -> MessagesComponent.Child.MessageChild(createMessageComponent(componentContext, config.messageLink))
         }
 
-    private fun createFolderComponent(componentContext: ComponentContext, folder: MessageFolder): FolderComponent {
-        return DefaultFolderComponent(
+    private fun createFolderComponent(componentContext: ComponentContext, folder: MessageFolder) =
+        DefaultFolderComponent(
             componentContext = componentContext,
-            folder = folder
+            folder = folder,
+            allFolders = folders.value,
+            parentComponent = this
         )
-    }
+
+    private fun createMessageComponent(componentContext: ComponentContext, messageLink: String) =
+        DefaultMessageComponent(
+            componentContext = componentContext,
+            messageLink = messageLink,
+            parentComponent = this
+        )
 
     override fun getFolders() {
         scope.launch {
             refreshState.isRefreshing = true
 
             try {
-                foldersState.value =
-                    MessagesComponent.FoldersState.Data(
-                        MessageFlow.getAllFolders(
-                            Url(Data.selectedAccount.tenantUrl),
-                            Data.selectedAccount.tokens.accessToken
-                        )
+                folders.value =
+                    MessageFlow.getAllFolders(
+                        Url(Data.selectedAccount.tenantUrl),
+                        Data.selectedAccount.tokens.accessToken
                     )
             } catch (e: Exception) {
-                foldersState.value = MessagesComponent.FoldersState.Failed
                 e.printStackTrace()
             }
 

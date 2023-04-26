@@ -8,17 +8,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.icerock.moko.resources.compose.painterResource
+import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
 import nl.tiebe.otarium.MR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MessageFolderItem(component: MessagesComponent, folder: MessageFolder) {
+internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder: MessageFolder) {
     ListItem(
         headlineText = { Text(folder.name) },
         leadingContent = { Icon(painterResource(MR.images.folder), contentDescription = null) },
         modifier = Modifier.clickable {
-            component.navigateToFolder(folder)
+            navigateToFolder(folder)
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message) {
+    ListItem(
+        headlineText = { Text(message.subject) },
+        supportingText = { Text(message.sender.name) },
+        leadingContent = { Icon(painterResource(MR.images.email_filled), contentDescription = null) },
+        modifier = Modifier.clickable {
+            navigateToMessage(message)
         }
     )
 }
