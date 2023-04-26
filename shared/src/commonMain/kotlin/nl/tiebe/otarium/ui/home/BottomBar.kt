@@ -11,6 +11,8 @@ import nl.tiebe.otarium.ui.home.debug.DebugComponent
 import nl.tiebe.otarium.ui.home.debug.DebugScreen
 import nl.tiebe.otarium.ui.home.grades.GradesComponent
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
+import nl.tiebe.otarium.ui.home.messages.MessagesComponent
+import nl.tiebe.otarium.ui.home.messages.MessagesScreen
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.SettingsScreen
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
@@ -29,6 +31,7 @@ internal fun BottomBar(
     val items = listOf(
         HomeComponent.MenuItem.Timetable,
         HomeComponent.MenuItem.Grades,
+        HomeComponent.MenuItem.Messages,
         HomeComponent.MenuItem.Settings
     )
 
@@ -37,7 +40,7 @@ internal fun BottomBar(
             NavigationBar(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary) {
                 items.forEach { screen ->
                     NavigationBarItem(
-                        icon = screen.icon,
+                        icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
                         label = { Text(getLocalizedString(screen.resourceId)) },
                         selected = overlay.configuration == screen,
                         onClick = {
@@ -52,6 +55,7 @@ internal fun BottomBar(
             when (val dialogComponent = overlay.instance) {
                 is TimetableComponent -> TimetableScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
+                is MessagesComponent -> MessagesScreen(dialogComponent)
                 is SettingsComponent -> SettingsScreen(dialogComponent)
                 is DebugComponent -> DebugScreen(dialogComponent)
             }
