@@ -9,7 +9,6 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import com.google.accompanist.swiperefresh.SwipeRefreshState
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
@@ -29,7 +28,7 @@ interface MessagesComponent: MenuItemComponent {
     val navigation: StackNavigation<Config>
     val childStack: Value<ChildStack<Config, Child>>
 
-    val refreshState: SwipeRefreshState
+    val refreshState: Value<Boolean>
     val scope: CoroutineScope
 
     suspend fun getFoldersAsync()
@@ -70,7 +69,7 @@ interface MessagesComponent: MenuItemComponent {
 class DefaultMessagesComponent(
     componentContext: ComponentContext
 ): MessagesComponent, ComponentContext by componentContext {
-    override val refreshState: SwipeRefreshState = SwipeRefreshState(isRefreshing = false)
+    override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
     override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
@@ -108,7 +107,7 @@ class DefaultMessagesComponent(
         )
 
     override suspend fun getFoldersAsync() {
-        refreshState.isRefreshing = true
+        refreshState.value = true
 
         try {
             folders.value =
@@ -120,7 +119,7 @@ class DefaultMessagesComponent(
             e.printStackTrace()
         }
 
-        refreshState.isRefreshing = false
+        refreshState.value = false
     }
 
     override fun getFolders() {

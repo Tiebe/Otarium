@@ -4,7 +4,6 @@ import androidx.compose.foundation.ScrollState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.google.accompanist.swiperefresh.SwipeRefreshState
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
@@ -16,7 +15,7 @@ import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface FolderComponent {
-    val refreshState: SwipeRefreshState
+    val refreshState: Value<Boolean>
     val scrollState: ScrollState
     val scope: CoroutineScope
 
@@ -34,7 +33,7 @@ class DefaultFolderComponent(
     componentContext: ComponentContext, override val folder: MessageFolder, val allFolders: List<MessageFolder>,
     override val parentComponent: MessagesComponent
 ): FolderComponent, ComponentContext by componentContext {
-    override val refreshState: SwipeRefreshState = SwipeRefreshState(isRefreshing = false)
+    override val refreshState: MutableValue<Boolean> = MutableValue(false)
     override val scrollState: ScrollState = ScrollState(0)
 
     override val scope: CoroutineScope = componentCoroutineScope()
@@ -47,17 +46,17 @@ class DefaultFolderComponent(
 
     override fun refresh() {
         scope.launch {
-            refreshState.isRefreshing = true
+            refreshState.value = true
             messages.value = getMessages()
-            refreshState.isRefreshing = false
+            refreshState.value = false
         }
     }
 
     override fun loadNewMessages() {
         scope.launch {
-            refreshState.isRefreshing = true
+            refreshState.value = true
             messages.value = messages.value + getMessages(skip = messages.value.size)
-            refreshState.isRefreshing = false
+            refreshState.value = false
         }
     }
 

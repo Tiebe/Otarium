@@ -1,7 +1,7 @@
 
 object Version {
-    const val appVersion = "3.1.2"
-    const val appVersionCode = 28
+    const val appVersion = "3.2.0"
+    const val appVersionCode = 29
 
     const val magister = "1.1.7"
 
