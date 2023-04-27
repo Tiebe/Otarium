@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -19,6 +20,7 @@ import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.utils.BackButton
 import nl.tiebe.otarium.ui.utils.parseHtml
+import nl.tiebe.otarium.utils.openUrl
 
 @Composable
 internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbsence: AgendaItemWithAbsence) {
@@ -62,10 +64,13 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbs
 
                 Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
 
-                Text(
-                    (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml(),
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                val text = (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml()
+
+                ClickableText(text, style = MaterialTheme.typography.bodyMedium) { offset ->
+                    text.getStringAnnotations(tag = "URL", start = offset, end = offset).firstOrNull()?.let { annotation ->
+                        openUrl(annotation.item)
+                    }
+                }
             }
 
             Box(Modifier.fillMaxSize().padding(top = 10.dp, end = 5.dp)) {

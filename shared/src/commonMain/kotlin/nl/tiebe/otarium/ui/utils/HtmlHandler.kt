@@ -1,7 +1,10 @@
 package nl.tiebe.otarium.ui.utils
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.*
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -10,26 +13,6 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import kotlin.math.min
-
-/**
- * The tags to interpret. Add tags here and in [tagToStyle].
- */
-private val tags2 = linkedMapOf(
-    "<b>" to "</b>",
-    "<i>" to "</i>",
-    "<u>" to "</u>",
-    "<strong>" to "</strong>",
-    "<h1>" to "</h1>",
-    "<h2>" to "</h2>",
-    "<h3>" to "</h3>",
-    "<h4>" to "</h4>",
-    "<h5>" to "</h5>",
-    "<p>" to "</p>",
-    /*    "<blockquote>" to "</blockquote>",
-
-        "<em>" to "</em>",
-        "<p style=\"text-align: center\">" to "</p>",*/
-)
 
 private val tags = listOf(
     Tag("<p>", "</p>", spanStyle = SpanStyle()),
@@ -53,7 +36,14 @@ private val tags = listOf(
     Tag("<h5>", "</h5>", spanStyle = SpanStyle(fontSize = 12.sp, fontWeight = FontWeight.Bold)),
 
     Tag("<li>", "</li>", paragraphStyle = ParagraphStyle(textIndent = TextIndent(firstLine = 12.sp, restLine = 12.sp))),
+    Tag("<ul>", "</ul>", specialOpeningAction = { htmlList = true }, specialClosingAction = { htmlList = null }),
+    Tag("<ol>", "</ol>", specialOpeningAction = { listIndex = 0; htmlList = false }, specialClosingAction = { htmlList = null }),
+
+    //Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)),
 )
+
+private var htmlList: Boolean? = null
+private var listIndex = 0
 
 /**
  * The main entry point. Call this on a String and use the result in a Text.
@@ -77,7 +67,7 @@ fun String.parseHtml(): AnnotatedString {
         .replace("</h3>", "\n</h3>")
         .replace("</h4>", "\n</h4>")
         .replace("</h5>", "\n</h5>")
-        .replace("<li>\n", "\n<li>")
+        .replace("<li>\n", "<li>")
 
 
     return buildAnnotatedString {
@@ -101,6 +91,8 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
     when {
         tags.any {
             if (string.startsWith(it.closingTag)) {
+                it.specialClosingAction?.invoke()
+
                 if (it.paragraphStyle != null) to.pop()
                 if (it.spanStyle != null) to.pop()
                 recurse(string.removeRange(0, endTag!!.length), to)
@@ -110,8 +102,20 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
 
         tags.any {
             return@any if (it.regex == null && string.startsWith(it.openingTag)) {
+                it.specialOpeningAction?.invoke()
+
                 if (it.spanStyle != null) to.pushStyle(it.spanStyle)
                 if (it.paragraphStyle != null) to.pushStyle(it.paragraphStyle)
+
+                if (it.openingTag == "<li>") {
+                    if (htmlList == true) {
+                        to.append("• ")
+                    } else if (htmlList == false) {
+                        listIndex++
+                        to.append("$listIndex. ")
+                    }
+                }
+
                 recurse(string.removeRange(0, startTag!!.length), to)
                 true
             } else false
@@ -156,59 +160,6 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
     }
 }
 
-/**
- * Get a [SpanStyle] for a given (opening) tag.
- * Add your own tag styling here by adding its opening tag to
- * the when clause and then instantiating the appropriate [SpanStyle].
- *
- * @return a [SpanStyle] for the given tag.
- */
-private fun tagToStyle(tag: String): TextStyle {
-    return when (tag) {
-        "<b>" -> {
-            TextStyle(fontWeight = FontWeight.Bold)
-        }
-        "<i>" -> {
-            TextStyle(fontStyle = FontStyle.Italic)
-        }
-        "<u>" -> {
-            TextStyle(textDecoration = TextDecoration.Underline)
-        }
-        "<strong>" -> {
-            TextStyle(fontWeight = FontWeight.Bold)
-        }
-        "<h1>" -> {
-            TextStyle(fontSize = 48.sp, fontWeight = FontWeight.Bold, lineHeight = 60.sp)
-        }
-        "<h2>" -> {
-            TextStyle(fontSize = 36.sp, fontWeight = FontWeight.Bold, lineHeight = 60.sp)
-        }
-        "<h3>" -> {
-            TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold, lineHeight = 60.sp)
-        }
-        "<h4>" -> {
-            TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold, lineHeight = 60.sp)
-        }
-        "<h5>" -> {
-            TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold, lineHeight = 60.sp)
-        }
-/*        "<blockquote>" -> {
-            TextStyle(background = Color.Gray, color = Color.White)
-        }
-        "<em>" -> {
-            TextStyle(fontStyle = FontStyle.Italic)
-        }
-        "<p style=\"text-align: center\">" -> {
-            TextStyle(textAlign = TextAlign.Center)
-        }*/
-        "<p>" -> {
-            TextStyle()
-        }
-        //This should only throw if you add a tag to the [tags] Map and forget to add it
-        //to this function.
-        else -> throw IllegalArgumentException("Tag $tag is not valid.")
-    }
-}
 
 data class Tag(
     val openingTag: String,
@@ -216,5 +167,7 @@ data class Tag(
     val spanStyle: SpanStyle? = null,
     val paragraphStyle: ParagraphStyle? = null,
     val regex: String? = null,
-    var regexAction: ((AnnotatedString.Builder, String) -> Unit)? = null,
+    val regexAction: ((AnnotatedString.Builder, String) -> Unit)? = null,
+    val specialOpeningAction: (() -> Unit)? = null,
+    val specialClosingAction: (() -> Unit)? = null
 )
