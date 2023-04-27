@@ -20,14 +20,15 @@ fun Modifier.tabIndicatorOffset(
     dayPagerState: PagerState,
     pageCount: Int,
     tabPositions: List<TabPosition>,
-    shouldShowIndicator: Boolean = true
+    shouldShowIndicator: Boolean = true,
+    selectedTabIndex: Int = getPage(dayPagerState, pageCount)
 ): Modifier = composed(
     inspectorInfo = debugInspectorInfo {
         name = "tabIndicatorOffset"
-        value = tabPositions[(dayPagerState.currentPage-(pageCount/2)).mod(tabPositions.lastIndex+1)]
+        value = tabPositions[selectedTabIndex]
     }
 ) {
-    val currentPage = minOf(tabPositions.lastIndex, (dayPagerState.currentPage-(pageCount/2)).mod(tabPositions.lastIndex+1))
+    val currentPage = minOf(tabPositions.lastIndex, selectedTabIndex)
 
     val currentTabPosition = tabPositions[currentPage]
     val nextTabPosition = tabPositions.getOrNull(currentPage + 1)
@@ -57,4 +58,13 @@ fun Modifier.tabIndicatorOffset(
         .wrapContentSize(Alignment.BottomStart)
         .offset(x = indicatorOffset)
         .width(indicatorWidth)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun getPage(pagerState: PagerState, pageCount: Int): Int {
+    return if ((pagerState.currentPage - (pageCount / 2)) % 7 >= 0) {
+        (pagerState.currentPage - (pageCount / 2)) % 7
+    } else {
+        (pagerState.currentPage - (pageCount / 2)) % 7 + 7
+    }
 }
