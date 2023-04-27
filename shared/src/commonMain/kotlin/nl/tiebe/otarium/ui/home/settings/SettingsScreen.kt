@@ -38,7 +38,7 @@ internal fun SettingsScreen(component: SettingsComponent) {
                 is SettingsComponent.Child.MainChild -> MainChildScreen(child.component)
                 is SettingsComponent.Child.AdsChild -> AdsChildScreen(child.component)
                 is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
-                is SettingsComponent.Child.BugsChild -> BugsChildScreen(child.component)
+                is SettingsComponent.Child.BugsChild -> BugsChildScreen()
                 is SettingsComponent.Child.UIChild -> UIChildScreen(child.component)
             }
         }

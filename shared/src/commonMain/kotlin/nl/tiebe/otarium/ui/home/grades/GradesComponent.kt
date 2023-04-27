@@ -40,7 +40,7 @@ class DefaultGradesComponent(
             when (config) {
                 is GradesComponent.GradesChild.RecentGrades -> recentGradesComponent(componentContext)
                 is GradesComponent.GradesChild.Calculation -> gradeCalculationComponent(componentContext)
-            } as GradesChildComponent
+            }
         }
 
     private fun recentGradesComponent(componentContext: ComponentContext) =
