@@ -39,7 +39,9 @@ private val tags = listOf(
     Tag("<ul>", "</ul>", specialOpeningAction = { htmlList = true }, specialClosingAction = { htmlList = null }),
     Tag("<ol>", "</ol>", specialOpeningAction = { listIndex = 0; htmlList = false }, specialClosingAction = { htmlList = null }),
 
-    //Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)),
+    Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color.Cyan, textDecoration = TextDecoration.Underline)),
+
+    Tag("<hr>", "</hr>", spanStyle = SpanStyle(letterSpacing = 0.sp))
 )
 
 private var htmlList: Boolean? = null
@@ -68,6 +70,7 @@ fun String.parseHtml(): AnnotatedString {
         .replace("</h4>", "\n</h4>")
         .replace("</h5>", "\n</h5>")
         .replace("<li>\n", "<li>")
+        .replace("<hr>", "\n<hr>───────────────────</hr>\n")
 
 
     return buildAnnotatedString {
@@ -95,6 +98,8 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
 
                 if (it.paragraphStyle != null) to.pop()
                 if (it.spanStyle != null) to.pop()
+                if (it.regexAction != null) to.pop()
+
                 recurse(string.removeRange(0, endTag!!.length), to)
                 return@any true
             } else return@any false
@@ -130,6 +135,10 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
                     val group = match.groups[1]
                     if (group != null) {
                         it.regexAction?.let { it1 -> it1(to, group.value) }
+                        if (it.spanStyle != null) to.pushStyle(it.spanStyle)
+                        if (it.paragraphStyle != null) to.pushStyle(it.paragraphStyle)
+
+
                         recurse(string.removeRange(0, match.value.length), to)
                         true
                     } else false

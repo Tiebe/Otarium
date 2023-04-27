@@ -16,6 +16,7 @@ import dev.tiebe.magisterapi.response.messages.MessageFolder
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.MenuItemComponent
 import nl.tiebe.otarium.ui.home.messages.folder.DefaultFolderComponent
@@ -31,6 +32,7 @@ interface MessagesComponent: MenuItemComponent {
     val refreshState: SwipeRefreshState
     val scope: CoroutineScope
 
+    suspend fun getFoldersAsync()
     fun getFolders()
 
     fun navigate(child: Config) {
@@ -86,7 +88,7 @@ class DefaultMessagesComponent(
     private fun createChild(config: MessagesComponent.Config, componentContext: ComponentContext): MessagesComponent.Child =
         when (config) {
             is MessagesComponent.Config.Main -> MessagesComponent.Child.MainChild(this)
-            is MessagesComponent.Config.Folder -> MessagesComponent.Child.FolderChild(createFolderComponent(componentContext, folders.value.first { it.id == config.folderId }))
+            is MessagesComponent.Config.Folder -> MessagesComponent.Child.FolderChild(createFolderComponent(componentContext, let { if (folders.value.isEmpty()) runBlocking { getFoldersAsync() }; folders.value.first { it.id == config.folderId } }))
             is MessagesComponent.Config.Message -> MessagesComponent.Child.MessageChild(createMessageComponent(componentContext, config.messageLink))
         }
 
@@ -105,26 +107,32 @@ class DefaultMessagesComponent(
             parentComponent = this
         )
 
+    override suspend fun getFoldersAsync() {
+        refreshState.isRefreshing = true
+
+        try {
+            folders.value =
+                MessageFlow.getAllFolders(
+                    Url(Data.selectedAccount.tenantUrl),
+                    Data.selectedAccount.tokens.accessToken
+                )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        refreshState.isRefreshing = false
+    }
+
     override fun getFolders() {
         scope.launch {
-            refreshState.isRefreshing = true
-
-            try {
-                folders.value =
-                    MessageFlow.getAllFolders(
-                        Url(Data.selectedAccount.tenantUrl),
-                        Data.selectedAccount.tokens.accessToken
-                    )
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            refreshState.isRefreshing = false
+            getFoldersAsync()
         }
     }
 
     init {
-        getFolders()
+        scope.launch {
+            getFolders()
+        }
     }
 
 }

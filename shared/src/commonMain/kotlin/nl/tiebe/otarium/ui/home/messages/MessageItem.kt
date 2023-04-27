@@ -33,7 +33,7 @@ internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message)
 
     ListItem(
         headlineText = { Text(message.subject) },
-        supportingText = { Text(message.sender.name) },
+        supportingText = { Text(message.sender?.name ?: message.receivers?.joinToString { it.name } ?: "") },
         leadingContent = { Icon(painterResource(icon), contentDescription = null) },
         modifier = Modifier.clickable {
             navigateToMessage(message)
