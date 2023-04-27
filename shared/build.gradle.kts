@@ -75,10 +75,6 @@ kotlin {
                 implementation(Decompose.core)
                 implementation(Decompose.compose)
 
-                implementation(Accompanist.pager)
-                implementation(Accompanist.pager_indicators)
-                implementation(Accompanist.swiperefresh)
-
                 implementation(magisterAPI)
             }
         }

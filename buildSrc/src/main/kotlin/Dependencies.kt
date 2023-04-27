@@ -1,7 +1,7 @@
 
 object Version {
-    const val appVersion = "3.1.1"
-    const val appVersionCode = 27
+    const val appVersion = "3.1.2"
+    const val appVersionCode = 28
 
     const val magister = "1.1.7"
 
@@ -16,7 +16,6 @@ object Version {
     const val decompose = "2.0.0-compose-experimental-alpha-02"
     const val moko = "0.22.0"
     const val buildkonfig = "0.13.3"
-    const val accompanist = "0.25.2"
     const val gms = "4.3.15"
     const val firebase = "31.5.0"
     const val multiplatform_settings = "1.0.0"
@@ -77,12 +76,6 @@ object Moko {
 object BuildKonfig {
     const val gradle = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:${Version.buildkonfig}"
     const val plugin = "com.codingfeline.buildkonfig"
-}
-
-object Accompanist {
-    const val pager = "ca.gosyer:accompanist-pager:${Version.accompanist}"
-    const val pager_indicators = "ca.gosyer:accompanist-pager-indicators:${Version.accompanist}"
-    const val swiperefresh = "ca.gosyer:accompanist-swiperefresh:${Version.accompanist}"
 }
 
 object Firebase {

@@ -3,7 +3,9 @@ package nl.tiebe.otarium.ui.home.timetable.main
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -19,14 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
 
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun TimetableScreen(component: TimetableComponent) {
     val dayPagerState = rememberPagerState(component.currentPage.value)
@@ -36,12 +36,15 @@ internal fun TimetableScreen(component: TimetableComponent) {
         DaySelector(
             component = component,
             dayPagerState = dayPagerState,
-            weekPagerState = weekPagerState
+            weekPagerState = weekPagerState,
+            dayPageCount = 1000,
+            weekPageCount = 200
         )
 
         Timetable(
             component = component,
             dayPagerState = dayPagerState,
+            1000
         )
     }
 

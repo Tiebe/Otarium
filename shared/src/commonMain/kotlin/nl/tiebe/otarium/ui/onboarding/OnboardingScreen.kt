@@ -1,21 +1,21 @@
 package nl.tiebe.otarium.ui.onboarding
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.ui.onboarding.sections.BottomSection
 import nl.tiebe.otarium.ui.onboarding.sections.TopSection
 
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OnboardingScreen(component: OnboardingComponent) {
     val items = OnboardingItems.getData()
@@ -37,7 +37,7 @@ internal fun OnboardingScreen(component: OnboardingComponent) {
         )
 
         HorizontalPager(
-            count = items.size,
+            pageCount = items.size,
             state = pageState,
             modifier = Modifier
                 .fillMaxHeight(0.9f)
