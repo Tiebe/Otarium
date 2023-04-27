@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.ui.home.messages.folder
 
+import androidx.compose.foundation.ScrollState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
@@ -16,6 +17,7 @@ import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface FolderComponent {
     val refreshState: SwipeRefreshState
+    val scrollState: ScrollState
     val scope: CoroutineScope
 
     val parentComponent: MessagesComponent
@@ -33,6 +35,7 @@ class DefaultFolderComponent(
     override val parentComponent: MessagesComponent
 ): FolderComponent, ComponentContext by componentContext {
     override val refreshState: SwipeRefreshState = SwipeRefreshState(isRefreshing = false)
+    override val scrollState: ScrollState = ScrollState(0)
 
     override val scope: CoroutineScope = componentCoroutineScope()
     override val subFolders: MutableValue<List<MessageFolder>> = MutableValue(allFolders.filter { it.parentId == folder.id })

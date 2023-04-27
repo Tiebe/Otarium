@@ -62,7 +62,28 @@ class DefaultMessageComponent(
         }
     }
 
+    private val markAsRead: (MessageData) -> Unit = {
+        if (it.id != 0) {
+            scope.launch {
+                MessageFlow.markMessageAsRead(
+                    Url(Data.selectedAccount.tenantUrl),
+                    Data.selectedAccount.tokens.accessToken,
+                    it.id,
+                    true
+                )
+
+                unsubscribe()
+            }
+        }
+    }
+
+    private val unsubscribe = {
+        message.unsubscribe(markAsRead)
+    }
+
     init {
+        message.subscribe(markAsRead)
+
         getMessage()
     }
 

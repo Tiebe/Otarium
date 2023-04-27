@@ -27,10 +27,14 @@ internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message) {
+    val icon = if (message.hasBeenRead)
+        if (message.hasPriority) MR.images.email_alert_open else MR.images.email_open
+    else if (message.hasPriority) MR.images.email_alert else MR.images.email_filled
+
     ListItem(
         headlineText = { Text(message.subject) },
         supportingText = { Text(message.sender.name) },
-        leadingContent = { Icon(painterResource(MR.images.email_filled), contentDescription = null) },
+        leadingContent = { Icon(painterResource(icon), contentDescription = null) },
         modifier = Modifier.clickable {
             navigateToMessage(message)
         }
