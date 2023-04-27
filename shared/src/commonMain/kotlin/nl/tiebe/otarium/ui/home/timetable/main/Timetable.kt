@@ -37,6 +37,7 @@ internal fun Timetable(
     HorizontalPager(
         pageCount = pageCount,
         state = dayPagerState,
+        beyondBoundsPageCount = 3
     ) { page ->
         val refreshState = rememberPullRefreshState(component.isRefreshingTimetable.subscribeAsState().value, { component.refreshSelectedWeek() })
         val scrollState = rememberScrollState()
