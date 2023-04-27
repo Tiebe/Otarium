@@ -1,11 +1,11 @@
 package nl.tiebe.otarium.ui.home.timetable
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -83,7 +83,7 @@ interface TimetableComponent : MenuItemComponent {
         backCallbackOpenItem.isEnabled = false
     }
 
-    @OptIn(ExperimentalPagerApi::class)
+    @OptIn(ExperimentalFoundationApi::class)
     fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState)
 }
 
@@ -170,7 +170,7 @@ class DefaultTimetableComponent(
         closeItemPopup()
     }
 
-    @OptIn(ExperimentalPagerApi::class)
+    @OptIn(ExperimentalFoundationApi::class)
     override fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {
         coroutineScope.launch {
             pagerState.animateScrollToPage(page)
