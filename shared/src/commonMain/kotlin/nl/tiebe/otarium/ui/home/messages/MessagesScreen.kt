@@ -9,10 +9,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.pop
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import dev.icerock.moko.resources.compose.stringResource
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
 
@@ -22,22 +25,20 @@ internal fun MessagesScreen(component: MessagesComponent) {
     Column {
         val screen = component.childStack.subscribeAsState()
 
-        if (screen.value.active.instance !is MessagesComponent.Child.MainChild) {
-            val name = when (val child = screen.value.active.instance) {
-                is MessagesComponent.Child.FolderChild -> child.component.folder.name
-                is MessagesComponent.Child.MessageChild -> child.component.message.subscribeAsState().value.subject
-                else -> ""
-            }
-
-            TopAppBar(
-                title = { Text(name) },
-                navigationIcon = {
-                    IconButton(onClick = { component.navigation.pop() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
+        val name = when (val child = screen.value.active.instance) {
+            is MessagesComponent.Child.FolderChild -> child.component.folder.name
+            is MessagesComponent.Child.MessageChild -> child.component.message.subscribeAsState().value.subject
+            else -> stringResource(MR.strings.messagesItem)
         }
+
+        TopAppBar(
+            title = { Text(name, overflow = TextOverflow.Ellipsis, maxLines = 1) },
+            navigationIcon = {
+                IconButton(onClick = { component.navigation.pop() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+            }
+        )
 
         Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
             when (val child = screen.value.active.instance) {
