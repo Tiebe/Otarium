@@ -37,7 +37,8 @@ internal fun TimetableScreen(component: TimetableComponent) {
             component = component,
             dayPagerState = dayPagerState,
             weekPagerState = weekPagerState,
-            pageCount = 200
+            dayPageCount = 1000,
+            weekPageCount = 200
         )
 
         Timetable(
