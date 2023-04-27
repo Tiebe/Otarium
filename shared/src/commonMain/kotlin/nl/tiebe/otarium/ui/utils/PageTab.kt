@@ -12,13 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 
 @OptIn(ExperimentalFoundationApi::class)
 fun Modifier.tabIndicatorOffset(
     dayPagerState: PagerState,
     pageCount: Int,
-    tabPositions: List<TabPosition>
+    tabPositions: List<TabPosition>,
+    shouldShowIndicator: Boolean = true
 ): Modifier = composed(
     inspectorInfo = debugInspectorInfo {
         name = "tabIndicatorOffset"
@@ -33,7 +35,7 @@ fun Modifier.tabIndicatorOffset(
 
     val fraction = dayPagerState.currentPageOffsetFraction
 
-    val indicatorWidth: Dp
+    var indicatorWidth: Dp
     val indicatorOffset: Dp
 
     if (fraction > 0 && nextTabPosition != null) {
@@ -45,6 +47,10 @@ fun Modifier.tabIndicatorOffset(
     } else {
         indicatorWidth = currentTabPosition.width
         indicatorOffset = currentTabPosition.left
+    }
+
+    if (!shouldShowIndicator) {
+        indicatorWidth = 0.dp
     }
 
     fillMaxWidth()

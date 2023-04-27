@@ -9,6 +9,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,8 @@ internal fun DaySelector(
                     Modifier.tabIndicatorOffset(
                         dayPagerState,
                         dayPageCount,
-                        tabPositions
+                        tabPositions,
+                        shouldShowIndicator = derivedStateOf { week == weekPageCount/2 + component.selectedWeek.value }.value
                     )
                 )
             }) {
