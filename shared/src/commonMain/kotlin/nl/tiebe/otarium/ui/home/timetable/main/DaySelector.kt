@@ -20,8 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.utils.pagerTabIndicatorOffset
-import kotlin.math.floor
+import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -29,27 +28,26 @@ internal fun DaySelector(
     component: TimetableComponent,
     dayPagerState: PagerState,
     weekPagerState: PagerState,
-    pageCount: Int
+    dayPageCount: Int,
+    weekPageCount: Int
 ) {
     val scope = rememberCoroutineScope()
 
-    HorizontalPager(pageCount = pageCount, state = weekPagerState) { week ->
+    HorizontalPager(pageCount = weekPageCount, state = weekPagerState) { week ->
         TabRow(
-            selectedTabIndex = dayPagerState.currentPage - (pageCount / 2),
+            selectedTabIndex = (dayPagerState.currentPage - (dayPageCount / 2)) % 7,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
-                    Modifier.pagerTabIndicatorOffset(
-                        week - 100,
-                        floor((dayPagerState.currentPage - (pageCount / 2)).toFloat() / 7).toInt(),
+                    Modifier.tabIndicatorOffset(
                         dayPagerState,
-                        tabPositions,
-                        pageCount = pageCount
+                        dayPageCount,
+                        tabPositions
                     )
                 )
             }) {
             component.days.forEachIndexed { index, title ->
                 Tab(
-                    selected = (dayPagerState.currentPage - (pageCount / 2)) % 7 == index && week == 100 + component.selectedWeek.subscribeAsState().value,
+                    selected = (dayPagerState.currentPage - (dayPageCount / 2)) % 7 == index && week == 100 + component.selectedWeek.subscribeAsState().value,
                     onClick = {
                         scope.launch {
                             dayPagerState.animateScrollToPage((week-100)*component.days.size + index + (component.amountOfDays / 2))
