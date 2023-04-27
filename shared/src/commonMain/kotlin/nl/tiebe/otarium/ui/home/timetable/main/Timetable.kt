@@ -44,9 +44,13 @@ internal fun Timetable(
         Box(Modifier.pullRefresh(refreshState).verticalScroll(scrollState)) {
             val now = component.now.subscribeAsState().value
 
-            val minutes = ((now.hour - 8) * 60) + now.minute
+            val minutes = ((now.hour - timesShown.first) * 60) + now.minute
 
-            if (minutes > 0 && page == (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal) {
+            if (
+                minutes > 0 &&
+                page == (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal &&
+                now.hour in timesShown
+            ) {
                 Divider(
                     Modifier
                         .width(40.dp)
