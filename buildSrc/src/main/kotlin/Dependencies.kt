@@ -79,12 +79,6 @@ object BuildKonfig {
     const val plugin = "com.codingfeline.buildkonfig"
 }
 
-object Accompanist {
-    const val pager = "ca.gosyer:accompanist-pager:${Version.accompanist}"
-    const val pager_indicators = "ca.gosyer:accompanist-pager-indicators:${Version.accompanist}"
-    const val swiperefresh = "ca.gosyer:accompanist-swiperefresh:${Version.accompanist}"
-}
-
 object Firebase {
     const val classpath = "com.google.gms:google-services:${Version.gms}"
     const val bom = "com.google.firebase:firebase-bom:${Version.firebase}"
