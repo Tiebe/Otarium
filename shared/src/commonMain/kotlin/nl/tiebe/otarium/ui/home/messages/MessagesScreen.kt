@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +17,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.pop
-import com.google.accompanist.swiperefresh.SwipeRefresh
 import dev.icerock.moko.resources.compose.stringResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
@@ -50,14 +53,13 @@ internal fun MessagesScreen(component: MessagesComponent) {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
     val foldersState = component.folders.subscribeAsState()
+    val refreshState = rememberPullRefreshState(refreshing = component.refreshState.subscribeAsState().value, onRefresh = component::getFolders)
 
-    SwipeRefresh(
-        state = component.refreshState,
-        onRefresh = component::getFolders
-    ) {
+    Box(modifier = Modifier.pullRefresh(refreshState)) {
         val folders = foldersState.value.filter { it.parentId == 0 }
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -66,5 +68,7 @@ internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
                 Divider()
             }
         }
+
+        PullRefreshIndicator(component.refreshState.subscribeAsState().value, refreshState)
     }
 }
