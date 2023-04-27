@@ -2,7 +2,6 @@ package nl.tiebe.otarium.ui.home.messages.folder
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +18,7 @@ internal fun FolderScreen(component: FolderComponent) {
         state = component.refreshState,
         onRefresh = component::refresh
     ) {
-        val scrollState = rememberScrollState()
+        val scrollState = component.scrollState
         val reachedEnd = derivedStateOf { scrollState.value == scrollState.maxValue }
 
         if (reachedEnd.value) {
