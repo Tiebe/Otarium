@@ -8,5 +8,4 @@ interface StudyGuidesChildComponent : ELOChildComponent {
 }
 
 class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : StudyGuidesChildComponent, ComponentContext by componentContext {
-
 }
