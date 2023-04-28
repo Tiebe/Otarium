@@ -47,4 +47,11 @@
     <string name="decimals_slider">Aantal decimalen in het gemiddelde:</string>
     <string name="ui_settings">UI</string>
     <string name="messagesItem">Berichten</string>
+
+    <string name="message_subject">Onderwerp</string>
+    <string name="message_sender">Van</string>
+    <string name="message_date">Datum</string>
+    <string name="message_receivers">Aan</string>
+    <string name="message_cc_receivers">CC</string>
+    <string name="message_bcc_receivers">BCC</string>
 </resources>
