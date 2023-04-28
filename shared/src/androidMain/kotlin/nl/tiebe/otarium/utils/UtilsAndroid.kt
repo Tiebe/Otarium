@@ -2,6 +2,7 @@ package nl.tiebe.otarium.utils
 
 import android.content.Intent
 import android.net.Uri
+import androidx.core.content.FileProvider
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import nl.tiebe.otarium.utils.ui.Android
@@ -30,15 +31,24 @@ actual fun openUrl(url: String) {
     Android.context.startActivity(intent)
 }
 
-actual fun getDownloadFileLocation(fileName: String): ByteWriteChannel {
-    val file = File(Android.context.cacheDir, fileName)
+actual fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChannel {
+    val directory = File(Android.context.cacheDir, id)
+    if (!directory.exists()) {
+        directory.mkdir()
+    }
+
+    val file = File(directory, fileName)
     return file.writeChannel()
 }
 
-actual fun openFileFromCache(fileName: String) {
-    val file = File(Android.context.cacheDir, fileName)
+actual fun openFileFromCache(id: String, fileName: String) {
+    val file = File(File(Android.context.cacheDir, id), fileName)
     val intent = Intent(Intent.ACTION_VIEW)
-    intent.setData(Uri.parse(file.absolutePath))
+
+    val fileUri = FileProvider.getUriForFile(Android.context, Android.context.applicationContext.packageName, file)
+
+    intent.setData(fileUri)
     intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-    Android.context.startActivity(intent)
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    Android.context.startActivity(Intent.createChooser(intent, fileName))
 }

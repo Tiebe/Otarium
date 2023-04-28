@@ -12,9 +12,9 @@ expect fun getClipboardText(): String
 
 expect fun openUrl(url: String)
 
-expect fun getDownloadFileLocation(fileName: String): ByteWriteChannel
+expect fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChannel
 
-expect fun openFileFromCache(fileName: String)
+expect fun openFileFromCache(id: String, fileName: String)
 
 fun LocalDateTime.toFormattedString(): String {
     val dateTime = this.toInstant(TimeZone.UTC).toLocalDateTime(TimeZone.of("Europe/Amsterdam"))

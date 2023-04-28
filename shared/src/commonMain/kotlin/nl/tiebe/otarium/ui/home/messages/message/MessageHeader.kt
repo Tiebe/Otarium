@@ -72,21 +72,47 @@ internal fun MessageHeader(component: MessageComponent) {
         overlineText = { Text(text = stringResource(MR.strings.message_date)) },
     )
 
-    Divider()
+    val attachments = component.attachments.subscribeAsState().value
 
-    val scrollState = rememberScrollState()
+    if (attachments.isNotEmpty()) {
+        Divider()
 
-    Row(modifier = Modifier.fillMaxWidth().horizontalScroll(scrollState)) {
-        for (attachment in component.attachments.subscribeAsState().value) {
-            ElevatedCard(onClick = { component.downloadFile(attachment) }, modifier = Modifier.height(70.dp).padding(10.dp)) {
-                Row(modifier = Modifier.fillMaxSize().padding(10.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Icon(painterResource(if (attachment.status == "available") MR.images.attachment else MR.images.attachment_off), contentDescription = "Attachment")
-                    Text(text = attachment.name, modifier = Modifier.padding(start = 10.dp))
+        val scrollState = rememberScrollState()
+
+        Row(modifier = Modifier.fillMaxWidth().horizontalScroll(scrollState)) {
+            for (attachment in attachments) {
+                ElevatedCard(onClick = { component.downloadAttachment(attachment) }, modifier = Modifier.height(70.dp).padding(10.dp)) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Row(
+                            modifier = Modifier.fillMaxSize().padding(10.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painterResource(if (attachment.status == "available") MR.images.attachment else MR.images.attachment_off),
+                                contentDescription = "Attachment"
+                            )
+                            Text(text = attachment.name, modifier = Modifier.padding(start = 10.dp))
+                        }
+
+                        val progress =
+                            component.attachmentDownloadProgress.subscribeAsState().value[attachment.id] ?: 0f
+
+                        if (progress != 0f && progress != 1f && !progress.isNaN()) {
+                             LinearProgressIndicator(
+                                progress = progress,
+                                modifier = Modifier.height(10.dp).width(IntrinsicSize.Min).align(Alignment.BottomStart)
+                            )
+
+
+                        }
+                    }
                 }
             }
-        }
 
+        }
     }
+
 
     Divider(modifier = Modifier.padding(bottom = 10.dp))
 

@@ -18,6 +18,7 @@ internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder
     ListItem(
         headlineText = { Text(folder.name) },
         leadingContent = { Icon(painterResource(MR.images.folder), contentDescription = null) },
+        trailingContent = { Text(folder.unreadCount.toString()) },
         modifier = Modifier.clickable {
             navigateToFolder(folder)
         }

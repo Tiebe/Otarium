@@ -14,10 +14,10 @@ actual fun openUrl(url: String) {
     TODO("Not yet implemented")
 }
 
-actual fun getDownloadFileLocation(fileName: String): ByteWriteChannel {
+actual fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChannel {
     TODO("Not yet implemented")
 }
 
-actual fun openFileFromCache(fileName: String) {
+actual fun openFileFromCache(id: String, fileName: String) {
     TODO()
 }

@@ -13,6 +13,10 @@ object Android {
     lateinit var window: Window
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     lateinit var context: Context
+
+    lateinit var okHttpClient: okhttp3.OkHttpClient
+    val isOkHttpClientInitialized: Boolean
+        get() = ::okHttpClient.isInitialized
 }
 
 actual fun getLocalizedString(string: StringResource): String {
