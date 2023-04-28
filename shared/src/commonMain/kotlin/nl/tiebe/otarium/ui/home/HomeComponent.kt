@@ -14,6 +14,7 @@ import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.compose.painterResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
+import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
 import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
@@ -41,6 +42,12 @@ interface HomeComponent {
             MR.strings.messagesItem,
             { Icon(painterResource(MR.images.email_outline), "Messages") },
             { Icon(painterResource(MR.images.email_filled), "Messages") }
+        )
+
+        object ELO: MenuItem(
+            MR.strings.eloItem,
+            { Icon(painterResource(MR.images.book_open_outline), "ELO") },
+            { Icon(painterResource(MR.images.book_open_filled), "ELO") }
         )
 
         object Settings: MenuItem(
@@ -73,6 +80,7 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
             is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
             is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
             is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
+            is HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
             is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
         }
@@ -91,6 +99,11 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     private fun messagesComponent(componentContext: ComponentContext) =
         DefaultMessagesComponent(
+            componentContext = componentContext
+        )
+
+    private fun eloComponent(componentContext: ComponentContext) =
+        DefaultELOComponent(
             componentContext = componentContext
         )
 

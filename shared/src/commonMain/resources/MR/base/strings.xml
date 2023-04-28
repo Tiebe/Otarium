@@ -56,4 +56,9 @@
     <string name="message_receivers">To</string>
     <string name="message_cc_receivers">CC</string>
     <string name="message_bcc_receivers">BCC</string>
+
+    <string name="eloItem">ELO</string>
+    <string name="study_guides">Study guides</string>
+    <string name="assignments">Assignments</string>
+    <string name="learning_resources">Learning resources</string>
 </resources>

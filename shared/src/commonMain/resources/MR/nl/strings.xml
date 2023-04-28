@@ -54,4 +54,9 @@
     <string name="message_receivers">Aan</string>
     <string name="message_cc_receivers">CC</string>
     <string name="message_bcc_receivers">BCC</string>
+
+    <string name="eloItem">ELO</string>
+    <string name="study_guides">Studiewijzers</string>
+    <string name="assignments">Opdrachten</string>
+    <string name="learning_resources">Leermiddelen</string>
 </resources>
