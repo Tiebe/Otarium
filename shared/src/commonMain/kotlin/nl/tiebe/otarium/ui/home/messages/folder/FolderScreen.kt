@@ -11,6 +11,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.ui.home.messages.MessageFolderItem
@@ -52,7 +53,7 @@ internal fun FolderScreen(component: FolderComponent) {
 
         }
 
-        PullRefreshIndicator(refreshing = component.refreshState.subscribeAsState().value, state = refreshState)
+        PullRefreshIndicator(refreshing = component.refreshState.subscribeAsState().value, state = refreshState, modifier = Modifier.align(Alignment.TopCenter))
     }
 
 }

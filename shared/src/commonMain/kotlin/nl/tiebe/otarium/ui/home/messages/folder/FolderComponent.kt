@@ -40,7 +40,7 @@ class DefaultFolderComponent(
     override val subFolders: MutableValue<List<MessageFolder>> = MutableValue(allFolders.filter { it.parentId == folder.id })
     override val messages: MutableValue<List<Message>> = MutableValue(listOf())
 
-    suspend fun getMessages(amount: Int = 20, skip: Int = 0): List<Message> {
+    private suspend fun getMessages(amount: Int = 20, skip: Int = 0): List<Message> {
         return MessageFlow.getMessages(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, folder.links.messagesLink, amount, skip)
     }
 

@@ -41,7 +41,10 @@ private val tags = listOf(
 
     Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color.Cyan, textDecoration = TextDecoration.Underline)),
 
-    Tag("<hr>", "</hr>", spanStyle = SpanStyle(letterSpacing = 0.sp))
+    Tag("<hr>", "</hr>", spanStyle = SpanStyle(letterSpacing = 0.sp)),
+
+    Tag("</", "</", regex = "(</.+?>)"),
+    Tag("<", "</", regex = "(<.+?>)"),
 )
 
 private var htmlList: Boolean? = null
@@ -55,13 +58,14 @@ fun String.parseHtml(): AnnotatedString {
         .replace("&amp;", "&")
         .replace("&lt;", "<")
         .replace("&gt;", ">")
-        .replace("&nbsp;", " ")
+        .replace("&nbsp;", "")
 
     val newlineReplace = specialCharacterReplace
-        .replace("<br>", "\n")
-        .replace("<p>", "\n<p>")
         .replace("<span>", "")
         .replace("</span>", "")
+        .replace("<br>", "\n")
+        .replace("<p></p>", "")
+        .replace("<p>", "\n<p>")
         .replace("</blockquote>", "</blockquote>\n")
         .replace("<h1>", "<h1>\n")
         .replace("</h1>", "\n</h1>")
@@ -96,9 +100,13 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
             if (string.startsWith(it.closingTag)) {
                 it.specialClosingAction?.invoke()
 
-                if (it.paragraphStyle != null) to.pop()
-                if (it.spanStyle != null) to.pop()
-                if (it.regexAction != null) to.pop()
+                try {
+                    if (it.paragraphStyle != null) to.pop()
+                    if (it.spanStyle != null) to.pop()
+                    if (it.regexAction != null) to.pop()
+                } catch (e: Exception) {
+                    println("Error: ${e.message}")
+                }
 
                 recurse(string.removeRange(0, endTag!!.length), to)
                 return@any true
@@ -168,7 +176,6 @@ private fun recurse(string: String, to: AnnotatedString.Builder) {
         }
     }
 }
-
 
 data class Tag(
     val openingTag: String,
