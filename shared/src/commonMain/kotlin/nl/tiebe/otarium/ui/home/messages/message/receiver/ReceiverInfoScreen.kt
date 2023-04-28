@@ -16,11 +16,29 @@ internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
     val messageData = component.message.subscribeAsState().value
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        if (component.receiverType == ReceiverInfoComponent.ReceiverType.NORMAL) {
-            messageData.receivers.forEach {
-                item {
-                    ReceiverInfoItem(it)
-                    Divider()
+        when (component.receiverType) {
+            ReceiverInfoComponent.ReceiverType.NORMAL -> {
+                messageData.receivers.forEach {
+                    item {
+                        ReceiverInfoItem(it)
+                        Divider()
+                    }
+                }
+            }
+            ReceiverInfoComponent.ReceiverType.CC -> {
+                messageData.ccReceivers.forEach {
+                    item {
+                        ReceiverInfoItem(it)
+                        Divider()
+                    }
+                }
+            }
+            ReceiverInfoComponent.ReceiverType.BCC -> {
+                messageData.bccReceivers.forEach {
+                    item {
+                        ReceiverInfoItem(it)
+                        Divider()
+                    }
                 }
             }
         }
