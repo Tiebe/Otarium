@@ -8,8 +8,8 @@ import dev.tiebe.magisterapi.response.messages.Attachment
 import dev.tiebe.magisterapi.response.messages.MessageData
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.util.*
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
@@ -44,7 +44,6 @@ class DefaultMessageComponent(
         }
     }
 
-    @OptIn(InternalAPI::class)
     override fun downloadFile(attachment: Attachment) {
         scope.launch {
             val downloadLink = MessageFlow.getDownloadLink(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, attachment.links.downloadLink.href)
@@ -54,7 +53,7 @@ class DefaultMessageComponent(
                     //todo: show progress
                     println("Downloaded $bytesSentTotal of $contentLength")
                 }
-            }.content
+            }.bodyAsChannel()
 
             println(response)
             //response.copyAndClose(getDownloadFileLocation(attachment.name))
