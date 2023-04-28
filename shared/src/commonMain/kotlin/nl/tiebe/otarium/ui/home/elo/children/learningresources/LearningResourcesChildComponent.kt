@@ -8,5 +8,4 @@ interface LearningResourcesChildComponent : ELOChildComponent {
 }
 
 class DefaultLearningResourcesChildComponent(componentContext: ComponentContext) : LearningResourcesChildComponent, ComponentContext by componentContext {
-
 }
