@@ -11,12 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import dev.icerock.moko.resources.compose.painterResource
 import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
-import nl.tiebe.otarium.ui.icons.Advertisements
-import nl.tiebe.otarium.ui.icons.AdvertisementsOff
-import nl.tiebe.otarium.ui.icons.BugOutline
 
 @Composable
 internal fun MainChildScreen(component: MainChildComponent) {
@@ -37,7 +36,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //ads
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Ads.localizedString),
-            icon = if (Data.showAds) Advertisements else AdvertisementsOff
+            icon = if (Data.showAds) painterResource(MR.images.advertisements) else painterResource(MR.images.advertisements_off)
         ) {
             component.navigate(SettingsComponent.Config.Ads)
         }
@@ -45,7 +44,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //bug report
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Bugs.localizedString),
-            icon = BugOutline
+            icon = painterResource(MR.images.bug_outline)
         ) {
             component.navigate(SettingsComponent.Config.Bugs)
         }
