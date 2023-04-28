@@ -8,5 +8,4 @@ interface AssignmentsChildComponent : ELOChildComponent {
 }
 
 class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : AssignmentsChildComponent, ComponentContext by componentContext {
-
 }
