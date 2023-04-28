@@ -21,6 +21,8 @@ internal fun MessageScreen(component: MessageComponent) {
     val scrollState = rememberScrollState()
 
     Column(Modifier.verticalScroll(scrollState).fillMaxSize()) {
+        MessageHeader(component)
+
         val messageContent = component.message.subscribeAsState().value
         val text = messageContent.content.parseHtml()
 

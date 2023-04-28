@@ -22,6 +22,8 @@ import nl.tiebe.otarium.ui.home.messages.folder.DefaultFolderComponent
 import nl.tiebe.otarium.ui.home.messages.folder.FolderComponent
 import nl.tiebe.otarium.ui.home.messages.message.DefaultMessageComponent
 import nl.tiebe.otarium.ui.home.messages.message.MessageComponent
+import nl.tiebe.otarium.ui.home.messages.message.receiver.DefaultReceiverInfoComponent
+import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface MessagesComponent: MenuItemComponent {
@@ -52,6 +54,7 @@ interface MessagesComponent: MenuItemComponent {
         class MainChild(val component: MessagesComponent) : Child()
         class FolderChild(val component: FolderComponent) : Child()
         class MessageChild(val component: MessageComponent) : Child()
+        class ReceiverInfoChild(val component: ReceiverInfoComponent) : Child()
     }
 
     sealed class Config : Parcelable {
@@ -63,6 +66,9 @@ interface MessagesComponent: MenuItemComponent {
 
         @Parcelize
         data class Message(val messageLink: String) : Config()
+
+        @Parcelize
+        data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
     }
 }
 
@@ -89,6 +95,7 @@ class DefaultMessagesComponent(
             is MessagesComponent.Config.Main -> MessagesComponent.Child.MainChild(this)
             is MessagesComponent.Config.Folder -> MessagesComponent.Child.FolderChild(createFolderComponent(componentContext, let { if (folders.value.isEmpty()) runBlocking { getFoldersAsync() }; folders.value.first { it.id == config.folderId } }))
             is MessagesComponent.Config.Message -> MessagesComponent.Child.MessageChild(createMessageComponent(componentContext, config.messageLink))
+            is MessagesComponent.Config.ReceiverInfo -> MessagesComponent.Child.ReceiverInfoChild(createReceiverInfoComponent(componentContext, config.messageLink, config.receiverType))
         }
 
     private fun createFolderComponent(componentContext: ComponentContext, folder: MessageFolder) =
@@ -104,6 +111,14 @@ class DefaultMessagesComponent(
             componentContext = componentContext,
             messageLink = messageLink,
             parentComponent = this
+        )
+
+    private fun createReceiverInfoComponent(componentContext: ComponentContext, messageLink: String, receiverType: ReceiverInfoComponent.ReceiverType) =
+        DefaultReceiverInfoComponent(
+            componentContext = componentContext,
+            messageLink = messageLink,
+            parentComponent = this,
+            receiverType = receiverType
         )
 
     override suspend fun getFoldersAsync() {

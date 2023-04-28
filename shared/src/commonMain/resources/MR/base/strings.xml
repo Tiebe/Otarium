@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Otarium</string>
-    <!-- Strings used for fragments for navigation -->
 
     <string name="grades_channel">Grades</string>
     <string name="grades_channel_description">Notifications for new grades</string>
@@ -50,4 +49,9 @@
     <string name="decimals_slider">Amount of decimals shown in averages:</string>
     <string name="ui_settings">UI</string>
     <string name="messagesItem">Messages</string>
+
+    <string name="message_subject">Subject</string>
+    <string name="message_sender">From</string>
+    <string name="message_date">Date</string>
+    <string name="message_receivers">To</string>
 </resources>

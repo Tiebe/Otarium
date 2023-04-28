@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.messages.message
+package nl.tiebe.otarium.ui.home.messages.message.receiver
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
@@ -11,17 +11,23 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
-interface MessageComponent {
+interface ReceiverInfoComponent {
     val parentComponent: MessagesComponent
     val messageLink: String
 
     val message: Value<MessageData>
+
+    val receiverType: ReceiverType
+
+    enum class ReceiverType {
+        NORMAL, CC, BCC
+    }
 }
 
-class DefaultMessageComponent(
-    componentContext: ComponentContext, override val messageLink: String,
+class DefaultReceiverInfoComponent(
+    componentContext: ComponentContext, override val messageLink: String, override val receiverType: ReceiverInfoComponent.ReceiverType,
     override val parentComponent: MessagesComponent
-): MessageComponent, ComponentContext by componentContext {
+): ReceiverInfoComponent, ComponentContext by componentContext {
     val scope = componentCoroutineScope()
 
     override val message: MutableValue<MessageData> = MutableValue(
@@ -62,28 +68,7 @@ class DefaultMessageComponent(
         }
     }
 
-    private val markAsRead: (MessageData) -> Unit = {
-        if (it.id != 0) {
-            scope.launch {
-                MessageFlow.markMessageAsRead(
-                    Url(Data.selectedAccount.tenantUrl),
-                    Data.selectedAccount.tokens.accessToken,
-                    it.id,
-                    true
-                )
-
-                unsubscribe()
-            }
-        }
-    }
-
-    private val unsubscribe = {
-        message.unsubscribe(markAsRead)
-    }
-
     init {
-        message.subscribe(markAsRead)
-
         getMessage()
     }
 

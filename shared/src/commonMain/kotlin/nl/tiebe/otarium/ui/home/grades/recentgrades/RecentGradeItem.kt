@@ -21,6 +21,7 @@ import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
@@ -80,7 +81,7 @@ internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: Recen
                 headlineText = { //parse date
                     val date = grade.enteredOn.substring(0, 26).toLocalDateTime()
 
-                    Text("${date.dayOfMonth}-${date.monthNumber}-${date.year} ${date.hour}:${date.minute}:${date.second}")
+                    Text(date.toFormattedString())
                 },
                 overlineText = {
                     Text(getLocalizedString(MR.strings.entered_on))

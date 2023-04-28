@@ -43,7 +43,6 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbs
                 val localStartTime = startTime.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
                 val localEndTime = endTime.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
-
                 Text(
                     agendaItemWithAbsence.agendaItem.description ?: "",
                     style = MaterialTheme.typography.headlineSmall

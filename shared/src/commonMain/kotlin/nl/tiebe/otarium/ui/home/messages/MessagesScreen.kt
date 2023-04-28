@@ -12,6 +12,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import dev.icerock.moko.resources.compose.stringResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
+import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,8 +39,10 @@ internal fun MessagesScreen(component: MessagesComponent) {
         TopAppBar(
             title = { Text(name, overflow = TextOverflow.Ellipsis, maxLines = 1) },
             navigationIcon = {
-                IconButton(onClick = { component.navigation.pop() }) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                if (screen.value.backStack.isNotEmpty()) {
+                    IconButton(onClick = { component.navigation.pop() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
                 }
             }
         )
@@ -48,6 +52,7 @@ internal fun MessagesScreen(component: MessagesComponent) {
                 is MessagesComponent.Child.FolderChild -> FolderScreen(child.component)
                 is MessagesComponent.Child.MainChild -> MessagesFolderSelectScreen(child.component)
                 is MessagesComponent.Child.MessageChild -> MessageScreen(child.component)
+                is MessagesComponent.Child.ReceiverInfoChild -> ReceiverInfoScreen(child.component)
             }
         }
     }
@@ -59,7 +64,7 @@ internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
     val foldersState = component.folders.subscribeAsState()
     val refreshState = rememberPullRefreshState(refreshing = component.refreshState.subscribeAsState().value, onRefresh = component::getFolders)
 
-    Box(modifier = Modifier.pullRefresh(refreshState)) {
+    Box(modifier = Modifier.fillMaxSize().pullRefresh(refreshState)) {
         val folders = foldersState.value.filter { it.parentId == 0 }
 
         Column(modifier = Modifier.fillMaxSize()) {
@@ -69,6 +74,6 @@ internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
             }
         }
 
-        PullRefreshIndicator(component.refreshState.subscribeAsState().value, refreshState)
+        PullRefreshIndicator(component.refreshState.subscribeAsState().value, refreshState, modifier = Modifier.align(Alignment.TopCenter))
     }
 }
