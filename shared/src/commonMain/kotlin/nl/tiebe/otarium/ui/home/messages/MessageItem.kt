@@ -35,6 +35,7 @@ internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message)
         headlineText = { Text(message.subject) },
         supportingText = { Text(message.sender?.name ?: message.receivers?.joinToString { it.name } ?: "") },
         leadingContent = { Icon(painterResource(icon), contentDescription = null) },
+        trailingContent = { if (message.hasAttachments) Icon(painterResource(MR.images.attachment), contentDescription = null) },
         modifier = Modifier.clickable {
             navigateToMessage(message)
         }
