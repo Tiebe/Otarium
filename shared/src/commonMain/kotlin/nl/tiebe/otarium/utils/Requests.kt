@@ -115,6 +115,10 @@ suspend fun requestGET(
             }
         }
 
+        if (onDownload != null) {
+            onDownload(1, 1)
+        }
+
         response.status.let {
             if (it != HttpStatusCode.OK) {
                 if (response.bodyAsText().contains("<HTML><HEAD>") && retries < 30) {
