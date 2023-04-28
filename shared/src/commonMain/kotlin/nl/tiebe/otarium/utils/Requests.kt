@@ -1,6 +1,9 @@
 package nl.tiebe.otarium.utils
 
+import dev.tiebe.magisterapi.utils.MagisterException
 import io.ktor.client.*
+import io.ktor.client.content.*
+import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.client.request.forms.*
@@ -9,7 +12,6 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
-import dev.tiebe.magisterapi.utils.MagisterException
 
 val client = HttpClient {
     install(ContentNegotiation) {
@@ -93,6 +95,7 @@ suspend fun requestGET(
     url: Url,
     body: HashMap<String, String> = hashMapOf(),
     accessToken: String? = null,
+    onDownload: ProgressListener? = null,
     retries: Int = 0
 ): HttpResponse {
     try {
@@ -105,6 +108,8 @@ suspend fun requestGET(
                 }
             }
 
+            this.onDownload(onDownload)
+
             if (accessToken != null) {
                 bearerAuth(accessToken)
             }
@@ -115,7 +120,7 @@ suspend fun requestGET(
                 if (response.bodyAsText().contains("<HTML><HEAD>") && retries < 30) {
                     delay(2000*(retries+1).toLong())
 
-                    return requestGET(url, body, accessToken, retries + 1)
+                    return requestGET(url, body, accessToken, onDownload, retries + 1)
                 } else {
                     throw MagisterException(
                         response.status, response.bodyAsText(),
@@ -128,7 +133,7 @@ suspend fun requestGET(
         return response
     } catch (e: IllegalArgumentException) {
         if (e.message?.contains("text is empty") == true) {
-            return requestGET(url, body, accessToken, retries + 1)
+            return requestGET(url, body, accessToken, onDownload, retries + 1)
         } else {
             throw e
         }

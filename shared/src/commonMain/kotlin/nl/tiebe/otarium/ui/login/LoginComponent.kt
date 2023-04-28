@@ -52,8 +52,6 @@ class DefaultLoginComponent(val componentContext: ComponentContext, val navigate
             val parameters = Url(url).parameters
 
             if (parameters.contains("error")) {
-                println("Error: ${parameters["error"]}")
-
                 loginUrl = LoginFlow.createAuthURL()
 
                 return false

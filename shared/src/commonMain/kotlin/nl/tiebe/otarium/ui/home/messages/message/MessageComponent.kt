@@ -6,15 +6,16 @@ import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Attachment
 import dev.tiebe.magisterapi.response.messages.MessageData
-import io.ktor.client.plugins.*
-import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.utils.io.*
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
-import nl.tiebe.otarium.utils.client
+import nl.tiebe.otarium.utils.getDownloadFileLocation
+import nl.tiebe.otarium.utils.openFileFromCache
+import nl.tiebe.otarium.utils.requestGET
 
 interface MessageComponent {
     val parentComponent: MessagesComponent
@@ -22,7 +23,9 @@ interface MessageComponent {
 
     val message: Value<MessageData>
     val attachments: Value<List<Attachment>>
-    fun downloadFile(attachment: Attachment)
+    val attachmentDownloadProgress: Value<Map<Int, Float>>
+
+    fun downloadAttachment(attachment: Attachment)
 }
 
 class DefaultMessageComponent(
@@ -33,6 +36,7 @@ class DefaultMessageComponent(
 
     override val message: MutableValue<MessageData> = MutableValue(MessageData(MessageData.Companion.Sender(0, MessageData.Companion.Links(MessageData.Companion.Link(""), MessageData.Companion.Link(""), MessageData.Companion.Link("")), ""), null, listOf(), null, false, false, 0, "", false, listOf(), MessageData.Companion.Links(MessageData.Companion.Link(""), MessageData.Companion.Link(""), MessageData.Companion.Link("")), 0, "", listOf(), ""))
     override val attachments: MutableValue<List<Attachment>> = MutableValue(listOf())
+    override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
 
     private fun getMessage() {
         scope.launch {
@@ -40,24 +44,26 @@ class DefaultMessageComponent(
 
             if (message.value.hasAttachments) {
                 attachments.value = MessageFlow.getAttachmentList(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, message.value.links.attachments!!.href)
+
+                for (attachment in attachments.value) {
+                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, 0f)
+                }
             }
         }
     }
 
-    override fun downloadFile(attachment: Attachment) {
+    override fun downloadAttachment(attachment: Attachment) {
         scope.launch {
-            val downloadLink = MessageFlow.getDownloadLink(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, attachment.links.downloadLink.href)
-
-            val response = client.get(downloadLink) {
-                onDownload { bytesSentTotal, contentLength ->
-                    //todo: show progress
-                    println("Downloaded $bytesSentTotal of $contentLength")
+            val response = requestGET(
+                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.downloadLink.href).build(),
+                accessToken = Data.selectedAccount.tokens.accessToken,
+                onDownload = { bytesSentTotal, contentLength ->
+                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
                 }
-            }.bodyAsChannel()
+            ).bodyAsChannel()
 
-            println(response)
-            //response.copyAndClose(getDownloadFileLocation(attachment.name))
-            //openFileFromCache(attachment.name)
+            response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.name))
+            openFileFromCache(attachment.id.toString(), attachment.name)
         }
     }
 
