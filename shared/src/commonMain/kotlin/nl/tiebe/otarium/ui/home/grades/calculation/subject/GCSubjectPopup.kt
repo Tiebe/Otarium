@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
+import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
@@ -23,6 +24,7 @@ import nl.tiebe.otarium.ui.home.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.home.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.BackButton
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.format
 
 @Composable
@@ -84,7 +86,7 @@ internal fun GradeList(grades: List<GradeWithGradeInfo>) {
             modifier = Modifier
                 .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
             headlineText = { Text(grade.gradeInfo.columnDescription ?: "") },
-            supportingText = { Text(grade.grade.dateEntered ?: "") },
+            supportingText = { Text(grade.grade.dateEntered?.substring(0, 26)?.toLocalDateTime()?.toFormattedString() ?: "") },
             trailingContent = {
                 Box(
                     modifier = Modifier

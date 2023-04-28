@@ -1,7 +1,7 @@
 
 object Version {
-    const val appVersion = "3.1.2"
-    const val appVersionCode = 28
+    const val appVersion = "3.2.0"
+    const val appVersionCode = 29
 
     const val magister = "1.1.7"
 
@@ -70,7 +70,7 @@ object Moko {
     const val gradle = "dev.icerock.moko:resources-generator:${Version.moko}"
     const val plugin = "dev.icerock.mobile.multiplatform-resources"
     const val api = "dev.icerock.moko:resources:${Version.moko}"
-    const val android = "dev.icerock.moko:resources-compose:${Version.moko}"
+    const val compose = "dev.icerock.moko:resources-compose:${Version.moko}"
 }
 
 object BuildKonfig {
