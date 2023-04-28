@@ -1,7 +1,9 @@
 package nl.tiebe.otarium.ui.home.messages.message
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,8 +16,8 @@ import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoComponent
-import nl.tiebe.otarium.ui.utils.drawLinearIndicator
-import nl.tiebe.otarium.ui.utils.drawLinearIndicatorTrack
+import nl.tiebe.otarium.ui.utils.DownloadingFileIndicator
+import nl.tiebe.otarium.ui.utils.LoadingFileIndicator
 import nl.tiebe.otarium.utils.toFormattedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,22 +100,26 @@ internal fun MessageHeader(component: MessageComponent) {
                         val progress =
                             component.attachmentDownloadProgress.subscribeAsState().value[attachment.id] ?: 0f
 
-                        if (progress != 0f && progress != 1f && !progress.isNaN()) {
+                        if (progress != 0f && !progress.isNaN()) {
                             val color = MaterialTheme.colorScheme.primary
                             val trackColor = MaterialTheme.colorScheme.surfaceVariant
 
-
-                            Canvas(
-                                Modifier
-                                    .progressSemantics(progress)
-                                    .matchParentSize()
-                                    .align(Alignment.BottomStart)
-                            ) {
-                                val strokeWidth = 5.dp
-                                drawLinearIndicatorTrack(trackColor, strokeWidth.toPx())
-                                drawLinearIndicator(0f, progress, color, strokeWidth.toPx())
+                            if (progress != 1f) {
+                                DownloadingFileIndicator(
+                                    progress = progress,
+                                    modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
+                                    color = color,
+                                    trackColor = trackColor,
+                                    height = 5.dp
+                                )
+                            } else {
+                                LoadingFileIndicator(
+                                    modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
+                                    color = color,
+                                    trackColor = trackColor,
+                                    height = 5.dp
+                                )
                             }
-
 
                         }
                     }

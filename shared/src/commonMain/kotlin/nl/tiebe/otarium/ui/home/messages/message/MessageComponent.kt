@@ -64,6 +64,10 @@ class DefaultMessageComponent(
 
             response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.name))
             openFileFromCache(attachment.id.toString(), attachment.name)
+
+            attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
+                it.remove(attachment.id)
+            }
         }
     }
 
