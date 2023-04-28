@@ -1,15 +1,16 @@
 package nl.tiebe.otarium.ui.home.messages.message
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.Text
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
@@ -70,6 +71,22 @@ internal fun MessageHeader(component: MessageComponent) {
         headlineText = { Text(text = message.sentOn.substring(0, 26).toLocalDateTime().toFormattedString()) },
         overlineText = { Text(text = stringResource(MR.strings.message_date)) },
     )
+
+    Divider()
+
+    val scrollState = rememberScrollState()
+
+    Row(modifier = Modifier.fillMaxWidth().horizontalScroll(scrollState)) {
+        for (attachment in component.attachments.subscribeAsState().value) {
+            ElevatedCard(onClick = { component.downloadFile(attachment) }, modifier = Modifier.height(70.dp).padding(10.dp)) {
+                Row(modifier = Modifier.fillMaxSize().padding(10.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                    Icon(painterResource(if (attachment.status == "available") MR.images.attachment else MR.images.attachment_off), contentDescription = "Attachment")
+                    Text(text = attachment.name, modifier = Modifier.padding(start = 10.dp))
+                }
+            }
+        }
+
+    }
 
     Divider(modifier = Modifier.padding(bottom = 10.dp))
 

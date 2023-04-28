@@ -30,37 +30,7 @@ class DefaultReceiverInfoComponent(
 ): ReceiverInfoComponent, ComponentContext by componentContext {
     val scope = componentCoroutineScope()
 
-    override val message: MutableValue<MessageData> = MutableValue(
-        MessageData(
-            MessageData.Companion.Sender(
-                0,
-                MessageData.Companion.Links(
-                    MessageData.Companion.Link(""),
-                    MessageData.Companion.Link(""),
-                    MessageData.Companion.Link("")
-                ),
-                ""
-            ),
-            null,
-            listOf(),
-            null,
-            false,
-            false,
-            0,
-            "",
-            false,
-            listOf(),
-            MessageData.Companion.Links(
-                MessageData.Companion.Link(""),
-                MessageData.Companion.Link(""),
-                MessageData.Companion.Link("")
-            ),
-            0,
-            "",
-            listOf(),
-            ""
-        )
-    )
+    override val message: MutableValue<MessageData> = MutableValue(MessageData(MessageData.Companion.Sender(0, MessageData.Companion.Links(MessageData.Companion.Link(""), MessageData.Companion.Link(""), MessageData.Companion.Link("")), ""), null, listOf(), null, false, false, 0, "", false, listOf(), MessageData.Companion.Links(MessageData.Companion.Link(""), MessageData.Companion.Link(""), MessageData.Companion.Link("")), 0, "", listOf(), ""))
 
     private fun getMessage() {
         scope.launch {
