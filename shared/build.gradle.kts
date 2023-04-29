@@ -40,6 +40,10 @@ android {
 kotlin {
     android()
     ios()
+    jvm("desktop") {
+        jvmToolchain(11)
+    }
+
     cocoapods {
         summary = "Otarium"
         homepage = "https://otarium.groosman.nl"
@@ -94,6 +98,13 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Ktor.client_ios)
+            }
+        }
+        val desktopMain by getting {
+            dependencies {
+                api(compose.preview)
+
+                implementation(Ktor.client_desktop)
             }
         }
     }
