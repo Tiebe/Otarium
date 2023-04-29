@@ -35,7 +35,7 @@ fun DrawScope.drawLinearIndicatorTrack(
 
 
 @Composable
-fun DownloadingFileIndicator(
+internal fun DownloadingFileIndicator(
     progress: Float,
     modifier: Modifier = Modifier,
     color: Color,
@@ -52,7 +52,7 @@ fun DownloadingFileIndicator(
 }
 
 @Composable
-fun LoadingFileIndicator(
+internal fun LoadingFileIndicator(
     modifier: Modifier = Modifier,
     color: Color,
     trackColor: Color,
