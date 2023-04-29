@@ -34,6 +34,7 @@ class DefaultMessageComponent(
 ): MessageComponent, ComponentContext by componentContext {
     val scope = componentCoroutineScope()
 
+    @Suppress("DuplicatedCode")
     override val message: MutableValue<MessageData> = MutableValue(MessageData(MessageData.Companion.Sender(0, MessageData.Companion.Links(MessageData.Companion.Link(""), MessageData.Companion.Link(""), MessageData.Companion.Link("")), ""), null, listOf(), null, false, false, 0, "", false, listOf(), MessageData.Companion.Links(MessageData.Companion.Link(""), MessageData.Companion.Link(""), MessageData.Companion.Link("")), 0, "", listOf(), ""))
     override val attachments: MutableValue<List<Attachment>> = MutableValue(listOf())
     override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
