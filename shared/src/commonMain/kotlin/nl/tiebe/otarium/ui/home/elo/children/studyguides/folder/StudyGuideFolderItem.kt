@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
+import nl.tiebe.otarium.ui.utils.ClickableText
 import nl.tiebe.otarium.ui.utils.parseHtml
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,7 +21,7 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
 
     ListItem(
         headlineText = { Text(item.title) },
-        supportingText = { Text(item.description.parseHtml()) },
+        supportingText = { ClickableText(item.description.parseHtml()) },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
         ),
