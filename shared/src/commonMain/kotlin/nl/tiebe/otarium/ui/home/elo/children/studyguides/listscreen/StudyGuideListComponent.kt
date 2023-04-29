@@ -3,7 +3,7 @@ package nl.tiebe.otarium.ui.home.elo.children.studyguides.listscreen
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.api.StudyGuideFlow
+import dev.tiebe.magisterapi.api.studyguide.StudyGuideFlow
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
 import io.ktor.http.*
 import kotlinx.coroutines.launch
