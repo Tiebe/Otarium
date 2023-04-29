@@ -27,15 +27,18 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
         ),
         modifier = Modifier.clickable { showContents = !showContents }
     )
+    Divider()
 
     AnimatedVisibility(visible = showContents, enter = expandVertically(), exit = shrinkVertically()) {
         Column(modifier = Modifier.padding(start = 16.dp)) {
             item.resources.forEach {
-                Divider()
                 StudyGuideResourceListItem(component, it)
+
+                if (item.resources.last() != it) {
+                    Divider()
+                }
             }
         }
     }
 
-    Divider()
 }
