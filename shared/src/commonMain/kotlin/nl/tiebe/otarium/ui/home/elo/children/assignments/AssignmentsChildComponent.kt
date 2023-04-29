@@ -11,10 +11,10 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.coroutines.CoroutineScope
 import nl.tiebe.otarium.ui.home.elo.ELOChildComponent
+import nl.tiebe.otarium.ui.home.elo.children.assignments.assignment.AssignmentScreenComponent
+import nl.tiebe.otarium.ui.home.elo.children.assignments.assignment.DefaultAssignmentScreenComponent
 import nl.tiebe.otarium.ui.home.elo.children.assignments.listscreen.AssignmentListComponent
 import nl.tiebe.otarium.ui.home.elo.children.assignments.listscreen.DefaultAssignmentListComponent
-import nl.tiebe.otarium.ui.home.elo.children.studyguides.folder.DefaultStudyGuideFolderComponent
-import nl.tiebe.otarium.ui.home.elo.children.studyguides.folder.StudyGuideFolderComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface AssignmentsChildComponent : ELOChildComponent {
@@ -30,7 +30,7 @@ interface AssignmentsChildComponent : ELOChildComponent {
 
     sealed class Child {
         class AssignmentList(val component: AssignmentListComponent) : Child()
-        class Assignment(val component: StudyGuideFolderComponent) : Child()
+        class Assignment(val component: AssignmentScreenComponent) : Child()
     }
 
     sealed class Config : Parcelable {
@@ -38,7 +38,7 @@ interface AssignmentsChildComponent : ELOChildComponent {
         object AssignmentList : Config()
 
         @Parcelize
-        data class Assignment(val studyGuideLink: String) : Config()
+        data class Assignment(val assignmentLink: String) : Config()
     }
 }
 
@@ -61,7 +61,7 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
     private fun createChild(config: AssignmentsChildComponent.Config, componentContext: ComponentContext): AssignmentsChildComponent.Child =
         when (config) {
             is AssignmentsChildComponent.Config.AssignmentList -> AssignmentsChildComponent.Child.AssignmentList(createAssignmentListComponent(this))
-            is AssignmentsChildComponent.Config.Assignment -> AssignmentsChildComponent.Child.Assignment(createStudyGuideComponent(componentContext, config.studyGuideLink))
+            is AssignmentsChildComponent.Config.Assignment -> AssignmentsChildComponent.Child.Assignment(createAssignmentScreenComponent(componentContext, config.assignmentLink))
         }
 
     private fun createAssignmentListComponent(componentContext: ComponentContext) =
@@ -71,10 +71,10 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
         )
 
 
-    private fun createStudyGuideComponent(componentContext: ComponentContext, studyGuideLink: String) =
-        DefaultStudyGuideFolderComponent(
+    private fun createAssignmentScreenComponent(componentContext: ComponentContext, assignmentLink: String) =
+        DefaultAssignmentScreenComponent(
             componentContext = componentContext,
-            studyGuideLink = studyGuideLink,
+            assignmentLink = assignmentLink,
         )
 }
 
