@@ -21,7 +21,7 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
 
     ListItem(
         headlineText = { Text(item.title) },
-        supportingText = { ClickableText(item.description.parseHtml()) },
+        supportingText = { ClickableText(item.description.parseHtml()) { showContents = !showContents } },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
         ),

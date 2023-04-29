@@ -24,8 +24,11 @@ interface StudyGuideFolderComponent {
 
     val resourceDownloadProgress: Value<Map<Int, Float>>
 
+    val refreshing: Value<Boolean>
+
     fun downloadResource(item: Resource)
 
+    fun loadContent()
 }
 
 class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, override val studyGuideLink: String) : StudyGuideFolderComponent, ComponentContext by componentContext {
@@ -33,11 +36,13 @@ class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, overr
     override val contentItems: MutableValue<List<StudyGuideContentItem>> = MutableValue(listOf())
 
     override val resourceDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
+    override val refreshing: MutableValue<Boolean> = MutableValue(false)
 
     val scope = componentCoroutineScope()
 
-    private fun loadContent() {
+    override fun loadContent() {
         scope.launch {
+            refreshing.value = true
             content.value = StudyGuideFlow.getStudyGuideContent(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, studyGuideLink)
 
             val items = mutableListOf<StudyGuideContentItem>()
@@ -53,6 +58,7 @@ class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, overr
             }
 
             contentItems.value = items
+            refreshing.value = false
         }
     }
 

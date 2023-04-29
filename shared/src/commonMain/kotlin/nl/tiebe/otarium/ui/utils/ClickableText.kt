@@ -13,11 +13,11 @@ import androidx.compose.ui.text.TextStyle
 import nl.tiebe.otarium.utils.openUrl
 
 @Composable
-internal fun ClickableText(text: AnnotatedString, modifier: Modifier = Modifier, style: TextStyle = TextStyle.Default) {
+internal fun ClickableText(text: AnnotatedString, modifier: Modifier = Modifier, style: TextStyle = TextStyle.Default, onNoTextFound: () -> Unit = {}) {
     val onClick: (Int) -> Unit = { offset ->
         text.getStringAnnotations(tag = "URL", start = offset, end = offset).firstOrNull()?.let { annotation ->
             openUrl(annotation.item)
-        }
+        } ?: onNoTextFound()
     }
 
     val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
