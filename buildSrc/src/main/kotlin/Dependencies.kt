@@ -64,6 +64,7 @@ object Ktor {
     const val client_json_jvm = "io.ktor:ktor-client-json-jvm:${Version.ktor}"
     const val client_android = "io.ktor:ktor-client-okhttp:${Version.ktor}"
     const val client_ios = "io.ktor:ktor-client-ios:${Version.ktor}"
+    const val client_desktop = "io.ktor:ktor-client-apache5:${Version.ktor}"
 }
 
 object Moko {
