@@ -3,7 +3,7 @@ package nl.tiebe.otarium.ui.home.elo.children.studyguides.folder
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.api.StudyGuideFlow
+import dev.tiebe.magisterapi.api.studyguide.StudyGuideFlow
 import dev.tiebe.magisterapi.response.studyguide.Resource
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContent
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
