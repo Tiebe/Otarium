@@ -3,6 +3,7 @@ package nl.tiebe.otarium.ui.home
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,7 +42,7 @@ internal fun BottomBar(
                 items.forEach { screen ->
                     NavigationBarItem(
                         icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
-                        label = { Text(getLocalizedString(screen.resourceId)) },
+                        label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true)) },
                         selected = overlay.configuration == screen,
                         onClick = {
                             component.navigate(screen)
