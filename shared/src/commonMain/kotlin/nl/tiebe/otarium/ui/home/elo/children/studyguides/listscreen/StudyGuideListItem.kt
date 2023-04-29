@@ -13,6 +13,6 @@ import dev.tiebe.magisterapi.response.studyguide.StudyGuide
 internal fun StudyGuideListItem(component: StudyGuideListComponent, item: StudyGuide) {
     ListItem(
         headlineText = { Text(item.title) },
-        modifier = Modifier.clickable { }//component.openStudyGuide(item) }
+        modifier = Modifier.clickable { component.navigateToStudyGuide(item) }
     )
 }

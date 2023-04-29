@@ -9,13 +9,8 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import dev.tiebe.magisterapi.api.messages.MessageFlow
-import dev.tiebe.magisterapi.response.messages.MessageFolder
-import io.ktor.http.*
+import dev.tiebe.magisterapi.response.studyguide.StudyGuide
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.elo.ELOChildComponent
 import nl.tiebe.otarium.ui.home.elo.children.studyguides.folder.DefaultStudyGuideFolderComponent
 import nl.tiebe.otarium.ui.home.elo.children.studyguides.folder.StudyGuideFolderComponent
@@ -30,18 +25,11 @@ interface StudyGuidesChildComponent : ELOChildComponent {
     val refreshState: Value<Boolean>
     val scope: CoroutineScope
 
-    suspend fun getFoldersAsync()
-    fun getFolders()
-
     fun navigate(child: Config) {
         navigation.push(child)
     }
 
-    fun navigateToFolder(folder: MessageFolder) {
-        navigate(Config.Folder(folder.id))
-    }
-
-    val folders: Value<List<MessageFolder>>
+    val studyGuides: Value<List<StudyGuide>>
 
     sealed class Child {
         class StudyGuideListChild(val component: StudyGuideListComponent) : Child()
@@ -53,7 +41,7 @@ interface StudyGuidesChildComponent : ELOChildComponent {
         object StudyGuideList : Config()
 
         @Parcelize
-        data class Folder(val folderId: Int) : Config()
+        data class StudyGuide(val studyGuideLink: String) : Config()
     }
 
 }
@@ -62,7 +50,7 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
-    override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
+    override val studyGuides: MutableValue<List<StudyGuide>> = MutableValue(listOf())
 
     override val navigation = StackNavigation<StudyGuidesChildComponent.Config>()
 
@@ -77,7 +65,7 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
     private fun createChild(config: StudyGuidesChildComponent.Config, componentContext: ComponentContext): StudyGuidesChildComponent.Child =
         when (config) {
             is StudyGuidesChildComponent.Config.StudyGuideList -> StudyGuidesChildComponent.Child.StudyGuideListChild(createStudyGuideListComponent(this))
-            is StudyGuidesChildComponent.Config.Folder -> StudyGuidesChildComponent.Child.FolderChild(createFolderComponent(componentContext, let { if (folders.value.isEmpty()) runBlocking { getFoldersAsync() }; folders.value.first { it.id == config.folderId } }))
+            is StudyGuidesChildComponent.Config.StudyGuide -> StudyGuidesChildComponent.Child.FolderChild(createStudyGuideComponent(componentContext, config.studyGuideLink))
         }
 
     private fun createStudyGuideListComponent(componentContext: ComponentContext) =
@@ -87,38 +75,11 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
         )
 
 
-    private fun createFolderComponent(componentContext: ComponentContext, folder: MessageFolder) =
+    private fun createStudyGuideComponent(componentContext: ComponentContext, studyGuideLink: String) =
         DefaultStudyGuideFolderComponent(
             componentContext = componentContext,
+            studyGuideLink = studyGuideLink,
         )
-
-    override suspend fun getFoldersAsync() {
-        refreshState.value = true
-
-        try {
-            folders.value =
-                MessageFlow.getAllFolders(
-                    Url(Data.selectedAccount.tenantUrl),
-                    Data.selectedAccount.tokens.accessToken
-                )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        refreshState.value = false
-    }
-
-    override fun getFolders() {
-        scope.launch {
-            getFoldersAsync()
-        }
-    }
-
-    init {
-        scope.launch {
-            getFolders()
-        }
-    }
 }
 
 interface StudyGuideChildScreen

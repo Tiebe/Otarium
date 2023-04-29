@@ -22,7 +22,12 @@ interface StudyGuideListComponent : StudyGuideChildScreen {
 
     val isRefreshing: Value<Boolean>
 
-    fun refreshStudyGuides() }
+    fun refreshStudyGuides()
+
+    fun navigateToStudyGuide(studyGuide: StudyGuide) {
+        parentComponent.navigate(StudyGuidesChildComponent.Config.StudyGuide(studyGuide.links.first { it.rel == "Self" }.href))
+    }
+}
 
 class DefaultStudyGuideListComponent(
     componentContext: ComponentContext,

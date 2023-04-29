@@ -19,7 +19,7 @@ internal fun StudyGuideListScreen(component: StudyGuideListComponent) {
     val scrollState = rememberScrollState()
     val pullRefreshState = rememberPullRefreshState(component.isRefreshing.subscribeAsState().value, onRefresh = component::refreshStudyGuides)
 
-    Column(Modifier.fillMaxSize().pullRefresh(pullRefreshState).verticalScroll(scrollState)) {
+    Column(Modifier.fillMaxSize().verticalScroll(scrollState).pullRefresh(pullRefreshState)) {
         studyGuideItems.forEach {
             StudyGuideListItem(component, it)
 

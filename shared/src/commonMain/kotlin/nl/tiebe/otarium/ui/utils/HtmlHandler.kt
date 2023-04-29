@@ -75,6 +75,12 @@ fun String.parseHtml(): AnnotatedString {
         .replace("</h5>", "\n</h5>")
         .replace("<li>\n", "<li>")
         .replace("<hr>", "\n<hr>───────────────────</hr>\n")
+        .replace("<html>", "")
+        .replace("</html>", "")
+        .replace("<body>", "")
+        .replace("</body>", "")
+        .replace("<head>", "")
+        .replace("</head>", "")
 
 
     return buildAnnotatedString {
