@@ -4,10 +4,12 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import io.ktor.http.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.exchangeUrl
 import nl.tiebe.otarium.magister.refreshGrades
+import nl.tiebe.otarium.store.component.home.StoreHomeComponent
 import nl.tiebe.otarium.ui.home.DefaultHomeComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
@@ -17,11 +19,14 @@ interface LoginComponent {
 
     fun navigateToHomeScreen()
 
+    fun bypassLogin()
+
     fun checkUrl(inputUrl: String): Boolean
 
     suspend fun login(code: String, codeVerifier: String)
 
     fun addBackHandler(onBack: BackCallback)
+    val scope: CoroutineScope
 }
 
 class DefaultLoginComponent(val componentContext: ComponentContext, val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): LoginComponent, ComponentContext by componentContext {
@@ -31,7 +36,14 @@ class DefaultLoginComponent(val componentContext: ComponentContext, val navigate
         navigateRootComponent(RootComponent.ChildScreen.HomeChild(DefaultHomeComponent(componentContext, navigateRootComponent)))
     }
 
-    private val scope = componentCoroutineScope()
+    override fun bypassLogin() {
+        scope.launch {
+            Data.storeLoginBypass = true
+            navigateRootComponent(RootComponent.ChildScreen.HomeChild(StoreHomeComponent(componentContext, navigateRootComponent)))
+        }
+    }
+
+    override val scope: CoroutineScope = componentCoroutineScope()
 
     override suspend fun login(code: String, codeVerifier: String) {
         val account = exchangeUrl(code, codeVerifier)

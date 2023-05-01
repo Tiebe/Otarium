@@ -29,17 +29,10 @@ internal fun BottomBar(
     val dialog = component.dialog.subscribeAsState()
     val overlay = dialog.value.child ?: return
 
-    val items = listOf(
-        HomeComponent.MenuItem.Timetable,
-        HomeComponent.MenuItem.Grades,
-        HomeComponent.MenuItem.Messages,
-        HomeComponent.MenuItem.Settings
-    )
-
     Scaffold(
         bottomBar = {
             NavigationBar(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary) {
-                items.forEach { screen ->
+                component.visibleItems.forEach { screen ->
                     NavigationBarItem(
                         icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
                         label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true)) },
