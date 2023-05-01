@@ -23,6 +23,8 @@ import nl.tiebe.otarium.ui.root.RootComponent
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
+    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.Settings)
+
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
@@ -121,8 +123,4 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
             dialogNavigation.activate(HomeComponent.MenuItem.Debug)
         }
     }
-
-
-
-
 }

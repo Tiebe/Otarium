@@ -23,6 +23,16 @@ import nl.tiebe.otarium.ui.root.componentCoroutineScope
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
+val days = listOf(
+    getLocalizedString(MR.strings.monday),
+    getLocalizedString(MR.strings.tuesday),
+    getLocalizedString(MR.strings.wednesday),
+    getLocalizedString(MR.strings.thursday),
+    getLocalizedString(MR.strings.friday),
+    getLocalizedString(MR.strings.saturday),
+    getLocalizedString(MR.strings.sunday)
+)
+
 interface TimetableComponent : MenuItemComponent {
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
@@ -30,10 +40,7 @@ interface TimetableComponent : MenuItemComponent {
 
     val currentPage: Value<Int>
 
-    val days: List<String>
-
     val timetable: Value<List<AgendaItemWithAbsence>>
-    val account: MagisterAccount
 
     val openedTimetableItem: Value<Pair<Boolean, AgendaItemWithAbsence?>>
 
@@ -41,7 +48,12 @@ interface TimetableComponent : MenuItemComponent {
 
     val isRefreshingTimetable: Value<Boolean>
 
-    fun changeDay(day: Int)
+    fun changeDay(day: Int) {
+        (currentPage as MutableValue).value = day
+
+        if (selectedWeek.value != floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt())
+            (selectedWeek as MutableValue).value = floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt()
+    }
 
     fun refreshTimetable(from: LocalDate, to: LocalDate)
 
@@ -84,7 +96,12 @@ interface TimetableComponent : MenuItemComponent {
     }
 
     @OptIn(ExperimentalFoundationApi::class)
-    fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState)
+    fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {
+        coroutineScope.launch {
+            pagerState.animateScrollToPage(page)
+        }
+        (currentPage as MutableValue).value = page
+    }
 }
 
 class DefaultTimetableComponent(
@@ -94,34 +111,18 @@ class DefaultTimetableComponent(
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
 
-    override val days = listOf(
-        getLocalizedString(MR.strings.monday),
-        getLocalizedString(MR.strings.tuesday),
-        getLocalizedString(MR.strings.wednesday),
-        getLocalizedString(MR.strings.thursday),
-        getLocalizedString(MR.strings.friday),
-        getLocalizedString(MR.strings.saturday),
-        getLocalizedString(MR.strings.sunday)
-    )
-
     override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
-    override val account: MagisterAccount = Data.selectedAccount
     override val openedTimetableItem: MutableValue<Pair<Boolean, AgendaItemWithAbsence?>> = MutableValue(false to null)
 
     override val selectedWeek = MutableValue(floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt())
 
     override val isRefreshingTimetable = MutableValue(false)
 
-    override fun changeDay(day: Int) {
-        currentPage.value = day
-
-        if (selectedWeek.value != floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt())
-            selectedWeek.value = floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt()
-    }
-
     private val scope = componentCoroutineScope()
 
     override fun refreshTimetable(from: LocalDate, to: LocalDate) {
+        val account: MagisterAccount = Data.selectedAccount
+
         scope.launch {
             isRefreshingTimetable.value = true
             try {

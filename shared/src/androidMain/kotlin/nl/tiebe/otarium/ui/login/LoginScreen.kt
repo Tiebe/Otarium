@@ -12,7 +12,6 @@ import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 import com.arkivanov.essenty.backhandler.BackCallback
-import nl.tiebe.otarium.Data
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -36,8 +35,7 @@ internal actual fun LoginScreen(component: LoginComponent) {
                 request: WebResourceRequest?
             ): WebResourceResponse? {
                 if (request?.url.toString().contains("playconsolelogin")) {
-                    Data.storeLoginBypass = true
-                    component.navigateToHomeScreen()
+                    component.bypassLogin()
 
                 }
                 return super.shouldInterceptRequest(view, request)
