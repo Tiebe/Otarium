@@ -35,12 +35,23 @@ internal actual fun LoginScreen(component: LoginComponent) {
                     webView: WKWebView,
                     stopURLSchemeTask: WKURLSchemeTaskProtocol
                 ) {}
-
             }, forURLScheme = "m6loapp")
+
 
             config.preferences = preferences
 
             val webView = object : WKWebView(frame = CGRectMake(0.0, 0.0, 0.0, 0.0), configuration = config) {}
+
+            webView.navigationDelegate = object : WKNavigationDelegateProtocol, NSObject() {
+                @Suppress("CONFLICTING_OVERLOADS")
+                override fun webView(
+                    webView: WKWebView,
+                    decidePolicyForNavigationAction: WKNavigationAction,
+                    decisionHandler: (WKNavigationActionPolicy) -> Unit
+                ) {
+                    decisionHandler(WKNavigationActionPolicy.WKNavigationActionPolicyAllow)
+                }
+            }
             webView
         },
         update = { webView: WKWebView ->
