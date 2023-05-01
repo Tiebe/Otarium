@@ -26,5 +26,5 @@ actual fun Float.format(decimals: Int): String {
 }
 
 actual fun getText(file: FileResource): String {
-    return file.getText()
+    return file.readText()
 }
