@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.store.component.home.StoreHomeComponent
 import nl.tiebe.otarium.ui.home.DefaultHomeComponent
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.login.DefaultLoginComponent
@@ -33,12 +34,22 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
     private fun getScreenOnStart(): RootComponent.ChildScreen {
         return if (!Data.finishedOnboarding) {
             RootComponent.ChildScreen.OnboardingChild(onboardingComponent(this))
+        } else if (Data.storeLoginBypass) {
+            RootComponent.ChildScreen.HomeChild(storeHomeComponent(this))
         } else if (Data.accounts.isEmpty()) {
             RootComponent.ChildScreen.LoginChild(loginComponent(this))
         } else {
             RootComponent.ChildScreen.HomeChild(homeComponent(this))
         }
     }
+
+    private fun storeHomeComponent(componentContext: ComponentContext): HomeComponent =
+        StoreHomeComponent(
+            componentContext = componentContext,
+            navigateRootComponent = { screen ->
+                currentScreen.value = screen
+            }
+        )
 
     private fun homeComponent(componentContext: ComponentContext): HomeComponent =
         DefaultHomeComponent(
