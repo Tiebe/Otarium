@@ -2,9 +2,9 @@ package nl.tiebe.otarium.store.component.home.children.grades
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
+import nl.tiebe.otarium.store.component.home.children.grades.children.StoreGradeCalculationChildComponent
 import nl.tiebe.otarium.store.component.home.children.grades.children.StoreRecentGradesChildComponent
 import nl.tiebe.otarium.ui.home.grades.GradesComponent
-import nl.tiebe.otarium.ui.home.grades.calculation.DefaultGradeCalculationChildComponent
 import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.ui.home.grades.recentgrades.RecentGradesChildComponent
 
@@ -17,7 +17,7 @@ class StoreGradeComponent(
         )
 
     private fun gradeCalculationComponent(componentContext: ComponentContext) =
-        DefaultGradeCalculationChildComponent(
+        StoreGradeCalculationChildComponent(
             componentContext = componentContext
         )
 

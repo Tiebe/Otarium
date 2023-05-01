@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
+import dev.icerock.moko.resources.FileResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.StringDesc
@@ -35,4 +36,8 @@ actual fun Float.format(decimals: Int): String {
     }
 
     return formatted
+}
+
+actual fun getText(file: FileResource): String {
+    return file.readText(Android.context)
 }

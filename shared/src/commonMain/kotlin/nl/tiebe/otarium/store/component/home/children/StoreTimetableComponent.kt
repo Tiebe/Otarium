@@ -6,11 +6,15 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.days
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
+import nl.tiebe.otarium.utils.ui.getText
 import kotlin.math.floor
 
 class StoreTimetableComponent(
@@ -34,6 +38,7 @@ class StoreTimetableComponent(
         scope.launch {
             isRefreshingTimetable.value = true
             delay(1000)
+            timetable.value = Json.decodeFromString(getText(MR.files.timetable))
             isRefreshingTimetable.value = false
         }
     }
