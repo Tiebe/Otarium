@@ -16,6 +16,7 @@ interface UserChildComponent {
 
     fun navigate(child: SettingsComponent.Config)
     fun removeAccount(accountId: Int)
+    fun selectAccount(account: MagisterAccount)
 
     val openLoginScreen: () -> Unit
 
@@ -56,6 +57,11 @@ class DefaultUserChildComponent(
         else if (Data.selectedAccount.accountId == accountId) {
             Data.selectedAccount = Data.accounts.first { it.accountId != accountId }
         }
+    }
+
+    override fun selectAccount(account: MagisterAccount) {
+        Data.selectedAccount = account;
+        selectedAccount.value = account.accountId
     }
 
 }

@@ -42,7 +42,7 @@ class StoreUserChildComponent(
             ""
         )
     ))
-    override val selectedAccount: Value<Int> = MutableValue(Data.selectedAccount.accountId)
+    override val selectedAccount: Value<Int> = MutableValue(1)
 
     override fun navigate(child: SettingsComponent.Config) {
         _navigate(child)
@@ -52,7 +52,12 @@ class StoreUserChildComponent(
         openLoginScreen()
     }
 
+    override fun selectAccount(account: MagisterAccount) {
+
+    }
+
     override val openLoginScreen: () -> Unit = {
+        Data.storeLoginBypass = false
         navigateRootComponent(RootComponent.ChildScreen.LoginChild(
             DefaultLoginComponent(
                 componentContext = this,
