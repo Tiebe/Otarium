@@ -35,9 +35,9 @@ internal fun UserChildScreen(component: UserChildComponent) {
             ListItem(
                 headlineText = { Text(fullName) },
                 trailingContent = { Icon(Icons.Default.Delete, "Remove account", modifier = Modifier.clickable {
-
+                    component.removeAccount(account.accountId)
                 }) },
-                modifier = Modifier.clickable { Data.selectedAccount = account; currentlySelected = account.accountId },
+                modifier = Modifier.clickable { component.selectAccount(account) },
                 colors = ListItemDefaults.colors(containerColor = if (currentlySelected == account.accountId) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background)
             )
         }

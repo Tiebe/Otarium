@@ -3,8 +3,11 @@ package nl.tiebe.otarium
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -45,8 +48,14 @@ internal fun Content(component: RootComponent) {
     darkModeState = mutableStateOf(isSystemInDarkTheme())
 
     OtariumTheme {
-        Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {}
-
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .background(MaterialTheme.colorScheme.primary)
+        ) {}
+        Box(
+            modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+        ) {}
         Box(modifier = Modifier.padding(safeAreaState.value)) {
 
             val currentScreen by component.currentScreen.subscribeAsState()
