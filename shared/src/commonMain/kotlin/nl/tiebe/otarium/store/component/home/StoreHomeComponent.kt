@@ -8,6 +8,7 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
 import nl.tiebe.otarium.store.component.home.children.StoreTimetableComponent
 import nl.tiebe.otarium.store.component.home.children.grades.StoreGradeComponent
+import nl.tiebe.otarium.store.component.home.children.settings.StoreSettingsComponent
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.home.MenuItemComponent
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
@@ -57,7 +58,7 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
         )
 
     private fun settingsComponent(componentContext: ComponentContext) =
-        DefaultSettingsComponent(
+        StoreSettingsComponent(
             componentContext = componentContext,
             navigateRootComponent = navigateRootComponent
         )

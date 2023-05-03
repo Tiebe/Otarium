@@ -9,13 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.settings
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,8 +25,8 @@ internal fun UserChildScreen(component: UserChildComponent) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        var currentlySelected by remember { mutableStateOf(Data.selectedAccount.accountId) }
-        var currentAccounts by remember { mutableStateOf(Data.accounts) }
+        var currentlySelected = component.selectedAccount.subscribeAsState().value
+        var currentAccounts = component.users.subscribeAsState().value
 
         currentAccounts.forEach { account ->
             val info = account.profileInfo
@@ -35,19 +35,6 @@ internal fun UserChildScreen(component: UserChildComponent) {
             ListItem(
                 headlineText = { Text(fullName) },
                 trailingContent = { Icon(Icons.Default.Delete, "Remove account", modifier = Modifier.clickable {
-                    settings.remove("agenda-${account.accountId}")
-                    settings.remove("grades-${account.accountId}")
-                    settings.remove("full_grade_list-${account.accountId}")
-                    settings.remove("tokens-${account.accountId}")
-                    Data.accounts = Data.accounts.filter { it.accountId != account.accountId }
-                    currentAccounts = Data.accounts
-
-                    if (currentAccounts.isEmpty()) {
-                        component.openLoginScreen()
-                    }
-                    else if (Data.selectedAccount.accountId == account.accountId) {
-                        Data.selectedAccount = Data.accounts.first { it.accountId != account.accountId }
-                    }
 
                 }) },
                 modifier = Modifier.clickable { Data.selectedAccount = account; currentlySelected = account.accountId },
