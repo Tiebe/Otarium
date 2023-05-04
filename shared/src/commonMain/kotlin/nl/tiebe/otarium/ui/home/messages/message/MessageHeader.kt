@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
@@ -18,6 +17,10 @@ import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoComponent
 import nl.tiebe.otarium.ui.utils.DownloadingFileIndicator
 import nl.tiebe.otarium.ui.utils.LoadingFileIndicator
+import nl.tiebe.otarium.utils.icons.Email
+import nl.tiebe.otarium.utils.icons.Icons
+import nl.tiebe.otarium.utils.icons.email.Attachment
+import nl.tiebe.otarium.utils.icons.email.AttachmentOff
 import nl.tiebe.otarium.utils.toFormattedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +94,7 @@ internal fun MessageHeader(component: MessageComponent) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
-                                painterResource(if (attachment.status == "available") MR.images.attachment else MR.images.attachment_off),
+                                if (attachment.status == "available") Icons.Email.Attachment else Icons.Email.AttachmentOff,
                                 contentDescription = "Attachment"
                             )
                             Text(text = attachment.name, modifier = Modifier.padding(start = 10.dp))

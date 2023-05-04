@@ -11,7 +11,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.painterResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
@@ -19,6 +18,9 @@ import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.ui.root.RootComponent
+import nl.tiebe.otarium.utils.icons.Bottombar
+import nl.tiebe.otarium.utils.icons.Icons
+import nl.tiebe.otarium.utils.icons.bottombar.*
 
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
@@ -29,32 +31,32 @@ interface HomeComponent {
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
             MR.strings.agendaItem,
-            { Icon(painterResource(MR.images.calendar_today_outline), "Timetable") },
-            { Icon(painterResource(MR.images.calendar_today_filled), "Timetable") }
+            { Icon(Icons.Bottombar.CalendarTodayOutline, "Timetable") },
+            { Icon(Icons.Bottombar.CalendarTodayFilled, "Timetable") }
         )
 
         object Grades: MenuItem(
             MR.strings.gradesItem,
-            { Icon(painterResource(MR.images.box_10_outline), "Grades") },
-            { Icon(painterResource(MR.images.box_10_filled), "Grades") }
+            { Icon(Icons.Bottombar.Box10Outline, "Grades") },
+            { Icon(Icons.Bottombar.Box10Filled, "Grades") }
         )
 
         object Messages: MenuItem(
             MR.strings.messagesItem,
-            { Icon(painterResource(MR.images.email_outline), "Messages") },
-            { Icon(painterResource(MR.images.email_filled), "Messages") }
+            { Icon(Icons.Bottombar.EmailOutline, "Messages") },
+            { Icon(Icons.Bottombar.EmailFilled, "Messages") }
         )
 
         object Settings: MenuItem(
             MR.strings.settings_title,
-            { Icon(painterResource(MR.images.cog_outline), "Settings") },
-            { Icon(painterResource(MR.images.cog_filled), "Settings") }
+            { Icon(Icons.Bottombar.CogOutline, "Settings") },
+            { Icon(Icons.Bottombar.CogFilled, "Settings") }
         )
 
         object Debug: MenuItem(
             MR.strings.settings_title,
-            { Icon(painterResource(MR.images.box_10_outline), "Debug") },
-            { Icon(painterResource(MR.images.box_10_filled), "Debug") }
+            { Icon(Icons.Bottombar.Box10Outline, "Debug") },
+            { Icon(Icons.Bottombar.Box10Filled, "Debug") }
         )
     }
 

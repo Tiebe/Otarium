@@ -4,18 +4,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import dev.icerock.moko.resources.compose.painterResource
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
+import nl.tiebe.otarium.utils.icons.Advertisements
+import nl.tiebe.otarium.utils.icons.AdvertisementsOff
+import nl.tiebe.otarium.utils.icons.BugOutline
+import nl.tiebe.otarium.utils.icons.Icons
+import androidx.compose.material.icons.Icons as MaterialIcons
 
 @Composable
 internal fun MainChildScreen(component: MainChildComponent) {
@@ -28,7 +30,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //users
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Users.localizedString),
-            icon = Icons.Default.AccountCircle
+            icon = MaterialIcons.Default.AccountCircle
         ) {
             component.navigate(SettingsComponent.Config.Users)
         }
@@ -36,7 +38,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //ads
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Ads.localizedString),
-            icon = if (Data.showAds) painterResource(MR.images.advertisements) else painterResource(MR.images.advertisements_off)
+            icon = if (Data.showAds) Icons.Advertisements else Icons.AdvertisementsOff
         ) {
             component.navigate(SettingsComponent.Config.Ads)
         }
@@ -44,7 +46,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //bug report
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Bugs.localizedString),
-            icon = painterResource(MR.images.bug_outline)
+            icon = Icons.BugOutline
         ) {
             component.navigate(SettingsComponent.Config.Bugs)
         }
@@ -52,7 +54,7 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //ui
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.UI.localizedString),
-            icon = Icons.Default.Menu
+            icon = MaterialIcons.Default.Menu
         ) {
             component.navigate(SettingsComponent.Config.UI)
         }
