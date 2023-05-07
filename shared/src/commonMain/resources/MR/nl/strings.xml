@@ -59,4 +59,7 @@
     <string name="study_guides">Studiewijzers</string>
     <string name="assignments">Opdrachten</string>
     <string name="learning_resources">Leermiddelen</string>
+
+    <string name="loading">Aan het laden...</string>
+    <string name="absence">Absentie</string>
 </resources>

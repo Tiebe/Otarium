@@ -1,13 +1,19 @@
 package nl.tiebe.otarium.androidApp
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import com.arkivanov.decompose.defaultComponentContext
 import nl.tiebe.otarium.RootView
+import nl.tiebe.otarium.ui.theme.DarkColorScheme
+import nl.tiebe.otarium.ui.theme.LightColorScheme
 import nl.tiebe.otarium.utils.refreshGradesBackground
 import nl.tiebe.otarium.utils.reloadTokensBackground
 import nl.tiebe.otarium.utils.ui.Android
@@ -35,8 +41,25 @@ class MainActivity : AppCompatActivity() {
 
         val rootComponentContext = defaultComponentContext()
 
+        val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+        val darkMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
+        val colorScheme =
+            when {
+                dynamicColor && darkMode -> {
+                    dynamicDarkColorScheme(Android.context)
+                }
+
+                dynamicColor && !darkMode -> {
+                    dynamicLightColorScheme(Android.context)
+                }
+
+                darkMode -> DarkColorScheme
+                else -> LightColorScheme
+            }
+
         setContent {
-            RootView(rootComponentContext)
+            RootView(rootComponentContext, colorScheme)
         }
     }
 

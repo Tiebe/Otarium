@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.utils.ui
 
+import dev.icerock.moko.resources.FileResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.Resource
 import dev.icerock.moko.resources.desc.StringDesc
@@ -22,4 +23,8 @@ actual fun Float.format(decimals: Int): String {
     formatter.maximumFractionDigits = decimals.toULong()
     formatter.numberStyle = NSNumberFormatterDecimalStyle
     return formatter.stringFromNumber(NSNumber(this))!!
+}
+
+actual fun getText(file: FileResource): String {
+    return file.readText()
 }

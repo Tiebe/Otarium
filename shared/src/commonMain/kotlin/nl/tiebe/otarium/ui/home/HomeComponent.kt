@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.ui.home
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
@@ -11,7 +12,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.painterResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
 import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
@@ -20,46 +20,51 @@ import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.ui.root.RootComponent
+import nl.tiebe.otarium.utils.icons.Bottombar
+import nl.tiebe.otarium.utils.icons.Icons
+import nl.tiebe.otarium.utils.icons.bottombar.*
 
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
+
+    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.Settings)
 
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
             MR.strings.agendaItem,
-            { Icon(painterResource(MR.images.calendar_today_outline), "Timetable") },
-            { Icon(painterResource(MR.images.calendar_today_filled), "Timetable") }
+            { Icon(Icons.Bottombar.CalendarTodayOutline, "Timetable", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.CalendarTodayFilled, "Timetable", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Grades: MenuItem(
             MR.strings.gradesItem,
-            { Icon(painterResource(MR.images.box_10_outline), "Grades") },
-            { Icon(painterResource(MR.images.box_10_filled), "Grades") }
+            { Icon(Icons.Bottombar.Box10Outline, "Grades", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.Box10Filled, "Grades", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Messages: MenuItem(
             MR.strings.messagesItem,
-            { Icon(painterResource(MR.images.email_outline), "Messages") },
-            { Icon(painterResource(MR.images.email_filled), "Messages") }
+            { Icon(Icons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object ELO: MenuItem(
             MR.strings.eloItem,
-            { Icon(painterResource(MR.images.book_open_outline), "ELO") },
-            { Icon(painterResource(MR.images.book_open_filled), "ELO") }
+            { Icon(Icons.Bottombar.BookOpenOutline, "ELO") },
+            { Icon(Icons.Bottombar.BookOpenFilled, "ELO") }
         )
 
         object Settings: MenuItem(
             MR.strings.settings_title,
-            { Icon(painterResource(MR.images.cog_outline), "Settings") },
-            { Icon(painterResource(MR.images.cog_filled), "Settings") }
+            { Icon(Icons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Debug: MenuItem(
             MR.strings.settings_title,
-            { Icon(painterResource(MR.images.box_10_outline), "Debug") },
-            { Icon(painterResource(MR.images.box_10_filled), "Debug") }
+            { Icon(Icons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
     }
 
@@ -72,7 +77,8 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     override val dialog: Value<ChildSlot<HomeComponent.MenuItem, MenuItemComponent>> = childSlot<HomeComponent.MenuItem, MenuItemComponent>(
         dialogNavigation,
-        "DefaultChildOverlay", { HomeComponent.MenuItem.Timetable },
+        "HomeComponentChildOverlay",
+        { HomeComponent.MenuItem.Timetable },
         persistent = true,
         handleBackButton = false
     ) { config, componentContext ->
@@ -121,6 +127,10 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     private var clickCount: Pair<HomeComponent.MenuItem, Int> = HomeComponent.MenuItem.Timetable to 0
 
+    init {
+        println("init")
+    }
+
     override fun navigate(item: HomeComponent.MenuItem) {
         dialogNavigation.activate(item)
 
@@ -134,8 +144,4 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
             dialogNavigation.activate(HomeComponent.MenuItem.Debug)
         }
     }
-
-
-
-
 }

@@ -18,6 +18,9 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.getAgendaForDay
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.days
+import nl.tiebe.otarium.ui.theme.Green40
+import nl.tiebe.otarium.ui.theme.Yellow40
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import kotlin.math.floor
@@ -35,9 +38,9 @@ internal fun TimetableItem(
             .fillMaxSize()
     ) {
         val pageWeek = if (page >= 0) {
-            page / component.days.size
+            page / days.size
         } else {
-            floor((page / component.days.size.toFloat())).toInt()
+            floor((page / days.size.toFloat())).toInt()
         }
 
         val startOfWeekDate = component.now.value.date.minus(
@@ -46,7 +49,7 @@ internal fun TimetableItem(
         ) // first day of week
             .plus(pageWeek * 7, DateTimeUnit.DAY) // add weeks to get to selected week
             .plus(
-                page - (pageWeek * component.days.size),
+                page - (pageWeek * days.size),
                 DateTimeUnit.DAY
             ) // add days to get to selected day
 
@@ -54,7 +57,7 @@ internal fun TimetableItem(
 
         val timetable = component.timetable.subscribeAsState()
 
-        component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * component.days.size)).forEach { agendaItemWithAbsence ->
+        component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * days.size)).forEach { agendaItemWithAbsence ->
             val agendaItem = agendaItemWithAbsence.agendaItem
             val absence = agendaItemWithAbsence.absence
             val startTime =
@@ -113,7 +116,7 @@ internal fun TimetableItem(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .size(25.dp)
-                                .background(MaterialTheme.colorScheme.secondary),
+                                .background(Green40),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -127,7 +130,7 @@ internal fun TimetableItem(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .size(25.dp)
-                                .background(MaterialTheme.colorScheme.tertiary),
+                                .background(Yellow40),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(

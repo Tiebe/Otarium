@@ -1,5 +1,7 @@
 package nl.tiebe.otarium.ui.theme
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import nl.tiebe.otarium.darkModeState
 import platform.UIKit.UIApplication

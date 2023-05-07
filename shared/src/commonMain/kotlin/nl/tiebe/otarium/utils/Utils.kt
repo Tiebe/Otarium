@@ -50,3 +50,12 @@ fun Instant.toFormattedStringTime(): String {
 fun Int.toFormattedString(): String {
     return if (this < 10) "0$this" else "$this"
 }
+
+fun largeLog(content: String) {
+    if (content.length > 4000) {
+        println(content.substring(0, 4000))
+        largeLog(content.substring(4000))
+    } else {
+        println(content)
+    }
+}
