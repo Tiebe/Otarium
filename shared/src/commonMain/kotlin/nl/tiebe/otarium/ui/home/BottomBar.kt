@@ -35,11 +35,14 @@ internal fun BottomBar(
                 component.visibleItems.forEach { screen ->
                     NavigationBarItem(
                         icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
-                        label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true)) },
+                        label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true), color = MaterialTheme.colorScheme.onPrimary) },
                         selected = overlay.configuration == screen,
                         onClick = {
                             component.navigate(screen)
-                        }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
+                        )
                     )
                 }
             }

@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
@@ -33,7 +32,8 @@ internal fun UserChildScreen(component: UserChildComponent) {
             val fullName = "${info.person.firstName}${if (info.person.preposition == null) "" else " ${info.person.preposition}"} ${info.person.lastName}"
 
             ListItem(
-                headlineText = { Text(fullName) },
+                headlineText = { Text(fullName,
+                    color =  if (currentlySelected == account.accountId) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onBackground) },
                 trailingContent = { Icon(Icons.Default.Delete, "Remove account", modifier = Modifier.clickable {
                     component.removeAccount(account.accountId)
                 }) },
