@@ -20,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.utils.BackButton
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.utils.openUrl
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
 internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbsence: AgendaItemWithAbsence) {
@@ -66,6 +68,18 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbs
                 )
 
                 Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
+
+                if (agendaItemWithAbsence.absence != null) {
+                    Text(
+                        getLocalizedString(MR.strings.absence),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Text(
+                        agendaItemWithAbsence.absence.description ?: "",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
+                }
 
                 val text = (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml()
 
