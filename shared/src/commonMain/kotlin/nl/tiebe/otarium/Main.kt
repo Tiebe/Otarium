@@ -3,12 +3,12 @@ package nl.tiebe.otarium
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
@@ -39,15 +39,15 @@ fun setup() {
 }
 
 @Composable
-internal fun Content(componentContext: ComponentContext) {
-    Content(component = DefaultRootComponent(componentContext))
+internal fun Content(componentContext: ComponentContext, colorScheme: ColorScheme? = null) {
+    Content(component = DefaultRootComponent(componentContext), colorScheme = colorScheme)
 }
 
 @Composable
-internal fun Content(component: RootComponent) {
+internal fun Content(component: RootComponent, colorScheme: ColorScheme? = null) {
     darkModeState = mutableStateOf(isSystemInDarkTheme())
 
-    OtariumTheme {
+    OtariumTheme(colorScheme) {
         Box(
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colorScheme.primary)

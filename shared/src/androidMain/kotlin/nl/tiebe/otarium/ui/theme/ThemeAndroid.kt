@@ -15,19 +15,3 @@ actual fun setWindowTheme(color: Color) {
     Android.window.statusBarColor = color.toArgb()
 
 }
-
-@Composable
-actual fun getColorScheme(): ColorScheme {
-    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-
-    return when {
-        dynamicColor && darkModeState.value -> {
-            dynamicDarkColorScheme(LocalContext.current)
-        }
-        dynamicColor && !darkModeState.value -> {
-            dynamicLightColorScheme(LocalContext.current)
-        }
-        darkModeState.value -> DarkColorScheme
-        else -> LightColorScheme
-    }
-}

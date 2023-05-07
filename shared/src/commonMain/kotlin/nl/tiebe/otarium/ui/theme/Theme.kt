@@ -6,6 +6,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import nl.tiebe.otarium.darkModeState
 
 val DarkColorScheme = darkColorScheme(
     primary = Blue80,
@@ -31,20 +32,23 @@ val LightColorScheme = lightColorScheme(
 
 @Composable
 internal fun OtariumTheme(
+    colorScheme: ColorScheme? = null,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = getColorScheme()
+    val finalColorScheme = if (colorScheme == null) {
+        when {
+            darkModeState.value -> DarkColorScheme
+            else -> LightColorScheme
+        }
+    } else colorScheme
 
-    setWindowTheme(color = colorScheme.primary)
+    setWindowTheme(color = finalColorScheme.primary)
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = finalColorScheme,
         typography = Typography,
         content = content
     )
 }
 
 expect fun setWindowTheme(color: Color)
-
-@Composable
-expect fun getColorScheme(): ColorScheme
