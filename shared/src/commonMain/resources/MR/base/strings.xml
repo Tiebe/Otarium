@@ -58,4 +58,5 @@
     <string name="message_bcc_receivers">BCC</string>
 
     <string name="loading">Loading...</string>
+    <string name="absence">Absence</string>
 </resources>
