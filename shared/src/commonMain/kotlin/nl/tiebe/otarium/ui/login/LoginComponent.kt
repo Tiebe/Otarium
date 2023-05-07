@@ -1,6 +1,8 @@
 package nl.tiebe.otarium.ui.login
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import io.ktor.http.*
@@ -16,6 +18,7 @@ import nl.tiebe.otarium.ui.root.componentCoroutineScope
 
 interface LoginComponent {
     var loginUrl: LoginFlow.AuthURL
+    val loading: Value<Boolean>
 
     fun navigateToHomeScreen()
 
@@ -31,6 +34,7 @@ interface LoginComponent {
 
 class DefaultLoginComponent(val componentContext: ComponentContext, val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): LoginComponent, ComponentContext by componentContext {
     override var loginUrl: LoginFlow.AuthURL = LoginFlow.createAuthURL()
+    override val loading: MutableValue<Boolean> = MutableValue(false)
 
     override fun navigateToHomeScreen() {
         navigateRootComponent(RootComponent.ChildScreen.HomeChild(DefaultHomeComponent(componentContext, navigateRootComponent)))
@@ -46,15 +50,21 @@ class DefaultLoginComponent(val componentContext: ComponentContext, val navigate
     override val scope: CoroutineScope = componentCoroutineScope()
 
     override suspend fun login(code: String, codeVerifier: String) {
-        val account = exchangeUrl(code, codeVerifier)
+        try {
+            loading.value = true
+            val account = exchangeUrl(code, codeVerifier)
 
-        if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
-            Data.accounts =
-                Data.accounts.toMutableList().apply { add(account) }
+            if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
+                Data.accounts =
+                    Data.accounts.toMutableList().apply { add(account) }
+            }
+
+            account.refreshGrades()
+            navigateToHomeScreen()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            loading.value = false
         }
-
-        account.refreshGrades()
-        navigateToHomeScreen()
     }
 
     override fun checkUrl(inputUrl: String): Boolean {

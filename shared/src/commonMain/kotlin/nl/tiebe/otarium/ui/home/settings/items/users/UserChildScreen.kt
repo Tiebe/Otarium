@@ -24,8 +24,8 @@ internal fun UserChildScreen(component: UserChildComponent) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        var currentlySelected = component.selectedAccount.subscribeAsState().value
-        var currentAccounts = component.users.subscribeAsState().value
+        val currentlySelected = component.selectedAccount.subscribeAsState().value
+        val currentAccounts = component.users.subscribeAsState().value
 
         currentAccounts.forEach { account ->
             val info = account.profileInfo
