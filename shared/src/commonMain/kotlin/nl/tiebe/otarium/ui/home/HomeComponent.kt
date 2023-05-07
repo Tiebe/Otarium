@@ -26,7 +26,7 @@ import nl.tiebe.otarium.utils.icons.bottombar.*
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
-    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Settings)
+    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.Settings)
 
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
@@ -70,7 +70,8 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     override val dialog: Value<ChildSlot<HomeComponent.MenuItem, MenuItemComponent>> = childSlot<HomeComponent.MenuItem, MenuItemComponent>(
         dialogNavigation,
-        "DefaultChildOverlay", { HomeComponent.MenuItem.Timetable },
+        "HomeComponentChildOverlay",
+        { HomeComponent.MenuItem.Timetable },
         persistent = true,
         handleBackButton = false
     ) { config, componentContext ->
@@ -112,6 +113,10 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
         )
 
     private var clickCount: Pair<HomeComponent.MenuItem, Int> = HomeComponent.MenuItem.Timetable to 0
+
+    init {
+        println("init")
+    }
 
     override fun navigate(item: HomeComponent.MenuItem) {
         dialogNavigation.activate(item)

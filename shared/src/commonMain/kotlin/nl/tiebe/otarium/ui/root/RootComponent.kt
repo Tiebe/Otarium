@@ -51,13 +51,15 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
             }
         )
 
-    private fun homeComponent(componentContext: ComponentContext): HomeComponent =
-        DefaultHomeComponent(
+    private fun homeComponent(componentContext: ComponentContext): HomeComponent {
+        println("HomeComponent")
+        return DefaultHomeComponent(
             componentContext = componentContext,
             navigateRootComponent = { screen ->
                 currentScreen.value = screen
             }
         )
+    }
 
     private fun loginComponent(componentContext: ComponentContext): DefaultLoginComponent =
         DefaultLoginComponent(

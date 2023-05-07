@@ -46,6 +46,7 @@ dependencies {
     implementation(Compose.activity)
     implementation(Compose.runtime)
     implementation(Compose.ui)
+    implementation(Compose.material3)
     implementation(Compose.foundationLayout)
     implementation(Compose.material)
 
