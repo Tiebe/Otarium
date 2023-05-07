@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.ui.home
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
@@ -31,32 +32,32 @@ interface HomeComponent {
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
             MR.strings.agendaItem,
-            { Icon(Icons.Bottombar.CalendarTodayOutline, "Timetable") },
-            { Icon(Icons.Bottombar.CalendarTodayFilled, "Timetable") }
+            { Icon(Icons.Bottombar.CalendarTodayOutline, "Timetable", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.CalendarTodayFilled, "Timetable", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Grades: MenuItem(
             MR.strings.gradesItem,
-            { Icon(Icons.Bottombar.Box10Outline, "Grades") },
-            { Icon(Icons.Bottombar.Box10Filled, "Grades") }
+            { Icon(Icons.Bottombar.Box10Outline, "Grades", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.Box10Filled, "Grades", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Messages: MenuItem(
             MR.strings.messagesItem,
-            { Icon(Icons.Bottombar.EmailOutline, "Messages") },
-            { Icon(Icons.Bottombar.EmailFilled, "Messages") }
+            { Icon(Icons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Settings: MenuItem(
             MR.strings.settings_title,
-            { Icon(Icons.Bottombar.CogOutline, "Settings") },
-            { Icon(Icons.Bottombar.CogFilled, "Settings") }
+            { Icon(Icons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Debug: MenuItem(
             MR.strings.settings_title,
-            { Icon(Icons.Bottombar.Box10Outline, "Debug") },
-            { Icon(Icons.Bottombar.Box10Filled, "Debug") }
+            { Icon(Icons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
     }
 
