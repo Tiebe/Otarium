@@ -1,16 +1,16 @@
 
 object Version {
-    const val appVersion = "3.2.0"
-    const val appVersionCode = 29
+    const val appVersion = "3.2.3-alpha"
+    const val appVersionCode = 31
 
-    const val magister = "1.1.7"
+    const val magister = "1.1.8"
 
     const val kotlin = "1.8.0"
     const val gradle = "7.4.1"
     const val appcompat = "1.6.1"
     const val material = "1.4.0"
     const val compose = "1.4.0"
-    const val compose_android = "1.4.0"
+    const val compose_android = "1.4.3"
     const val compose_compiler = "1.4.0"
     const val ktor = "2.3.0"
     const val decompose = "2.0.0-compose-experimental-alpha-02"
@@ -30,6 +30,7 @@ object Compose {
     const val ui = "androidx.compose.ui:ui:${Version.compose_android}"
     const val foundationLayout = "androidx.compose.foundation:foundation-layout:${Version.compose_android}"
     const val material = "androidx.compose.material:material:${Version.compose_android}"
+    const val material3 = "androidx.compose.material3:material3:1.0.1"
 }
 
 
