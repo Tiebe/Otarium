@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.ui.home.timetable.item
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,9 +9,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -18,8 +23,9 @@ import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.utils.BackButton
-import nl.tiebe.otarium.ui.utils.ClickableText
 import nl.tiebe.otarium.ui.utils.parseHtml
+import nl.tiebe.otarium.utils.openUrl
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
 internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbsence: AgendaItemWithAbsence) {
@@ -61,6 +67,18 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbs
                 )
 
                 Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
+
+                if (agendaItemWithAbsence.absence != null) {
+                    Text(
+                        getLocalizedString(MR.strings.absence),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Text(
+                        agendaItemWithAbsence.absence.description ?: "",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
+                }
 
                 val text = (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml()
 

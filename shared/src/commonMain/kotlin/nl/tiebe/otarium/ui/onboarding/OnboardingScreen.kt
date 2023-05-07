@@ -48,7 +48,7 @@ internal fun OnboardingScreen(component: OnboardingComponent) {
         BottomSection(size = items.size, index = pageState.currentPage) {
             if (pageState.currentPage + 1 < items.size) {
                 scope.launch {
-                    pageState.scrollToPage(pageState.currentPage + 1)
+                    pageState.animateScrollToPage(pageState.currentPage + 1)
                 }
             } else {
                 scope.launch {
