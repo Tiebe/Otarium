@@ -19,6 +19,8 @@ import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.getAgendaForDay
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.days
+import nl.tiebe.otarium.ui.theme.Green40
+import nl.tiebe.otarium.ui.theme.Yellow40
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import kotlin.math.floor
@@ -114,7 +116,7 @@ internal fun TimetableItem(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .size(25.dp)
-                                .background(MaterialTheme.colorScheme.secondary),
+                                .background(Green40),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -128,7 +130,7 @@ internal fun TimetableItem(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .size(25.dp)
-                                .background(MaterialTheme.colorScheme.tertiary),
+                                .background(Yellow40),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(

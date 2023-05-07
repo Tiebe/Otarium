@@ -46,7 +46,7 @@ internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: Recen
                 Text(
                     text = grade.grade,
                     modifier = Modifier
-                        .padding(5.dp)
+                        .padding(bottom = 5.dp)
                         .align(Alignment.Center),
                     style = MaterialTheme.typography.displaySmall.copy(fontSize = 18.sp),
                     maxLines = 1,
