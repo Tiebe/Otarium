@@ -11,7 +11,7 @@ actual fun getClipboardText(): String {
 }
 
 actual fun openUrl(url: String) {
-    TODO("Not yet implemented")
+
 }
 
 actual fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChannel {
