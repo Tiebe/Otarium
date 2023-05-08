@@ -50,8 +50,15 @@ jobs:
           ios-app-id: ${{ secrets.APP_ID }}
         env:
           APP_ID: ${{ secrets.APP_ID }}
+        
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: build.log
+          path: /Users/runner/Library/Logs/gym/Otarium-iosApp.log
           
-      - name: Upload a Build Artifact
+      - name: Upload IPA
         uses: actions/upload-artifact@v3.1.2
         with:
           name: Otarium.ipa
