@@ -4,8 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.core.content.FileProvider
-import io.ktor.util.cio.*
-import io.ktor.utils.io.*
 import nl.tiebe.otarium.utils.ui.Android
 import java.io.File
 
@@ -32,14 +30,14 @@ actual fun openUrl(url: String) {
     Android.context.startActivity(intent)
 }
 
-actual fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChannel {
+actual fun writeFile(id: String, fileName: String, data: ByteArray) {
     val directory = File(Android.context.cacheDir, id)
     if (!directory.exists()) {
         directory.mkdir()
     }
 
     val file = File(directory, fileName)
-    return file.writeChannel()
+    file.writeBytes(data)
 }
 
 actual fun openFileFromCache(id: String, fileName: String) {
