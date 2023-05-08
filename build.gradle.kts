@@ -1,3 +1,7 @@
+plugins {
+    id(completeKotlin) version Version.complete_kotlin
+}
+
 buildscript {
     repositories {
         gradlePluginPortal()

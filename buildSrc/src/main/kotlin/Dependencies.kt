@@ -22,6 +22,8 @@ object Version {
     const val admob = "22.0.0"
     const val guava = "31.1-android"
     const val guava_coroutines = "1.7.0-RC"
+
+    const val complete_kotlin = "1.1.0"
 }
 
 object Compose {
@@ -94,6 +96,8 @@ const val russhwolf_settings = "com.russhwolf:multiplatform-settings-no-arg:${Ve
 const val admob = "com.google.android.gms:play-services-ads:${Version.admob}"
 
 const val magisterAPI = "dev.tiebe:magisterapi:${Version.magister}"
+
+const val completeKotlin = "com.louiscad.complete-kotlin"
 
 object Guava {
     const val core = "com.google.guava:guava:${Version.guava}"
