@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.DefaultComponentContext
 
 @Composable
-fun RootView(rootComponentContext: DefaultComponentContext, colorScheme: ColorScheme) {
+fun RootView(rootComponentContext: DefaultComponentContext, colorScheme: ColorScheme?) {
     ProvideComponentContext(rootComponentContext) {
         setup()
 

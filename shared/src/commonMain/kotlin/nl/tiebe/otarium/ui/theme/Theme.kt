@@ -6,46 +6,32 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.darkModeState
-
-val DarkColorScheme = darkColorScheme(
-    primary = Blue80,
-    secondary = Green80,
-    tertiary = Yellow80
-)
-
-val LightColorScheme = lightColorScheme(
-    primary = Blue40,
-    secondary = Green40,
-    tertiary = Yellow40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
 
 @Composable
 internal fun OtariumTheme(
     colorScheme: ColorScheme? = null,
     content: @Composable () -> Unit
 ) {
-    val finalColorScheme = if (colorScheme == null) {
+    val selectedColorScheme = if (Data.dynamicTheme && colorScheme != null) {
+        colorScheme
+    } else if (Data.customThemeEnabled) {
         when {
-            darkModeState.value -> DarkColorScheme
-            else -> LightColorScheme
+            darkModeState.value -> Data.customDarkTheme.toDarkColorScheme()
+            else -> Data.customLightTheme.toLightColorScheme()
         }
-    } else colorScheme
+    } else {
+        when {
+            darkModeState.value -> defaultDarkTheme.toDarkColorScheme()
+            else -> defaultLightTheme.toLightColorScheme()
+        }
+    }
 
-    setWindowTheme(color = finalColorScheme.primary)
+    setWindowTheme(color = selectedColorScheme.primary)
 
     MaterialTheme(
-        colorScheme = finalColorScheme,
+        colorScheme = selectedColorScheme,
         typography = Typography,
         content = content
     )
