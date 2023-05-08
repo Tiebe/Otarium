@@ -46,7 +46,6 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
         val list = mutableListOf<AssignmentVersion>()
 
         assignment.navigationItemsVersion.forEach {
-            println("test")
             list.add(
                 AssignmentFlow.getVersionInfo(
                     Url(Data.selectedAccount.tenantUrl),

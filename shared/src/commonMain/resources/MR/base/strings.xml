@@ -64,4 +64,6 @@
 
     <string name="loading">Loading...</string>
     <string name="absence">Absence</string>
+
+    <string name="assignment_version">version</string>
 </resources>

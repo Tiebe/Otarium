@@ -26,8 +26,6 @@ import kotlin.math.absoluteValue
 internal fun AssignmentScreen(component: AssignmentScreenComponent) {
     val assignment = component.assignment.subscribeAsState().value
 
-    if (assignment.id == 0) return
-
     val pullRefreshState = rememberPullRefreshState(refreshing = component.isRefreshing.subscribeAsState().value, onRefresh = { component.refreshAssignment() })
 
     Box(Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
@@ -56,7 +54,7 @@ internal fun AssignmentScreen(component: AssignmentScreenComponent) {
 
         HorizontalPager(pageCount = versions.size, state = pagerState, pageSize = PageSize.Fixed(350.dp), contentPadding = PaddingValues(20.dp)) {
             VersionInfoScreen(component, assignment, assignment.navigationItemsVersion[it].id,
-                Modifier.size(350.dp).padding(5.dp).graphicsLayer {
+                Modifier.width(350.dp).padding(5.dp).graphicsLayer {
                     // Calculate the absolute offset for the current page from the
                     // scroll position. We use the absolute value which allows us to mirror
                     // any effects for both directions
