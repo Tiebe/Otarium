@@ -13,6 +13,8 @@ import dev.tiebe.magisterapi.response.assignment.Assignment
 internal fun AssignmentListItem(component: AssignmentListComponent, item: Assignment) {
     ListItem(
         headlineText = { Text(item.title) },
-        modifier = Modifier.clickable { component.navigateToAssignment(item) }
+        modifier = Modifier.clickable { component.navigateToAssignment(item) },
+        trailingContent = { Text(item.grade)
+        }
     )
 }

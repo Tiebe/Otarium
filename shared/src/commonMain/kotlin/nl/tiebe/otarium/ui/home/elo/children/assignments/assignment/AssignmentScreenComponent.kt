@@ -7,6 +7,7 @@ import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import dev.tiebe.magisterapi.response.assignment.FeedbackBijlagen
+import dev.tiebe.magisterapi.response.assignment.LeerlingBijlagen
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.utils.io.*
@@ -31,6 +32,7 @@ interface AssignmentScreenComponent {
     fun downloadAttachment(attachment: FeedbackBijlagen)
 
     val attachmentDownloadProgress: Value<Map<Int, Float>>
+    fun downloadAttachment(attachment: LeerlingBijlagen)
 }
 
 class DefaultAssignmentScreenComponent(componentContext: ComponentContext, override val assignmentLink: String): AssignmentScreenComponent, ComponentContext by componentContext {
@@ -69,6 +71,25 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
     override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
 
     override fun downloadAttachment(attachment: FeedbackBijlagen) {
+        scope.launch {
+            val response = requestGET(
+                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.first { it.rel == "Self" }.href).build(),
+                accessToken = Data.selectedAccount.tokens.accessToken,
+                onDownload = { bytesSentTotal, contentLength ->
+                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
+                }
+            ).bodyAsChannel()
+
+            response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.naam))
+            openFileFromCache(attachment.id.toString(), attachment.naam)
+
+            attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
+                it.remove(attachment.id)
+            }
+        }
+    }
+
+    override fun downloadAttachment(attachment: LeerlingBijlagen) {
         scope.launch {
             val response = requestGET(
                 URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.first { it.rel == "Self" }.href).build(),

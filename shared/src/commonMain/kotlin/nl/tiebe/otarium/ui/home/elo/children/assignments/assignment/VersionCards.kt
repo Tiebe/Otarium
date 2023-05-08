@@ -109,3 +109,57 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, assignmen
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun StudentVersionCard(component: AssignmentScreenComponent, assignment: Assignment, version: AssignmentVersion) {
+    ElevatedCard {
+        Column {
+            if (version.submittedOn != null) {
+                ListItem(
+                    overlineText = { Text("Submitted on") },
+                    headlineText = { Text(version.gradedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
+                )
+            }
+
+            if (version.studentNote != null) {
+                ListItem(
+                    overlineText = { Text("Feedback") },
+                    headlineText = { Text(version.studentNote!!.parseHtml()) }
+                )
+            }
+
+            if (version.studentAttachments.isNotEmpty()) {
+                val scrollState = rememberScrollState()
+
+                Row(modifier = Modifier.fillMaxWidth().horizontalScroll(scrollState)) {
+                    for (attachment in version.studentAttachments) {
+                        ElevatedCard(
+                            onClick = { component.downloadAttachment(attachment) },
+                            modifier = Modifier.height(70.dp).padding(10.dp)
+                        ) {
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                Row(
+                                    modifier = Modifier.fillMaxSize().padding(10.dp),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        Icons.Email.Attachment,
+                                        contentDescription = "Attachment"
+                                    )
+                                    Text(text = attachment.naam, modifier = Modifier.padding(start = 10.dp))
+                                }
+
+                                DownloadIndicator(
+                                    component.attachmentDownloadProgress.subscribeAsState().value[attachment.id]
+                                        ?: 0f
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

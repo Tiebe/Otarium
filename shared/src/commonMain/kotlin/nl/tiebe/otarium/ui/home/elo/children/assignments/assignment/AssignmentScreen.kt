@@ -53,7 +53,7 @@ internal fun AssignmentScreen(component: AssignmentScreenComponent) {
         }
 
         HorizontalPager(pageCount = versions.size, state = pagerState, pageSize = PageSize.Fixed(350.dp), contentPadding = PaddingValues(20.dp)) {
-            VersionInfoScreen(component, assignment, assignment.navigationItemsVersion[it].id,
+            VersionInfoScreen(component, assignment, assignment.navigationItemsVersion.reversed()[it].id,
                 Modifier.width(350.dp).padding(5.dp).graphicsLayer {
                     // Calculate the absolute offset for the current page from the
                     // scroll position. We use the absolute value which allows us to mirror

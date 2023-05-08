@@ -14,7 +14,6 @@ import dev.tiebe.magisterapi.response.assignment.Assignment
 internal fun VersionInfoScreen(component: AssignmentScreenComponent, assignment: Assignment, versionId: Int, modifier: Modifier) {
     val version = component.versions.value.first { it.id == versionId }
 
-
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         MainInfoCard(assignment, version)
 
@@ -22,6 +21,12 @@ internal fun VersionInfoScreen(component: AssignmentScreenComponent, assignment:
             Spacer(modifier = Modifier.height(10.dp))
 
             TeacherFeedbackCard(component, assignment, version)
+        }
+
+        if (version.submittedOn != null || version.studentNote != null || version.studentAttachments.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(10.dp))
+
+            StudentVersionCard(component, assignment, version)
         }
     }
 }
