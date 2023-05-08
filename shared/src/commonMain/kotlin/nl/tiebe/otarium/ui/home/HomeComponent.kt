@@ -14,6 +14,7 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
+import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
 import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
@@ -26,7 +27,7 @@ import nl.tiebe.otarium.utils.icons.bottombar.*
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
-    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.Settings)
+    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.ELO, MenuItem.Settings)
 
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
@@ -46,6 +47,12 @@ interface HomeComponent {
             MR.strings.messagesItem,
             { Icon(Icons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
             { Icon(Icons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+        )
+
+        object ELO: MenuItem(
+            MR.strings.eloItem,
+            { Icon(Icons.Bottombar.BookOpenOutline, "ELO", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.BookOpenFilled, "ELO", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Settings: MenuItem(
@@ -79,6 +86,7 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
             is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
             is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
             is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
+            is HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
             is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
         }
@@ -97,6 +105,11 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     private fun messagesComponent(componentContext: ComponentContext) =
         DefaultMessagesComponent(
+            componentContext = componentContext
+        )
+
+    private fun eloComponent(componentContext: ComponentContext) =
+        DefaultELOComponent(
             componentContext = componentContext
         )
 

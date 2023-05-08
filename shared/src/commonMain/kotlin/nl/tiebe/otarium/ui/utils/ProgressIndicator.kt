@@ -2,14 +2,44 @@ package nl.tiebe.otarium.ui.utils
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.progressSemantics
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+
+@Composable
+internal fun BoxScope.DownloadIndicator(progress: Float) {
+    if (progress != 0f && !progress.isNaN()) {
+        val color = MaterialTheme.colorScheme.primary
+        val trackColor = MaterialTheme.colorScheme.surfaceVariant
+
+        if (progress != 1f) {
+            DownloadingFileIndicator(
+                progress = progress,
+                modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
+                color = color,
+                trackColor = trackColor,
+                height = 5.dp
+            )
+        } else {
+            LoadingFileIndicator(
+                modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
+                color = color,
+                trackColor = trackColor,
+                height = 5.dp
+            )
+        }
+
+    }
+}
 
 fun DrawScope.drawLinearIndicator(
     startFraction: Float,

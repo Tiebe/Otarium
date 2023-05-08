@@ -48,7 +48,6 @@ actual fun openFileFromCache(id: String, fileName: String) {
     val fileUri = FileProvider.getUriForFile(Android.context, Android.context.applicationContext.packageName, file)
 
     intent.setData(fileUri)
-    intent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     Android.context.startActivity(Intent.createChooser(intent, fileName))
 }

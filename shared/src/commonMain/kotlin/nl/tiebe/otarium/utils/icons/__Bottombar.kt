@@ -1,15 +1,7 @@
 package nl.tiebe.otarium.utils.icons
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import nl.tiebe.otarium.utils.icons.Icons
-import nl.tiebe.otarium.utils.icons.bottombar.Box10Filled
-import nl.tiebe.otarium.utils.icons.bottombar.Box10Outline
-import nl.tiebe.otarium.utils.icons.bottombar.CalendarTodayFilled
-import nl.tiebe.otarium.utils.icons.bottombar.CalendarTodayOutline
-import nl.tiebe.otarium.utils.icons.bottombar.CogFilled
-import nl.tiebe.otarium.utils.icons.bottombar.CogOutline
-import nl.tiebe.otarium.utils.icons.bottombar.EmailFilled
-import nl.tiebe.otarium.utils.icons.bottombar.EmailOutline
+import nl.tiebe.otarium.utils.icons.bottombar.*
 import kotlin.collections.List as ____KtList
 
 public object BottombarGroup
@@ -25,6 +17,6 @@ public val BottombarGroup.AllIcons: ____KtList<ImageVector>
       return __AllIcons!!
     }
     __AllIcons = listOf(Box10Filled, Box10Outline, CalendarTodayFilled, CalendarTodayOutline,
-        CogFilled, CogOutline, EmailFilled, EmailOutline)
+        CogFilled, CogOutline, EmailFilled, EmailOutline, BookOpenOutline, BookOpenFilled)
     return __AllIcons!!
   }
