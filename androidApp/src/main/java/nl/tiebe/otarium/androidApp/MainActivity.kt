@@ -12,8 +12,6 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import com.arkivanov.decompose.defaultComponentContext
 import nl.tiebe.otarium.RootView
-import nl.tiebe.otarium.ui.theme.DarkColorScheme
-import nl.tiebe.otarium.ui.theme.LightColorScheme
 import nl.tiebe.otarium.utils.refreshGradesBackground
 import nl.tiebe.otarium.utils.reloadTokensBackground
 import nl.tiebe.otarium.utils.ui.Android
@@ -53,9 +51,7 @@ class MainActivity : AppCompatActivity() {
                 dynamicColor && !darkMode -> {
                     dynamicLightColorScheme(Android.context)
                 }
-
-                darkMode -> DarkColorScheme
-                else -> LightColorScheme
+                else -> null
             }
 
         setContent {
@@ -83,10 +79,12 @@ class MainActivity : AppCompatActivity() {
     private fun deleteDir(dir: File?): Boolean {
         if (dir != null && dir.isDirectory) {
             val children = dir.list()
-            for (i in children.indices) {
-                val success = deleteDir(File(dir, children[i]))
-                if (!success) {
-                    return false
+            if (children != null) {
+                for (i in children.indices) {
+                    val success = deleteDir(File(dir, children[i]))
+                    if (!success) {
+                        return false
+                    }
                 }
             }
         }

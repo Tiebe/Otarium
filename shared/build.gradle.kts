@@ -76,6 +76,7 @@ kotlin {
                 implementation(Decompose.compose)
 
                 implementation(magisterAPI)
+                implementation("com.github.ajalt.colormath:colormath:3.2.0")
             }
         }
         val androidMain by getting {

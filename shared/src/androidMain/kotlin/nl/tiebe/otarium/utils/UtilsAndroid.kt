@@ -2,6 +2,7 @@ package nl.tiebe.otarium.utils
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.core.content.FileProvider
 import nl.tiebe.otarium.utils.ui.Android
 import java.io.File
@@ -48,4 +49,10 @@ actual fun openFileFromCache(id: String, fileName: String) {
     intent.setData(fileUri)
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     Android.context.startActivity(Intent.createChooser(intent, fileName))
+}
+
+
+
+actual fun dynamicColorsPossible(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 }

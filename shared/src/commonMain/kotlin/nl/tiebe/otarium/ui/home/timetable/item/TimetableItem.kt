@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
@@ -19,8 +20,7 @@ import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.getAgendaForDay
 import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.days
-import nl.tiebe.otarium.ui.theme.Green40
-import nl.tiebe.otarium.ui.theme.Yellow40
+import nl.tiebe.otarium.ui.theme.defaultLightTheme
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import kotlin.math.floor
@@ -116,7 +116,7 @@ internal fun TimetableItem(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .size(25.dp)
-                                .background(Green40),
+                                .background(Color(defaultLightTheme.secondary)),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -130,7 +130,7 @@ internal fun TimetableItem(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .size(25.dp)
-                                .background(Yellow40),
+                                .background(Color(defaultLightTheme.tertiary)),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(

@@ -15,6 +15,8 @@ import nl.tiebe.otarium.ui.home.settings.items.main.DefaultMainChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ui.DefaultUIChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildComponent
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildComponent
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.DefaultColorChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.DefaultUserChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildComponent
 import nl.tiebe.otarium.ui.root.RootComponent
@@ -40,6 +42,7 @@ interface SettingsComponent: MenuItemComponent {
         class BugsChild(val component: BugsChildComponent) : Child()
         class UsersChild(val component: UserChildComponent) : Child()
         class UIChild(val component: UIChildComponent) : Child()
+        class ColorChild(val component: ColorChildComponent) : Child()
     }
 
     sealed class Config(val localizedString: String) : Parcelable {
@@ -57,6 +60,9 @@ interface SettingsComponent: MenuItemComponent {
 
         @Parcelize
         object UI : Config(getLocalizedString(MR.strings.ui_settings))
+
+        @Parcelize
+        object Colors : Config(getLocalizedString(MR.strings.color_settings))
     }
 
 }
@@ -82,6 +88,7 @@ class DefaultSettingsComponent(
             is SettingsComponent.Config.Bugs -> SettingsComponent.Child.BugsChild(bugsChild(componentContext))
             is SettingsComponent.Config.Users -> SettingsComponent.Child.UsersChild(usersChild(componentContext))
             is SettingsComponent.Config.UI -> SettingsComponent.Child.UIChild(uiChild(componentContext))
+            is SettingsComponent.Config.Colors -> SettingsComponent.Child.ColorChild(colorChild(componentContext))
         }
 
     private fun mainChild(componentContext: ComponentContext): MainChildComponent =
@@ -111,6 +118,12 @@ class DefaultSettingsComponent(
 
     private fun uiChild(componentContext: ComponentContext): UIChildComponent =
         DefaultUIChildComponent(
+            componentContext = componentContext,
+            _navigate = ::navigate
+        )
+
+    private fun colorChild(componentContext: ComponentContext): ColorChildComponent =
+        DefaultColorChildComponent(
             componentContext = componentContext,
             _navigate = ::navigate
         )
