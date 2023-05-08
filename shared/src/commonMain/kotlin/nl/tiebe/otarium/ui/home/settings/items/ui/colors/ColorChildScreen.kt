@@ -23,6 +23,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.ui.home.settings.utils.SettingsColorPicker
 import nl.tiebe.otarium.ui.home.settings.utils.SettingsRowToggle
+import nl.tiebe.otarium.utils.dynamicColorsPossible
 
 @Composable
 internal fun ColorChildScreen(component: ColorChildComponent) {
@@ -35,11 +36,13 @@ internal fun ColorChildScreen(component: ColorChildComponent) {
         val dynamicColorScheme = component.dynamicColorState.subscribeAsState()
         val customColorScheme = component.customColorScheme.subscribeAsState()
 
-        SettingsRowToggle(
-            leftText = AnnotatedString("Dynamic color scheme"),
-            checked = dynamicColorScheme.value,
-        ) {
-            component.dynamicColorState.value = it
+        if (dynamicColorsPossible()) {
+            SettingsRowToggle(
+                leftText = AnnotatedString("Dynamic color scheme"),
+                checked = dynamicColorScheme.value,
+            ) {
+                component.dynamicColorState.value = it
+            }
         }
 
         SettingsRowToggle(
