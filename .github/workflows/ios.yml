@@ -38,7 +38,7 @@ jobs:
           browserstack-username: ${{ secrets.BROWSERSTACK_USERNAME }}
           browserstack-access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           fastlane-env: stage
-          ios-app-id: nl.tiebe.otarium
+          ios-app-id: ${{ secrets.APP_ID }}
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.2
