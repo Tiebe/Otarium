@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
-import nl.tiebe.otarium.utils.getDownloadFileLocation
 import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
+import nl.tiebe.otarium.utils.writeFile
 
 interface MessageComponent {
     val parentComponent: MessagesComponent
@@ -61,9 +61,9 @@ class DefaultMessageComponent(
                 onDownload = { bytesSentTotal, contentLength ->
                     attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
                 }
-            ).bodyAsChannel()
+            ).readBytes()
 
-            response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.name))
+            writeFile(attachment.id.toString(), attachment.name, response)
             openFileFromCache(attachment.id.toString(), attachment.name)
 
             attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {

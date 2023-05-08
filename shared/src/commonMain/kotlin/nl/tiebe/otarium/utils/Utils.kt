@@ -1,5 +1,9 @@
 package nl.tiebe.otarium.utils
 
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import io.ktor.utils.io.*
 import kotlinx.datetime.*
 
@@ -9,7 +13,7 @@ expect fun getClipboardText(): String
 
 expect fun openUrl(url: String)
 
-expect fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChannel
+expect fun writeFile(id: String, fileName: String, data: ByteArray)
 
 expect fun openFileFromCache(id: String, fileName: String)
 
