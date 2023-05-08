@@ -21,8 +21,8 @@ jobs:
           pods-path: "iosApp/Podfile"
           configuration: Release
           export-method: app-store
-          workspace-path: iosApp/iosApp.xcodeproj
-          project-path: iosApp/iosApp.xcworkspace
+          workspace-path: iosApp/iosApp.xcworkspace
+          project-path: iosApp/iosApp.xcodeproj
           scheme: iosApp
           output-path: build-${{ github.sha }}.ipa
           apple-key-id: ${{ secrets.APPLE_KEY_ID }}
