@@ -14,6 +14,7 @@ import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.bugs.BugsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildScreen
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +41,7 @@ internal fun SettingsScreen(component: SettingsComponent) {
                 is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
                 is SettingsComponent.Child.BugsChild -> BugsChildScreen()
                 is SettingsComponent.Child.UIChild -> UIChildScreen(child.component)
+                is SettingsComponent.Child.ColorChild -> ColorChildScreen(child.component)
             }
         }
     }

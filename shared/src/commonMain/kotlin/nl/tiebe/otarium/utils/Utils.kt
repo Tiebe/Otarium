@@ -13,6 +13,8 @@ expect fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChann
 
 expect fun openFileFromCache(id: String, fileName: String)
 
+expect fun dynamicColorsPossible(): Boolean
+
 fun LocalDateTime.toFormattedString(): String {
     val dateTime = this.toInstant(TimeZone.UTC)
 

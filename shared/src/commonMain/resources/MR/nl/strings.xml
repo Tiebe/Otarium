@@ -78,4 +78,7 @@
     <string name="assignment_grade">Beoordeling</string>
     <string name="assignment_submitted_on">Ingeleverd op</string>
     <string name="assignment_feedback">Opmerkingen</string>
+
+    <string name="color_settings">Kleuren</string>
+
 </resources>

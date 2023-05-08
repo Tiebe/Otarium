@@ -21,3 +21,7 @@ actual fun getDownloadFileLocation(id: String, fileName: String): ByteWriteChann
 actual fun openFileFromCache(id: String, fileName: String) {
     TODO()
 }
+
+actual fun dynamicColorsPossible(): Boolean {
+    return false
+}
