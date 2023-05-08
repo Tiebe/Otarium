@@ -56,13 +56,13 @@ interface HomeComponent {
         )
 
         object Settings: MenuItem(
-            MR.strings.settings_title,
+            MR.strings.settingsItem,
             { Icon(Icons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
             { Icon(Icons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Debug: MenuItem(
-            MR.strings.settings_title,
+            MR.strings.settingsItem,
             { Icon(Icons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
             { Icon(Icons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )

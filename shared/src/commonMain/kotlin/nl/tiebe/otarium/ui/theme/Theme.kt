@@ -2,50 +2,54 @@ package nl.tiebe.otarium.ui.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.darkModeState
-
-val DarkColorScheme = darkColorScheme(
-    primary = Blue80,
-    secondary = Green80,
-    tertiary = Yellow80
-)
-
-val LightColorScheme = lightColorScheme(
-    primary = Blue40,
-    secondary = Green40,
-    tertiary = Yellow40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.colorSchemeChanged
 
 @Composable
 internal fun OtariumTheme(
     colorScheme: ColorScheme? = null,
     content: @Composable () -> Unit
 ) {
-    val finalColorScheme = if (colorScheme == null) {
+    var selectedColorScheme = if (Data.dynamicTheme && colorScheme != null) {
+        colorScheme
+    } else if (Data.customThemeEnabled) {
         when {
-            darkModeState.value -> DarkColorScheme
-            else -> LightColorScheme
+            darkModeState.value -> Data.customDarkTheme.toDarkColorScheme()
+            else -> Data.customLightTheme.toLightColorScheme()
         }
-    } else colorScheme
+    } else {
+        when {
+            darkModeState.value -> defaultDarkTheme.toDarkColorScheme()
+            else -> defaultLightTheme.toLightColorScheme()
+        }
+    }
 
-    setWindowTheme(color = finalColorScheme.primary)
+    LaunchedEffect(colorSchemeChanged.subscribeAsState().value) {
+        selectedColorScheme = if (Data.dynamicTheme && colorScheme != null) {
+            colorScheme
+        } else if (Data.customThemeEnabled) {
+            when {
+                darkModeState.value -> Data.customDarkTheme.toDarkColorScheme()
+                else -> Data.customLightTheme.toLightColorScheme()
+            }
+        } else {
+            when {
+                darkModeState.value -> defaultDarkTheme.toDarkColorScheme()
+                else -> defaultLightTheme.toLightColorScheme()
+            }
+        }
+    }
+
+
+    setWindowTheme(color = selectedColorScheme.primary)
 
     MaterialTheme(
-        colorScheme = finalColorScheme,
+        colorScheme = selectedColorScheme,
         typography = Typography,
         content = content
     )

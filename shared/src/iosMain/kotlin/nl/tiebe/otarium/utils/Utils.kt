@@ -54,3 +54,7 @@ actual fun openFileFromCache(id: String, fileName: String) {
     }
 
 }
+
+actual fun dynamicColorsPossible(): Boolean {
+    return false
+}
