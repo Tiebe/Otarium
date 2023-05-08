@@ -6,10 +6,16 @@ import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
+import dev.tiebe.magisterapi.response.assignment.FeedbackBijlagen
+import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.utils.io.*
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
+import nl.tiebe.otarium.utils.getDownloadFileLocation
+import nl.tiebe.otarium.utils.openFileFromCache
+import nl.tiebe.otarium.utils.requestGET
 
 interface AssignmentScreenComponent {
     val assignment: Value<Assignment>
@@ -22,7 +28,9 @@ interface AssignmentScreenComponent {
     fun refreshAssignment()
 
     suspend fun getVersions(assignment: Assignment)
+    fun downloadAttachment(attachment: FeedbackBijlagen)
 
+    val attachmentDownloadProgress: Value<Map<Int, Float>>
 }
 
 class DefaultAssignmentScreenComponent(componentContext: ComponentContext, override val assignmentLink: String): AssignmentScreenComponent, ComponentContext by componentContext {
@@ -56,6 +64,27 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
         }
 
         versions.value = list
+    }
+
+    override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
+
+    override fun downloadAttachment(attachment: FeedbackBijlagen) {
+        scope.launch {
+            val response = requestGET(
+                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.first { it.rel == "Self" }.href).build(),
+                accessToken = Data.selectedAccount.tokens.accessToken,
+                onDownload = { bytesSentTotal, contentLength ->
+                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
+                }
+            ).bodyAsChannel()
+
+            response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.naam))
+            openFileFromCache(attachment.id.toString(), attachment.naam)
+
+            attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
+                it.remove(attachment.id)
+            }
+        }
     }
 
 
