@@ -11,6 +11,8 @@ import nl.tiebe.otarium.ui.theme.defaultDarkTheme
 import nl.tiebe.otarium.ui.theme.defaultLightTheme
 import nl.tiebe.otarium.ui.utils.colorpicker.HsvColor
 
+val colorSchemeChanged = MutableValue(false)
+
 interface ColorChildComponent {
     fun navigate(child: SettingsComponent.Config)
 
@@ -42,13 +44,13 @@ interface ColorChildComponent {
             tertiary = tertiaryLightColor.value.toColor().toArgb()
         )
 
-        println(Data.customLightTheme)
-
         Data.customDarkTheme = CustomTheme(
             primary = primaryDarkColor.value.toColor().toArgb(),
             secondary = secondaryDarkColor.value.toColor().toArgb(),
             tertiary = tertiaryDarkColor.value.toColor().toArgb()
         )
+
+        colorSchemeChanged.value = !colorSchemeChanged.value
     }
 }
 
@@ -79,10 +81,12 @@ class DefaultColorChildComponent(
     init {
         dynamicColorState.subscribe {
             Data.dynamicTheme = it
+            colorSchemeChanged.value = !colorSchemeChanged.value
             if (it) customColorScheme.value = false
         }
         customColorScheme.subscribe {
             Data.customThemeEnabled = it
+            colorSchemeChanged.value = !colorSchemeChanged.value
             if (it) dynamicColorState.value = false
         }
     }
