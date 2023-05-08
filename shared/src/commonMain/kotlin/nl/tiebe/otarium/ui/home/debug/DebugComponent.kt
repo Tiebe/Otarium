@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.ui.home.debug
 
 import com.arkivanov.decompose.ComponentContext
+import dev.icerock.moko.resources.desc.StringDesc
 import dev.tiebe.magisterapi.response.TokenResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -13,6 +14,8 @@ import nl.tiebe.otarium.ui.home.MenuItemComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 import nl.tiebe.otarium.utils.copyToClipboard
+
+var currentLanguage = "en"
 
 interface DebugComponent: MenuItemComponent {
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
@@ -40,6 +43,16 @@ interface DebugComponent: MenuItemComponent {
                         Data.accounts.toMutableList().apply { add(account) }
                 }
             }
+        }
+    }
+
+    fun changeLanguage() {
+        if (currentLanguage == "en") {
+            StringDesc.localeType = StringDesc.LocaleType.Custom("nl")
+            currentLanguage = "nl"
+        } else {
+            StringDesc.localeType = StringDesc.LocaleType.Custom("en")
+            currentLanguage = "en"
         }
     }
 }

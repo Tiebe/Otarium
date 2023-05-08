@@ -24,6 +24,8 @@ interface AssignmentListComponent : AssignmentChildScreen {
     fun navigateToAssignment(assignment: Assignment) {
         parentComponent.navigate(AssignmentsChildComponent.Config.Assignment(assignment.links.first { it.rel == "Self" }.href))
     }
+
+    val selectedTab: MutableValue<Int>
 }
 
 class DefaultAssignmentListComponent(
@@ -33,6 +35,7 @@ class DefaultAssignmentListComponent(
     override val assignments: MutableValue<List<Assignment>> = MutableValue(listOf())
 
     override val isRefreshing: MutableValue<Boolean> = MutableValue(false)
+    override val selectedTab: MutableValue<Int> = MutableValue(0)
 
     val scope = componentCoroutineScope()
 

@@ -12,12 +12,14 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import kotlinx.datetime.toLocalDateTime
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.utils.DownloadIndicator
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.utils.icons.Email
 import nl.tiebe.otarium.utils.icons.Icons
 import nl.tiebe.otarium.utils.icons.email.Attachment
 import nl.tiebe.otarium.utils.toFormattedString
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,23 +28,23 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             ListItem(
-                overlineText = { Text("Title") },
+                overlineText = { Text(getLocalizedString(MR.strings.assignment_title)) },
                 headlineText = { Text(assignment.title) }
             )
 
             ListItem(
-                overlineText = { Text("Version") },
+                overlineText = { Text(getLocalizedString(MR.strings.assignment_version)) },
                 headlineText = { Text(version.versionIndex.toString()) }
             )
 
             ListItem(
-                overlineText = { Text("Submit before") },
+                overlineText = { Text(getLocalizedString(MR.strings.assignment_deadline)) },
                 headlineText = { Text(version.deadline.substring(0, 26).toLocalDateTime().toFormattedString()) }
             )
 
 
             ListItem(
-                overlineText = { Text("Description") },
+                overlineText = { Text(getLocalizedString(MR.strings.assignment_description)) },
                 headlineText = { Text(assignment.description.parseHtml()) }
             )
         }
@@ -56,21 +58,21 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, assignmen
         Column {
             if (version.gradedOn != null) {
                 ListItem(
-                    overlineText = { Text("Graded on") },
+                    overlineText = { Text(getLocalizedString(MR.strings.assignment_graded_on)) },
                     headlineText = { Text(version.gradedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
                 )
             }
 
             if (version.grade != null) {
                 ListItem(
-                    overlineText = { Text("Grade") },
+                    overlineText = { Text(getLocalizedString(MR.strings.assignment_grade)) },
                     headlineText = { Text(version.grade!!) }
                 )
             }
 
             if (version.teacherNote != null) {
                 ListItem(
-                    overlineText = { Text("Feedback") },
+                    overlineText = { Text(getLocalizedString(MR.strings.assignment_feedback)) },
                     headlineText = { Text(version.teacherNote!!.parseHtml()) }
                 )
             }
@@ -117,14 +119,14 @@ internal fun StudentVersionCard(component: AssignmentScreenComponent, assignment
         Column {
             if (version.submittedOn != null) {
                 ListItem(
-                    overlineText = { Text("Submitted on") },
+                    overlineText = { Text(getLocalizedString(MR.strings.assignment_submitted_on)) },
                     headlineText = { Text(version.gradedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
                 )
             }
 
             if (version.studentNote != null) {
                 ListItem(
-                    overlineText = { Text("Feedback") },
+                    overlineText = { Text(getLocalizedString(MR.strings.assignment_description)) },
                     headlineText = { Text(version.studentNote!!.parseHtml()) }
                 )
             }
