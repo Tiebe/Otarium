@@ -95,7 +95,7 @@ class DefaultLoginComponent(val componentContext: ComponentContext, val navigate
     private var onBack: BackCallback? = null
     override fun addBackHandler(onBack: BackCallback) {
         if (this.onBack != null)
-            backHandler.unregister(onBack)
+            backHandler.unregister(this.onBack!!)
 
         this.onBack = onBack
         backHandler.register(onBack)
