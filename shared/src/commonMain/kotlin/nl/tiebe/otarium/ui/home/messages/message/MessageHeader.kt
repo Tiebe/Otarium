@@ -15,8 +15,7 @@ import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoComponent
-import nl.tiebe.otarium.ui.utils.DownloadingFileIndicator
-import nl.tiebe.otarium.ui.utils.LoadingFileIndicator
+import nl.tiebe.otarium.ui.utils.DownloadIndicator
 import nl.tiebe.otarium.utils.icons.Email
 import nl.tiebe.otarium.utils.icons.Icons
 import nl.tiebe.otarium.utils.icons.email.Attachment
@@ -100,31 +99,7 @@ internal fun MessageHeader(component: MessageComponent) {
                             Text(text = attachment.name, modifier = Modifier.padding(start = 10.dp))
                         }
 
-                        val progress =
-                            component.attachmentDownloadProgress.subscribeAsState().value[attachment.id] ?: 0f
-
-                        if (progress != 0f && !progress.isNaN()) {
-                            val color = MaterialTheme.colorScheme.primary
-                            val trackColor = MaterialTheme.colorScheme.surfaceVariant
-
-                            if (progress != 1f) {
-                                DownloadingFileIndicator(
-                                    progress = progress,
-                                    modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
-                                    color = color,
-                                    trackColor = trackColor,
-                                    height = 5.dp
-                                )
-                            } else {
-                                LoadingFileIndicator(
-                                    modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
-                                    color = color,
-                                    trackColor = trackColor,
-                                    height = 5.dp
-                                )
-                            }
-
-                        }
+                        DownloadIndicator(component.attachmentDownloadProgress.subscribeAsState().value[attachment.id] ?: 0f)
                     }
                 }
             }

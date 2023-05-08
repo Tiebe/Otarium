@@ -57,6 +57,13 @@
     <string name="message_cc_receivers">CC</string>
     <string name="message_bcc_receivers">BCC</string>
 
+    <string name="eloItem">ELO</string>
+    <string name="study_guides">Study guides</string>
+    <string name="assignments">Assignments</string>
+    <string name="learning_resources">Learning resources</string>
+
     <string name="loading">Loading...</string>
     <string name="absence">Absence</string>
+
+    <string name="assignment_version">version</string>
 </resources>

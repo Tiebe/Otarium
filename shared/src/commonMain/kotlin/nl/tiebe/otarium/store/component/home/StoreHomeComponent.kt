@@ -12,8 +12,8 @@ import nl.tiebe.otarium.store.component.home.children.settings.StoreSettingsComp
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.home.MenuItemComponent
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
+import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
 import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
-import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 
 class StoreHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
@@ -38,6 +38,7 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
             is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
             is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
+            is HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
         }
     }
 
@@ -54,6 +55,11 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
 
     private fun messagesComponent(componentContext: ComponentContext) =
         DefaultMessagesComponent(
+            componentContext = componentContext
+        )
+
+    private fun eloComponent(componentContext: ComponentContext) =
+        DefaultELOComponent(
             componentContext = componentContext
         )
 

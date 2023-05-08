@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades
+package nl.tiebe.otarium.ui.home.elo
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -20,14 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.ui.home.grades.calculation.screen.GradeCalculationChild
-import nl.tiebe.otarium.ui.home.grades.recentgrades.RecentGradesChild
+import nl.tiebe.otarium.ui.home.elo.children.assignments.AssignmentsChildScreen
+import nl.tiebe.otarium.ui.home.elo.children.learningresources.LearningResourcesChildScreen
+import nl.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesChildScreen
 import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun GradesScreen(component: GradesComponent) {
+internal fun ELOScreen(component: ELOComponent) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -38,7 +39,7 @@ internal fun GradesScreen(component: GradesComponent) {
                 TabRowDefaults.Indicator(
                     Modifier.tabIndicatorOffset(
                         pagerState,
-                        2,
+                        3,
                         tabPositions,
                         shouldShowIndicator = true,
                         pagerState.currentPage
@@ -48,12 +49,12 @@ internal fun GradesScreen(component: GradesComponent) {
         ) {
             Tab(
                 selected = pagerState.currentPage == 0,
-                onClick = { component.changeChild(GradesComponent.GradesChild.RecentGrades) },
+                onClick = { component.changeChild(ELOComponent.ELOChild.StudyGuides) },
                 modifier = Modifier.height(53.dp)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = getLocalizedString(MR.strings.gradesItem),
+                        text = getLocalizedString(MR.strings.study_guides),
                         maxLines = 1,
                         overflow = TextOverflow.Clip,
                         textAlign = TextAlign.Center,
@@ -64,12 +65,28 @@ internal fun GradesScreen(component: GradesComponent) {
 
             Tab(
                 selected = pagerState.currentPage == 1,
-                onClick = { component.changeChild(GradesComponent.GradesChild.Calculation) },
+                onClick = { component.changeChild(ELOComponent.ELOChild.Assignments) },
                 modifier = Modifier.height(53.dp)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = getLocalizedString(MR.strings.grade_calculation_item),
+                        text = getLocalizedString(MR.strings.assignments),
+                        maxLines = 1,
+                        overflow = TextOverflow.Clip,
+                        textAlign = TextAlign.Center,
+                        fontSize = 13.sp
+                    )
+                }
+            }
+
+            Tab(
+                selected = pagerState.currentPage == 2,
+                onClick = { component.changeChild(ELOComponent.ELOChild.LearningResources) },
+                modifier = Modifier.height(53.dp)
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = getLocalizedString(MR.strings.learning_resources),
                         maxLines = 1,
                         overflow = TextOverflow.Clip,
                         textAlign = TextAlign.Center,
@@ -79,10 +96,11 @@ internal fun GradesScreen(component: GradesComponent) {
             }
         }
 
-        HorizontalPager(pageCount = 2, state = pagerState, beyondBoundsPageCount = 1, modifier = Modifier.fillMaxSize()) { page ->
+        HorizontalPager(pageCount = 3, state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
-                0 -> RecentGradesChild(component.recentGradeComponent)
-                1 -> GradeCalculationChild(component.calculationChildComponent)
+                0 -> StudyGuidesChildScreen(component.studyGuidesComponent)
+                1 -> AssignmentsChildScreen(component.assignmentsComponent)
+                2 -> LearningResourcesChildScreen(component.learningResourcesComponent)
             }
         }
 

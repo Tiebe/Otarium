@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.ui.home.debug.DebugComponent
 import nl.tiebe.otarium.ui.home.debug.DebugScreen
+import nl.tiebe.otarium.ui.home.elo.ELOComponent
+import nl.tiebe.otarium.ui.home.elo.ELOScreen
 import nl.tiebe.otarium.ui.home.grades.GradesComponent
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
@@ -53,6 +55,7 @@ internal fun BottomBar(
                 is TimetableComponent -> TimetableScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
                 is MessagesComponent -> MessagesScreen(dialogComponent)
+                is ELOComponent -> ELOScreen(dialogComponent)
                 is SettingsComponent -> SettingsScreen(dialogComponent)
                 is DebugComponent -> DebugScreen(dialogComponent)
             }
