@@ -62,4 +62,6 @@
 
     <string name="loading">Aan het laden...</string>
     <string name="absence">Absentie</string>
+
+    <string name="assignment_version">versie</string>
 </resources>
