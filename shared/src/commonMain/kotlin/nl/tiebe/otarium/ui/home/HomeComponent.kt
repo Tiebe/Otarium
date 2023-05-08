@@ -27,7 +27,7 @@ import nl.tiebe.otarium.utils.icons.bottombar.*
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
-    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.Settings)
+    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.ELO, MenuItem.Settings)
 
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
@@ -51,8 +51,8 @@ interface HomeComponent {
 
         object ELO: MenuItem(
             MR.strings.eloItem,
-            { Icon(Icons.Bottombar.BookOpenOutline, "ELO") },
-            { Icon(Icons.Bottombar.BookOpenFilled, "ELO") }
+            { Icon(Icons.Bottombar.BookOpenOutline, "ELO", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(Icons.Bottombar.BookOpenFilled, "ELO", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Settings: MenuItem(

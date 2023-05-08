@@ -58,6 +58,7 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
         childStack(
             source = navigation,
             initialConfiguration = StudyGuidesChildComponent.Config.StudyGuideList,
+            key = "StudyGuideChildStack",
             handleBackButton = true, // Pop the back stack on back button press
             childFactory = ::createChild,
         )
