@@ -78,6 +78,13 @@ internal fun DebugScreen(component: DebugComponent) {
         ) {
             component.importAccounts(getClipboardText())
         }
+
+        SettingRowIconButton(
+            leftText = AnnotatedString("Change language"),
+            icon = Icons.Default.KeyboardArrowRight
+        ) {
+            component.changeLanguage()
+        }
     }
 
 }

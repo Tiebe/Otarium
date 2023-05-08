@@ -63,5 +63,19 @@
     <string name="loading">Aan het laden...</string>
     <string name="absence">Absentie</string>
 
-    <string name="assignment_version">versie</string>
+    <string name="assignment_title">Titel</string>
+    <string name="assignment_version">Versie</string>
+    <string name="assignment_deadline">Inleveren voor</string>
+    <string name="assignment_description">Beschrijving</string>
+
+    <string name="assignment_all">Alle</string>
+    <string name="assignment_open">Open</string>
+    <string name="assignment_submitted">Ingeleverd</string>
+    <string name="assignment_closed">Afgerond</string>
+    <string name="assignment_graded">Beoordeeld</string>
+
+    <string name="assignment_graded_on">Beoordeld op</string>
+    <string name="assignment_grade">Beoordeling</string>
+    <string name="assignment_submitted_on">Ingeleverd op</string>
+    <string name="assignment_feedback">Opmerkingen</string>
 </resources>
