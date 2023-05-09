@@ -1,0 +1,1 @@
+Fix some issues where extra lines would appear
