@@ -48,6 +48,9 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = false
+
+            binaryOption("bundleVersion", Version.appVersionCode.toString())
+            binaryOption("bundleShortVersionString", Version.appVersion)
         }
 
         pod("Google-Mobile-Ads-SDK") {
