@@ -6,8 +6,8 @@ buildscript {
     repositories {
         gradlePluginPortal()
         google()
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
         maven("https://jitpack.io")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
@@ -24,18 +24,18 @@ buildscript {
 allprojects {
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://jitpack.io")
 
-        maven {
+/*        maven {
             url = uri("https://maven.pkg.github.com/Tiebe/MagisterAPIKt")
             credentials {
                 username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
             }
-        }
+        }*/
     }
 }
 

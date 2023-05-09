@@ -13,9 +13,9 @@ import io.ktor.utils.io.*
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
-import nl.tiebe.otarium.utils.getDownloadFileLocation
 import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
+import nl.tiebe.otarium.utils.writeFile
 
 interface StudyGuideFolderComponent {
     val content: Value<StudyGuideContent>
@@ -70,9 +70,9 @@ class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, overr
                 onDownload = { bytesSentTotal, contentLength ->
                     resourceDownloadProgress.value = resourceDownloadProgress.value + Pair(item.id, bytesSentTotal.toFloat() / contentLength.toFloat())
                 }
-            ).bodyAsChannel()
+            ).readBytes()
 
-            response.copyAndClose(getDownloadFileLocation(item.id.toString(), item.name))
+            writeFile(item.id.toString(), item.name, response)
             openFileFromCache(item.id.toString(), item.name)
 
             resourceDownloadProgress.value = resourceDownloadProgress.value.toMutableMap().also {

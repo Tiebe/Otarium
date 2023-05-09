@@ -8,15 +8,16 @@ import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import dev.tiebe.magisterapi.response.assignment.FeedbackBijlagen
 import dev.tiebe.magisterapi.response.assignment.LeerlingBijlagen
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.utils.io.*
+import io.ktor.client.statement.readBytes
+import io.ktor.http.URLBuilder
+import io.ktor.http.Url
+import io.ktor.http.appendEncodedPathSegments
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
-import nl.tiebe.otarium.utils.getDownloadFileLocation
 import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
+import nl.tiebe.otarium.utils.writeFile
 
 interface AssignmentScreenComponent {
     val assignment: Value<Assignment>
@@ -78,9 +79,9 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
                 onDownload = { bytesSentTotal, contentLength ->
                     attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
                 }
-            ).bodyAsChannel()
+            ).readBytes()
 
-            response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.naam))
+            writeFile(attachment.id.toString(), attachment.naam, response)
             openFileFromCache(attachment.id.toString(), attachment.naam)
 
             attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
@@ -97,9 +98,9 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
                 onDownload = { bytesSentTotal, contentLength ->
                     attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
                 }
-            ).bodyAsChannel()
+            ).readBytes()
 
-            response.copyAndClose(getDownloadFileLocation(attachment.id.toString(), attachment.naam))
+            writeFile(attachment.id.toString(), attachment.naam, response)
             openFileFromCache(attachment.id.toString(), attachment.naam)
 
             attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
