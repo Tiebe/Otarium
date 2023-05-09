@@ -21,35 +21,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build and publish
-        uses: sparkfabrik/ios-build-action@v2.1.0
+      - name: Fastlane Action
+        uses: maierj/fastlane-action@v3.0.0
         with:
-          upload-to-testflight: true
-          increment-build-number: true
-          build-pods: true
-          pods-path: "iosApp/Podfile"
-          configuration: Release
-          export-method: app-store
-          workspace-path: iosApp/iosApp.xcworkspace
-          project-path: iosApp/iosApp.xcodeproj
-          scheme: iosApp
-          output-path: build-${{ github.sha }}.ipa
-          apple-key-id: ${{ secrets.APPLE_KEY_ID }}
-          apple-key-issuer-id: ${{ secrets.APPLE_KEY_ISSUER_ID }}
-          apple-key-content: ${{ secrets.APPLE_KEY_CONTENT }}
-          team-id: ${{ secrets.TEAM_ID }}
-          team-name: ${{ secrets.TEAM_NAME }}
-          match-password: ${{ secrets.MATCH_PASSWORD }}
-          match-git-url: ${{ secrets.MATCH_GIT_URL }}
-          match-git-basic-authorization: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-          match-build-type: "appstore"
-          browserstack-upload: false
-          browserstack-username: ${{ secrets.BROWSERSTACK_USERNAME }}
-          browserstack-access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-          fastlane-env: stage
-          ios-app-id: ${{ secrets.APP_ID }}
+          lane: release
         env:
-          APP_ID: ${{ secrets.APP_ID }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
         
       - name: Upload logs
         if: always()
@@ -62,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: Otarium.ipa
-          path: build-${{ github.sha }}.ipa
+          path: Otarium.ipa
