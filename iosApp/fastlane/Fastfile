@@ -28,6 +28,7 @@ platform :ios do
     match(type: "appstore")
    
     cocoapods
+    sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
     increment_build_number(xcodeproj: "iosApp.xcodeproj")
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_app_store
@@ -37,6 +38,9 @@ platform :ios do
   lane :build do
     match(type: "appstore")
     cocoapods
+    sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
+
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
   end
 end
+
