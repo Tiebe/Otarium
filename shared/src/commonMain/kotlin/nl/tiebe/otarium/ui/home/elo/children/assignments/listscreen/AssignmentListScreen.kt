@@ -41,11 +41,11 @@ internal fun AssignmentListScreen(component: AssignmentListComponent) {
                     Text(getLocalizedString(MR.strings.assignment_all), style = TextStyle(fontSize = 14.sp))
                 }
 
-                Tab(selected = selectedTab == 1, onClick = { component.selectedTab.value = 2 }, modifier = Modifier.height(53.dp)) {
+                Tab(selected = selectedTab == 1, onClick = { component.selectedTab.value = 1 }, modifier = Modifier.height(53.dp)) {
                     Text(getLocalizedString(MR.strings.assignment_open), style = TextStyle(fontSize = 14.sp))
                 }
 
-                Tab(selected = selectedTab == 2, onClick = { component.selectedTab.value = 1 }, modifier = Modifier.height(53.dp)) {
+                Tab(selected = selectedTab == 2, onClick = { component.selectedTab.value = 2 }, modifier = Modifier.height(53.dp)) {
                     Text(getLocalizedString(MR.strings.assignment_submitted), style = TextStyle(fontSize = 14.sp))
                 }
 
