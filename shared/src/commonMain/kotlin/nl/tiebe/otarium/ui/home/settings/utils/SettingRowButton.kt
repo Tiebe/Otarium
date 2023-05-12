@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.ui.home.settings.utils
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
@@ -16,7 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), icon: Painter, description: String = leftText.text, onClick: () -> Unit) {
+internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), icon: Painter, description: String = leftText.text, rowClickable: Boolean, onClick: () -> Unit) {
     SettingRow(modifier = modifier, text = leftText, textStyle = textStyle) {
         Button(modifier = Modifier.width(50.dp), onClick = onClick, contentPadding = PaddingValues(0.dp)) {
             Icon(painter = icon, contentDescription = description, modifier = Modifier.fillMaxWidth())
@@ -25,13 +26,14 @@ internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: Annot
 }
 
 @Composable
-internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), icon: ImageVector, description: String = leftText.text, onClick: () -> Unit) {
+internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), icon: ImageVector, description: String = leftText.text, rowClickable: Boolean, onClick: () -> Unit) {
     SettingRowIconButton(
-        modifier = modifier,
+        modifier = modifier.clickable(enabled = rowClickable, onClick = onClick),
         leftText = leftText,
         textStyle = textStyle,
         icon = rememberVectorPainter(icon),
         description = description,
+        rowClickable = rowClickable,
         onClick = onClick
     )
 }

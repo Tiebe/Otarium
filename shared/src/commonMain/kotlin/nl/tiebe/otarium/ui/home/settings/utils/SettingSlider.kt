@@ -12,7 +12,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingSlider(
     modifier: Modifier = Modifier,

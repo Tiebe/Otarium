@@ -20,9 +20,9 @@ import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
 import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.ui.root.RootComponent
-import nl.tiebe.otarium.utils.icons.Bottombar
-import nl.tiebe.otarium.utils.icons.Icons
-import nl.tiebe.otarium.utils.icons.bottombar.*
+import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.Bottombar
+import nl.tiebe.otarium.utils.otariumicons.bottombar.*
 
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
@@ -33,38 +33,38 @@ interface HomeComponent {
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
             MR.strings.agendaItem,
-            { Icon(Icons.Bottombar.CalendarTodayOutline, "Timetable", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.CalendarTodayFilled, "Timetable", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.CalendarTodayOutline, "Timetable", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(OtariumIcons.Bottombar.CalendarTodayFilled, "Timetable", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Grades: MenuItem(
             MR.strings.gradesItem,
-            { Icon(Icons.Bottombar.Box10Outline, "Grades", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.Box10Filled, "Grades", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.Box10Outline, "Grades", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(OtariumIcons.Bottombar.Box10Filled, "Grades", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Messages: MenuItem(
             MR.strings.messagesItem,
-            { Icon(Icons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object ELO: MenuItem(
             MR.strings.eloItem,
-            { Icon(Icons.Bottombar.BookOpenOutline, "ELO", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.BookOpenFilled, "ELO", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.BookOpenOutline, "ELO", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(OtariumIcons.Bottombar.BookOpenFilled, "ELO", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Settings: MenuItem(
             MR.strings.settingsItem,
-            { Icon(Icons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(OtariumIcons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
 
         object Debug: MenuItem(
             MR.strings.settingsItem,
-            { Icon(Icons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
+            { Icon(OtariumIcons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
         )
     }
 
