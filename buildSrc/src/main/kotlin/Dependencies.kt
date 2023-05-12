@@ -24,6 +24,7 @@ object Version {
     const val guava_coroutines = "1.7.0-RC"
 
     const val complete_kotlin = "1.1.0"
+    const val colormath = "3.2.0"
 }
 
 object Compose {
@@ -98,6 +99,7 @@ const val admob = "com.google.android.gms:play-services-ads:${Version.admob}"
 const val magisterAPI = "dev.tiebe:magisterapi:${Version.magister}"
 
 const val completeKotlin = "com.louiscad.complete-kotlin"
+const val colorMath = "com.github.ajalt.colormath:colormath:${Version.colormath}"
 
 object Guava {
     const val core = "com.google.guava:guava:${Version.guava}"

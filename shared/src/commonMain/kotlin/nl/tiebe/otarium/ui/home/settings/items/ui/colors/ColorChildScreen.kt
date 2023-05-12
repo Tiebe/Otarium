@@ -3,12 +3,13 @@ package nl.tiebe.otarium.ui.home.settings.items.ui.colors
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -20,10 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.ui.home.settings.utils.SettingsColorPicker
 import nl.tiebe.otarium.ui.home.settings.utils.SettingsRowToggle
+import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.dynamicColorsPossible
+import nl.tiebe.otarium.utils.otariumicons.ContentSave
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
 internal fun ColorChildScreen(component: ColorChildComponent) {
@@ -38,41 +43,44 @@ internal fun ColorChildScreen(component: ColorChildComponent) {
 
         if (dynamicColorsPossible()) {
             SettingsRowToggle(
-                leftText = AnnotatedString("Dynamic color scheme"),
+                leftText = AnnotatedString(getLocalizedString(MR.strings.color_dynamic)),
                 checked = dynamicColorScheme.value,
+                rowClickable = true
             ) {
                 component.dynamicColorState.value = it
             }
         }
 
         SettingsRowToggle(
-            leftText = AnnotatedString("Custom color scheme"),
+            leftText = AnnotatedString(getLocalizedString(MR.strings.color_custom)),
             checked = customColorScheme.value,
+            rowClickable = true
         ) {
             component.customColorScheme.value = it
         }
 
         if (customColorScheme.value) {
             SettingRowIconButton(
-                leftText = AnnotatedString("Reset to default"),
-                icon = Icons.Default.Delete,
+                leftText = AnnotatedString(getLocalizedString(MR.strings.color_reset)),
+                icon = Icons.Default.Refresh,
+                rowClickable = false,
                 onClick = {
                     component.resetColorScheme()
                 }
             )
 
             SettingRowIconButton(
-                leftText = AnnotatedString("Save color scheme"),
-                icon = Icons.Default.Create,
+                leftText = AnnotatedString(getLocalizedString(MR.strings.color_save)),
+                icon = OtariumIcons.ContentSave,
+                rowClickable = false,
                 onClick = {
-                    println(component.primaryLightColor.value.toColor())
                     component.saveColorScheme()
                 }
             )
 
             val showLightColors = remember { mutableStateOf(false) }
 
-            Row(modifier = Modifier.fillMaxWidth(0.95f).height(70.dp),
+            Row(modifier = Modifier.fillMaxWidth(0.95f).height(70.dp).clickable { showLightColors.value = !showLightColors.value },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Light")
@@ -85,21 +93,21 @@ internal fun ColorChildScreen(component: ColorChildComponent) {
             AnimatedVisibility(modifier = Modifier.padding(start = 16.dp), visible = showLightColors.value, enter = expandVertically(), exit = shrinkVertically()) {
                 Column {
                     SettingsColorPicker(
-                        leftText = AnnotatedString("Primary color"),
+                        leftText = AnnotatedString(getLocalizedString(MR.strings.color_primary)),
                         color = component.primaryLightColor.subscribeAsState().value
                     ) {
                         component.primaryLightColor.value = it
                     }
 
                     SettingsColorPicker(
-                        leftText = AnnotatedString("Secondary color"),
+                        leftText = AnnotatedString(getLocalizedString(MR.strings.color_secondary)),
                         color = component.secondaryLightColor.subscribeAsState().value
                     ) {
                         component.secondaryLightColor.value = it
                     }
 
                     SettingsColorPicker(
-                        leftText = AnnotatedString("Tertiary color"),
+                        leftText = AnnotatedString(getLocalizedString(MR.strings.color_tertiary)),
                         color = component.tertiaryLightColor.subscribeAsState().value
                     ) {
                         component.tertiaryLightColor.value = it
@@ -109,7 +117,7 @@ internal fun ColorChildScreen(component: ColorChildComponent) {
 
             val showDarkColors = remember { mutableStateOf(false) }
 
-            Row(modifier = Modifier.fillMaxWidth(0.95f).height(70.dp),
+            Row(modifier = Modifier.fillMaxWidth(0.95f).height(70.dp).clickable { showDarkColors.value = !showDarkColors.value },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Dark")
@@ -122,21 +130,21 @@ internal fun ColorChildScreen(component: ColorChildComponent) {
             AnimatedVisibility(modifier = Modifier.padding(start = 16.dp), visible = showDarkColors.value, enter = expandVertically(), exit = shrinkVertically()) {
                 Column {
                     SettingsColorPicker(
-                        leftText = AnnotatedString("Primary color"),
+                        leftText = AnnotatedString(getLocalizedString(MR.strings.color_primary)),
                         color = component.primaryDarkColor.subscribeAsState().value
                     ) {
                         component.primaryDarkColor.value = it
                     }
 
                     SettingsColorPicker(
-                        leftText = AnnotatedString("Secondary color"),
+                        leftText = AnnotatedString(getLocalizedString(MR.strings.color_secondary)),
                         color = component.secondaryDarkColor.subscribeAsState().value
                     ) {
                         component.secondaryDarkColor.value = it
                     }
 
                     SettingsColorPicker(
-                        leftText = AnnotatedString("Tertiary color"),
+                        leftText = AnnotatedString(getLocalizedString(MR.strings.color_tertiary)),
                         color = component.tertiaryDarkColor.subscribeAsState().value
                     ) {
                         component.tertiaryDarkColor.value = it

@@ -3,6 +3,7 @@ package nl.tiebe.otarium.ui.home.settings.utils
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -22,9 +23,8 @@ internal fun SettingsColorPicker(modifier: Modifier = Modifier, leftText: Annota
     val showPicker = remember { mutableStateOf(false) }
 
     Column {
-
         Row(
-            modifier = Modifier.fillMaxWidth(0.95f).height(70.dp).then(modifier),
+            modifier = Modifier.fillMaxWidth(0.95f).height(70.dp).clickable { showPicker.value = !showPicker.value }.then(modifier),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

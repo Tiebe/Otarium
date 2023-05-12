@@ -23,21 +23,24 @@ internal fun DebugScreen(component: DebugComponent) {
     Column(modifier = Modifier.padding(horizontal = 8.dp)) {
         SettingRowIconButton(
             leftText = AnnotatedString("Ask notification permission"),
-            icon = Icons.Default.Notifications
+            icon = Icons.Default.Notifications,
+            rowClickable = true,
         ) {
             setupNotifications()
         }
 
         SettingRowIconButton(
             leftText = AnnotatedString("Send test notification"),
-            icon = Icons.Default.Notifications
+            icon = Icons.Default.Notifications,
+            rowClickable = true,
         ) {
             sendNotification("Test notification", "This is a test notification")
         }
 
         SettingRowIconButton(
             leftText = AnnotatedString("Remove random grade"),
-            icon = Icons.Default.Delete
+            icon = Icons.Default.Delete,
+            rowClickable = true,
         ) {
             val account = Data.selectedAccount
             val savedGrades = account.fullGradeList.toMutableList()
@@ -48,7 +51,8 @@ internal fun DebugScreen(component: DebugComponent) {
 
         SettingRowIconButton(
             leftText = AnnotatedString("Check grades"),
-            icon = Icons.Default.Refresh
+            icon = Icons.Default.Refresh,
+            rowClickable = true,
         ) {
             component.scope.launch {
                 Data.selectedAccount.refreshGrades()
@@ -57,7 +61,8 @@ internal fun DebugScreen(component: DebugComponent) {
 
         SettingRowIconButton(
             leftText = AnnotatedString("Check grades background"),
-            icon = Icons.Default.Refresh
+            icon = Icons.Default.Refresh,
+            rowClickable = true,
         ) {
             component.scope.launch {
                 refreshGradesBackground()
@@ -66,7 +71,8 @@ internal fun DebugScreen(component: DebugComponent) {
 
         SettingRowIconButton(
             leftText = AnnotatedString("Export accounts"),
-            icon = Icons.Default.Share
+            icon = Icons.Default.Share,
+            rowClickable = true,
         ) {
             component.exportAccounts()
         }
@@ -74,14 +80,16 @@ internal fun DebugScreen(component: DebugComponent) {
 
         SettingRowIconButton(
             leftText = AnnotatedString("Import accounts"),
-            icon = Icons.Default.Add
+            icon = Icons.Default.Add,
+            rowClickable = true,
         ) {
             component.importAccounts(getClipboardText())
         }
 
         SettingRowIconButton(
             leftText = AnnotatedString("Change language"),
-            icon = Icons.Default.KeyboardArrowRight
+            icon = Icons.Default.KeyboardArrowRight,
+            rowClickable = true,
         ) {
             component.changeLanguage()
         }
