@@ -81,4 +81,13 @@
 
     <string name="color_settings">Kleuren</string>
 
+    <string name="color_dynamic">Dynamisch kleurenschema</string>
+    <string name="color_custom">Aangepast kleurenschema</string>
+    <string name="color_reset">Reset kleurenschema</string>
+    <string name="color_save">Kleurenschema opslaan</string>
+
+    <string name="color_primary">Primaire kleur</string>
+    <string name="color_secondary">Secundaire kleur</string>
+    <string name="color_tertiary">Tertiaire kleur</string>
+
 </resources>
