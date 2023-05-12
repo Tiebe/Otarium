@@ -25,16 +25,15 @@ lateinit var darkModeState: MutableState<Boolean>
 val safeAreaState = mutableStateOf(PaddingValues())
 
 //todo: back gestures ios
-//todo: fix colorrssss
 //todo: handmatig cijfers invoeren
 //todo: soepelheid swipen overal
 //todo: add settings item to show lesuitval
+//todo: use tertiary color
 //todo: make important emails red
 //todo: add statistics tab in grades
 //todo: voldoendegrens instellen in instellingen
 
 fun setup() {
-
     val oldVersion = settings.getInt("version", 1000)
 
     runVersionCheck(oldVersion)
