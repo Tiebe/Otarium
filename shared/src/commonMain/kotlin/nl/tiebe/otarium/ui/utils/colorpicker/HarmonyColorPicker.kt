@@ -6,49 +6,26 @@ import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.drag
-import androidx.compose.foundation.gestures.forEachGesture
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import kotlin.math.PI
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.hypot
-import kotlin.math.min
-import kotlin.math.sin
+import kotlin.math.*
 
 
 @Deprecated(
@@ -180,17 +157,15 @@ internal fun HarmonyColorPickerWithMagnifiers(
         }
 
         val inputModifier = Modifier.pointerInput(diameterPx) {
-            forEachGesture {
-                awaitPointerEventScope {
-                    val down = awaitFirstDown(false)
-                    currentlyChangingInput = true
-                    updateColorWheel(down.position, animate = true)
-                    drag(down.id) { change ->
-                        updateColorWheel(change.position, animate = false)
-                        change.consumePositionChange()
-                    }
-                    currentlyChangingInput = false
+            awaitEachGesture {
+                val down = awaitFirstDown(false)
+                currentlyChangingInput = true
+                updateColorWheel(down.position, animate = true)
+                drag(down.id) { change ->
+                    updateColorWheel(change.position, animate = false)
+                    change.consume()
                 }
+                currentlyChangingInput = false
             }
         }
 

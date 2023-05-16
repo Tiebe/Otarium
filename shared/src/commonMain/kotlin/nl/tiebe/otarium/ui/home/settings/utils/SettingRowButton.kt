@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), icon: Painter, description: String = leftText.text, rowClickable: Boolean, onClick: () -> Unit) {
-    SettingRow(modifier = modifier, text = leftText, textStyle = textStyle) {
+    SettingRow(modifier = modifier.clickable(enabled = rowClickable, onClick = onClick), text = leftText, textStyle = textStyle) {
         Button(modifier = Modifier.width(50.dp), onClick = onClick, contentPadding = PaddingValues(0.dp)) {
             Icon(painter = icon, contentDescription = description, modifier = Modifier.fillMaxWidth())
         }
@@ -28,7 +28,7 @@ internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: Annot
 @Composable
 internal fun SettingRowIconButton(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), icon: ImageVector, description: String = leftText.text, rowClickable: Boolean, onClick: () -> Unit) {
     SettingRowIconButton(
-        modifier = modifier.clickable(enabled = rowClickable, onClick = onClick),
+        modifier = modifier,
         leftText = leftText,
         textStyle = textStyle,
         icon = rememberVectorPainter(icon),

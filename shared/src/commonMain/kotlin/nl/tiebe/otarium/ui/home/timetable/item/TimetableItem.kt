@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.*
 import nl.tiebe.otarium.magister.getAgendaForDay
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.days
+import nl.tiebe.otarium.ui.home.timetable.main.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.main.days
 import nl.tiebe.otarium.ui.theme.defaultLightTheme
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder

@@ -12,20 +12,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.main.TimetableComponent
 import nl.tiebe.otarium.ui.utils.BackButton
 import nl.tiebe.otarium.ui.utils.ClickableText
 import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbsence: AgendaItemWithAbsence) {
-    Surface(Modifier.fillMaxSize()) {
+internal fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int, modifier: Modifier) {
+    val agendaItemWithAbsence = component.timetable.subscribeAsState().value.first { it.agendaItem.id == agendaItemId }
+
+    Surface(Modifier.fillMaxSize().then(modifier)) {
         Box(Modifier.fillMaxSize().padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
             Column(
                 modifier = Modifier

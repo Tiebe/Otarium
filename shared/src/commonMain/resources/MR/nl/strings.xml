@@ -90,4 +90,5 @@
     <string name="color_secondary">Secundaire kleur</string>
     <string name="color_tertiary">Tertiaire kleur</string>
 
+    <string name="show_cancelled_lessons">Laat lesuitval zien</string>
 </resources>
