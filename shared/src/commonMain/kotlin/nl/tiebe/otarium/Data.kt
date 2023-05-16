@@ -56,4 +56,9 @@ object Data {
         get() = settings.getBoolean("dynamic_theme", false)
         set(value) = settings.putBoolean("dynamic_theme", value)
 
+    var showCancelledLessons: Boolean
+        get() = settings.getBoolean("show_cancelled_lessons", false)
+        set(value) = settings.putBoolean("show_cancelled_lessons", value)
+
+
 }

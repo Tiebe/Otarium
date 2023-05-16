@@ -20,13 +20,13 @@ internal fun VersionInfoScreen(component: AssignmentScreenComponent, assignment:
         if (version.gradedOn != null || version.grade != null || version.teacherNote != null || version.feedbackAttachments.isNotEmpty()) {
             Spacer(modifier = Modifier.height(10.dp))
 
-            TeacherFeedbackCard(component, assignment, version)
+            TeacherFeedbackCard(component, version)
         }
 
         if (version.submittedOn != null || version.studentNote != null || version.studentAttachments.isNotEmpty()) {
             Spacer(modifier = Modifier.height(10.dp))
 
-            StudentVersionCard(component, assignment, version)
+            StudentVersionCard(component, version)
         }
     }
 }

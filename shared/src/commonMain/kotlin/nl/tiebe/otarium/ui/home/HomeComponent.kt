@@ -18,7 +18,7 @@ import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
 import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
-import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Bottombar
@@ -93,9 +93,8 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
     }
 
     private fun timetableComponent(componentContext: ComponentContext) =
-        DefaultTimetableComponent(
+        DefaultTimetableRootComponent(
             componentContext = componentContext,
-            navigate = ::navigate
         )
 
     private fun gradesComponent(componentContext: ComponentContext) =

@@ -1,11 +1,10 @@
-package nl.tiebe.otarium.ui.home.timetable
+package nl.tiebe.otarium.ui.home.timetable.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -17,8 +16,7 @@ import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.getAbsences
 import nl.tiebe.otarium.magister.getMagisterAgenda
-import nl.tiebe.otarium.ui.home.HomeComponent
-import nl.tiebe.otarium.ui.home.MenuItemComponent
+import nl.tiebe.otarium.ui.home.timetable.TimetableRootComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
@@ -33,7 +31,7 @@ val days = listOf(
     getLocalizedString(MR.strings.sunday)
 )
 
-interface TimetableComponent : MenuItemComponent {
+interface TimetableComponent {
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
     val amountOfDays get() = 1000
@@ -41,8 +39,6 @@ interface TimetableComponent : MenuItemComponent {
     val currentPage: Value<Int>
 
     val timetable: Value<List<AgendaItemWithAbsence>>
-
-    val openedTimetableItem: Value<Pair<Boolean, AgendaItemWithAbsence?>>
 
     val selectedWeek: Value<Int>
 
@@ -82,18 +78,9 @@ interface TimetableComponent : MenuItemComponent {
         }
     }
 
-    val backCallbackOpenItem: BackCallback
+    fun openTimeTableItem(item: AgendaItemWithAbsence)
 
-    fun openTimeTableItem(item: AgendaItemWithAbsence) {
-        backCallbackOpenItem.isEnabled = true
-
-        (openedTimetableItem as MutableValue).value = true to item
-    }
-
-    fun closeItemPopup() {
-        (openedTimetableItem as MutableValue).value = false to openedTimetableItem.value.second
-        backCallbackOpenItem.isEnabled = false
-    }
+    fun closeItemPopup()
 
     @OptIn(ExperimentalFoundationApi::class)
     fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {
@@ -106,13 +93,13 @@ interface TimetableComponent : MenuItemComponent {
 
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
-    navigate: (menuItem: HomeComponent.MenuItem) -> Unit
+    val navigate: (TimetableRootComponent.Config) -> Unit,
+    val back: () -> Unit,
 ): TimetableComponent, ComponentContext by componentContext {
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
 
     override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
-    override val openedTimetableItem: MutableValue<Pair<Boolean, AgendaItemWithAbsence?>> = MutableValue(false to null)
 
     override val selectedWeek = MutableValue(floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt())
 
@@ -167,9 +154,14 @@ class DefaultTimetableComponent(
         }
     }
 
-    override val backCallbackOpenItem: BackCallback = BackCallback(false) {
-        closeItemPopup()
+    override fun openTimeTableItem(item: AgendaItemWithAbsence) {
+        navigate(TimetableRootComponent.Config.TimetablePopup(item.agendaItem.id))
     }
+
+    override fun closeItemPopup() {
+        back()
+    }
+
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {
@@ -181,8 +173,6 @@ class DefaultTimetableComponent(
 
 
     init {
-        backHandler.register(backCallbackOpenItem)
-
         selectedWeek.subscribe {
             refreshSelectedWeek()
         }

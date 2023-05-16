@@ -97,4 +97,6 @@
     <string name="color_primary">Primary color</string>
     <string name="color_secondary">Secondary color</string>
     <string name="color_tertiary">Tertiary color</string>
+
+    <string name="show_cancelled_lessons">Show cancelled lessons</string>
 </resources>

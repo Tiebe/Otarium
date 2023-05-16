@@ -18,8 +18,8 @@ import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.MessagesScreen
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.SettingsScreen
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.main.TimetableScreen
+import nl.tiebe.otarium.ui.home.timetable.TimetableRootComponent
+import nl.tiebe.otarium.ui.home.timetable.TimetableRootScreen
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +52,7 @@ internal fun BottomBar(
     ) { innerPadding ->
         Box(Modifier.fillMaxSize().padding(innerPadding)) {
             when (val dialogComponent = overlay.instance) {
-                is TimetableComponent -> TimetableScreen(dialogComponent)
+                is TimetableRootComponent -> TimetableRootScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
                 is MessagesComponent -> MessagesScreen(dialogComponent)
                 is ELOComponent -> ELOScreen(dialogComponent)
