@@ -3,7 +3,7 @@ object Version {
     const val appVersion = "3.3.0-alpha01"
     const val appVersionCode = 32
 
-    const val magister = "1.1.9"
+    const val magister = "1.1.10-alpha01"
 
     const val kotlin = "1.8.0"
     const val gradle = "7.4.1"
