@@ -124,7 +124,8 @@ class DefaultTimetableComponent(
                         account.tenantUrl,
                         account.tokens.accessToken,
                         from,
-                        to
+                        to,
+                        if (Data.showCancelledLessons) null else 2
                     )
                 )
 

@@ -10,14 +10,16 @@ suspend fun getMagisterAgenda(
     tenantUrl: String,
     accessToken: String,
     start: LocalDate,
-    end: LocalDate
+    end: LocalDate,
+    status: Int? = null,
 ): List<AgendaItem> {
     return getAgenda(
         Url(tenantUrl),
         accessToken,
         accountId,
         "${start.year}-${start.monthNumber}-${start.dayOfMonth}",
-        "${end.year}-${end.monthNumber}-${end.dayOfMonth}"
+        "${end.year}-${end.monthNumber}-${end.dayOfMonth}",
+        status = status
     )
 }
 

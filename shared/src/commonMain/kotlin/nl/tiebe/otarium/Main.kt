@@ -32,6 +32,7 @@ val safeAreaState = mutableStateOf(PaddingValues())
 //todo: make important emails red
 //todo: add statistics tab in grades
 //todo: voldoendegrens instellen in instellingen
+//todo: mappen in studiewijzers
 
 fun setup() {
     val oldVersion = settings.getInt("version", 1000)
