@@ -1,18 +1,16 @@
 package nl.tiebe.otarium.ui.home.messages
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
+import nl.tiebe.otarium.ui.theme.red
+import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Bottombar
 import nl.tiebe.otarium.utils.otariumicons.Email
 import nl.tiebe.otarium.utils.otariumicons.Folder
-import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.bottombar.EmailFilled
 import nl.tiebe.otarium.utils.otariumicons.email.Attachment
 import nl.tiebe.otarium.utils.otariumicons.email.EmailAlert
@@ -42,7 +40,7 @@ internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message)
     ListItem(
         headlineText = { Text(message.subject) },
         supportingText = { Text(message.sender?.name ?: message.receivers?.joinToString { it.name } ?: "") },
-        leadingContent = { Icon(icon, contentDescription = null) },
+        leadingContent = { Icon(icon, contentDescription = null, tint = if (message.hasPriority) red else LocalContentColor.current) },
         trailingContent = { if (message.hasAttachments) Icon(OtariumIcons.Email.Attachment, contentDescription = null) },
         modifier = Modifier.clickable {
             navigateToMessage(message)
