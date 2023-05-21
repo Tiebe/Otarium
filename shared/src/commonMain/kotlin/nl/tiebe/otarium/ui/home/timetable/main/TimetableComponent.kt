@@ -5,6 +5,7 @@ import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -125,7 +126,7 @@ class DefaultTimetableComponent(
                         account.tokens.accessToken,
                         from,
                         to,
-                        if (Data.showCancelledLessons) null else 2
+                        if (Data.showCancelledLessons) AgendaItem.Companion.Status.NONE else AgendaItem.Companion.Status.SCHEDULED_MANUALLY
                     )
                 )
 
