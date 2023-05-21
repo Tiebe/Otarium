@@ -11,7 +11,7 @@ suspend fun getMagisterAgenda(
     accessToken: String,
     start: LocalDate,
     end: LocalDate,
-    status: Int? = null,
+    status: AgendaItem.Companion.Status = AgendaItem.Companion.Status.NONE
 ): List<AgendaItem> {
     return getAgenda(
         Url(tenantUrl),
