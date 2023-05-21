@@ -30,6 +30,9 @@ data class CustomTheme(
     }
 }
 
+val red = Color(0xFFC40808)
+val green = Color(0xFF1FC43B)
+
 val defaultLightTheme = CustomTheme(
     Color(0xFF6ACBF0).toArgb(),
     Color(0xFF1FC43B).toArgb(),

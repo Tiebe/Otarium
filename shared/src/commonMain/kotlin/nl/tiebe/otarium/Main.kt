@@ -27,12 +27,12 @@ val safeAreaState = mutableStateOf(PaddingValues())
 //todo: back gestures ios
 //todo: handmatig cijfers invoeren
 //todo: soepelheid swipen overal
-//todo: add settings item to show lesuitval
 //todo: use tertiary color
-//todo: make important emails red
 //todo: add statistics tab in grades
 //todo: voldoendegrens instellen in instellingen
 //todo: mappen in studiewijzers
+//todo: attachments bij lessen
+//todo: fix swiping grades and correctly switching weeks
 
 fun setup() {
     val oldVersion = settings.getInt("version", 1000)
