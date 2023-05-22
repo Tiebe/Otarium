@@ -22,17 +22,6 @@ import nl.tiebe.otarium.utils.versions.runVersionCheck
 
 val settings: Settings = Settings()
 
-//todo: back gestures ios
-//todo: handmatig cijfers invoeren
-//todo: soepelheid swipen overal
-//todo: use tertiary color
-//todo: add statistics tab in grades
-//todo: voldoendegrens instellen in instellingen
-//todo: mappen in studiewijzers
-//todo: attachments bij lessen
-//todo: fix swiping days and correctly switching weeks
-//todo: laat cijfer info zien bij hover over grafiek
-
 fun setup() {
     val oldVersion = settings.getInt("version", 1000)
 
