@@ -2,7 +2,9 @@ package nl.tiebe.otarium
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,7 +24,6 @@ import nl.tiebe.otarium.utils.versions.runVersionCheck
 val settings: Settings = Settings()
 
 lateinit var darkModeState: MutableState<Boolean>
-val safeAreaState = mutableStateOf(PaddingValues())
 
 //todo: back gestures ios
 //todo: handmatig cijfers invoeren
@@ -44,12 +45,12 @@ fun setup() {
 }
 
 @Composable
-internal fun Content(componentContext: ComponentContext, colorScheme: ColorScheme? = null) {
-    Content(component = DefaultRootComponent(componentContext), colorScheme = colorScheme)
+internal fun Content(componentContext: ComponentContext, colorScheme: ColorScheme? = null, padding: PaddingValues) {
+    Content(component = DefaultRootComponent(componentContext), colorScheme = colorScheme, padding = padding)
 }
 
 @Composable
-internal fun Content(component: RootComponent, colorScheme: ColorScheme? = null) {
+internal fun Content(component: RootComponent, colorScheme: ColorScheme? = null, padding: PaddingValues) {
     darkModeState = mutableStateOf(isSystemInDarkTheme())
 
     OtariumTheme(colorScheme) {
@@ -57,12 +58,7 @@ internal fun Content(component: RootComponent, colorScheme: ColorScheme? = null)
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colorScheme.primary)
         ) {}
-        Box(
-            modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-        ) {}
-        Box(modifier = Modifier.padding(safeAreaState.value)) {
-
+        Box() {
             val currentScreen by component.currentScreen.subscribeAsState()
 
             Surface(

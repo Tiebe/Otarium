@@ -1,7 +1,6 @@
 package nl.tiebe.otarium.ui.home
 
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
@@ -33,38 +32,38 @@ interface HomeComponent {
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
             MR.strings.agendaItem,
-            { Icon(OtariumIcons.Bottombar.CalendarTodayOutline, "Timetable", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(OtariumIcons.Bottombar.CalendarTodayFilled, "Timetable", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.CalendarTodayOutline, "Timetable") },
+            { Icon(OtariumIcons.Bottombar.CalendarTodayFilled, "Timetable") },
         )
 
         object Grades: MenuItem(
             MR.strings.gradesItem,
-            { Icon(OtariumIcons.Bottombar.Box10Outline, "Grades", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(OtariumIcons.Bottombar.Box10Filled, "Grades", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.Box10Outline, "Grades") },
+            { Icon(OtariumIcons.Bottombar.Box10Filled, "Grades") },
         )
 
         object Messages: MenuItem(
             MR.strings.messagesItem,
-            { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages") },
+            { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") },
         )
 
         object ELO: MenuItem(
             MR.strings.eloItem,
-            { Icon(OtariumIcons.Bottombar.BookOpenOutline, "ELO", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(OtariumIcons.Bottombar.BookOpenFilled, "ELO", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.BookOpenOutline, "ELO") },
+            { Icon(OtariumIcons.Bottombar.BookOpenFilled, "ELO") },
         )
 
         object Settings: MenuItem(
             MR.strings.settingsItem,
-            { Icon(OtariumIcons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(OtariumIcons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.CogOutline, "Settings") },
+            { Icon(OtariumIcons.Bottombar.CogFilled, "Settings") },
         )
 
         object Debug: MenuItem(
             MR.strings.settingsItem,
-            { Icon(OtariumIcons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(OtariumIcons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.Box10Outline, "Debug") },
+            { Icon(OtariumIcons.Bottombar.Box10Filled, "Debug") },
         )
     }
 

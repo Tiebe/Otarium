@@ -1,9 +1,6 @@
 package nl.tiebe.otarium.ui.home.messages
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -44,7 +41,8 @@ internal fun MessagesScreen(component: MessagesComponent) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }
-            }
+            },
+            windowInsets = WindowInsets(0.dp)
         )
 
         Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {

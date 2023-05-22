@@ -126,7 +126,7 @@ class DefaultTimetableComponent(
                         account.tokens.accessToken,
                         from,
                         to,
-                        if (Data.showCancelledLessons) AgendaItem.Companion.Status.NONE else AgendaItem.Companion.Status.SCHEDULED_MANUALLY
+                        if (Data.showCancelledLessons) AgendaItem.Companion.Status.NONE else AgendaItem.Companion.Status.SCHEDULED_AUTOMATICALLY
                     )
                 )
 
