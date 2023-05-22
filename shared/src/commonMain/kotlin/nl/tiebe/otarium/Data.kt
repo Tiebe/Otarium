@@ -4,6 +4,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nl.tiebe.otarium.magister.MagisterAccount
+import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.ui.theme.CustomTheme
 import nl.tiebe.otarium.ui.theme.defaultDarkTheme
 import nl.tiebe.otarium.ui.theme.defaultLightTheme
@@ -59,6 +60,11 @@ object Data {
     var showCancelledLessons: Boolean
         get() = settings.getBoolean("show_cancelled_lessons", false)
         set(value) = settings.putBoolean("show_cancelled_lessons", value)
+
+    var manualGrades: List<ManualGrade>
+        get() = settings.getString("manual_grades", "[]").let {
+            Json.decodeFromString(it) }
+        set(value) = settings.putString("manual_grades", Json.encodeToString(value))
 
 
 }

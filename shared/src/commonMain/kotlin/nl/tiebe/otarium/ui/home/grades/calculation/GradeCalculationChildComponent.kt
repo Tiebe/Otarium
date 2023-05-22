@@ -9,6 +9,7 @@ import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.home.grades.GradesChildComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
@@ -17,6 +18,12 @@ interface GradeCalculationChildComponent : GradesChildComponent {
     val openedSubject: Value<Pair<Boolean, Subject?>>
 
     val backCallbackOpenItem: BackCallback
+
+    val manualGradesList: MutableValue<MutableList<ManualGrade>>
+    val addManualGradePopupOpen: MutableValue<Boolean>
+
+    fun addManualGrade(manualGrade: ManualGrade)
+    fun removeManualGrade(manualGrade: ManualGrade)
 
     fun openSubject(subject: Subject) {
         backCallbackOpenItem.isEnabled = true
@@ -42,6 +49,17 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
     override val openedSubject: MutableValue<Pair<Boolean, Subject?>> = MutableValue(false to null)
     override val backCallbackOpenItem = BackCallback(false) {
         closeSubject()
+    }
+    override val manualGradesList: MutableValue<MutableList<ManualGrade>> = MutableValue(Data.manualGrades.toMutableList())
+    override val addManualGradePopupOpen: MutableValue<Boolean> = MutableValue(false)
+    override fun addManualGrade(manualGrade: ManualGrade) {
+        manualGradesList.value.add(manualGrade)
+        Data.manualGrades = manualGradesList.value
+    }
+
+    override fun removeManualGrade(manualGrade: ManualGrade) {
+        manualGradesList.value.remove(manualGrade)
+        Data.manualGrades = manualGradesList.value
     }
 
     override val state: MutableValue<GradeCalculationChildComponent.State> = MutableValue(GradeCalculationChildComponent.State.Loading)

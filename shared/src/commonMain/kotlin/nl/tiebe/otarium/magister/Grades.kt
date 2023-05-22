@@ -79,3 +79,10 @@ data class GradeWithGradeInfo(
     val grade: Grade,
     val gradeInfo: GradeInfo
 )
+
+@Serializable
+data class ManualGrade(
+    val name: String,
+    val grade: String,
+    val weight: Float
+)

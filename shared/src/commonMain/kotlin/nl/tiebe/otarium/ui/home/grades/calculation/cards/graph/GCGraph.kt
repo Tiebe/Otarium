@@ -97,15 +97,15 @@ internal fun GCGraph(grades: List<GradeWithGradeInfo>) {
                 }
 
                 drawCircle(
-                    center = averageOffset,
-                    radius = size.width / 70,
-                    brush = averageBrush
-                )
-
-                drawCircle(
                     center = gradeOffset,
                     radius = size.width / 70,
                     brush = gradeBrush
+                )
+
+                drawCircle(
+                    center = averageOffset,
+                    radius = size.width / 70,
+                    brush = averageBrush
                 )
             }
             if (grades.size > 1) {
