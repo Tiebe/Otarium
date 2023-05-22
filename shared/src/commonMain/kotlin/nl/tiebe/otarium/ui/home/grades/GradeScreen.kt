@@ -84,7 +84,7 @@ internal fun GradesScreen(component: GradesComponent) {
             pageCount = 2,
             state = pagerState,
             beyondBoundsPageCount = 1,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) { page ->
             when (page) {
                 0 -> RecentGradesChild(component.recentGradeComponent)

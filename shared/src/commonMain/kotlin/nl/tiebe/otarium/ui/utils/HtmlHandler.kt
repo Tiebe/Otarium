@@ -12,7 +12,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
-import nl.tiebe.otarium.darkModeState
 import kotlin.math.min
 
 private val tags = listOf(
@@ -40,7 +39,7 @@ private val tags = listOf(
     Tag("<ul>", "</ul>", specialOpeningAction = { htmlList = true }, specialClosingAction = { htmlList = null }),
     Tag("<ol>", "</ol>", specialOpeningAction = { listIndex = 0; htmlList = false }, specialClosingAction = { htmlList = null }),
 
-    Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = if (!darkModeState.value) Color(0, 0, 238) else Color(83, 155, 245), textDecoration = TextDecoration.Underline)),
+    Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color(83, 155, 245), textDecoration = TextDecoration.Underline)),
 
     Tag("<hr>", "</hr>", spanStyle = SpanStyle(letterSpacing = 0.sp)),
 

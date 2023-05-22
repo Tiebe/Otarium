@@ -7,24 +7,24 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.darkModeState
 import nl.tiebe.otarium.ui.home.settings.items.ui.colors.colorSchemeChanged
 
 @Composable
 internal fun OtariumTheme(
     colorScheme: ColorScheme? = null,
+    darkMode: Boolean = false,
     content: @Composable () -> Unit
 ) {
     var selectedColorScheme = if (Data.dynamicTheme && colorScheme != null) {
         colorScheme
     } else if (Data.customThemeEnabled) {
         when {
-            darkModeState.value -> Data.customDarkTheme.toDarkColorScheme()
+            darkMode -> Data.customDarkTheme.toDarkColorScheme()
             else -> Data.customLightTheme.toLightColorScheme()
         }
     } else {
         when {
-            darkModeState.value -> defaultDarkTheme.toDarkColorScheme()
+            darkMode -> defaultDarkTheme.toDarkColorScheme()
             else -> defaultLightTheme.toLightColorScheme()
         }
     }
@@ -34,12 +34,12 @@ internal fun OtariumTheme(
             colorScheme
         } else if (Data.customThemeEnabled) {
             when {
-                darkModeState.value -> Data.customDarkTheme.toDarkColorScheme()
+                darkMode -> Data.customDarkTheme.toDarkColorScheme()
                 else -> Data.customLightTheme.toLightColorScheme()
             }
         } else {
             when {
-                darkModeState.value -> defaultDarkTheme.toDarkColorScheme()
+                darkMode -> defaultDarkTheme.toDarkColorScheme()
                 else -> defaultLightTheme.toLightColorScheme()
             }
         }
