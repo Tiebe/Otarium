@@ -19,7 +19,7 @@ interface GradeCalculationChildComponent : GradesChildComponent {
 
     val backCallbackOpenItem: BackCallback
 
-    val manualGradesList: MutableValue<MutableList<ManualGrade>>
+    val manualGradesList: Value<List<ManualGrade>>
     val addManualGradePopupOpen: MutableValue<Boolean>
 
     fun addManualGrade(manualGrade: ManualGrade)
@@ -50,15 +50,19 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
     override val backCallbackOpenItem = BackCallback(false) {
         closeSubject()
     }
-    override val manualGradesList: MutableValue<MutableList<ManualGrade>> = MutableValue(Data.manualGrades.toMutableList())
+    override val manualGradesList: MutableValue<List<ManualGrade>> = MutableValue(Data.manualGrades)
     override val addManualGradePopupOpen: MutableValue<Boolean> = MutableValue(false)
     override fun addManualGrade(manualGrade: ManualGrade) {
-        manualGradesList.value.add(manualGrade)
+        manualGradesList.value = manualGradesList.value.toMutableList().apply {
+            add(manualGrade)
+        }
         Data.manualGrades = manualGradesList.value
     }
 
     override fun removeManualGrade(manualGrade: ManualGrade) {
-        manualGradesList.value.remove(manualGrade)
+        manualGradesList.value = manualGradesList.value.toMutableList().apply {
+            remove(manualGrade)
+        }
         Data.manualGrades = manualGradesList.value
     }
 
@@ -85,12 +89,18 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
 
 
 fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
-    var sum = addedGrade * addedGradeWeight
-    var weight = addedGradeWeight
+    return calculateAverage(grades.map {
+        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+    }, addedGrade, addedGradeWeight)
+}
 
-    grades.forEach {
-        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
-        weight += it.gradeInfo.weight.toFloat()
+fun calculateAverage(pairs: List<Pair<Float, Float>>, initialAverage: Float = 0f, initialWeight: Float = 0f): Float {
+    var sum = initialAverage * initialWeight
+    var weight = initialWeight
+
+    pairs.forEach {
+        sum += it.first * it.second
+        weight += it.second
     }
 
     if (weight == 0f) return 0f
@@ -99,12 +109,18 @@ fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, a
 }
 
 fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+    return calculateNewGrade(grades.map {
+        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+    }, newAverage, newGradeWeight)
+}
+
+fun calculateNewGrade(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
     var sum = 0f
     var weight = newGradeWeight
 
-    grades.forEach {
-        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
-        weight += it.gradeInfo.weight.toFloat()
+    pairs.forEach {
+        sum += it.first * it.second
+        weight += it.second
     }
 
     return ((newAverage * weight) - sum) / newGradeWeight
