@@ -1,7 +1,6 @@
 package nl.tiebe.otarium
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,8 +22,6 @@ import nl.tiebe.otarium.utils.versions.runVersionCheck
 
 val settings: Settings = Settings()
 
-lateinit var darkModeState: MutableState<Boolean>
-
 //todo: back gestures ios
 //todo: handmatig cijfers invoeren
 //todo: soepelheid swipen overal
@@ -33,7 +30,8 @@ lateinit var darkModeState: MutableState<Boolean>
 //todo: voldoendegrens instellen in instellingen
 //todo: mappen in studiewijzers
 //todo: attachments bij lessen
-//todo: fix swiping grades and correctly switching weeks
+//todo: fix swiping days and correctly switching weeks
+//todo: laat cijfer info zien bij hover over grafiek
 
 fun setup() {
     val oldVersion = settings.getInt("version", 1000)
@@ -51,8 +49,6 @@ internal fun Content(componentContext: ComponentContext, colorScheme: ColorSchem
 
 @Composable
 internal fun Content(component: RootComponent, colorScheme: ColorScheme? = null, padding: PaddingValues) {
-    darkModeState = mutableStateOf(isSystemInDarkTheme())
-
     OtariumTheme(colorScheme) {
         Box(
             modifier = Modifier.fillMaxSize()
