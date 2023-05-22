@@ -42,7 +42,16 @@ import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.format
 
 @Composable
-internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: Subject, gradeList: List<GradeWithGradeInfo>) {
+internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
+    val manualGradeList = component.manualGradesList.subscribeAsState()
+    val gradeList = remember {
+        realGradeList.map {
+            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+        } + manualGradeList.value.map {
+            (it.grade.toFloatOrNull() ?: 0f) to it.weight
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,12 +80,11 @@ internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: 
             }
         }
 
-        GCGraph(grades = gradeList)
+        GCGraph(grades = realGradeList, manualGrades = manualGradeList.value)
 
-        GCAverageCalculator(grades = gradeList)
+        GCAverageCalculator(grades = realGradeList, manualGrades = manualGradeList.value)
 
-        val manuallyAddedGrades = component.manualGradesList.subscribeAsState()
-        var addItemPopout = component.addManualGradePopupOpen.subscribeAsState().value
+        val addItemPopout = component.addManualGradePopupOpen.subscribeAsState().value
 
         Row(Modifier.padding(top = 20.dp, start = 20.dp, bottom = 12.dp)) {
             Text(
@@ -91,7 +99,7 @@ internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: 
             )
 
             IconButton(onClick = {
-                addItemPopout = !addItemPopout
+                component.addManualGradePopupOpen.value = !addItemPopout
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -104,13 +112,11 @@ internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: 
 
         AnimatedVisibility(visible = addItemPopout, enter = expandVertically(), exit = shrinkVertically()) {
             Column {
-                Spacer(modifier = Modifier.height(12.dp))
-
                 AddGradeManually(component)
             }
         }
 
-        manuallyAddedGrades.value.reversed().forEach {
+        manualGradeList.value.reversed().forEach {
             ManualGradeListItem(it, component)
         }
 
@@ -120,7 +126,7 @@ internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: 
             modifier = Modifier.padding(20.dp)
         )
 
-        gradeList.reversed().forEach { grade ->
+        realGradeList.reversed().forEach { grade ->
             GradeListItem(grade)
         }
     }

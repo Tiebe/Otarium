@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
 import nl.tiebe.otarium.ui.home.grades.calculation.calculateNewGrade
 import nl.tiebe.otarium.utils.ui.format
@@ -20,7 +21,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
+internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -104,11 +105,19 @@ internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
 
                 Button(modifier = Modifier.padding(top = 5.dp), onClick = {
                     calculatedAverage = if (type == 1)
-                        calculateAverage(grades,
+                        calculateAverage(grades.map {
+                            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+                        } + manualGrades.map {
+                            (it.grade.toFloatOrNull() ?: 0f) to it.weight
+                        },
                             enteredGrade.replace(",", ".").toFloatOrNull() ?: 0f,
                             enteredWeight.replace(",", ".").toFloatOrNull() ?: 0f)
                     else {
-                        calculateNewGrade(grades,
+                        calculateNewGrade(grades.map {
+                            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+                        } + manualGrades.map {
+                            (it.grade.toFloatOrNull() ?: 0f) to it.weight
+                        },
                             enteredGrade.replace(",", ".").toFloatOrNull() ?: 0f,
                             enteredWeight.replace(",", ".").toFloatOrNull() ?: 0f)
                     }
