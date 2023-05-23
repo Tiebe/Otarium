@@ -2,6 +2,7 @@ package nl.tiebe.otarium.ui.home.settings
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,7 +31,8 @@ internal fun SettingsScreen(component: SettingsComponent) {
                     IconButton(onClick = { component.back() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+                windowInsets = WindowInsets(0.dp)
             )
         }
 

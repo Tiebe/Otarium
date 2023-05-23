@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.utils.icons.email
+package nl.tiebe.otarium.utils.otariumicons.email
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import nl.tiebe.otarium.utils.icons.EmailGroup
+import nl.tiebe.otarium.utils.otariumicons.EmailGroup
 
 public val EmailGroup.EmailAlertOpen: ImageVector
     get() {

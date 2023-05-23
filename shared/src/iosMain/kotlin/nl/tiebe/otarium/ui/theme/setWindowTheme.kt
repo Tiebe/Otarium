@@ -1,14 +1,13 @@
 package nl.tiebe.otarium.ui.theme
 
-import androidx.compose.material3.ColorScheme
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import nl.tiebe.otarium.darkModeState
+import org.jetbrains.skiko.SystemTheme
+import org.jetbrains.skiko.currentSystemTheme
 import platform.UIKit.UIApplication
 import platform.UIKit.UIStatusBarStyleDarkContent
 import platform.UIKit.UIStatusBarStyleLightContent
 import platform.UIKit.setStatusBarStyle
 
 actual fun setWindowTheme(color: Color) {
-    UIApplication.sharedApplication.setStatusBarStyle(if(darkModeState.value) UIStatusBarStyleLightContent else UIStatusBarStyleDarkContent)
+    UIApplication.sharedApplication.setStatusBarStyle(if(currentSystemTheme == SystemTheme.DARK) UIStatusBarStyleLightContent else UIStatusBarStyleDarkContent)
 }

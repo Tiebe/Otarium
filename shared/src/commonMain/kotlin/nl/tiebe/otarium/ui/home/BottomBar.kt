@@ -18,8 +18,8 @@ import nl.tiebe.otarium.ui.home.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.MessagesScreen
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.SettingsScreen
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.main.TimetableScreen
+import nl.tiebe.otarium.ui.home.timetable.TimetableRootComponent
+import nl.tiebe.otarium.ui.home.timetable.TimetableRootScreen
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,18 +33,18 @@ internal fun BottomBar(
 
     Scaffold(
         bottomBar = {
-            NavigationBar(modifier = modifier, contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary) {
+            NavigationBar(modifier = modifier, /*contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary*/) {
                 component.visibleItems.forEach { screen ->
                     NavigationBarItem(
                         icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
-                        label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true), color = MaterialTheme.colorScheme.onPrimary) },
+                        label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true)/*, color = MaterialTheme.colorScheme.onPrimary*/) },
                         selected = overlay.configuration == screen,
                         onClick = {
                             component.navigate(screen)
                         },
-                        colors = NavigationBarItemDefaults.colors(
+/*                        colors = NavigationBarItemDefaults.colors(
                             indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
-                        )
+                        )*/
                     )
                 }
             }
@@ -52,7 +52,7 @@ internal fun BottomBar(
     ) { innerPadding ->
         Box(Modifier.fillMaxSize().padding(innerPadding)) {
             when (val dialogComponent = overlay.instance) {
-                is TimetableComponent -> TimetableScreen(dialogComponent)
+                is TimetableRootComponent -> TimetableRootScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
                 is MessagesComponent -> MessagesScreen(dialogComponent)
                 is ELOComponent -> ELOScreen(dialogComponent)

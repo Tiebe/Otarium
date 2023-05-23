@@ -7,20 +7,22 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
-import nl.tiebe.otarium.ui.home.grades.calculation.calculateNewGrade
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateNew
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
+internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,16 +101,25 @@ internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>) {
             Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 Text(
                     text = if (calculatedAverage != null) calculatedAverage?.format(Data.decimals) ?: "" else "",
-                    style = MaterialTheme.typography.displayMedium
+                    style = MaterialTheme.typography.displayMedium,
+                    color = if ((calculatedAverage ?: 10.0f) < Data.passingGrade) MaterialTheme.colorScheme.error else Color.Unspecified,
                 )
 
                 Button(modifier = Modifier.padding(top = 5.dp), onClick = {
                     calculatedAverage = if (type == 1)
-                        calculateAverage(grades,
+                        calculateAverage(grades.map {
+                            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+                        } + manualGrades.map {
+                            (it.grade.toFloatOrNull() ?: 0f) to it.weight
+                        },
                             enteredGrade.replace(",", ".").toFloatOrNull() ?: 0f,
                             enteredWeight.replace(",", ".").toFloatOrNull() ?: 0f)
                     else {
-                        calculateNewGrade(grades,
+                        calculateNew(grades.map {
+                            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+                        } + manualGrades.map {
+                            (it.grade.toFloatOrNull() ?: 0f) to it.weight
+                        },
                             enteredGrade.replace(",", ".").toFloatOrNull() ?: 0f,
                             enteredWeight.replace(",", ".").toFloatOrNull() ?: 0f)
                     }

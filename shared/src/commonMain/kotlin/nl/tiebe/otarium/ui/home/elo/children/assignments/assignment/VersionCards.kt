@@ -15,9 +15,9 @@ import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.utils.DownloadIndicator
 import nl.tiebe.otarium.ui.utils.parseHtml
-import nl.tiebe.otarium.utils.icons.Email
-import nl.tiebe.otarium.utils.icons.Icons
-import nl.tiebe.otarium.utils.icons.email.Attachment
+import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.Email
+import nl.tiebe.otarium.utils.otariumicons.email.Attachment
 import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
@@ -53,7 +53,7 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, assignment: Assignment, version: AssignmentVersion) {
+internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             if (version.gradedOn != null) {
@@ -93,7 +93,7 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, assignmen
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        Icons.Email.Attachment,
+                                        OtariumIcons.Email.Attachment,
                                         contentDescription = "Attachment"
                                     )
                                     Text(text = attachment.naam, modifier = Modifier.padding(start = 10.dp))
@@ -114,7 +114,7 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, assignmen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun StudentVersionCard(component: AssignmentScreenComponent, assignment: Assignment, version: AssignmentVersion) {
+internal fun StudentVersionCard(component: AssignmentScreenComponent, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             if (version.submittedOn != null) {
@@ -147,7 +147,7 @@ internal fun StudentVersionCard(component: AssignmentScreenComponent, assignment
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        Icons.Email.Attachment,
+                                        OtariumIcons.Email.Attachment,
                                         contentDescription = "Attachment"
                                     )
                                     Text(text = attachment.naam, modifier = Modifier.padding(start = 10.dp))

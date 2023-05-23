@@ -8,6 +8,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,6 +16,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -28,12 +30,14 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverageGrade
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-internal fun GCGraph(grades: List<GradeWithGradeInfo>) {
+internal fun GCGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
     ElevatedCard(
         modifier = Modifier.padding(10.dp),
     ) {
@@ -44,8 +48,8 @@ internal fun GCGraph(grades: List<GradeWithGradeInfo>) {
             textAlign = TextAlign.Center
         )
         val textColor = MaterialTheme.colorScheme.onBackground
-        val lineColor = MaterialTheme.colorScheme.primary
-        val averageColor = MaterialTheme.colorScheme.secondary
+        val gradeLineColor = MaterialTheme.colorScheme.secondary
+        val averageLineColor = MaterialTheme.colorScheme.tertiary
         val axisLineColor = MaterialTheme.colorScheme.outline
 
         val lineBound = remember { mutableStateOf(1F) }
@@ -67,56 +71,40 @@ internal fun GCGraph(grades: List<GradeWithGradeInfo>) {
                 .padding(horizontal = 4.dp)
 
         ) {
-            lineBound.value = size.width / grades.count() * 0.8f
+            lineBound.value = size.width / (grades.size + manualGrades.size) * 0.8f
 
-            val gradeBrush = Brush.linearGradient(listOf(lineColor, lineColor))
+            val gradeBrush = Brush.linearGradient(listOf(gradeLineColor, gradeLineColor))
             val gradePath = Path().apply { moveTo(0f, size.height) }
+
+            val averageBrush = Brush.linearGradient(listOf(averageLineColor, averageLineColor))
+            val averagePath = Path().apply { moveTo(0f, size.height) }
 
             grades.forEachIndexed { index, gradeInfo ->
                 val grade = gradeInfo.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f
+                val average = calculateAverageGrade(grades.subList(0, index+1))
 
-                val offset = Offset((2*index+1) * lineBound.value * 0.6f, size.height - grade * (size.height / 10))
-                if (grades.size > 1) {
-                    when (index) {
-                        0 -> gradePath.moveTo(offset.x, offset.y)
-                        else -> gradePath.lineTo(offset.x, offset.y)
-                    }
-                }
-                drawCircle(
-                    center = offset,
-                    radius = size.width / 70,
-                    brush = gradeBrush
-                )
+                drawGrade(index, lineBound, grade, average, grades.size + manualGrades.size, gradePath, averagePath, gradeBrush, averageBrush)
             }
-            if (grades.size > 1) {
+
+            manualGrades.forEachIndexed { index, manualGrade ->
+                val grade = manualGrade.grade.replace(',', '.').toFloatOrNull() ?: 0f
+                val average = calculateAverage(
+                    grades.map {
+                    (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+                } + manualGrades.subList(0, index+1).map {
+                    (it.grade.toFloatOrNull() ?: 0f) to it.weight
+                })
+
+                drawGrade(index + grades.size, lineBound, grade, average, grades.size + manualGrades.size, gradePath, averagePath, gradeBrush, averageBrush)
+            }
+
+            if (grades.size + manualGrades.size > 1) {
                 drawPath(
                     path = gradePath,
                     brush = gradeBrush,
                     style = Stroke(width = size.width / 100),
                 )
-            }
 
-            val averageBrush = Brush.linearGradient(listOf(averageColor, averageColor))
-            val averagePath = Path().apply { moveTo(0f, size.height) }
-
-            grades.forEachIndexed { index, _ ->
-                val average = calculateAverage(grades.subList(0, index+1))
-
-                val offset = Offset((2*index+1) * lineBound.value * 0.6f, size.height - average * (size.height / 10))
-                if (grades.size > 1) {
-                    when (index) {
-                        0 -> averagePath.moveTo(offset.x, offset.y)
-                        else -> averagePath.lineTo(offset.x, offset.y)
-                    }
-                }
-                drawCircle(
-                    center = offset,
-                    radius = size.width / 70,
-                    brush = averageBrush
-                )
-            }
-
-            if (grades.size > 1) {
                 drawPath(
                     path = averagePath,
                     brush = averageBrush,
@@ -155,4 +143,46 @@ internal fun GCGraph(grades: List<GradeWithGradeInfo>) {
             }
         }
     }
+}
+
+private fun DrawScope.drawGrade(
+    index: Int,
+    lineBound: MutableState<Float>,
+    grade: Float,
+    average: Float,
+    listSize: Int,
+    gradePath: Path,
+    averagePath: Path,
+    gradeBrush: Brush,
+    averageBrush: Brush
+) {
+    val gradeOffset = Offset((2 * index + 1) * lineBound.value * 0.6f, size.height - grade * (size.height / 10))
+    val averageOffset = Offset((2 * index + 1) * lineBound.value * 0.6f, size.height - average * (size.height / 10))
+
+    if (listSize > 1) {
+        when (index) {
+            0 -> {
+                gradePath.moveTo(gradeOffset.x, gradeOffset.y)
+                averagePath.moveTo(averageOffset.x, averageOffset.y)
+            }
+
+            else -> {
+                gradePath.lineTo(gradeOffset.x, gradeOffset.y)
+                averagePath.lineTo(averageOffset.x, averageOffset.y)
+            }
+
+        }
+    }
+
+    drawCircle(
+        center = gradeOffset,
+        radius = size.width / 70,
+        brush = gradeBrush
+    )
+
+    drawCircle(
+        center = averageOffset,
+        radius = size.width / 70,
+        brush = averageBrush
+    )
 }

@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -50,6 +51,7 @@ internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: Recen
                         .align(Alignment.Center),
                     style = MaterialTheme.typography.displaySmall.copy(fontSize = 18.sp),
                     maxLines = 1,
+                    color = if ((grade.grade.replace(",", ".").toFloatOrNull() ?: 10.0f) < Data.passingGrade) MaterialTheme.colorScheme.error else Color.Unspecified,
                     overflow = TextOverflow.Ellipsis
                 )
 

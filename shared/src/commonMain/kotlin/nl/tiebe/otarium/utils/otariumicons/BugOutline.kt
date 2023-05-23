@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.utils.icons
+package nl.tiebe.otarium.utils.otariumicons
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
@@ -9,9 +9,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
-import nl.tiebe.otarium.utils.icons.Icons
+import nl.tiebe.otarium.utils.OtariumIcons
 
-public val Icons.BugOutline: ImageVector
+public val OtariumIcons.BugOutline: ImageVector
     get() {
         if (_bugOutline != null) {
             return _bugOutline!!
