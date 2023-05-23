@@ -1,0 +1,96 @@
+[versions]
+app-version-string = "3.3.0-alpha01"
+app-version-code = "32"
+
+android_sdk-min = "21"
+android_sdk-compile = "33"
+
+ios_target = "11.0"
+
+magister = "1.1.10-alpha02"
+
+kotlin = "1.8.0"
+gradle = "7.4.1"
+appcompat = "1.6.1"
+material = "1.4.0"
+compose = "1.4.0"
+compose-android = "1.4.3"
+compose-compiler = "1.4.0"
+compose-activity = "1.7.1"
+material3 = "1.0.1"
+ktor = "2.3.0"
+decompose = "2.0.0-compose-experimental-alpha-02"
+moko = "0.22.0"
+buildkonfig = "0.13.3"
+gms = "4.3.15"
+firebase = "32.0.0"
+multiplatform-settings = "1.0.0"
+admob = "22.0.0"
+guava = "31.1-android"
+guava-coroutines = "1.7.0-RC"
+
+complete-kotlin = "1.1.0"
+colormath = "3.2.0"
+
+kotlin-datetime = "0.4.0"
+
+
+[libraries]
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose-android" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose-android" }
+compose-foundationlayout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "compose-android" }
+compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-android" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+
+android-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
+
+kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
+kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
+kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-content_negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-serialization_json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-logging_jvm = { group = "io.ktor", name = "ktor-client-logging-jvm", version.ref = "ktor" }
+ktor-client-json_jvm = { group = "io.ktor", name = "ktor-client-json-jvm", version.ref = "ktor" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-ios = { group = "io.ktor", name = "ktor-client-ios", version.ref = "ktor" }
+
+moko-gradle = { group = "dev.icerock.moko", name = "resources-generator", version.ref = "moko" }
+moko-resources-core = { group = "dev.icerock.moko", name = "resources", version.ref = "moko" }
+moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose", version.ref = "moko" }
+
+buildkonfig-gradle = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
+
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-gradle = { group = "com.google.gms", name = "google-services", version.ref = "gms" }
+
+decompose-core = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
+decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose-jetbrains", version.ref = "decompose" }
+
+multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
+
+admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
+
+magister-api = { group = "dev.tiebe", name = "magisterapi", version.ref = "magister" }
+
+color-math = { group = "com.github.ajalt.colormath", name = "colormath", version.ref = "colormath" }
+
+guava-core = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+guava-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "guava-coroutines" }
+
+[plugins]
+mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
+
+complete_kotlin = { id = "com.louiscad.complete-kotlin", version.ref = "complete-kotlin" }
+
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+
+google_services = { id = "com.google.gms.google-services", version.ref = "gms" }
