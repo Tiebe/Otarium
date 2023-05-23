@@ -5,6 +5,7 @@ import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.CoroutineScope
@@ -97,7 +98,7 @@ interface TimetableComponent {
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
     val navigate: (TimetableRootComponent.Config) -> Unit,
-    val back: () -> Unit,
+    val back: MutableValue<BackCallback>,
 ): TimetableComponent, ComponentContext by componentContext {
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
@@ -163,7 +164,7 @@ class DefaultTimetableComponent(
     }
 
     override fun closeItemPopup() {
-        back()
+        back.value.onBack()
     }
 
 

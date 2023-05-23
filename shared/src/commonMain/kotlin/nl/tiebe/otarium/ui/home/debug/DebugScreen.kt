@@ -13,7 +13,9 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.setupNotifications
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
+import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.getClipboardText
+import nl.tiebe.otarium.utils.otariumicons.BugOutline
 import nl.tiebe.otarium.utils.refreshGradesBackground
 import nl.tiebe.otarium.utils.sendNotification
 import kotlin.random.Random
@@ -92,6 +94,14 @@ internal fun DebugScreen(component: DebugComponent) {
             rowClickable = true,
         ) {
             component.changeLanguage()
+        }
+
+        SettingRowIconButton(
+            leftText = AnnotatedString("Test crash"),
+            icon = OtariumIcons.BugOutline,
+            rowClickable = true,
+        ) {
+            throw RuntimeException("Test crash")
         }
     }
 

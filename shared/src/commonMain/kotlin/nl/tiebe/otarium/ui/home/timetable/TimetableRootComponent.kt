@@ -47,8 +47,9 @@ interface TimetableRootComponent : MenuItemComponent {
 
 class DefaultTimetableRootComponent(componentContext: ComponentContext): TimetableRootComponent, ComponentContext by componentContext {
     override val navigation = StackNavigation<TimetableRootComponent.Config>()
+    override val onBack: MutableValue<BackCallback> = MutableValue(BackCallback { back() })
 
-    override val timetableComponent = DefaultTimetableComponent(componentContext, ::navigate, ::back)
+    override val timetableComponent = DefaultTimetableComponent(componentContext, ::navigate, onBack)
 
     override val childStack: Value<ChildStack<TimetableRootComponent.Config, TimetableRootComponent.Child>> =
         childStack(
@@ -58,7 +59,6 @@ class DefaultTimetableRootComponent(componentContext: ComponentContext): Timetab
             childFactory = ::createChild,
         )
 
-    override val onBack: MutableValue<BackCallback> = MutableValue(BackCallback { back() })
     override fun registerBackHandler() {
         backHandler.register(onBack.value)
     }
