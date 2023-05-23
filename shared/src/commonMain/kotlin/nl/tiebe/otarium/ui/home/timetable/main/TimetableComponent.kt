@@ -48,6 +48,8 @@ interface TimetableComponent {
     fun changeDay(day: Int) {
         (currentPage as MutableValue).value = day
 
+        println(currentPage.value)
+
         if (selectedWeek.value != floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt())
             (selectedWeek as MutableValue).value = floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt()
     }
