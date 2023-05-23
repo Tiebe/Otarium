@@ -8,10 +8,10 @@ import dev.tiebe.magisterapi.response.messages.Attachment
 import dev.tiebe.magisterapi.response.messages.MessageData
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.utils.io.*
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.messages.MessagesComponent
+import nl.tiebe.otarium.ui.home.messages.folder.FolderComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
 import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
@@ -19,6 +19,7 @@ import nl.tiebe.otarium.utils.writeFile
 
 interface MessageComponent {
     val parentComponent: MessagesComponent
+    val folderComponent: FolderComponent
     val messageLink: String
 
     val message: Value<MessageData>
@@ -30,7 +31,8 @@ interface MessageComponent {
 
 class DefaultMessageComponent(
     componentContext: ComponentContext, override val messageLink: String,
-    override val parentComponent: MessagesComponent
+    override val parentComponent: MessagesComponent,
+    override val folderComponent: FolderComponent
 ): MessageComponent, ComponentContext by componentContext {
     val scope = componentCoroutineScope()
 
@@ -81,6 +83,12 @@ class DefaultMessageComponent(
                     it.id,
                     true
                 )
+
+                (folderComponent.messages as MutableValue).value = folderComponent.messages.value.toMutableList().map { message ->
+                    if (message.id == it.id )
+                        message.copy(hasBeenRead = true)
+                    else message
+                }
 
                 unsubscribe()
             }
