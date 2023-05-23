@@ -13,6 +13,15 @@ interface UIChildComponent {
 
     fun showCancelledLessons(value: Boolean)
 
+    val markGrades: Value<Boolean>
+
+    fun markGrades(value: Boolean)
+
+    val passingGrade: Value<String>
+
+    fun passingGrade(value: String)
+
+
 }
 
 class DefaultUIChildComponent(
@@ -27,6 +36,18 @@ class DefaultUIChildComponent(
     override fun showCancelledLessons(value: Boolean) {
         Data.showCancelledLessons = value
         showCancelledLessons.value = value
+    }
+
+    override val markGrades: MutableValue<Boolean> = MutableValue(Data.markGrades)
+    override fun markGrades(value: Boolean) {
+        Data.markGrades = value
+        markGrades.value = value
+    }
+
+    override val passingGrade: MutableValue<String> = MutableValue(Data.passingGrade.toString())
+    override fun passingGrade(value: String) {
+        Data.passingGrade = value.toFloatOrNull() ?: 5.5f
+        passingGrade.value = value
     }
 
 }

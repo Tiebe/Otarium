@@ -66,5 +66,12 @@ object Data {
             Json.decodeFromString(it) }
         set(value) = settings.putString("manual_grades", Json.encodeToString(value))
 
+    var markGrades: Boolean
+        get() = settings.getBoolean("mark_grades", false)
+        set(value) = settings.putBoolean("mark_grades", value)
+
+    var passingGrade: Float
+        get() = settings.getFloat("passing_grade", 5.5f)
+        set(value) = settings.putFloat("passing_grade", value)
 
 }

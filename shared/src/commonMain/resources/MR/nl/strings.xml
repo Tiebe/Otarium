@@ -3,7 +3,6 @@
     <string name="app_name">Otarium</string>
     <string name="grades_channel">Cijfers</string>
     <string name="grades_channel_description">Notificaties voor nieuwe cijfers</string>
-    <string name="waiting_for_grades">De app wacht nu op nieuwe cijfers en zal je een notificatie geven als er eentje binnenkomt</string>
     <string name="agendaItem">Rooster</string>
     <string name="sign_in">Inloggen</string>
     <string name="onboarding_title_1">Otarium</string>
@@ -16,7 +15,7 @@
     <string name="onboarding_desc_4">Wil je niet-storende advertenties in de app? Het zou me heel erg helpen!</string>
     <string name="show_ads_checkbox">Laat advertenties zien</string>
     <string name="age_checkbox">Ik ben ouder dan 16</string>
-    <string name="settings_title">Instellingen</string>
+    <string name="settingsItem">Instellingen</string>
     <string name="monday">ma</string>
     <string name="tuesday">di</string>
     <string name="wednesday">wo</string>
@@ -91,4 +90,14 @@
     <string name="color_tertiary">Tertiaire kleur</string>
 
     <string name="show_cancelled_lessons">Laat lesuitval zien</string>
+
+    <string name="manual_grades">Handmatig ingevoerde cijfers</string>
+    <string name="real_grades">Cijfers</string>
+
+    <string name="manual_grade">Cijfer</string>
+    <string name="manual_weight">Weging</string>
+    <string name="manual_name">Naam</string>
+
+    <string name="mark_grades_red">Onvoldoendes rood maken</string>
+    <string name="passing_grade">Voldoendegrens</string>
 </resources>

@@ -1,7 +1,6 @@
 package nl.tiebe.otarium.ui.home.settings.utils
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -25,7 +24,7 @@ internal fun SettingSlider(
     valueRange: ClosedFloatingPointRange<Float>,
     steps: Int = 0
 ) {
-    Column(modifier = Modifier.fillMaxWidth(0.95f).then(modifier).fillMaxHeight(), horizontalAlignment = horizontalAlignment, verticalArrangement = verticalArrangement) {
+    Column(modifier = Modifier.fillMaxWidth(0.95f).then(modifier), horizontalAlignment = horizontalAlignment, verticalArrangement = verticalArrangement) {
         Text(text = text, style = LocalTextStyle.current.merge(textStyle))
 
 

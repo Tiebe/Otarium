@@ -99,4 +99,14 @@
     <string name="color_tertiary">Tertiary color</string>
 
     <string name="show_cancelled_lessons">Show cancelled lessons</string>
+
+    <string name="manual_grades">Manually entered grades</string>
+    <string name="real_grades">Grades</string>
+
+    <string name="manual_grade">Grade</string>
+    <string name="manual_weight">Weight</string>
+    <string name="manual_name">Name</string>
+
+    <string name="mark_grades_red">Mark insufficient grades red</string>
+    <string name="passing_grade">Passing grade</string>
 </resources>
