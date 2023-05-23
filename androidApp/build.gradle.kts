@@ -4,6 +4,7 @@ plugins {
     kotlin("android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
+    id(libs.plugins.google.services.get().pluginId)
     id(libs.plugins.firebase.crashlytics.get().pluginId)
 }
 
