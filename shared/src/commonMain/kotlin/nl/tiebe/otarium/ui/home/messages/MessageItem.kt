@@ -1,30 +1,28 @@
 package nl.tiebe.otarium.ui.home.messages
 
 import androidx.compose.foundation.clickable
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
-import nl.tiebe.otarium.utils.icons.Bottombar
-import nl.tiebe.otarium.utils.icons.Email
-import nl.tiebe.otarium.utils.icons.Folder
-import nl.tiebe.otarium.utils.icons.Icons
-import nl.tiebe.otarium.utils.icons.bottombar.EmailFilled
-import nl.tiebe.otarium.utils.icons.email.Attachment
-import nl.tiebe.otarium.utils.icons.email.EmailAlert
-import nl.tiebe.otarium.utils.icons.email.EmailAlertOpen
-import nl.tiebe.otarium.utils.icons.email.EmailOpen
+import nl.tiebe.otarium.ui.theme.red
+import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.Bottombar
+import nl.tiebe.otarium.utils.otariumicons.Email
+import nl.tiebe.otarium.utils.otariumicons.Folder
+import nl.tiebe.otarium.utils.otariumicons.bottombar.EmailFilled
+import nl.tiebe.otarium.utils.otariumicons.email.Attachment
+import nl.tiebe.otarium.utils.otariumicons.email.EmailAlert
+import nl.tiebe.otarium.utils.otariumicons.email.EmailAlertOpen
+import nl.tiebe.otarium.utils.otariumicons.email.EmailOpen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder: MessageFolder) {
     ListItem(
         headlineText = { Text(folder.name) },
-        leadingContent = { Icon(Icons.Folder, contentDescription = null) },
+        leadingContent = { Icon(OtariumIcons.Folder, contentDescription = null) },
         trailingContent = { Text(folder.unreadCount.toString()) },
         modifier = Modifier.clickable {
             navigateToFolder(folder)
@@ -36,14 +34,14 @@ internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder
 @Composable
 internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message) {
     val icon = if (message.hasBeenRead)
-        if (message.hasPriority) Icons.Email.EmailAlertOpen else Icons.Email.EmailOpen
-    else if (message.hasPriority) Icons.Email.EmailAlert else Icons.Bottombar.EmailFilled
+        if (message.hasPriority) OtariumIcons.Email.EmailAlertOpen else OtariumIcons.Email.EmailOpen
+    else if (message.hasPriority) OtariumIcons.Email.EmailAlert else OtariumIcons.Bottombar.EmailFilled
 
     ListItem(
         headlineText = { Text(message.subject) },
         supportingText = { Text(message.sender?.name ?: message.receivers?.joinToString { it.name } ?: "") },
-        leadingContent = { Icon(icon, contentDescription = null) },
-        trailingContent = { if (message.hasAttachments) Icon(Icons.Email.Attachment, contentDescription = null) },
+        leadingContent = { Icon(icon, contentDescription = null, tint = if (message.hasPriority) red else LocalContentColor.current) },
+        trailingContent = { if (message.hasAttachments) Icon(OtariumIcons.Email.Attachment, contentDescription = null) },
         modifier = Modifier.clickable {
             navigateToMessage(message)
         }

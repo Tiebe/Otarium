@@ -13,10 +13,10 @@ import androidx.compose.ui.text.AnnotatedString
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
-import nl.tiebe.otarium.utils.icons.Advertisements
-import nl.tiebe.otarium.utils.icons.AdvertisementsOff
-import nl.tiebe.otarium.utils.icons.BugOutline
-import nl.tiebe.otarium.utils.icons.Icons
+import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.Advertisements
+import nl.tiebe.otarium.utils.otariumicons.AdvertisementsOff
+import nl.tiebe.otarium.utils.otariumicons.BugOutline
 import androidx.compose.material.icons.Icons as MaterialIcons
 
 @Composable
@@ -30,7 +30,8 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //users
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Users.localizedString),
-            icon = MaterialIcons.Default.AccountCircle
+            icon = MaterialIcons.Default.AccountCircle,
+            rowClickable = true,
         ) {
             component.navigate(SettingsComponent.Config.Users)
         }
@@ -38,7 +39,8 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //ads
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Ads.localizedString),
-            icon = if (Data.showAds) Icons.Advertisements else Icons.AdvertisementsOff
+            icon = if (Data.showAds) OtariumIcons.Advertisements else OtariumIcons.AdvertisementsOff,
+            rowClickable = true,
         ) {
             component.navigate(SettingsComponent.Config.Ads)
         }
@@ -46,7 +48,8 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //bug report
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.Bugs.localizedString),
-            icon = Icons.BugOutline
+            icon = OtariumIcons.BugOutline,
+            rowClickable = true,
         ) {
             component.navigate(SettingsComponent.Config.Bugs)
         }
@@ -54,7 +57,8 @@ internal fun MainChildScreen(component: MainChildComponent) {
         //ui
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.UI.localizedString),
-            icon = MaterialIcons.Default.Menu
+            icon = MaterialIcons.Default.Menu,
+            rowClickable = true,
         ) {
             component.navigate(SettingsComponent.Config.UI)
         }

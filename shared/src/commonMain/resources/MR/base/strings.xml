@@ -88,4 +88,25 @@
     <string name="assignment_grade">Grade</string>
     <string name="assignment_submitted_on">Submitted on</string>
     <string name="assignment_feedback">Feedback</string>
+
+    <string name="color_dynamic">Dynamic color scheme</string>
+    <string name="color_custom">Custom color scheme</string>
+    <string name="color_reset">Reset color scheme</string>
+    <string name="color_save">Save color scheme</string>
+
+    <string name="color_primary">Primary color</string>
+    <string name="color_secondary">Secondary color</string>
+    <string name="color_tertiary">Tertiary color</string>
+
+    <string name="show_cancelled_lessons">Show cancelled lessons</string>
+
+    <string name="manual_grades">Manually entered grades</string>
+    <string name="real_grades">Grades</string>
+
+    <string name="manual_grade">Grade</string>
+    <string name="manual_weight">Weight</string>
+    <string name="manual_name">Name</string>
+
+    <string name="mark_grades_red">Mark insufficient grades red</string>
+    <string name="passing_grade">Passing grade</string>
 </resources>

@@ -1,8 +1,5 @@
 package nl.tiebe.otarium.ui.home.timetable.main
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.rememberPagerState
@@ -20,10 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.coroutines.launch
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -68,19 +62,6 @@ internal fun TimetableScreen(component: TimetableComponent) {
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-        }
-    }
-
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        val popupItem = component.openedTimetableItem.subscribeAsState()
-
-        AnimatedVisibility(
-            visible = popupItem.value.first,
-            enter = fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            TimetableItemPopup(component, popupItem.value.second!!)
         }
     }
 

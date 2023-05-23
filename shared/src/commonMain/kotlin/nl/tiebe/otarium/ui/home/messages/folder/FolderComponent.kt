@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnResume
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
@@ -61,7 +62,9 @@ class DefaultFolderComponent(
     }
 
     init {
-        refresh()
+        lifecycle.doOnResume {
+            refresh()
+        }
     }
 
 }
