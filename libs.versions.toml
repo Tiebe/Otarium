@@ -7,7 +7,7 @@ android_sdk-compile = "33"
 
 ios_target = "11.0"
 
-magister = "1.1.10-alpha02"
+magister = "1.1.10-alpha03"
 
 kotlin = "1.8.0"
 gradle = "7.4.1"

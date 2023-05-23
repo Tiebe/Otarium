@@ -45,7 +45,7 @@ interface MessagesComponent: MenuItemComponent {
     }
 
     fun navigateToMessage(message: Message) {
-        navigate(Config.Message(message.links.self.href))
+        navigate(Config.Message(message.links.self?.href ?: return))
     }
 
     val folders: Value<List<MessageFolder>>
