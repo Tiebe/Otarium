@@ -13,7 +13,7 @@ internal fun GradeCalculationChild(component: GradeCalculationChildComponent) {
             Text("Loading")
         }
         is GradeCalculationChildComponent.State.Data -> {
-            GCSubjectList(component, state.data.sortedBy { it.grade.dateEntered })
+            GCSubjectList(component, state.data.sortedBy { it.grade.dateEntered }, component.manualGradesList.subscribeAsState().value)
         }
         is GradeCalculationChildComponent.State.Failed -> {
             Text("Something went wrong while retrieving your grades")

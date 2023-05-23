@@ -88,7 +88,7 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
 }
 
 
-fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
+fun calculateAverageGrade(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
     return calculateAverage(grades.map {
         (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
     }, addedGrade, addedGradeWeight)
@@ -109,12 +109,12 @@ fun calculateAverage(pairs: List<Pair<Float, Float>>, initialAverage: Float = 0f
 }
 
 fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
-    return calculateNewGrade(grades.map {
+    return calculateNew(grades.map {
         (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
     }, newAverage, newGradeWeight)
 }
 
-fun calculateNewGrade(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
     var sum = 0f
     var weight = newGradeWeight
 

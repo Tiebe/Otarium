@@ -32,6 +32,7 @@ import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
+import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverageGrade
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalTextApi::class)
@@ -80,7 +81,7 @@ internal fun GCGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<Manual
 
             grades.forEachIndexed { index, gradeInfo ->
                 val grade = gradeInfo.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f
-                val average = calculateAverage(grades.subList(0, index+1))
+                val average = calculateAverageGrade(grades.subList(0, index+1))
 
                 drawGrade(index, lineBound, grade, average, grades.size + manualGrades.size, gradePath, averagePath, gradeBrush, averageBrush)
             }

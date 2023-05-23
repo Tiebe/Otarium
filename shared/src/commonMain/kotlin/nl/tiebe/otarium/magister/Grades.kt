@@ -84,5 +84,6 @@ data class GradeWithGradeInfo(
 data class ManualGrade(
     val name: String,
     val grade: String,
-    val weight: Float
+    val weight: Float,
+    val subjectId: Int,
 )
