@@ -1,5 +1,5 @@
 plugins {
-    id(completeKotlin) version Version.complete_kotlin
+    ///alias(libs.plugins.moko)
 }
 
 buildscript {
@@ -12,12 +12,13 @@ buildscript {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath(Kotlin.gradle)
-        classpath(Android.gradle)
-        classpath(Kotlin.serialization)
-        classpath(Moko.gradle)
-        classpath(BuildKonfig.gradle)
-        classpath(Firebase.classpath)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.android.gradle)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.kotlin.serialization)
+        classpath(libs.moko.gradle)
+        classpath(libs.buildkonfig.gradle)
+        classpath(libs.firebase.gradle)
     }
 }
 
