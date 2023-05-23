@@ -1,15 +1,11 @@
 package nl.tiebe.otarium.ui.home.timetable
 
-import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.tween
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.StackAnimator
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimator
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.essenty.backhandler.BackCallback
 import kotlinx.coroutines.launch
@@ -44,6 +40,7 @@ internal fun TimetableRootScreen(component: TimetableRootComponent) {
     SwipeToDismiss(
         state = state,
         dismissThresholds = { FractionalThreshold(0.5f) },
+        directions = setOf(DismissDirection.StartToEnd),
         background = {
         }
     ) {
@@ -53,23 +50,3 @@ internal fun TimetableRootScreen(component: TimetableRootComponent) {
     }
 
 }
-
-@Composable
-internal fun slide(animationSpec: FiniteAnimationSpec<Float> = tween(), factor: Float): StackAnimator {
-    //println(factor)
-
-    val animator = stackAnimator(animationSpec = animationSpec) { animationFactor, _, content ->
-        content(Modifier.offsetXFactor(factor = maxOf(animationFactor, factor)))
-    }
-
-    return animator
-}
-
-private fun Modifier.offsetXFactor(factor: Float): Modifier =
-    layout { measurable, constraints ->
-        val placeable = measurable.measure(constraints)
-
-        layout(placeable.width, placeable.height) {
-            placeable.placeRelative(x = (placeable.width.toFloat() * factor).toInt(), y = 0)
-        }
-    }

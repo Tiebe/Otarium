@@ -20,7 +20,7 @@ compose-activity = "1.7.1"
 material3 = "1.0.1"
 ktor = "2.3.0"
 decompose = "2.0.0-compose-experimental-alpha-02"
-moko = "0.22.0"
+moko = "0.22.2"
 buildkonfig = "0.13.3"
 gms = "4.3.15"
 firebase = "32.0.0"
@@ -34,6 +34,7 @@ colormath = "3.2.0"
 
 kotlin-datetime = "0.4.0"
 
+crashlytics = "2.9.5"
 
 [libraries]
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
@@ -69,12 +70,13 @@ buildkonfig-gradle = { group = "com.codingfeline.buildkonfig", name = "buildkonf
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-crashlyticsgradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlytics" }
 firebase-gradle = { group = "com.google.gms", name = "google-services", version.ref = "gms" }
 
 decompose-core = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose-jetbrains", version.ref = "decompose" }
 
-multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings", version.ref = "multiplatform-settings" }
+multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 
 admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
 
@@ -94,3 +96,4 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
 
 google_services = { id = "com.google.gms.google-services", version.ref = "gms" }
+firebase_crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase" }

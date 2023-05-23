@@ -1,5 +1,6 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    ///alias(libs.plugins.moko)
+    alias(libs.plugins.complete.kotlin)
 }
 
 buildscript {
@@ -19,6 +20,7 @@ buildscript {
         classpath(libs.moko.gradle)
         classpath(libs.buildkonfig.gradle)
         classpath(libs.firebase.gradle)
+        classpath(libs.firebase.crashlyticsgradle)
     }
 }
 
