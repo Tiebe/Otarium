@@ -32,6 +32,7 @@ internal fun DaySelector(
     weekPageCount: Int
 ) {
     val scope = rememberCoroutineScope()
+    val selectedWeek = component.selectedWeek.subscribeAsState()
 
     HorizontalPager(pageCount = weekPageCount, state = weekPagerState) { week ->
         TabRow(
@@ -42,7 +43,7 @@ internal fun DaySelector(
                         dayPagerState,
                         dayPageCount,
                         tabPositions,
-                        shouldShowIndicator = derivedStateOf { week == weekPageCount/2 + component.selectedWeek.value }.value
+                        shouldShowIndicator = derivedStateOf { week == weekPageCount/2 + selectedWeek.value }.value
                     )
                 )
             }) {
