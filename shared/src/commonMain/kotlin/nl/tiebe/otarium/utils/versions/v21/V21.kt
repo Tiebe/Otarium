@@ -16,7 +16,10 @@ fun migrateFromV21() {
     runBlocking {
         try {
             val currentAccount: JsonObject =
-                Json.decodeFromString(settings.getStringOrNull("magister_tokens") ?: return@runBlocking)
+                Json.decodeFromString(settings.getStringOrNull("magister_tokens") ?: run {
+                    settings.clear()
+                    return@runBlocking
+                })
             val accountId = currentAccount["accountId"]!!.jsonPrimitive.content.toInt()
             val tokens = Json.decodeFromString<TokenResponse>(currentAccount["tokens"]!!.jsonObject.toString())
 
