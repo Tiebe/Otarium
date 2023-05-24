@@ -34,7 +34,6 @@ interface SettingsComponent: MenuItemComponent {
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
 
-    val onBack: MutableValue<() -> Unit>
 
     fun navigate(child: Config) {
         navigation.push(child)
@@ -72,6 +71,8 @@ interface SettingsComponent: MenuItemComponent {
         @Parcelize
         object Colors : Config(getLocalizedString(MR.strings.color_settings))
     }
+
+    val onBack: MutableValue<() -> Unit>
 
     fun registerBackHandler()
     fun unregisterBackHandler()
