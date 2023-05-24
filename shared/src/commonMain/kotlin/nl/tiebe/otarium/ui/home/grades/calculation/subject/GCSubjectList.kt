@@ -93,7 +93,7 @@ internal fun GCSubjectList(
                         text = average.value.format(1),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(2.dp),
-                        color = if (average.value < Data.passingGrade) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
+                        color = if (Data.markGrades && average.value < Data.passingGrade) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.displaySmall.copy(fontSize = 18.sp)
                     )
                 },
