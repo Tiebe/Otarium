@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.utils.versions
 
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.settings
 import nl.tiebe.otarium.setupNotifications
 import nl.tiebe.otarium.utils.versions.v21.migrateFromV21
@@ -21,7 +22,11 @@ fun runVersionCheck(oldVersion: Int) {
         migrateFromV21()
     }
 
-/*    if (oldVersion <= 33) {
-        settings.clear()
-    }*/
+    if (oldVersion <= 33) {
+        try {
+            Data.selectedAccount.accountId
+        } catch (_: RuntimeException) {
+            settings.clear()
+        }
+    }
 }
