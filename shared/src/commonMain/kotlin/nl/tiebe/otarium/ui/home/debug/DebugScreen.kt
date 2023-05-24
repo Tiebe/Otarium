@@ -3,7 +3,12 @@ package nl.tiebe.otarium.ui.home.debug
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
@@ -102,6 +107,18 @@ internal fun DebugScreen(component: DebugComponent) {
             rowClickable = true,
         ) {
             throw RuntimeException("Test crash")
+        }
+
+        SettingRowIconButton(
+            leftText = AnnotatedString("Refresh tokens"),
+            icon = Icons.Default.Refresh,
+            rowClickable = true,
+        ) {
+            component.scope.launch {
+                for (account in Data.accounts) {
+                    account.refreshTokens()
+                }
+            }
         }
     }
 

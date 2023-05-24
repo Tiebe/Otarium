@@ -32,7 +32,7 @@ object Data {
         set(value) = settings.putString("accounts", Json.encodeToString(value))
 
     var selectedAccount: MagisterAccount
-        get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: run { settings.clear(); throw RuntimeException("No accounts found") }
+        get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: run { throw RuntimeException("No accounts found") }
         set(value) = settings.putInt("selected_account", value.accountId)
 
     var decimals: Int
