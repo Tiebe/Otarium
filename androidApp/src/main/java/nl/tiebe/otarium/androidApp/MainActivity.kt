@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.arkivanov.decompose.defaultComponentContext
 import nl.tiebe.otarium.RootView
 import nl.tiebe.otarium.utils.refreshGradesBackground
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
         val darkMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = !darkMode
+
 
         val colorScheme =
             when {
