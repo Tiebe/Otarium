@@ -20,8 +20,6 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.days
 import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -34,6 +32,7 @@ internal fun DaySelector(
     weekPageCount: Int
 ) {
     val scope = rememberCoroutineScope()
+    val selectedWeek = component.selectedWeek.subscribeAsState()
 
     HorizontalPager(pageCount = weekPageCount, state = weekPagerState) { week ->
         TabRow(
@@ -44,7 +43,7 @@ internal fun DaySelector(
                         dayPagerState,
                         dayPageCount,
                         tabPositions,
-                        shouldShowIndicator = derivedStateOf { week == weekPageCount/2 + component.selectedWeek.value }.value
+                        shouldShowIndicator = derivedStateOf { week == weekPageCount/2 + selectedWeek.value }.value
                     )
                 )
             }) {
@@ -53,7 +52,7 @@ internal fun DaySelector(
                     selected = (dayPagerState.currentPage - (dayPageCount / 2)) % 7 == index && week == 100 + component.selectedWeek.subscribeAsState().value,
                     onClick = {
                         scope.launch {
-                            dayPagerState.animateScrollToPage((week-100)*days.size + index + (component.amountOfDays / 2))
+                            dayPagerState.animateScrollToPage((week-100)* days.size + index + (component.amountOfDays / 2))
                         }
                     },
                     text = {

@@ -14,24 +14,31 @@ import nl.tiebe.otarium.settings
 
 fun migrateFromV21() {
     runBlocking {
-        val currentAccount: JsonObject = Json.decodeFromString(settings.getStringOrNull("magister_tokens") ?: return@runBlocking)
-        val accountId = currentAccount["accountId"]!!.jsonPrimitive.content.toInt()
-        val tokens = Json.decodeFromString<TokenResponse>(currentAccount["tokens"]!!.jsonObject.toString())
+        try {
+            val currentAccount: JsonObject =
+                Json.decodeFromString(settings.getStringOrNull("magister_tokens") ?: return@runBlocking)
+            val accountId = currentAccount["accountId"]!!.jsonPrimitive.content.toInt()
+            val tokens = Json.decodeFromString<TokenResponse>(currentAccount["tokens"]!!.jsonObject.toString())
 
-        val profileInfo = ProfileInfoFlow.getProfileInfo(currentAccount["tenantUrl"]!!.jsonPrimitive.content, tokens.accessToken)
+            val profileInfo =
+                ProfileInfoFlow.getProfileInfo(currentAccount["tenantUrl"]!!.jsonPrimitive.content, tokens.accessToken)
 
-        val newAccount = MagisterAccount(accountId, profileInfo, currentAccount["tenantUrl"]!!.jsonPrimitive.content)
+            val newAccount =
+                MagisterAccount(accountId, profileInfo, currentAccount["tenantUrl"]!!.jsonPrimitive.content)
 
-        settings.putString("grades-$accountId", settings.getString("grades", "[]"))
-        settings.putString("full_grade_list-$accountId", settings.getString("full_grade_list", "[]"))
-        settings.putString("agenda-$accountId", settings.getString("agenda", "[]"))
-        settings.putString("tokens-${accountId}", Json.encodeToString(tokens))
+            settings.putString("grades-$accountId", settings.getString("grades", "[]"))
+            settings.putString("full_grade_list-$accountId", settings.getString("full_grade_list", "[]"))
+            settings.putString("agenda-$accountId", settings.getString("agenda", "[]"))
+            settings.putString("tokens-${accountId}", Json.encodeToString(tokens))
 
-        settings.remove("grades")
-        settings.remove("full_grade_list")
-        settings.remove("agenda")
-        settings.remove("magister_tokens")
+            settings.remove("grades")
+            settings.remove("full_grade_list")
+            settings.remove("agenda")
+            settings.remove("magister_tokens")
 
-        settings.putString("accounts", Json.encodeToString(listOf(newAccount)))
+            settings.putString("accounts", Json.encodeToString(listOf(newAccount)))
+        } catch (e: Exception) {
+            settings.clear()
+        }
     }
 }

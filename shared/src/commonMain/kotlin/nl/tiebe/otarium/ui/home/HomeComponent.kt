@@ -1,7 +1,6 @@
 package nl.tiebe.otarium.ui.home
 
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
@@ -14,50 +13,57 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
+import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
 import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
-import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
-import nl.tiebe.otarium.utils.icons.Bottombar
-import nl.tiebe.otarium.utils.icons.Icons
-import nl.tiebe.otarium.utils.icons.bottombar.*
+import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.Bottombar
+import nl.tiebe.otarium.utils.otariumicons.bottombar.*
 
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItem, MenuItemComponent>>
 
-    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.Settings)
+    val visibleItems: List<MenuItem> get() = listOf(MenuItem.Timetable, MenuItem.Grades, MenuItem.Messages, MenuItem.ELO, MenuItem.Settings)
 
     @Parcelize
     sealed class MenuItem(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit): Parcelable {
         object Timetable: MenuItem(
             MR.strings.agendaItem,
-            { Icon(Icons.Bottombar.CalendarTodayOutline, "Timetable", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.CalendarTodayFilled, "Timetable", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.CalendarTodayOutline, "Timetable") },
+            { Icon(OtariumIcons.Bottombar.CalendarTodayFilled, "Timetable") },
         )
 
         object Grades: MenuItem(
             MR.strings.gradesItem,
-            { Icon(Icons.Bottombar.Box10Outline, "Grades", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.Box10Filled, "Grades", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.Box10Outline, "Grades") },
+            { Icon(OtariumIcons.Bottombar.Box10Filled, "Grades") },
         )
 
         object Messages: MenuItem(
             MR.strings.messagesItem,
-            { Icon(Icons.Bottombar.EmailOutline, "Messages", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.EmailFilled, "Messages", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages") },
+            { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") },
+        )
+
+        object ELO: MenuItem(
+            MR.strings.eloItem,
+            { Icon(OtariumIcons.Bottombar.BookOpenOutline, "ELO") },
+            { Icon(OtariumIcons.Bottombar.BookOpenFilled, "ELO") },
         )
 
         object Settings: MenuItem(
-            MR.strings.settings_title,
-            { Icon(Icons.Bottombar.CogOutline, "Settings", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.CogFilled, "Settings", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            MR.strings.settingsItem,
+            { Icon(OtariumIcons.Bottombar.CogOutline, "Settings") },
+            { Icon(OtariumIcons.Bottombar.CogFilled, "Settings") },
         )
 
         object Debug: MenuItem(
-            MR.strings.settings_title,
-            { Icon(Icons.Bottombar.Box10Outline, "Debug", tint = MaterialTheme.colorScheme.onPrimary) },
-            { Icon(Icons.Bottombar.Box10Filled, "Debug", tint = MaterialTheme.colorScheme.onSecondaryContainer) },
+            MR.strings.settingsItem,
+            { Icon(OtariumIcons.Bottombar.Box10Outline, "Debug") },
+            { Icon(OtariumIcons.Bottombar.Box10Filled, "Debug") },
         )
     }
 
@@ -79,15 +85,15 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
             is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
             is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
             is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
+            is HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
             is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
         }
     }
 
     private fun timetableComponent(componentContext: ComponentContext) =
-        DefaultTimetableComponent(
+        DefaultTimetableRootComponent(
             componentContext = componentContext,
-            navigate = ::navigate
         )
 
     private fun gradesComponent(componentContext: ComponentContext) =
@@ -97,6 +103,11 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
 
     private fun messagesComponent(componentContext: ComponentContext) =
         DefaultMessagesComponent(
+            componentContext = componentContext
+        )
+
+    private fun eloComponent(componentContext: ComponentContext) =
+        DefaultELOComponent(
             componentContext = componentContext
         )
 

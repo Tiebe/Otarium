@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000538">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: match" time="6.806671">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: cocoapods" time="4.327108">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: sed -i '' 's/source=&quot;$(readlink &quot;${source}&quot;)&quot;/source=&quot;$(readlink -f &quot;${source}&quot;)&quot;/g' &quot;../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh&quot;" time="0.020624">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: build_app" time="88.82309">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

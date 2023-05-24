@@ -9,6 +9,7 @@ import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.ui.home.grades.GradesChildComponent
 import nl.tiebe.otarium.ui.root.componentCoroutineScope
@@ -17,6 +18,12 @@ interface GradeCalculationChildComponent : GradesChildComponent {
     val openedSubject: Value<Pair<Boolean, Subject?>>
 
     val backCallbackOpenItem: BackCallback
+
+    val manualGradesList: Value<List<ManualGrade>>
+    val addManualGradePopupOpen: MutableValue<Boolean>
+
+    fun addManualGrade(manualGrade: ManualGrade)
+    fun removeManualGrade(manualGrade: ManualGrade)
 
     fun openSubject(subject: Subject) {
         backCallbackOpenItem.isEnabled = true
@@ -43,6 +50,21 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
     override val backCallbackOpenItem = BackCallback(false) {
         closeSubject()
     }
+    override val manualGradesList: MutableValue<List<ManualGrade>> = MutableValue(Data.manualGrades)
+    override val addManualGradePopupOpen: MutableValue<Boolean> = MutableValue(false)
+    override fun addManualGrade(manualGrade: ManualGrade) {
+        manualGradesList.value = manualGradesList.value.toMutableList().apply {
+            add(manualGrade)
+        }
+        Data.manualGrades = manualGradesList.value
+    }
+
+    override fun removeManualGrade(manualGrade: ManualGrade) {
+        manualGradesList.value = manualGradesList.value.toMutableList().apply {
+            remove(manualGrade)
+        }
+        Data.manualGrades = manualGradesList.value
+    }
 
     override val state: MutableValue<GradeCalculationChildComponent.State> = MutableValue(GradeCalculationChildComponent.State.Loading)
     private val scope = componentCoroutineScope()
@@ -66,13 +88,19 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
 }
 
 
-fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
-    var sum = addedGrade * addedGradeWeight
-    var weight = addedGradeWeight
+fun calculateAverageGrade(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
+    return calculateAverage(grades.map {
+        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+    }, addedGrade, addedGradeWeight)
+}
 
-    grades.forEach {
-        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
-        weight += it.gradeInfo.weight.toFloat()
+fun calculateAverage(pairs: List<Pair<Float, Float>>, initialAverage: Float = 0f, initialWeight: Float = 0f): Float {
+    var sum = initialAverage * initialWeight
+    var weight = initialWeight
+
+    pairs.forEach {
+        sum += it.first * it.second
+        weight += it.second
     }
 
     if (weight == 0f) return 0f
@@ -81,12 +109,18 @@ fun calculateAverage(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, a
 }
 
 fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+    return calculateNew(grades.map {
+        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+    }, newAverage, newGradeWeight)
+}
+
+fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
     var sum = 0f
     var weight = newGradeWeight
 
-    grades.forEach {
-        sum += (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) * it.gradeInfo.weight.toFloat()
-        weight += it.gradeInfo.weight.toFloat()
+    pairs.forEach {
+        sum += it.first * it.second
+        weight += it.second
     }
 
     return ((newAverage * weight) - sum) / newGradeWeight

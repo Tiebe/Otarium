@@ -6,14 +6,14 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
-import nl.tiebe.otarium.store.component.home.children.StoreTimetableComponent
 import nl.tiebe.otarium.store.component.home.children.grades.StoreGradeComponent
 import nl.tiebe.otarium.store.component.home.children.settings.StoreSettingsComponent
 import nl.tiebe.otarium.ui.home.HomeComponent
 import nl.tiebe.otarium.ui.home.MenuItemComponent
 import nl.tiebe.otarium.ui.home.debug.DefaultDebugComponent
+import nl.tiebe.otarium.ui.home.elo.DefaultELOComponent
 import nl.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
-import nl.tiebe.otarium.ui.home.settings.DefaultSettingsComponent
+import nl.tiebe.otarium.ui.home.timetable.DefaultTimetableRootComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 
 class StoreHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
@@ -38,14 +38,15 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
             is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
             is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
             is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
+            is HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
         }
     }
 
     private fun timetableComponent(componentContext: ComponentContext) =
-        StoreTimetableComponent(
+        DefaultTimetableRootComponent(
             componentContext = componentContext,
-            navigate = ::navigate
         )
+
 
     private fun gradesComponent(componentContext: ComponentContext) =
         StoreGradeComponent(
@@ -54,6 +55,11 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
 
     private fun messagesComponent(componentContext: ComponentContext) =
         DefaultMessagesComponent(
+            componentContext = componentContext
+        )
+
+    private fun eloComponent(componentContext: ComponentContext) =
+        DefaultELOComponent(
             componentContext = componentContext
         )
 

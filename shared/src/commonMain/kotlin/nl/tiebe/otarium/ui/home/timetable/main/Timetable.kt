@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
 import nl.tiebe.otarium.ui.home.timetable.item.TimetableItem
 
 val timesShown = 8..17

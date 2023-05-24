@@ -1,19 +1,22 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
+    id(libs.plugins.google.services.get().pluginId)
+    id(libs.plugins.firebase.crashlytics.get().pluginId)
 }
 
 android {
-    compileSdk = AndroidSdk.compile
+    compileSdk = libs.versions.android.sdk.compile.get().toInt()
     namespace = "nl.tiebe.otarium.androidApp"
     defaultConfig {
         applicationId = "nl.tiebe.otarium"
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
-        versionCode = Version.appVersionCode
-        versionName = Version.appVersion
+        minSdk = libs.versions.android.sdk.min.get().toInt()
+        targetSdk = libs.versions.android.sdk.compile.get().toInt()
+        versionCode = libs.versions.app.version.code.get().toInt()
+        versionName = libs.versions.app.version.string.get()
     }
     buildTypes {
         getByName("release") {
@@ -33,25 +36,26 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Version.compose_compiler
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 }
 
 dependencies {
 
     implementation(project(":shared"))
-    implementation(Android.appcompat)
-    implementation(Android.material)
+    implementation(libs.android.appcompat)
+    implementation(libs.android.material)
 
-    implementation(Compose.activity)
-    implementation(Compose.runtime)
-    implementation(Compose.ui)
-    implementation(Compose.material3)
-    implementation(Compose.foundationLayout)
-    implementation(Compose.material)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.foundationlayout)
+    implementation(libs.compose.material)
 
-    implementation(Decompose.core)
+    implementation(libs.decompose.core)
 
-    implementation(project.dependencies.platform(Firebase.bom))
-    implementation(Firebase.analytics)
+    implementation(project.dependencies.platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 }

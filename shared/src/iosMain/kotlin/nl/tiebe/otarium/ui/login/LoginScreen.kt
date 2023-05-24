@@ -1,3 +1,5 @@
+@file:Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+
 package nl.tiebe.otarium.ui.login
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +26,6 @@ internal actual fun LoginScreen(component: LoginComponent) {
                 preferences.javaScriptCanOpenWindowsAutomatically = true
 
                 config.setURLSchemeHandler(object : NSObject(), WKURLSchemeHandlerProtocol {
-                    @Suppress("CONFLICTING_OVERLOADS")
                     override fun webView(
                         webView: WKWebView,
                         startURLSchemeTask: WKURLSchemeTaskProtocol
@@ -34,7 +35,6 @@ internal actual fun LoginScreen(component: LoginComponent) {
                         }
                     }
 
-                    @Suppress("CONFLICTING_OVERLOADS")
                     override fun webView(
                         webView: WKWebView,
                         stopURLSchemeTask: WKURLSchemeTaskProtocol

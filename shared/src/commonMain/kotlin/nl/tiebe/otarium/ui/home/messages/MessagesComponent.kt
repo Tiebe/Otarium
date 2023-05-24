@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.api.messages.MessageFlow
@@ -33,6 +34,9 @@ interface MessagesComponent: MenuItemComponent {
     val refreshState: Value<Boolean>
     val scope: CoroutineScope
 
+    val onBack: MutableValue<() -> Unit>
+
+
     suspend fun getFoldersAsync()
     fun getFolders()
 
@@ -45,7 +49,7 @@ interface MessagesComponent: MenuItemComponent {
     }
 
     fun navigateToMessage(message: Message) {
-        navigate(Config.Message(message.links.self.href))
+        navigate(Config.Message(message.links.self?.href ?: return))
     }
 
     val folders: Value<List<MessageFolder>>
@@ -70,6 +74,9 @@ interface MessagesComponent: MenuItemComponent {
         @Parcelize
         data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
     }
+
+    fun registerBackHandler()
+    fun unregisterBackHandler()
 }
 
 class DefaultMessagesComponent(
@@ -78,6 +85,8 @@ class DefaultMessagesComponent(
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
     override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
 
     override val navigation = StackNavigation<MessagesComponent.Config>()
@@ -86,7 +95,7 @@ class DefaultMessagesComponent(
         childStack(
             source = navigation,
             initialConfiguration = MessagesComponent.Config.Main,
-            handleBackButton = true, // Pop the back stack on back button press
+            handleBackButton = false, // Pop the back stack on back button press
             childFactory = ::createChild,
         )
 
@@ -143,7 +152,31 @@ class DefaultMessagesComponent(
         }
     }
 
+    private val registered = MutableValue(false)
+    private val backCallback = BackCallback { onBack.value() }
+
+    override fun registerBackHandler() {
+        if (registered.value) return
+        backHandler.register(backCallback)
+        registered.value = true
+    }
+
+    override fun unregisterBackHandler() {
+        if (!registered.value) return
+        backHandler.unregister(backCallback)
+        registered.value = false
+    }
+
+
     init {
+        childStack.subscribe { childStack ->
+            if (childStack.backStack.isEmpty()) {
+                unregisterBackHandler()
+            } else {
+                registerBackHandler()
+            }
+        }
+
         scope.launch {
             getFolders()
         }
