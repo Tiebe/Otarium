@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
@@ -43,6 +44,12 @@ interface StudyGuidesChildComponent : ELOChildComponent {
         @Parcelize
         data class StudyGuide(val studyGuideLink: String) : Config()
     }
+
+
+    val onBack: MutableValue<() -> Unit>
+
+    fun registerBackHandler()
+    fun unregisterBackHandler()
 
 }
 
@@ -81,6 +88,33 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
             componentContext = componentContext,
             studyGuideLink = studyGuideLink,
         )
+
+    private val registered = MutableValue(false)
+    private val backCallback = BackCallback { onBack.value() }
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
+    override fun registerBackHandler() {
+        if (registered.value) return
+        backHandler.register(backCallback)
+        registered.value = true
+    }
+
+    override fun unregisterBackHandler() {
+        if (!registered.value) return
+        backHandler.unregister(backCallback)
+        registered.value = false
+    }
+
+
+    init {
+        childStack.subscribe { childStack ->
+            if (childStack.backStack.isEmpty()) {
+                unregisterBackHandler()
+            } else {
+                registerBackHandler()
+            }
+        }
+    }
 }
 
 interface StudyGuideChildScreen

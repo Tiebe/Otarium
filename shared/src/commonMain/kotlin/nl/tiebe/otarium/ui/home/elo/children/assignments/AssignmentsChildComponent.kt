@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +41,12 @@ interface AssignmentsChildComponent : ELOChildComponent {
         @Parcelize
         data class Assignment(val assignmentLink: String) : Config()
     }
+
+
+    val onBack: MutableValue<() -> Unit>
+
+    fun registerBackHandler()
+    fun unregisterBackHandler()
 }
 
 class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : AssignmentsChildComponent, ComponentContext by componentContext {
@@ -76,6 +83,33 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
             componentContext = componentContext,
             assignmentLink = assignmentLink,
         )
+
+    private val registered = MutableValue(false)
+    private val backCallback = BackCallback { onBack.value() }
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
+    override fun registerBackHandler() {
+        if (registered.value) return
+        backHandler.register(backCallback)
+        registered.value = true
+    }
+
+    override fun unregisterBackHandler() {
+        if (!registered.value) return
+        backHandler.unregister(backCallback)
+        registered.value = false
+    }
+
+
+    init {
+        childStack.subscribe { childStack ->
+            if (childStack.backStack.isEmpty()) {
+                unregisterBackHandler()
+            } else {
+                registerBackHandler()
+            }
+        }
+    }
 }
 
 interface AssignmentChildScreen
