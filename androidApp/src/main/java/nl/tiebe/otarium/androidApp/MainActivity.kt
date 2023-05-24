@@ -42,21 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
         val darkMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = !darkMode
 
-
-        val colorScheme =
-            when {
-                dynamicColor && darkMode -> {
-                    dynamicDarkColorScheme(Android.context)
-                }
-
-                dynamicColor && !darkMode -> {
-                    dynamicLightColorScheme(Android.context)
-                }
-                else -> null
-            }
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
 
@@ -66,8 +53,15 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContent {
-            RootView(rootComponentContext, colorScheme, WindowInsets.Companion.systemBars.asPaddingValues())
+            RootView(rootComponentContext, if (dynamicColor) dynamicLightColorScheme(Android.context) else null, if (dynamicColor) dynamicDarkColorScheme(Android.context) else null, WindowInsets.Companion.systemBars.asPaddingValues())
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        val darkMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = !darkMode
     }
 
     override fun onDestroy() {

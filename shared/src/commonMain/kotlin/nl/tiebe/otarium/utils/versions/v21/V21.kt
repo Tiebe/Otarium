@@ -29,8 +29,6 @@ fun migrateFromV21() {
             val newAccount =
                 MagisterAccount(accountId, profileInfo, currentAccount["tenantUrl"]!!.jsonPrimitive.content)
 
-            settings.putString("grades-$accountId", settings.getString("grades", "[]"))
-            settings.putString("full_grade_list-$accountId", settings.getString("full_grade_list", "[]"))
             settings.putString("agenda-$accountId", settings.getString("agenda", "[]"))
             settings.putString("tokens-${accountId}", Json.encodeToString(tokens))
 
