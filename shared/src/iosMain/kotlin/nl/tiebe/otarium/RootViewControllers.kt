@@ -1,24 +1,31 @@
 package nl.tiebe.otarium
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.ui.window.ComposeUIViewController
 import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import org.jetbrains.skiko.SystemTheme
-import org.jetbrains.skiko.currentSystemTheme
-import platform.CoreGraphics.CGFloat
+import platform.UIKit.UIApplication
 import platform.UIKit.UIViewController
+import platform.UIKit.safeAreaInsets
 
-fun RootViewController(startPadding: CGFloat, topPadding: CGFloat, endPadding: CGFloat, bottomPadding: CGFloat): UIViewController = ComposeUIViewController {
+fun RootViewController(): UIViewController = ComposeUIViewController {
     val componentContext = DefaultComponentContext(
         lifecycle = LifecycleRegistry(),
         null, null, null
     )
 
+    println(UIApplication.sharedApplication.keyWindow?.safeAreaInsets)
 
     ProvideComponentContext(componentContext) {
         setup()
-        Content(componentContext = componentContext, padding = PaddingValues(startPadding.dp, topPadding.dp, endPadding.dp, bottomPadding.dp))
+        Content(componentContext = componentContext, padding = safeArea.subscribeAsState().value)
     }
+}
+
+val safeArea = MutableValue(WindowInsets(0, 0, 0, 0))
+
+fun setSafeArea(start: Int, top: Int, end: Int, bottom: Int) {
+    safeArea.value = WindowInsets(start, top, end, bottom)
 }
