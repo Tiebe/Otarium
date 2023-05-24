@@ -4,7 +4,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import nl.tiebe.otarium.store.component.home.children.settings.children.StoreUserChildComponent
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildComponent
@@ -33,6 +35,14 @@ class StoreSettingsComponent(
             handleBackButton = true, // Pop the back stack on back button press
             childFactory = ::createChild,
         )
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
+    override fun registerBackHandler() {
+        backHandler.register(BackCallback { onBack.value() })
+    }
+
+    override fun unregisterBackHandler() {
+    }
 
     private fun createChild(config: SettingsComponent.Config, componentContext: ComponentContext): SettingsComponent.Child =
         when (config) {
