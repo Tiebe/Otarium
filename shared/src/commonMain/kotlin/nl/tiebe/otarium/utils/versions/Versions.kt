@@ -21,7 +21,7 @@ fun runVersionCheck(oldVersion: Int) {
         migrateFromV21()
     }
 
-    if (oldVersion <= 31) {
+/*    if (oldVersion <= 33) {
         settings.clear()
-    }
+    }*/
 }
