@@ -1,17 +1,21 @@
 package nl.tiebe.otarium.ui.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -40,25 +44,29 @@ internal fun HomeScreen(component: HomeComponent) {
 
     Scaffold(
         bottomBar = {
-            NavigationBar(modifier = Modifier.padding(bottom = if (adsShown.value) 50.dp else 0.dp)) {
-                component.visibleItems.forEach { screen ->
-                    NavigationBarItem(
-                        icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
-                        label = { Text(getLocalizedString(screen.resourceId), modifier = Modifier.wrapContentWidth(unbounded = true)/*, color = MaterialTheme.colorScheme.onPrimary*/) },
-                        selected = overlay.configuration == screen,
-                        onClick = {
-                            component.navigate(screen)
-                        },
-                        /*                        colors = NavigationBarItemDefaults.colors(
-                                                    indicatorColor = MaterialTheme.colorScheme.secondaryContainer,
-                                                )*/
-                    )
+            Column {
+                NavigationBar(windowInsets = if (adsShown.value) WindowInsets(0, 0, 0, 0) else NavigationBarDefaults.windowInsets) {
+                    component.visibleItems.forEach { screen ->
+                        NavigationBarItem(
+                            icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
+                            label = {
+                                Text(
+                                    getLocalizedString(screen.resourceId),
+                                    modifier = Modifier.wrapContentWidth(unbounded = true)
+                                )
+                            },
+                            selected = overlay.configuration == screen,
+                            onClick = {
+                                component.navigate(screen)
+                            }
+                        )
+                    }
                 }
-            }
 
-            if (adsShown.value) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-                    Ads()
+                if (adsShown.value) {
+                    Surface(modifier = Modifier.height(50.dp), color = NavigationBarDefaults.containerColor, tonalElevation = NavigationBarDefaults.Elevation) {
+                        Ads()
+                    }
                 }
             }
         }

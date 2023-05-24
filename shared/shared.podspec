@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'shared'
-    spec.version                  = '3.3.0-alpha01'
+    spec.version                  = '3.3.0'
     spec.homepage                 = 'https://otarium.groosman.nl'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
