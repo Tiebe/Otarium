@@ -17,6 +17,8 @@ interface GradesComponent : MenuItemComponent {
         object RecentGrades : GradesChild(0)
         object Calculation : GradesChild(1)
 
+        //todo: overzicht van alle cijfers
+
     }
 
     val recentGradeComponent: RecentGradesChildComponent

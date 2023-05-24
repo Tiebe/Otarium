@@ -25,7 +25,8 @@ internal fun AdsChildScreen(component: AdsChildComponent) {
         Divider()
         SettingsRowToggle(
             leftText = AnnotatedString(getLocalizedString(MR.strings.show_ads_checkbox)),
-            checked = checkedStateAds.value
+            checked = checkedStateAds.value,
+            rowClickable = true,
         ) {
             checkedStateAds.value = it
             component.changeAdsState(it)
@@ -33,7 +34,8 @@ internal fun AdsChildScreen(component: AdsChildComponent) {
 
         SettingsRowToggle(
             leftText = AnnotatedString(getLocalizedString(MR.strings.age_checkbox)),
-            checked = checkedStateAge.value
+            checked = checkedStateAge.value,
+            rowClickable = true,
         ) {
             checkedStateAge.value = it
             component.changeAgeOfConsent(it)

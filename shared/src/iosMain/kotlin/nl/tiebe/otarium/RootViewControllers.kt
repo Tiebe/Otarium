@@ -10,7 +10,7 @@ import org.jetbrains.skiko.currentSystemTheme
 import platform.CoreGraphics.CGFloat
 import platform.UIKit.UIViewController
 
-fun RootViewController(): UIViewController = ComposeUIViewController {
+fun RootViewController(startPadding: CGFloat, topPadding: CGFloat, endPadding: CGFloat, bottomPadding: CGFloat): UIViewController = ComposeUIViewController {
     val componentContext = DefaultComponentContext(
         lifecycle = LifecycleRegistry(),
         null, null, null
@@ -19,14 +19,6 @@ fun RootViewController(): UIViewController = ComposeUIViewController {
 
     ProvideComponentContext(componentContext) {
         setup()
-        Content(componentContext = componentContext)
+        Content(componentContext = componentContext, padding = PaddingValues(startPadding.dp, topPadding.dp, endPadding.dp, bottomPadding.dp))
     }
-}
-
-fun setSafeArea(start: CGFloat, top: CGFloat, end: CGFloat, bottom: CGFloat) {
-    safeAreaState.value = PaddingValues(start.dp, top.dp, end.dp, bottom.dp)
-}
-
-fun setDarkMode() {
-    darkModeState.value = currentSystemTheme == SystemTheme.DARK
 }

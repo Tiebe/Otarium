@@ -1,30 +1,31 @@
+@Suppress("DSL_SCOPE_VIOLATION")
+plugins {
+    alias(libs.plugins.complete.kotlin)
+}
+
 buildscript {
     repositories {
         gradlePluginPortal()
         google()
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
         maven("https://jitpack.io")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath(Kotlin.gradle)
-        classpath(Android.gradle)
-        classpath(Kotlin.serialization)
-        classpath(Moko.gradle)
-        classpath(BuildKonfig.gradle)
-        classpath(Firebase.classpath)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.android.gradle)
+        classpath(libs.kotlin.gradle)
+        classpath(libs.kotlin.serialization)
+        classpath(libs.moko.gradle)
+        classpath(libs.buildkonfig.gradle)
+        classpath(libs.firebase.gradle)
+        classpath(libs.firebase.crashlyticsgradle)
     }
 }
 
 allprojects {
     repositories {
-        google()
-        mavenLocal()
-        mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven("https://jitpack.io")
-
         maven {
             url = uri("https://maven.pkg.github.com/Tiebe/MagisterAPIKt")
             credentials {
@@ -32,6 +33,12 @@ allprojects {
                 password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
             }
         }
+
+        google()
+        mavenCentral()
+        mavenLocal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://jitpack.io")
     }
 }
 

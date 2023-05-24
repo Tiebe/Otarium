@@ -1,6 +1,5 @@
 package nl.tiebe.otarium.ui.home.timetable.item
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,28 +8,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.ui.home.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.home.timetable.main.TimetableComponent
 import nl.tiebe.otarium.ui.utils.BackButton
+import nl.tiebe.otarium.ui.utils.ClickableText
 import nl.tiebe.otarium.ui.utils.parseHtml
-import nl.tiebe.otarium.utils.openUrl
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbsence: AgendaItemWithAbsence) {
-    Surface(Modifier.fillMaxSize()) {
+internal fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int, modifier: Modifier) {
+    val agendaItemWithAbsence = component.timetable.subscribeAsState().value.first { it.agendaItem.id == agendaItemId }
+
+    Surface(Modifier.fillMaxSize().then(modifier)) {
         Box(Modifier.fillMaxSize().padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
             Column(
                 modifier = Modifier
@@ -83,25 +80,9 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemWithAbs
 
                 val text = (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml()
 
-                val onClick: (Int) -> Unit = { offset ->
-                    text.getStringAnnotations(tag = "URL", start = offset, end = offset).firstOrNull()?.let { annotation ->
-                        openUrl(annotation.item)
-                    }
-                }
-
-                val layoutResult = remember { mutableStateOf<TextLayoutResult?>(null) }
-                val pressIndicator = Modifier.pointerInput(onClick) {
-                    detectTapGestures { pos ->
-                        layoutResult.value?.let { layoutResult ->
-                            onClick(layoutResult.getOffsetForPosition(pos))
-                        }
-                    }
-                }
-
-                Text(
+                ClickableText(
                     text = text,
-                    modifier = Modifier.fillMaxSize().then(pressIndicator),
-                    onTextLayout = { layoutResult.value = it },
+                    modifier = Modifier.fillMaxSize(),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

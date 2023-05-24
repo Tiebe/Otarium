@@ -1,8 +1,14 @@
 package nl.tiebe.otarium.ui.home.settings
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import nl.tiebe.otarium.MR
@@ -15,6 +21,8 @@ import nl.tiebe.otarium.ui.home.settings.items.main.DefaultMainChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ui.DefaultUIChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildComponent
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildComponent
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.DefaultColorChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.DefaultUserChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildComponent
 import nl.tiebe.otarium.ui.root.RootComponent
@@ -25,6 +33,7 @@ interface SettingsComponent: MenuItemComponent {
     val childStack: Value<ChildStack<Config, Child>>
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
+
 
     fun navigate(child: Config) {
         navigation.push(child)
@@ -40,11 +49,12 @@ interface SettingsComponent: MenuItemComponent {
         class BugsChild(val component: BugsChildComponent) : Child()
         class UsersChild(val component: UserChildComponent) : Child()
         class UIChild(val component: UIChildComponent) : Child()
+        class ColorChild(val component: ColorChildComponent) : Child()
     }
 
     sealed class Config(val localizedString: String) : Parcelable {
         @Parcelize
-        object Main : Config("")
+        object Main : Config(getLocalizedString(MR.strings.settingsItem))
 
         @Parcelize
         object Ads : Config(getLocalizedString(MR.strings.advertisements))
@@ -57,8 +67,15 @@ interface SettingsComponent: MenuItemComponent {
 
         @Parcelize
         object UI : Config(getLocalizedString(MR.strings.ui_settings))
+
+        @Parcelize
+        object Colors : Config(getLocalizedString(MR.strings.color_settings))
     }
 
+    val onBack: MutableValue<() -> Unit>
+
+    fun registerBackHandler()
+    fun unregisterBackHandler()
 }
 
 class DefaultSettingsComponent(
@@ -82,6 +99,7 @@ class DefaultSettingsComponent(
             is SettingsComponent.Config.Bugs -> SettingsComponent.Child.BugsChild(bugsChild(componentContext))
             is SettingsComponent.Config.Users -> SettingsComponent.Child.UsersChild(usersChild(componentContext))
             is SettingsComponent.Config.UI -> SettingsComponent.Child.UIChild(uiChild(componentContext))
+            is SettingsComponent.Config.Colors -> SettingsComponent.Child.ColorChild(colorChild(componentContext))
         }
 
     private fun mainChild(componentContext: ComponentContext): MainChildComponent =
@@ -114,4 +132,37 @@ class DefaultSettingsComponent(
             componentContext = componentContext,
             _navigate = ::navigate
         )
+
+    private fun colorChild(componentContext: ComponentContext): ColorChildComponent =
+        DefaultColorChildComponent(
+            componentContext = componentContext,
+            _navigate = ::navigate
+        )
+
+    private val registered = MutableValue(false)
+    private val backCallback = BackCallback { onBack.value() }
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
+    override fun registerBackHandler() {
+        if (registered.value) return
+        backHandler.register(backCallback)
+        registered.value = true
+    }
+
+    override fun unregisterBackHandler() {
+        if (!registered.value) return
+        backHandler.unregister(backCallback)
+        registered.value = false
+    }
+
+
+    init {
+        childStack.subscribe { childStack ->
+            if (childStack.backStack.isEmpty()) {
+                unregisterBackHandler()
+            } else {
+                registerBackHandler()
+            }
+        }
+    }
 }

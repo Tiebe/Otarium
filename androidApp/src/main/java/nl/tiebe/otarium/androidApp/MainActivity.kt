@@ -2,18 +2,20 @@ package nl.tiebe.otarium.androidApp
 
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
 import nl.tiebe.otarium.RootView
-import nl.tiebe.otarium.ui.theme.DarkColorScheme
-import nl.tiebe.otarium.ui.theme.LightColorScheme
 import nl.tiebe.otarium.utils.refreshGradesBackground
 import nl.tiebe.otarium.utils.reloadTokensBackground
 import nl.tiebe.otarium.utils.ui.Android
@@ -32,10 +34,6 @@ class MainActivity : AppCompatActivity() {
         Android.requestPermissionLauncher = requestPermissionLauncher
         Android.window = window
 
-        // has to be set in code or in theme
-        window.decorView.setBackgroundColor(Color.WHITE)
-        window.statusBarColor = Color.parseColor("#0F86E4")
-
         reloadTokensBackground()
         refreshGradesBackground()
 
@@ -53,13 +51,18 @@ class MainActivity : AppCompatActivity() {
                 dynamicColor && !darkMode -> {
                     dynamicLightColorScheme(Android.context)
                 }
-
-                darkMode -> DarkColorScheme
-                else -> LightColorScheme
+                else -> null
             }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         setContent {
-            RootView(rootComponentContext, colorScheme)
+            RootView(rootComponentContext, colorScheme, WindowInsets.Companion.systemBars.asPaddingValues())
         }
     }
 
@@ -83,10 +86,12 @@ class MainActivity : AppCompatActivity() {
     private fun deleteDir(dir: File?): Boolean {
         if (dir != null && dir.isDirectory) {
             val children = dir.list()
-            for (i in children.indices) {
-                val success = deleteDir(File(dir, children[i]))
-                if (!success) {
-                    return false
+            if (children != null) {
+                for (i in children.indices) {
+                    val success = deleteDir(File(dir, children[i]))
+                    if (!success) {
+                        return false
+                    }
                 }
             }
         }

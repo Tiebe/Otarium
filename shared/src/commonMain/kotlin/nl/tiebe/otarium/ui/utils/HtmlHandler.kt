@@ -39,7 +39,7 @@ private val tags = listOf(
     Tag("<ul>", "</ul>", specialOpeningAction = { htmlList = true }, specialClosingAction = { htmlList = null }),
     Tag("<ol>", "</ol>", specialOpeningAction = { listIndex = 0; htmlList = false }, specialClosingAction = { htmlList = null }),
 
-    Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color.Cyan, textDecoration = TextDecoration.Underline)),
+    Tag("<a href=\"", "</a>", regex = "<a href=\"(.+?)\"( target=\".+?\")?>", regexAction = { to, value -> to.pushStringAnnotation("URL", value) }, spanStyle = SpanStyle(color = Color(83, 155, 245), textDecoration = TextDecoration.Underline)),
 
     Tag("<hr>", "</hr>", spanStyle = SpanStyle(letterSpacing = 0.sp)),
 
@@ -75,6 +75,12 @@ fun String.parseHtml(): AnnotatedString {
         .replace("</h5>", "\n</h5>")
         .replace("<li>\n", "<li>")
         .replace("<hr>", "\n<hr>───────────────────</hr>\n")
+        .replace("<html>", "")
+        .replace("</html>", "")
+        .replace("<body>", "")
+        .replace("</body>", "")
+        .replace("<head>", "")
+        .replace("</head>", "")
 
 
     return buildAnnotatedString {

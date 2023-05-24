@@ -4,7 +4,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import nl.tiebe.otarium.store.component.home.children.settings.children.StoreUserChildComponent
 import nl.tiebe.otarium.ui.home.settings.SettingsComponent
 import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildComponent
@@ -15,6 +17,8 @@ import nl.tiebe.otarium.ui.home.settings.items.main.DefaultMainChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ui.DefaultUIChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildComponent
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildComponent
+import nl.tiebe.otarium.ui.home.settings.items.ui.colors.DefaultColorChildComponent
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildComponent
 import nl.tiebe.otarium.ui.root.RootComponent
 
@@ -31,6 +35,14 @@ class StoreSettingsComponent(
             handleBackButton = true, // Pop the back stack on back button press
             childFactory = ::createChild,
         )
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
+    override fun registerBackHandler() {
+        backHandler.register(BackCallback { onBack.value() })
+    }
+
+    override fun unregisterBackHandler() {
+    }
 
     private fun createChild(config: SettingsComponent.Config, componentContext: ComponentContext): SettingsComponent.Child =
         when (config) {
@@ -39,6 +51,7 @@ class StoreSettingsComponent(
             is SettingsComponent.Config.Bugs -> SettingsComponent.Child.BugsChild(bugsChild(componentContext))
             is SettingsComponent.Config.Users -> SettingsComponent.Child.UsersChild(usersChild(componentContext))
             is SettingsComponent.Config.UI -> SettingsComponent.Child.UIChild(uiChild(componentContext))
+            SettingsComponent.Config.Colors -> SettingsComponent.Child.ColorChild(colorChild(componentContext))
         }
 
     private fun mainChild(componentContext: ComponentContext): MainChildComponent =
@@ -68,6 +81,12 @@ class StoreSettingsComponent(
 
     private fun uiChild(componentContext: ComponentContext): UIChildComponent =
         DefaultUIChildComponent(
+            componentContext = componentContext,
+            _navigate = ::navigate
+        )
+
+    private fun colorChild(componentContext: ComponentContext): ColorChildComponent =
+        DefaultColorChildComponent(
             componentContext = componentContext,
             _navigate = ::navigate
         )

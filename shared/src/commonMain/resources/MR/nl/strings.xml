@@ -3,7 +3,6 @@
     <string name="app_name">Otarium</string>
     <string name="grades_channel">Cijfers</string>
     <string name="grades_channel_description">Notificaties voor nieuwe cijfers</string>
-    <string name="waiting_for_grades">De app wacht nu op nieuwe cijfers en zal je een notificatie geven als er eentje binnenkomt</string>
     <string name="agendaItem">Rooster</string>
     <string name="sign_in">Inloggen</string>
     <string name="onboarding_title_1">Otarium</string>
@@ -16,7 +15,7 @@
     <string name="onboarding_desc_4">Wil je niet-storende advertenties in de app? Het zou me heel erg helpen!</string>
     <string name="show_ads_checkbox">Laat advertenties zien</string>
     <string name="age_checkbox">Ik ben ouder dan 16</string>
-    <string name="settings_title">Instellingen</string>
+    <string name="settingsItem">Instellingen</string>
     <string name="monday">ma</string>
     <string name="tuesday">di</string>
     <string name="wednesday">wo</string>
@@ -55,6 +54,50 @@
     <string name="message_cc_receivers">CC</string>
     <string name="message_bcc_receivers">BCC</string>
 
+    <string name="eloItem">ELO</string>
+    <string name="study_guides">Studiewijzers</string>
+    <string name="assignments">Opdrachten</string>
+    <string name="learning_resources">Leermiddelen</string>
+
     <string name="loading">Aan het laden...</string>
     <string name="absence">Absentie</string>
+
+    <string name="assignment_title">Titel</string>
+    <string name="assignment_version">Versie</string>
+    <string name="assignment_deadline">Inleveren voor</string>
+    <string name="assignment_description">Beschrijving</string>
+
+    <string name="assignment_all">Alle</string>
+    <string name="assignment_open">Open</string>
+    <string name="assignment_submitted">Ingeleverd</string>
+    <string name="assignment_closed">Afgerond</string>
+    <string name="assignment_graded">Beoordeeld</string>
+
+    <string name="assignment_graded_on">Beoordeld op</string>
+    <string name="assignment_grade">Beoordeling</string>
+    <string name="assignment_submitted_on">Ingeleverd op</string>
+    <string name="assignment_feedback">Opmerkingen</string>
+
+    <string name="color_settings">Kleuren</string>
+
+    <string name="color_dynamic">Dynamisch kleurenschema</string>
+    <string name="color_custom">Aangepast kleurenschema</string>
+    <string name="color_reset">Reset kleurenschema</string>
+    <string name="color_save">Kleurenschema opslaan</string>
+
+    <string name="color_primary">Primaire kleur</string>
+    <string name="color_secondary">Secundaire kleur</string>
+    <string name="color_tertiary">Tertiaire kleur</string>
+
+    <string name="show_cancelled_lessons">Laat lesuitval zien</string>
+
+    <string name="manual_grades">Handmatig ingevoerde cijfers</string>
+    <string name="real_grades">Cijfers</string>
+
+    <string name="manual_grade">Cijfer</string>
+    <string name="manual_weight">Weging</string>
+    <string name="manual_name">Naam</string>
+
+    <string name="mark_grades_red">Onvoldoendes rood maken</string>
+    <string name="passing_grade">Voldoendegrens</string>
 </resources>

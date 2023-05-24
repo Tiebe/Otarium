@@ -7,6 +7,7 @@ import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -17,7 +18,6 @@ import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.R
 import nl.tiebe.otarium.magister.refreshGrades
-import nl.tiebe.otarium.ui.theme.Blue80
 import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
 
@@ -94,7 +94,7 @@ actual fun sendNotification(title: String, message: String) {
         .setAutoCancel(true)
         .setContentIntent(PendingIntent.getActivity(Android.context, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT))
         .setGroup(System.currentTimeMillis().toString())
-        .setColor(Blue80.toArgb())
+        .setColor(Color(nl.tiebe.otarium.Data.customDarkTheme.primary).toArgb())
 
     with(NotificationManagerCompat.from(Android.context)) {
         if (ActivityCompat.checkSelfPermission(

@@ -2,25 +2,25 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
     id("kotlinx-serialization")
-    id("org.jetbrains.compose") version Version.compose
-    id("com.codingfeline.buildkonfig")
-    id("dev.icerock.mobile.multiplatform-resources")
-    id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    alias(libs.plugins.compose)
+    id(libs.plugins.buildkonfig.get().pluginId)
+    id(libs.plugins.mokoresources.get().pluginId)
+    id(libs.plugins.google.services.get().pluginId)
 }
 
-version = Version.appVersion
+version = libs.versions.app.version.string.get()
 
 android {
-    compileSdk = AndroidSdk.compile
+    compileSdk = libs.versions.android.sdk.compile.get().toInt()
     defaultConfig {
-        minSdk = AndroidSdk.min
-        targetSdk = AndroidSdk.target
+        minSdk = libs.versions.android.sdk.min.get().toInt()
     }
 
     namespace = "nl.tiebe.otarium"
@@ -43,11 +43,14 @@ kotlin {
     cocoapods {
         summary = "Otarium"
         homepage = "https://otarium.groosman.nl"
-        ios.deploymentTarget = iOSSdk.deploymentTarget
+        ios.deploymentTarget = libs.versions.ios.target.get()
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
             isStatic = false
+
+            binaryOption("bundleVersion",libs.versions.app.version.string.get())
+            binaryOption("bundleShortVersionString", libs.versions.app.version.code.get())
         }
 
         pod("Google-Mobile-Ads-SDK") {
@@ -57,43 +60,46 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(Ktor.client_core)
-                implementation(Ktor.client_content_negotiation)
-                implementation(Ktor.client_logging)
-                implementation(Ktor.serialization_json)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.serialization.json)
+
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.runtime)
-                api(Moko.api)
-                api(Moko.compose)
 
-                implementation(Kotlin.dateTime)
-                implementation(russhwolf_settings)
+                api(libs.moko.resources.core)
+                api(libs.moko.resources.compose)
 
-                implementation(Decompose.core)
-                implementation(Decompose.compose)
+                implementation(libs.kotlin.datetime)
+                implementation(libs.multiplatform.settings)
+                implementation(libs.decompose.core)
+                implementation(libs.decompose.compose)
 
-                implementation(magisterAPI)
+                implementation(libs.magister.api)
+                implementation(libs.color.math)
+
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(Ktor.client_logging_jvm)
-                implementation(Ktor.client_json_jvm)
-                implementation(Ktor.client_android)
+                implementation(libs.ktor.client.logging.jvm)
+                implementation(libs.ktor.client.json.jvm)
+                implementation(libs.ktor.client.android)
 
-                implementation(admob)
+                implementation(libs.admob)
 
-                implementation(Guava.core)
-                implementation(Guava.coroutines)
+                implementation(libs.guava.core)
+                implementation(libs.guava.coroutines)
 
             }
         }
         val iosMain by getting {
             dependencies {
-                implementation(Ktor.client_ios)
+                implementation(libs.ktor.client.ios)
             }
         }
     }
@@ -111,7 +117,7 @@ buildkonfig {
     packageName = "nl.tiebe.otarium"
 
     defaultConfigs {
-        buildConfigField(INT, "versionCode", Version.appVersionCode.toString())
+        buildConfigField(INT, "versionCode", libs.versions.app.version.code.get())
     }
 }
 
