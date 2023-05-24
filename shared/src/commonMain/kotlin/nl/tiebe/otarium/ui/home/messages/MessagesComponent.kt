@@ -85,9 +85,8 @@ class DefaultMessagesComponent(
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
-    override val onBack: MutableValue<() -> Unit> = MutableValue {
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
 
-    }
     override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
 
     override val navigation = StackNavigation<MessagesComponent.Config>()
@@ -171,7 +170,7 @@ class DefaultMessagesComponent(
 
     init {
         childStack.subscribe { childStack ->
-            if (childStack.active.configuration is MessagesComponent.Config.Main) {
+            if (childStack.backStack.isEmpty()) {
                 unregisterBackHandler()
             } else {
                 registerBackHandler()
