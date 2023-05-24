@@ -1,16 +1,28 @@
 package nl.tiebe.otarium.ui.home.settings
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.arkivanov.decompose.router.stack.pop
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.bugs.BugsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
@@ -18,33 +30,68 @@ import nl.tiebe.otarium.ui.home.settings.items.ui.UIChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.users.UserChildScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun SettingsScreen(component: SettingsComponent) {
-    Column {
-        val screen = component.childStack.subscribeAsState()
+    val screen = component.childStack.subscribeAsState()
+    val scope = rememberCoroutineScope()
 
-        if (screen.value.active.instance !is SettingsComponent.Child.MainChild) {
-            TopAppBar(
-                title = { Text(screen.value.active.configuration.localizedString) },
-                navigationIcon = {
-                    IconButton(onClick = { component.back() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                windowInsets = WindowInsets(0.dp)
-            )
-        }
+    Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
+        SettingsScreenChild(component, screen.value.items[0])
 
-        Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
-            when (val child = screen.value.active.instance) {
-                is SettingsComponent.Child.MainChild -> MainChildScreen(child.component)
-                is SettingsComponent.Child.AdsChild -> AdsChildScreen(child.component)
-                is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
-                is SettingsComponent.Child.BugsChild -> BugsChildScreen()
-                is SettingsComponent.Child.UIChild -> UIChildScreen(child.component)
-                is SettingsComponent.Child.ColorChild -> ColorChildScreen(child.component)
+        for (item in screen.value.items.subList(1, screen.value.items.size)) {
+            val state = rememberDismissState()
+
+            component.onBack.value = {
+                scope.launch {
+                    state.animateTo(DismissValue.DismissedToEnd)
+                }
             }
+
+            //pop on finish
+            if (state.isDismissed(DismissDirection.StartToEnd)) {
+                component.navigation.pop()
+            }
+
+            SwipeToDismiss(
+                state = state,
+                background = {
+                },
+                directions = setOf(DismissDirection.StartToEnd)
+            ) {
+                SettingsScreenChild(component, screen.value.active)
+            }
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun SettingsScreenChild(
+    component: SettingsComponent,
+    screen: Child.Created<SettingsComponent.Config, SettingsComponent.Child>
+) {
+    TopAppBar(
+        title = { Text(screen.configuration.localizedString) },
+        navigationIcon = {
+            if (component.childStack.value.backStack.isNotEmpty()) {
+                IconButton(onClick = { component.back() }) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
+            }
+        },
+        windowInsets = WindowInsets(0.dp)
+    )
+
+    Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
+        when (val child = screen.instance) {
+            is SettingsComponent.Child.MainChild -> MainChildScreen(child.component)
+            is SettingsComponent.Child.AdsChild -> AdsChildScreen(child.component)
+            is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
+            is SettingsComponent.Child.BugsChild -> BugsChildScreen()
+            is SettingsComponent.Child.UIChild -> UIChildScreen(child.component)
+            is SettingsComponent.Child.ColorChild -> ColorChildScreen(child.component)
         }
     }
 }
