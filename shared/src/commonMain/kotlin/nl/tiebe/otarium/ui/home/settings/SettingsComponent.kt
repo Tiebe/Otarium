@@ -1,8 +1,14 @@
 package nl.tiebe.otarium.ui.home.settings
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import nl.tiebe.otarium.MR
@@ -27,6 +33,8 @@ interface SettingsComponent: MenuItemComponent {
     val childStack: Value<ChildStack<Config, Child>>
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
+
+    val onBack: MutableValue<() -> Unit>
 
     fun navigate(child: Config) {
         navigation.push(child)
@@ -65,6 +73,8 @@ interface SettingsComponent: MenuItemComponent {
         object Colors : Config(getLocalizedString(MR.strings.color_settings))
     }
 
+    fun registerBackHandler()
+    fun unregisterBackHandler()
 }
 
 class DefaultSettingsComponent(
@@ -127,4 +137,31 @@ class DefaultSettingsComponent(
             componentContext = componentContext,
             _navigate = ::navigate
         )
+
+    private val registered = MutableValue(false)
+    private val backCallback = BackCallback { onBack.value() }
+    override val onBack: MutableValue<() -> Unit> = MutableValue {}
+
+    override fun registerBackHandler() {
+        if (registered.value) return
+        backHandler.register(backCallback)
+        registered.value = true
+    }
+
+    override fun unregisterBackHandler() {
+        if (!registered.value) return
+        backHandler.unregister(backCallback)
+        registered.value = false
+    }
+
+
+    init {
+        childStack.subscribe { childStack ->
+            if (childStack.backStack.isEmpty()) {
+                unregisterBackHandler()
+            } else {
+                registerBackHandler()
+            }
+        }
+    }
 }
