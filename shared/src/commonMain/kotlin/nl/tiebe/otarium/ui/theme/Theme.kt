@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -11,12 +12,15 @@ import nl.tiebe.otarium.ui.home.settings.items.ui.colors.colorSchemeChanged
 
 @Composable
 internal fun OtariumTheme(
-    colorScheme: ColorScheme? = null,
-    darkMode: Boolean = false,
+    lightColorScheme: ColorScheme? = null,
+    darkColorScheme: ColorScheme? = null,
+    darkMode: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    var selectedColorScheme = if (Data.dynamicTheme && colorScheme != null) {
-        colorScheme
+    val defaultColorScheme = if (darkMode) darkColorScheme else lightColorScheme
+
+    var selectedColorScheme = if (Data.dynamicTheme && defaultColorScheme != null) {
+        defaultColorScheme
     } else if (Data.customThemeEnabled) {
         when {
             darkMode -> Data.customDarkTheme.toDarkColorScheme()
@@ -30,8 +34,8 @@ internal fun OtariumTheme(
     }
 
     LaunchedEffect(colorSchemeChanged.subscribeAsState().value) {
-        selectedColorScheme = if (Data.dynamicTheme && colorScheme != null) {
-            colorScheme
+        selectedColorScheme = if (Data.dynamicTheme && defaultColorScheme != null) {
+            defaultColorScheme
         } else if (Data.customThemeEnabled) {
             when {
                 darkMode -> Data.customDarkTheme.toDarkColorScheme()

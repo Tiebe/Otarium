@@ -7,7 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -32,13 +36,13 @@ fun setup() {
 }
 
 @Composable
-internal fun Content(componentContext: ComponentContext, colorScheme: ColorScheme? = null, padding: PaddingValues) {
-    Content(component = DefaultRootComponent(componentContext), colorScheme = colorScheme, padding = padding)
+internal fun Content(componentContext: ComponentContext, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: PaddingValues) {
+    Content(component = DefaultRootComponent(componentContext), lightColorScheme, darkColorScheme, padding = padding)
 }
 
 @Composable
-internal fun Content(component: RootComponent, colorScheme: ColorScheme? = null, padding: PaddingValues) {
-    OtariumTheme(colorScheme) {
+internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: PaddingValues) {
+    OtariumTheme(lightColorScheme, darkColorScheme) {
         Box(
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colorScheme.primary)
