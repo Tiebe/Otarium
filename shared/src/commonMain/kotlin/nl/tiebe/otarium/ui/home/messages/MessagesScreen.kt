@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,6 +34,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.pop
 import dev.icerock.moko.resources.compose.stringResource
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
@@ -41,12 +44,19 @@ import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
 @Composable
 internal fun MessagesScreen(component: MessagesComponent) {
     val screen = component.childStack.subscribeAsState()
+    val scope = rememberCoroutineScope()
 
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
         MessageScreenChild(component, screen, screen.value.items[0], false)
 
         for (item in screen.value.items.subList(1, screen.value.items.size)) {
             val state = rememberDismissState()
+
+            component.onBack.value = {
+                scope.launch {
+                    state.animateTo(DismissValue.DismissedToEnd)
+                }
+            }
 
             //pop on finish
             if (state.isDismissed(DismissDirection.StartToEnd)) {
@@ -83,7 +93,7 @@ internal fun MessageScreenChild(
             title = { Text(name, overflow = TextOverflow.Ellipsis, maxLines = 1) },
             navigationIcon = {
                 if (poppable) {
-                    IconButton(onClick = { component.navigation.pop() }) {
+                    IconButton(onClick = { component.onBack.value() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }

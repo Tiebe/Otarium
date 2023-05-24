@@ -4,8 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.messages.MessageFolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -24,7 +26,15 @@ class StoreMessagesComponent(
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
+    override val onBack: MutableValue<() -> Unit> = MutableValue { navigation.pop() }
     override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
+    override fun registerBackHandler() {
+        backHandler.register(BackCallback { onBack.value() })
+    }
+
+    override fun unregisterBackHandler() {
+
+    }
 
     override val navigation = StackNavigation<MessagesComponent.Config>()
 
@@ -82,6 +92,7 @@ class StoreMessagesComponent(
     }
 
     init {
+        registerBackHandler()
         getFolders()
     }
 
