@@ -38,11 +38,12 @@ var adsShown = mutableStateOf(Data.showAds)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(component: HomeComponent) {
+internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
     val dialog = component.dialog.subscribeAsState()
     val overlay = dialog.value.child ?: return
 
     Scaffold(
+        contentWindowInsets = windowInsets,
         bottomBar = {
             Column {
                 NavigationBar(windowInsets = if (adsShown.value) WindowInsets(0, 0, 0, 0) else NavigationBarDefaults.windowInsets) {

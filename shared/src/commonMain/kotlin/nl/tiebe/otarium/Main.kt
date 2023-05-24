@@ -3,6 +3,7 @@ package nl.tiebe.otarium
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -36,12 +37,12 @@ fun setup() {
 }
 
 @Composable
-internal fun Content(componentContext: ComponentContext, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: PaddingValues) {
+internal fun Content(componentContext: ComponentContext, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: WindowInsets) {
     Content(component = DefaultRootComponent(componentContext), lightColorScheme, darkColorScheme, padding = padding)
 }
 
 @Composable
-internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: PaddingValues) {
+internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: WindowInsets) {
     OtariumTheme(lightColorScheme, darkColorScheme) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -55,7 +56,7 @@ internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = 
                 color = MaterialTheme.colorScheme.background
             ) {
                 when (val screen = currentScreen) {
-                    is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component)
+                    is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component, padding)
                     is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
                     is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component)
                 }
