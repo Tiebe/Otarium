@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.utils
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.app.PendingIntent.FLAG_MUTABLE
@@ -16,12 +17,17 @@ import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.BuildConfig
 import nl.tiebe.otarium.R
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.utils.ui.Android
 import java.util.concurrent.TimeUnit
 
 actual fun reloadTokensBackground(delay: Long) {
+    setupTokenBackgroundTask(Android.context, delay)
+}
+
+fun setupTokenBackgroundTask(context: Context, delay: Long = 0) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(TokenRefreshWorker::class.java, 45, TimeUnit.MINUTES).setConstraints(
                 Constraints.Builder()
@@ -30,13 +36,17 @@ actual fun reloadTokensBackground(delay: Long) {
                     .build()
             ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
-        WorkManager.getInstance(Android.context).enqueueUniquePeriodicWork("tokens", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("tokens", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
     } else {
         //TODO: android version below oreo
     }
 }
 
-actual fun refreshGradesBackground(delay: Long) {
+actual fun refreshGradesBackground(delay: Long){
+    setupGradesBackgroundTask(Android.context, delay)
+}
+
+fun setupGradesBackgroundTask(context: Context, delay: Long = 0) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(GradeRefreshWorker::class.java, 15, TimeUnit.MINUTES).setConstraints(
             Constraints.Builder()
@@ -45,7 +55,7 @@ actual fun refreshGradesBackground(delay: Long) {
                 .build()
         ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
-        WorkManager.getInstance(Android.context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
     } else {
         //TODO: android version below oreo
     }
@@ -73,32 +83,53 @@ class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
 }
 
 class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
+    @SuppressLint("RestrictedApi")
     override fun startWork(): ListenableFuture<Result> {
+        val data = Data.Builder()
+
         runBlocking {
-            nl.tiebe.otarium.Data.selectedAccount.refreshGrades()
+            if (BuildConfig.DEBUG) {
+                sendNotificationAndroid(
+                    applicationContext,
+                    "Grades refreshed",
+                    "Your grades have been refreshed"
+                )
+            }
+
+            nl.tiebe.otarium.Data.selectedAccount.refreshGrades { title, message ->
+                sendNotificationAndroid(
+                    applicationContext,
+                    title,
+                    message
+                )
+            }
         }
 
-        return Futures.immediateFuture(Result.success())
+        return Futures.immediateFuture(Result.success(data.build()))
     }
 }
 
 actual fun sendNotification(title: String, message: String) {
-    val intent = Android.context.packageManager.getLaunchIntentForPackage(Android.context.packageName)
+    sendNotificationAndroid(Android.context, title, message)
+}
+
+fun sendNotificationAndroid(context: Context, title: String, message: String) {
+    val intent = context.packageManager.getLaunchIntentForPackage(Android.context.packageName)
     intent?.action = ".MainActivity"
     intent?.flags = 0
-    val builder = NotificationCompat.Builder(Android.context, "grades")
+    val builder = NotificationCompat.Builder(context, "grades")
         .setSmallIcon(R.drawable.ic_notification_foreground)
         .setContentTitle(title)
         .setContentText(message)
         .setPriority(1)
         .setAutoCancel(true)
-        .setContentIntent(PendingIntent.getActivity(Android.context, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT))
+        .setContentIntent(PendingIntent.getActivity(context, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT))
         .setGroup(System.currentTimeMillis().toString())
         .setColor(Color(nl.tiebe.otarium.Data.customDarkTheme.primary).toArgb())
 
-    with(NotificationManagerCompat.from(Android.context)) {
+    with(NotificationManagerCompat.from(context)) {
         if (ActivityCompat.checkSelfPermission(
-                Android.context,
+                context,
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -113,5 +144,4 @@ actual fun sendNotification(title: String, message: String) {
         }
         notify(System.currentTimeMillis().toInt(), builder.build())
     }
-
 }
