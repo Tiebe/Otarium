@@ -1,6 +1,6 @@
 [versions]
-app-version-string = "3.3.0"
-app-version-code = "33"
+app-version-string = "3.3.1"
+app-version-code = "34"
 
 android_sdk-min = "21"
 android_sdk-compile = "33"
