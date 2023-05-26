@@ -17,7 +17,7 @@ suspend fun MagisterAccount.getRecentGrades(amount: Int, skip: Int): List<Recent
     return newGrades
 }
 
-suspend fun MagisterAccount.refreshGrades(): List<GradeWithGradeInfo> {
+suspend fun MagisterAccount.refreshGrades(notification: (String, String) -> Unit = { title, message -> sendNotification(title, message) }): List<GradeWithGradeInfo> {
     val years = GeneralFlow.getYears(tenantUrl, tokens.accessToken, accountId)
     val grades = GradeFlow.getGrades(Url(tenantUrl), tokens.accessToken, accountId, years[0]).filter {
         it.gradeColumn.type == GradeColumn.Type.Grade ||
@@ -41,7 +41,7 @@ suspend fun MagisterAccount.refreshGrades(): List<GradeWithGradeInfo> {
                         newFullGradeList.remove(oldGrade)
                         newFullGradeList.add(GradeWithGradeInfo(grade, gradeInfo))
 
-                        sendNotification(
+                        notification(
                             "Je cijfer is gewijzigd: ${grade.subject.description.trim()}",
                             "Je hebt nu een ${grade.grade?.trim()} voor ${gradeInfo.columnDescription?.trim()}"
                         )
@@ -62,7 +62,7 @@ suspend fun MagisterAccount.refreshGrades(): List<GradeWithGradeInfo> {
             newFullGradeList.add(GradeWithGradeInfo(grade, gradeInfo))
 
             if (fullGradeList.isNotEmpty()) {
-                sendNotification(
+                notification(
                     "Nieuw cijfer: ${grade.subject.description.trim()}",
                     "Je hebt een ${grade.grade?.trim()} voor ${gradeInfo.columnDescription?.trim()} gekregen."
                 )

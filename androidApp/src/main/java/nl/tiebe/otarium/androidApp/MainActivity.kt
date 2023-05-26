@@ -9,7 +9,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         setContent {
-            RootView(rootComponentContext, if (dynamicColor) dynamicLightColorScheme(Android.context) else null, if (dynamicColor) dynamicDarkColorScheme(Android.context) else null, WindowInsets.Companion.systemBars.asPaddingValues())
+            RootView(rootComponentContext, if (dynamicColor) dynamicLightColorScheme(Android.context) else null, if (dynamicColor) dynamicDarkColorScheme(Android.context) else null, WindowInsets.Companion.systemBars)
         }
     }
 
