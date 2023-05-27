@@ -35,6 +35,25 @@ platform :ios do
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_app_store
   end
+  
+  lane :beta do
+    setup_ci
+    
+    app_store_connect_api_key(
+      key_id: ENV['APPLE_KEY_ID'],
+      issuer_id: ENV['APPLE_KEY_ISSUER_ID'],
+      key_content: ENV['APPLE_KEY_CONTENT'],
+      in_house: false # optional but may be required if using match/sigh
+    )
+    
+    match(type: "appstore")
+   
+    cocoapods
+    sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
+    increment_build_number(xcodeproj: "iosApp.xcodeproj")
+    build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
 
   desc "Build IPA"
   lane :build do
