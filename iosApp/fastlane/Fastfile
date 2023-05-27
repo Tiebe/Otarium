@@ -52,7 +52,7 @@ platform :ios do
    
     cocoapods
     sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
-    increment_build_number(xcodeproj: "iosApp.xcodeproj")
+    #increment_build_number(xcodeproj: "iosApp.xcodeproj")
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_testflight(skip_waiting_for_build_processing: true)
   end

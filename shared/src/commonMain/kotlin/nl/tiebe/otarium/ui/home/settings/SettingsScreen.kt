@@ -3,19 +3,13 @@ package nl.tiebe.otarium.ui.home.settings
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.rememberDismissState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -23,9 +17,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.Child
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.arkivanov.decompose.router.stack.pop
-import kotlinx.coroutines.launch
 import nl.tiebe.otarium.ui.home.settings.items.ads.AdsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.bugs.BugsChildScreen
 import nl.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
@@ -40,13 +35,20 @@ internal fun SettingsScreen(component: SettingsComponent) {
     val scope = rememberCoroutineScope()
 
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
-        for (item in screen.value.items) {
+        Children(
+            stack = screen.value,
+            animation = stackAnimation(slide())
+        ) {
+            SettingsScreenChild(component, it)
+        }
+
+/*        for (item in screen.value.items) {
             println(item.configuration)
         }
 
-        SettingsScreenChild(component, screen.value.items[0])
+        SettingsScreenChild(component, screen.value.items[0])*/
 
-        for (item in screen.value.items.subList(1, screen.value.items.size)) {
+/*        for (item in screen.value.items.subList(1, screen.value.items.size)) {
             val state = rememberDismissState()
 
             component.onBack.value = {
@@ -70,7 +72,7 @@ internal fun SettingsScreen(component: SettingsComponent) {
                     SettingsScreenChild(component, item)
                 }
             }
-        }
+        }*/
     }
 }
 
