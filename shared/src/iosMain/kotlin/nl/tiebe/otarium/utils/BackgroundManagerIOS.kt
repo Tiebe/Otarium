@@ -2,8 +2,8 @@ package nl.tiebe.otarium.utils
 
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.refreshGrades
-import platform.BackgroundTasks.BGTaskScheduler
 import platform.BackgroundTasks.BGAppRefreshTaskRequest
+import platform.BackgroundTasks.BGTaskScheduler
 import platform.Foundation.NSDate
 import platform.Foundation.NSUUID
 import platform.UserNotifications.UNMutableNotificationContent
@@ -44,6 +44,8 @@ fun registerBackgroundTasks() {
         identifier = "nl.tiebe.otarium.graderefresh",
         usingQueue = null,
         launchHandler = { task ->
+            sendNotification("Grades refreshed", "Your grades have been refreshed")
+
             refreshGradesBackground(15*60)
             runBlocking {
                 try {
