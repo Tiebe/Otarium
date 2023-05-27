@@ -1,10 +1,12 @@
 package nl.tiebe.otarium.ui.home.elo.children.studyguides
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.Surface
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
@@ -49,9 +51,11 @@ internal fun StudyGuidesChildScreen(component: StudyGuidesChildComponent) {
                 },
                 directions = setOf(DismissDirection.StartToEnd)
             ) {
-                when (val child = item.instance) {
-                    is StudyGuidesChildComponent.Child.StudyGuideListChild -> StudyGuideListScreen(child.component)
-                    is StudyGuidesChildComponent.Child.FolderChild -> StudyGuideFolderScreen(child.component)
+                Surface(Modifier.fillMaxSize()) {
+                    when (val child = item.instance) {
+                        is StudyGuidesChildComponent.Child.StudyGuideListChild -> StudyGuideListScreen(child.component)
+                        is StudyGuidesChildComponent.Child.FolderChild -> StudyGuideFolderScreen(child.component)
+                    }
                 }
             }
         }
