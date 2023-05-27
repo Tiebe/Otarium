@@ -114,7 +114,7 @@ actual fun sendNotification(title: String, message: String) {
 }
 
 fun sendNotificationAndroid(context: Context, title: String, message: String) {
-    val intent = context.packageManager.getLaunchIntentForPackage(Android.context.packageName)
+    val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
     intent?.action = ".MainActivity"
     intent?.flags = 0
     val builder = NotificationCompat.Builder(context, "grades")
