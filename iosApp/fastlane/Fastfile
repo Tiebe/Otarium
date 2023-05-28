@@ -31,7 +31,8 @@ platform :ios do
    
     cocoapods
     sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
-    increment_build_number(xcodeproj: "iosApp.xcodeproj")
+    increment_version_number(xcodeproj: "iosApp.xcodeproj", build_number: ENV['VERSION_STRING'])
+    increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: ENV['VERSION_CODE'])
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_app_store(
       force: true
