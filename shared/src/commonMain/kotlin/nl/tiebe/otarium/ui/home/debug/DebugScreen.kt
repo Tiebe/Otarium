@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,7 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.setupNotifications
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
+import nl.tiebe.otarium.ui.home.settings.utils.SettingsRowToggle
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.getClipboardText
 import nl.tiebe.otarium.utils.otariumicons.BugOutline
@@ -119,6 +122,17 @@ internal fun DebugScreen(component: DebugComponent) {
                     account.refreshTokens()
                 }
             }
+        }
+
+        val checked = remember { mutableStateOf(Data.debugNotifications) }
+
+        SettingsRowToggle(
+            leftText = AnnotatedString("Debug notifications"),
+            rowClickable = true,
+            checked = checked.value,
+        ) {
+            checked.value = it
+            Data.debugNotifications = it
         }
     }
 

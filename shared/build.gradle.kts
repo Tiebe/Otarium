@@ -48,9 +48,6 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = false
-
-            binaryOption("bundleVersion",libs.versions.app.version.string.get())
-            binaryOption("bundleShortVersionString", libs.versions.app.version.code.get())
         }
 
         pod("Google-Mobile-Ads-SDK") {
@@ -111,12 +108,6 @@ kotlin {
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
         }
 
-        binaries {
-            framework {
-                binaryOption("bundleVersion",libs.versions.app.version.string.get())
-                binaryOption("bundleShortVersionString", libs.versions.app.version.code.get())
-            }
-        }
     }
 }
 

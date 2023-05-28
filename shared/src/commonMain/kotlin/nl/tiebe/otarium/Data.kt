@@ -74,4 +74,8 @@ object Data {
         get() = settings.getFloat("passing_grade", 5.5f)
         set(value) = settings.putFloat("passing_grade", value)
 
+    var debugNotifications: Boolean
+        get() = settings.getBoolean("debug_notifications", false)
+        set(value) = settings.putBoolean("debug_notifications", value)
+
 }
