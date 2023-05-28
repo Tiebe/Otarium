@@ -17,7 +17,6 @@ import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.runBlocking
-import nl.tiebe.otarium.BuildConfig
 import nl.tiebe.otarium.R
 import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.utils.ui.Android
@@ -63,6 +62,8 @@ fun setupGradesBackgroundTask(context: Context, delay: Long = 0) {
 
 class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
     override fun startWork(): ListenableFuture<Result> {
+        sendDebugNotification(applicationContext, "Refreshing tokens", "Refreshing your tokens")
+
         val outputData = Data.Builder()
 
         runBlocking {
@@ -70,6 +71,8 @@ class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
                 nl.tiebe.otarium.Data.accounts.forEach {
                     it.refreshTokens()
                 }
+
+                sendDebugNotification(applicationContext, "Tokens refreshed", "Your tokens have been refreshed")
                 outputData.putBoolean("success", true)
             } catch (e: Exception) {
                 outputData.putString("error", e.toString())
@@ -86,16 +89,9 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
     @SuppressLint("RestrictedApi")
     override fun startWork(): ListenableFuture<Result> {
         val data = Data.Builder()
+        sendDebugNotification(applicationContext, "Refreshing grades", "Refreshing your grades")
 
         runBlocking {
-            if (BuildConfig.DEBUG) {
-                sendNotificationAndroid(
-                    applicationContext,
-                    "Grades refreshed",
-                    "Your grades have been refreshed"
-                )
-            }
-
             nl.tiebe.otarium.Data.selectedAccount.refreshGrades { title, message ->
                 sendNotificationAndroid(
                     applicationContext,
@@ -103,9 +99,17 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
                     message
                 )
             }
+
+            sendDebugNotification(applicationContext, "Grades refreshed", "Your grades have been refreshed")
         }
 
         return Futures.immediateFuture(Result.success(data.build()))
+    }
+}
+
+fun sendDebugNotification(context: Context, title: String, message: String) {
+    if (nl.tiebe.otarium.Data.debugNotifications) {
+        sendNotificationAndroid(context, title, message)
     }
 }
 

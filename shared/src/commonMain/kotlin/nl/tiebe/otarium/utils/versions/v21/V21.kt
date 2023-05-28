@@ -2,6 +2,7 @@ package nl.tiebe.otarium.utils.versions.v21
 
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.TokenResponse
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -9,7 +10,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.MagisterAccount
+import nl.tiebe.otarium.magister.refreshGrades
 import nl.tiebe.otarium.settings
 
 fun migrateFromV21() {
@@ -38,6 +41,12 @@ fun migrateFromV21() {
             settings.remove("magister_tokens")
 
             settings.putString("accounts", Json.encodeToString(listOf(newAccount)))
+
+            launch {
+                for (account in Data.accounts) {
+                    account.refreshGrades { _, _ -> }
+                }
+            }
         } catch (e: Exception) {
             settings.clear()
         }

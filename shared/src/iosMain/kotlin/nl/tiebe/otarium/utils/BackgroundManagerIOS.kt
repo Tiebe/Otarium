@@ -44,12 +44,13 @@ fun registerBackgroundTasks() {
         identifier = "nl.tiebe.otarium.graderefresh",
         usingQueue = null,
         launchHandler = { task ->
-            sendNotification("Grades refreshed", "Your grades have been refreshed")
+            sendDebugNotification("Refreshing grades", "Refreshing your grades")
 
             refreshGradesBackground(15*60)
             runBlocking {
                 try {
                     nl.tiebe.otarium.Data.selectedAccount.refreshGrades()
+                    sendDebugNotification("Grades refreshed", "Your grades have been refreshed")
                     task?.setTaskCompletedWithSuccess(true)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -63,6 +64,7 @@ fun registerBackgroundTasks() {
         identifier = "nl.tiebe.otarium.tokenrefresh",
         usingQueue = null,
         launchHandler = { task ->
+            sendDebugNotification("Refreshing tokens", "Refreshing your tokens")
             reloadTokensBackground(15*60)
 
             runBlocking {
@@ -70,6 +72,7 @@ fun registerBackgroundTasks() {
                     nl.tiebe.otarium.Data.accounts.forEach {
                         it.refreshTokens()
                     }
+                    sendDebugNotification("Tokens refreshed", "Your tokens have been refreshed")
                     task?.setTaskCompletedWithSuccess(true)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -78,6 +81,12 @@ fun registerBackgroundTasks() {
             }
         }
     )
+}
+
+fun sendDebugNotification(title: String, message: String) {
+    if (nl.tiebe.otarium.Data.debugNotifications) {
+        sendNotification(title, message)
+    }
 }
 
 actual fun sendNotification(title: String, message: String) {
