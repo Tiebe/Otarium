@@ -38,7 +38,7 @@ platform :ios do
     increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: version_string)
     increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: version_code)
 
-    gradle(task: "linkPodReleaseFrameworkIosArm64")
+    gradle(task: "linkPodReleaseFrameworkIosArm64", gradle_path: "../gradlew")
 
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_app_store(
@@ -67,7 +67,7 @@ platform :ios do
     increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: version_string)
     increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: version_code)
 
-    gradle(task: "linkPodReleaseFrameworkIosArm64")
+    gradle(task: "linkPodReleaseFrameworkIosArm64", gradle_path: "../gradlew")
 
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_testflight(skip_waiting_for_build_processing: true)
