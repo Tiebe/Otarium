@@ -1,0 +1,1 @@
+App that gives notifications for grades on Magister
