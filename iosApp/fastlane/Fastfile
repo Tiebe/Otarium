@@ -44,6 +44,9 @@ platform :ios do
   
   lane :beta do
     setup_ci
+
+    sh("pwd")
+    sh("ls")
     
     app_store_connect_api_key(
       key_id: ENV['APPLE_KEY_ID'],
