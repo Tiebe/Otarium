@@ -31,8 +31,11 @@ platform :ios do
    
     cocoapods
     sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
-    increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: ENV['VERSION_STRING'])
-    increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: ENV['VERSION_CODE'])
+
+    version_string = sh("grep -P -o '(?<=app-version-string = \").*(?=\")' libs.versions.toml")
+    version_code = sh("grep -P -o '(?<=app-version-code = \").*(?=\")' libs.versions.toml")
+    increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: version_string)
+    increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: version_code)
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_app_store(
       force: true
@@ -53,8 +56,10 @@ platform :ios do
    
     cocoapods
     sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
-    increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: ENV['VERSION_STRING'])
-    increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: ENV['VERSION_CODE'])
+    version_string = sh("grep -P -o '(?<=app-version-string = \").*(?=\")' libs.versions.toml")
+    version_code = sh("grep -P -o '(?<=app-version-code = \").*(?=\")' libs.versions.toml")
+    increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: version_string)
+    increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: version_code)
     build_app(workspace: "iosApp.xcworkspace", scheme: "iosApp")
     upload_to_testflight(skip_waiting_for_build_processing: true)
   end
