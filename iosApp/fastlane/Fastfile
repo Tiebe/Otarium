@@ -44,9 +44,6 @@ platform :ios do
   
   lane :beta do
     setup_ci
-
-    sh("pwd")
-    sh("ls")
     
     app_store_connect_api_key(
       key_id: ENV['APPLE_KEY_ID'],
@@ -60,8 +57,8 @@ platform :ios do
     cocoapods
     sh("sed -i '' 's/source=\"$(readlink \"${source}\")\"/source=\"$(readlink -f \"${source}\")\"/g' \"../Pods/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"")
 
-    version_string = sh("grep -o -e 'app-version-string = \".*\"' ../libs.versions.toml | grep -o -e '\".*\"' | cut -d '\"' -f 2")
-    version_code = sh("grep -o -e 'app-version-code = \".*\"' ../libs.versions.toml | grep -o -e '\".*\"' | cut -d '\"' -f 2")
+    version_string = sh("grep -o -e 'app-version-string = \".*\"' ../../libs.versions.toml | grep -o -e '\".*\"' | cut -d '\"' -f 2")
+    version_code = sh("grep -o -e 'app-version-code = \".*\"' ../../libs.versions.toml | grep -o -e '\".*\"' | cut -d '\"' -f 2")
 
     increment_version_number(xcodeproj: "iosApp.xcodeproj", version_number: version_string)
     increment_build_number(xcodeproj: "iosApp.xcodeproj", build_number: version_code)
