@@ -20,9 +20,6 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        
-      - name: Build 
-        run: ./gradlew linkPodReleaseFrameworkIosArm64 
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -56,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.2
         with:
           name: Otarium.ipa
-          path: Otarium.ipa
+          path: iosApp/Otarium.ipa
