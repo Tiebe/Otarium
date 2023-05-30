@@ -26,7 +26,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun AssignmentListScreen(component: AssignmentListComponent) {
+fun AssignmentListScreen(component: AssignmentListComponent) {
     val assignments = component.assignments.subscribeAsState().value
 
     val scrollState = rememberScrollState()

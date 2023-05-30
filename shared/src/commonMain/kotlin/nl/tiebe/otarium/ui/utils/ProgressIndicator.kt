@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun BoxScope.DownloadIndicator(progress: Float) {
+fun BoxScope.DownloadIndicator(progress: Float) {
     if (progress != 0f && !progress.isNaN()) {
         val color = MaterialTheme.colorScheme.primary
         val trackColor = MaterialTheme.colorScheme.surfaceVariant
@@ -65,7 +65,7 @@ fun DrawScope.drawLinearIndicatorTrack(
 
 
 @Composable
-internal fun DownloadingFileIndicator(
+fun DownloadingFileIndicator(
     progress: Float,
     modifier: Modifier = Modifier,
     color: Color,
@@ -82,7 +82,7 @@ internal fun DownloadingFileIndicator(
 }
 
 @Composable
-internal fun LoadingFileIndicator(
+fun LoadingFileIndicator(
     modifier: Modifier = Modifier,
     color: Color,
     trackColor: Color,

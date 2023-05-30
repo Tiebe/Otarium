@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun SettingRow(modifier: Modifier = Modifier,
+fun SettingRow(modifier: Modifier = Modifier,
                horizontalArrangement: Arrangement.Horizontal = Arrangement.SpaceBetween,
                verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
                text: AnnotatedString,

@@ -37,7 +37,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-internal fun GCGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
+fun GCGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
     ElevatedCard(
         modifier = Modifier.padding(10.dp),
     ) {

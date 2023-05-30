@@ -39,7 +39,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GCAverageCalculator(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
+fun GCAverageCalculator(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()

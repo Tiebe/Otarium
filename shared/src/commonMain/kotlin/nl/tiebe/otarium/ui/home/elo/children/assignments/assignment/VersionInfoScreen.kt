@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.assignment.Assignment
 
 @Composable
-internal fun VersionInfoScreen(component: AssignmentScreenComponent, assignment: Assignment, versionId: Int, modifier: Modifier) {
+fun VersionInfoScreen(component: AssignmentScreenComponent, assignment: Assignment, versionId: Int, modifier: Modifier) {
     val version = component.versions.value.first { it.id == versionId }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {

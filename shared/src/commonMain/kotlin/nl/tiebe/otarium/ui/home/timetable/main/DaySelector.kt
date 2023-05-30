@@ -24,7 +24,7 @@ import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun DaySelector(
+fun DaySelector(
     component: TimetableComponent,
     dayPagerState: PagerState,
     weekPagerState: PagerState,

@@ -12,7 +12,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.messages.MessageData
 
 @Composable
-internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
+fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
     val messageData = component.message.subscribeAsState().value
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -47,7 +47,7 @@ internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ReceiverInfoItem(receiver: MessageData.Companion.Receiver) {
+fun ReceiverInfoItem(receiver: MessageData.Companion.Receiver) {
     ListItem(
         headlineText = { Text(text = receiver.name) },
     )

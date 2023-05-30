@@ -27,7 +27,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun GradesScreen(component: GradesComponent) {
+fun GradesScreen(component: GradesComponent) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 

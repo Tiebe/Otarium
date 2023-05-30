@@ -1,6 +1,11 @@
 package nl.tiebe.otarium.ui.onboarding
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun OnboardingMenuItem(items: OnboardingItems) {
+fun OnboardingMenuItem(items: OnboardingItems) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

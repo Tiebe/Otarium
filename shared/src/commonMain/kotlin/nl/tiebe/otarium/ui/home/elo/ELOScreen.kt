@@ -28,7 +28,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun ELOScreen(component: ELOComponent) {
+fun ELOScreen(component: ELOComponent) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 

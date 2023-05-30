@@ -16,7 +16,7 @@ import nl.tiebe.otarium.ui.utils.parseHtml
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: StudyGuideContentItem) {
+fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: StudyGuideContentItem) {
     var showContents by remember { mutableStateOf(false) }
 
     ListItem(

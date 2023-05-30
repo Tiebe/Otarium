@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun TimetableScreen(component: TimetableComponent) {
+fun TimetableScreen(component: TimetableComponent) {
     val dayPagerState = rememberPagerState(component.currentPage.value)
     val weekPagerState = rememberPagerState(100)
 

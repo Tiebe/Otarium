@@ -22,7 +22,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AddGradeManually(component: GradeCalculationChildComponent, subject: Subject) {
+fun AddGradeManually(component: GradeCalculationChildComponent, subject: Subject) {
     val name = remember { mutableStateOf("") }
     val nameError = remember { mutableStateOf(false) }
 

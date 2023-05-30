@@ -27,7 +27,7 @@ val dpPerHour = 80.dp
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-internal fun Timetable(
+fun Timetable(
     component: TimetableComponent,
     dayPagerState: PagerState,
     pageCount: Int

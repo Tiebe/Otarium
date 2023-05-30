@@ -18,6 +18,8 @@ android {
         targetSdk = libs.versions.android.sdk.compile.get().toInt()
         versionCode = libs.versions.app.version.code.get().toInt()
         versionName = libs.versions.app.version.string.get()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         getByName("release") {
@@ -60,4 +62,13 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.performance)
+
+    androidTestImplementation(project(":shared"))
+    androidTestImplementation(libs.android.test.espresso)
+    androidTestImplementation(libs.android.test.runner)
+    androidTestImplementation(libs.android.test.rules)
+
+    androidTestImplementation(libs.android.test.compose)
+    androidTestImplementation(libs.test.coroutines)
+
 }

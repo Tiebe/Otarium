@@ -37,12 +37,12 @@ fun setup() {
 }
 
 @Composable
-internal fun Content(componentContext: ComponentContext, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: WindowInsets) {
+fun Content(componentContext: ComponentContext, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: WindowInsets) {
     Content(component = DefaultRootComponent(componentContext), lightColorScheme, darkColorScheme, padding = padding)
 }
 
 @Composable
-internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: WindowInsets) {
+fun Content(component: RootComponent, lightColorScheme: ColorScheme? = null, darkColorScheme: ColorScheme? = null, padding: WindowInsets) {
     OtariumTheme(lightColorScheme, darkColorScheme) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -73,6 +73,6 @@ internal val LocalComponentContext: ProvidableCompositionLocal<ComponentContext>
     staticCompositionLocalOf { error("Root component context was not provided") }
 
 @Composable
-internal fun ProvideComponentContext(componentContext: ComponentContext, content: @Composable () -> Unit) {
+fun ProvideComponentContext(componentContext: ComponentContext, content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalComponentContext provides componentContext, content = content)
 }

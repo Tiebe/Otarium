@@ -19,7 +19,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun UserChildScreen(component: UserChildComponent) {
+fun UserChildScreen(component: UserChildComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize()

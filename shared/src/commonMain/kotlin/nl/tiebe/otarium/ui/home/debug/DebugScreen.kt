@@ -31,7 +31,7 @@ import nl.tiebe.otarium.utils.sendNotification
 import kotlin.random.Random
 
 @Composable
-internal fun DebugScreen(component: DebugComponent) {
+fun DebugScreen(component: DebugComponent) {
     Column(modifier = Modifier.padding(horizontal = 8.dp).verticalScroll(rememberScrollState())) {
         SettingRowIconButton(
             leftText = AnnotatedString("Ask notification permission"),

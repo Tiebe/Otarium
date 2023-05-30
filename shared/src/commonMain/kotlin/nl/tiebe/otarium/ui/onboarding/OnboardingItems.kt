@@ -20,7 +20,7 @@ import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.utils.LabelledCheckBox
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
-internal class OnboardingItems(
+class OnboardingItems(
     val title: StringResource,
     val desc: StringResource,
     val extraItems: @Composable () -> Unit = {}

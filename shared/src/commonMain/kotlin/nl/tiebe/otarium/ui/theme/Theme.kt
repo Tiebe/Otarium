@@ -11,7 +11,7 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.ui.home.settings.items.ui.colors.colorSchemeChanged
 
 @Composable
-internal fun OtariumTheme(
+fun OtariumTheme(
     lightColorScheme: ColorScheme? = null,
     darkColorScheme: ColorScheme? = null,
     darkMode: Boolean = isSystemInDarkTheme(),

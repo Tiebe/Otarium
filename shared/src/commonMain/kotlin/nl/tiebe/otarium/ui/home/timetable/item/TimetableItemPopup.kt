@@ -24,7 +24,7 @@ import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int, modifier: Modifier) {
+fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int, modifier: Modifier) {
     val agendaItemWithAbsence = component.timetable.subscribeAsState().value.first { it.agendaItem.id == agendaItemId }
 
     Surface(Modifier.fillMaxSize().then(modifier)) {

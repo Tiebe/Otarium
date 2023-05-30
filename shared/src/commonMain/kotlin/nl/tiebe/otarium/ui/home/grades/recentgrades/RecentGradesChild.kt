@@ -19,7 +19,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun RecentGradesChild(component: RecentGradesChildComponent) {
+fun RecentGradesChild(component: RecentGradesChildComponent) {
     val refreshState = rememberPullRefreshState(component.refreshState.subscribeAsState().value, { component.refreshGrades() })
 
     Box(Modifier.pullRefresh(refreshState)) {

@@ -7,7 +7,7 @@ import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponen
 import nl.tiebe.otarium.ui.home.grades.calculation.subject.GCSubjectList
 
 @Composable
-internal fun GradeCalculationChild(component: GradeCalculationChildComponent) {
+fun GradeCalculationChild(component: GradeCalculationChildComponent) {
     when (val state = component.state.subscribeAsState().value) {
         GradeCalculationChildComponent.State.Loading -> {
             Text("Loading")

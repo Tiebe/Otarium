@@ -20,7 +20,7 @@ import nl.tiebe.otarium.utils.otariumicons.BugOutline
 import androidx.compose.material.icons.Icons as MaterialIcons
 
 @Composable
-internal fun MainChildScreen(component: MainChildComponent) {
+fun MainChildScreen(component: MainChildComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize()

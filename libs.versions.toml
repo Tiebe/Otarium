@@ -13,7 +13,7 @@ kotlin = "1.8.0"
 gradle = "7.4.1"
 appcompat = "1.6.1"
 material = "1.4.0"
-compose = "1.4.0"
+compose = "1.4.0-rc03"
 compose-android = "1.4.3"
 compose-compiler = "1.4.0"
 compose-activity = "1.7.1"
@@ -36,6 +36,11 @@ kotlin-datetime = "0.4.0"
 
 crashlytics = "2.9.5"
 firebaseperf = "1.4.2"
+
+espresso = "3.4.0"
+androidx_test = "1.4.0"
+
+kotlin-test-coroutines = "1.6.4"
 
 [libraries]
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
@@ -89,6 +94,13 @@ color-math = { group = "com.github.ajalt.colormath", name = "colormath", version
 
 guava-core = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 guava-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "guava-coroutines" }
+
+test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlin-test-coroutines" }
+android-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+android-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidx_test" }
+android-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidx_test" }
+
+android-test-compose = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "compose" }
 
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }

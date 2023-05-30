@@ -21,7 +21,7 @@ import nl.tiebe.otarium.ui.home.elo.children.assignments.listscreen.AssignmentLi
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun AssignmentsChildScreen(component: AssignmentsChildComponent) {
+fun AssignmentsChildScreen(component: AssignmentsChildComponent) {
     val screen = component.childStack.subscribeAsState()
     val scope = rememberCoroutineScope()
 

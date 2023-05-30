@@ -32,7 +32,7 @@ import nl.tiebe.otarium.utils.toFormattedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GradeListItem(grade: GradeWithGradeInfo) {
+fun GradeListItem(grade: GradeWithGradeInfo) {
     ListItem(
         modifier = Modifier
             .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
@@ -68,7 +68,7 @@ internal fun GradeListItem(grade: GradeWithGradeInfo) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ManualGradeListItem(grade: ManualGrade, component: GradeCalculationChildComponent) {
+fun ManualGradeListItem(grade: ManualGrade, component: GradeCalculationChildComponent) {
     ListItem(
         modifier = Modifier
             .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),

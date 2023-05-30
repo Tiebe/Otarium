@@ -21,6 +21,7 @@ android {
     compileSdk = libs.versions.android.sdk.compile.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.sdk.min.get().toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     namespace = "nl.tiebe.otarium"
@@ -33,6 +34,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    testOptions {
+        managedDevices {
+            devices {
+
+            }
+        }
     }
 }
 
@@ -81,6 +90,7 @@ kotlin {
 
             }
         }
+
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.logging.jvm)
@@ -94,6 +104,7 @@ kotlin {
 
             }
         }
+
         val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.client.ios)

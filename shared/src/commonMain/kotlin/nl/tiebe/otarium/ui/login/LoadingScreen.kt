@@ -11,7 +11,7 @@ import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun LoadingScreen() {
+fun LoadingScreen() {
     Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         CircularProgressIndicator()
 

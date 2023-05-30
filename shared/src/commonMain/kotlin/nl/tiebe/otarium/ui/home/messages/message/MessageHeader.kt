@@ -24,7 +24,7 @@ import nl.tiebe.otarium.utils.toFormattedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MessageHeader(component: MessageComponent) {
+fun MessageHeader(component: MessageComponent) {
     val message = component.message.subscribeAsState().value
 
     if (message.id == 0) return

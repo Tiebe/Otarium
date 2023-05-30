@@ -23,7 +23,7 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
-internal fun AssignmentScreen(component: AssignmentScreenComponent) {
+fun AssignmentScreen(component: AssignmentScreenComponent) {
     val assignment = component.assignment.subscribeAsState().value
 
     val pullRefreshState = rememberPullRefreshState(refreshing = component.isRefreshing.subscribeAsState().value, onRefresh = { component.refreshAssignment() })

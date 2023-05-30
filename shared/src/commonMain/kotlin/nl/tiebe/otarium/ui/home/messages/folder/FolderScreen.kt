@@ -19,7 +19,7 @@ import nl.tiebe.otarium.ui.home.messages.MessageItem
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun FolderScreen(component: FolderComponent) {
+fun FolderScreen(component: FolderComponent) {
     val refreshState = rememberPullRefreshState(refreshing = component.refreshState.subscribeAsState().value, onRefresh = component::refresh)
 
     Box(

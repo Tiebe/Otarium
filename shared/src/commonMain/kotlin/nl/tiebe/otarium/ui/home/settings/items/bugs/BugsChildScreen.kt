@@ -11,7 +11,7 @@ import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun BugsChildScreen() {
+fun BugsChildScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()

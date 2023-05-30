@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun BackButton(modifier: Modifier = Modifier, icon: @Composable RowScope.() -> Unit, onClick: () -> Unit) {
+fun BackButton(modifier: Modifier = Modifier, icon: @Composable RowScope.() -> Unit, onClick: () -> Unit) {
     Button(
         modifier = Modifier.size(30.dp).then(modifier),
         onClick = onClick,

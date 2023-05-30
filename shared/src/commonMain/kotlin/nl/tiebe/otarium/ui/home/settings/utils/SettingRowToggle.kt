@@ -8,7 +8,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 
 @Composable
-internal fun SettingsRowToggle(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), checked: Boolean, rowClickable: Boolean, onClick: ((Boolean) -> Unit)?) {
+fun SettingsRowToggle(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), checked: Boolean, rowClickable: Boolean, onClick: ((Boolean) -> Unit)?) {
     SettingRow(modifier = modifier.clickable(enabled = rowClickable, onClick = {
         if (onClick != null) {
             onClick(!checked)

@@ -24,7 +24,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
+fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             ListItem(
@@ -53,7 +53,7 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: AssignmentVersion) {
+fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             if (version.gradedOn != null) {
@@ -114,7 +114,7 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun StudentVersionCard(component: AssignmentScreenComponent, version: AssignmentVersion) {
+fun StudentVersionCard(component: AssignmentScreenComponent, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             if (version.submittedOn != null) {

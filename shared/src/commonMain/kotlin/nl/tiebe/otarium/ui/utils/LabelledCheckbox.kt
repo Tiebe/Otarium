@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun LabelledCheckBox(
+fun LabelledCheckBox(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit),
     label: String,

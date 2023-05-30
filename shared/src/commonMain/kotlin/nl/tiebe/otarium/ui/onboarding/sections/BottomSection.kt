@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun BottomSection(size: Int, index: Int, onButtonClick: () -> Unit = {}) {
+fun BottomSection(size: Int, index: Int, onButtonClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()

@@ -30,7 +30,7 @@ import nl.tiebe.otarium.ui.home.settings.items.users.UserChildScreen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun SettingsScreen(component: SettingsComponent) {
+fun SettingsScreen(component: SettingsComponent) {
     val screen = component.childStack.subscribeAsState()
     val scope = rememberCoroutineScope()
 
@@ -79,7 +79,7 @@ internal fun SettingsScreen(component: SettingsComponent) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SettingsScreenChild(
+fun SettingsScreenChild(
     component: SettingsComponent,
     screen: Child.Created<SettingsComponent.Config, SettingsComponent.Child>
 ) {

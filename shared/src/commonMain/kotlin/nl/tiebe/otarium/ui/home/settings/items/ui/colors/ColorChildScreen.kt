@@ -31,7 +31,7 @@ import nl.tiebe.otarium.utils.otariumicons.ContentSave
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun ColorChildScreen(component: ColorChildComponent) {
+fun ColorChildScreen(component: ColorChildComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize()

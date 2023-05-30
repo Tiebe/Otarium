@@ -18,7 +18,7 @@ import nl.tiebe.otarium.ui.utils.parseHtml
 import nl.tiebe.otarium.utils.openUrl
 
 @Composable
-internal fun MessageScreen(component: MessageComponent) {
+fun MessageScreen(component: MessageComponent) {
     val scrollState = rememberScrollState()
 
     Column(Modifier.verticalScroll(scrollState).fillMaxSize()) {

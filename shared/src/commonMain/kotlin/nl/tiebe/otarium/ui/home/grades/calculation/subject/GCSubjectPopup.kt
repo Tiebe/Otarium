@@ -46,7 +46,7 @@ import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
+fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
     val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { it.subjectId == subject.id }
     val gradeList = derivedStateOf {
         realGradeList.map {

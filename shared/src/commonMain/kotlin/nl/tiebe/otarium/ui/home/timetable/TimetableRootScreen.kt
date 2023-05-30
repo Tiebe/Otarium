@@ -19,7 +19,7 @@ import nl.tiebe.otarium.ui.home.timetable.main.TimetableScreen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun TimetableRootScreen(component: TimetableRootComponent) {
+fun TimetableRootScreen(component: TimetableRootComponent) {
     val child = component.childStack.subscribeAsState().value.active.instance
     val state = rememberDismissState(DismissValue.DismissedToEnd)
     val scope = rememberCoroutineScope()

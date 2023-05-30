@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun UIChildScreen(component: UIChildComponent) {
+fun UIChildScreen(component: UIChildComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize()

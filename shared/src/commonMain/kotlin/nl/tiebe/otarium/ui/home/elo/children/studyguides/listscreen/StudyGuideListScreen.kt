@@ -17,7 +17,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun StudyGuideListScreen(component: StudyGuideListComponent) {
+fun StudyGuideListScreen(component: StudyGuideListComponent) {
     val studyGuideItems = component.studyGuides.subscribeAsState().value
     val scrollState = rememberScrollState()
     val pullRefreshState = rememberPullRefreshState(component.isRefreshing.subscribeAsState().value, onRefresh = component::refreshStudyGuides)

@@ -36,7 +36,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: RecentGrade) {
+fun RecentGradeItem(component: RecentGradesChildComponent, grade: RecentGrade) {
     var showExtraInfo by remember { mutableStateOf(false) }
 
     ListItem(

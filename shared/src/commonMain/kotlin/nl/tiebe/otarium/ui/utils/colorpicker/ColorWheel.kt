@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 
 @Composable
-internal fun ColorWheel(
+fun ColorWheel(
     hsvColor: HsvColor,
     diameter: Int
 ) {

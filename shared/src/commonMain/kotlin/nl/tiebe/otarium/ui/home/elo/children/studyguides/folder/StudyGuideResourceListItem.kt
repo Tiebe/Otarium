@@ -17,7 +17,7 @@ import nl.tiebe.otarium.ui.utils.LoadingFileIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun StudyGuideResourceListItem(component: StudyGuideFolderComponent, item: Resource) {
+fun StudyGuideResourceListItem(component: StudyGuideFolderComponent, item: Resource) {
     Box {
         ListItem(
             modifier = Modifier.clickable { component.downloadResource(item) },

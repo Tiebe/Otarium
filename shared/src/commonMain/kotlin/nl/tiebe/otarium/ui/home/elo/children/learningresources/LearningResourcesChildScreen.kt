@@ -21,7 +21,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun LearningResourcesChildScreen(component: LearningResourcesChildComponent) {
+fun LearningResourcesChildScreen(component: LearningResourcesChildComponent) {
     val learningResources = component.learningResources.subscribeAsState().value
     val pullRefreshState = rememberPullRefreshState(component.isRefreshing.subscribeAsState().value, component::refreshLearningResources)
 

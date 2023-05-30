@@ -19,7 +19,7 @@ import nl.tiebe.otarium.ui.onboarding.sections.TopSection
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-internal fun OnboardingScreen(component: OnboardingComponent) {
+fun OnboardingScreen(component: OnboardingComponent) {
     val items = OnboardingItems.getData()
     val scope = rememberCoroutineScope()
     val pageState = rememberPagerState()

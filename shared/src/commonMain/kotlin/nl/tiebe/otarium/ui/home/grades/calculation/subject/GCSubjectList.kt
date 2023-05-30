@@ -41,7 +41,7 @@ import nl.tiebe.otarium.utils.ui.format
     ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
 )
 @Composable
-internal fun GCSubjectList(
+fun GCSubjectList(
     component: GradeCalculationChildComponent,
     grades: List<GradeWithGradeInfo>,
     manualGrades: List<ManualGrade>

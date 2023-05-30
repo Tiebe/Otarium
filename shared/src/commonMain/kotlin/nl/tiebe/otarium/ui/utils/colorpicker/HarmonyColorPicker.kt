@@ -49,7 +49,7 @@ import kotlin.math.*
     )
 )
 @Composable
-internal fun HarmonyColorPicker(
+fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
     color: Color = Color.Red,
@@ -75,7 +75,7 @@ internal fun HarmonyColorPicker(
  * otherwise all colors are given the provided brightness value
  */
 @Composable
-internal fun HarmonyColorPicker(
+fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
     color: HsvColor,
@@ -120,7 +120,7 @@ internal fun HarmonyColorPicker(
 }
 
 @Composable
-internal fun HarmonyColorPickerWithMagnifiers(
+fun HarmonyColorPickerWithMagnifiers(
     modifier: Modifier = Modifier,
     hsvColor: HsvColor,
     onColorChanged: (HsvColor) -> Unit,
@@ -204,7 +204,7 @@ private fun colorForPosition(position: Offset, size: IntSize, value: Float): Hsv
 }
 
 @Composable
-internal fun BrightnessBar(
+fun BrightnessBar(
     modifier: Modifier = Modifier,
     onValueChange: (Float) -> Unit,
     currentColor: HsvColor
@@ -224,7 +224,7 @@ internal fun BrightnessBar(
 
 
 @Composable
-internal fun HarmonyColorMagnifiers(
+fun HarmonyColorMagnifiers(
     diameterPx: Int,
     hsvColor: HsvColor,
     animateChanges: Boolean,
@@ -282,7 +282,7 @@ internal fun HarmonyColorMagnifiers(
 }
 
 @Composable
-internal fun Magnifier(position: Offset, color: HsvColor, diameter: Dp) {
+fun Magnifier(position: Offset, color: HsvColor, diameter: Dp) {
     val offset = with(LocalDensity.current) {
         Modifier.offset(
             position.x.toDp() - diameter / 2,

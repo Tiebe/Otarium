@@ -10,7 +10,7 @@ import dev.tiebe.magisterapi.response.studyguide.StudyGuide
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun StudyGuideListItem(component: StudyGuideListComponent, item: StudyGuide) {
+fun StudyGuideListItem(component: StudyGuideListComponent, item: StudyGuide) {
     ListItem(
         headlineText = { Text(item.title) },
         modifier = Modifier.clickable { component.navigateToStudyGuide(item) }

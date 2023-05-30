@@ -19,7 +19,7 @@ import nl.tiebe.otarium.utils.otariumicons.email.EmailOpen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder: MessageFolder) {
+fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder: MessageFolder) {
     ListItem(
         headlineText = { Text(folder.name) },
         leadingContent = { Icon(OtariumIcons.Folder, contentDescription = null) },
@@ -32,7 +32,7 @@ internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message) {
+fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message) {
     val icon = if (message.hasBeenRead)
         if (message.hasPriority) OtariumIcons.Email.EmailAlertOpen else OtariumIcons.Email.EmailOpen
     else if (message.hasPriority) OtariumIcons.Email.EmailAlert else OtariumIcons.Bottombar.EmailFilled

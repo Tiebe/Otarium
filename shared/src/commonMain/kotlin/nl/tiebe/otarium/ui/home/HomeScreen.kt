@@ -38,7 +38,7 @@ var adsShown = mutableStateOf(Data.showAds)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
+fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
     val dialog = component.dialog.subscribeAsState()
     val overlay = dialog.value.child ?: return
 

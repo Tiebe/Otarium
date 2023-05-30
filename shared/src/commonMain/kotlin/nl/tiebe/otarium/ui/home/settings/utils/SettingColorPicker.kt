@@ -19,7 +19,7 @@ import nl.tiebe.otarium.ui.utils.colorpicker.HarmonyColorPicker
 import nl.tiebe.otarium.ui.utils.colorpicker.HsvColor
 
 @Composable
-internal fun SettingsColorPicker(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), color: HsvColor, onChange: ((HsvColor) -> Unit)) {
+fun SettingsColorPicker(modifier: Modifier = Modifier, leftText: AnnotatedString, textStyle: TextStyle = TextStyle(), color: HsvColor, onChange: ((HsvColor) -> Unit)) {
     val showPicker = remember { mutableStateOf(false) }
 
     Column {

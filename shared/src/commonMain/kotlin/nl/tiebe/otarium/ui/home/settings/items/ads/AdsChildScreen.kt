@@ -14,7 +14,7 @@ import nl.tiebe.otarium.ui.home.settings.utils.SettingsRowToggle
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun AdsChildScreen(component: AdsChildComponent) {
+fun AdsChildScreen(component: AdsChildComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun TimetableBackground() {
+fun TimetableBackground() {
     Box(Modifier.fillMaxSize()) {
         Column {
             for (i in timesShown) {

@@ -21,7 +21,7 @@ import nl.tiebe.otarium.ui.home.elo.children.studyguides.listscreen.StudyGuideLi
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun StudyGuidesChildScreen(component: StudyGuidesChildComponent) {
+fun StudyGuidesChildScreen(component: StudyGuidesChildComponent) {
     val screen = component.childStack.subscribeAsState()
     val scope = rememberCoroutineScope()
 

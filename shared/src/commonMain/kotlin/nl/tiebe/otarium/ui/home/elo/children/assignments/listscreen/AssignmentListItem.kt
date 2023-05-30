@@ -10,7 +10,7 @@ import dev.tiebe.magisterapi.response.assignment.Assignment
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AssignmentListItem(component: AssignmentListComponent, item: Assignment) {
+fun AssignmentListItem(component: AssignmentListComponent, item: Assignment) {
     ListItem(
         headlineText = { Text(item.title) },
         modifier = Modifier.clickable { component.navigateToAssignment(item) },

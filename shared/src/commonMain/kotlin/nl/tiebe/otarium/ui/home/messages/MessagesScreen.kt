@@ -42,7 +42,7 @@ import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun MessagesScreen(component: MessagesComponent) {
+fun MessagesScreen(component: MessagesComponent) {
     val screen = component.childStack.subscribeAsState()
     val scope = rememberCoroutineScope()
 
@@ -77,7 +77,7 @@ internal fun MessagesScreen(component: MessagesComponent) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MessageScreenChild(
+fun MessageScreenChild(
     component: MessagesComponent,
     screen: State<ChildStack<MessagesComponent.Config, MessagesComponent.Child>>,
     item: Child.Created<MessagesComponent.Config, MessagesComponent.Child>,
@@ -114,7 +114,7 @@ internal fun MessageScreenChild(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
+fun MessagesFolderSelectScreen(component: MessagesComponent) {
     val foldersState = component.folders.subscribeAsState()
     val refreshState = rememberPullRefreshState(
         refreshing = component.refreshState.subscribeAsState().value,

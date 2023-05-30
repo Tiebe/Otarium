@@ -26,7 +26,7 @@ import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun TimetableItem(
+fun TimetableItem(
     component: TimetableComponent,
     page: Int,
     timesShown: IntRange,
