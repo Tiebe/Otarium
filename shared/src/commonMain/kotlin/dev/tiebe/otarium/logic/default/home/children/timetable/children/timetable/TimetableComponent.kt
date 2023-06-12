@@ -4,23 +4,27 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.datetime.*
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
+import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import dev.tiebe.otarium.magister.AgendaItemWithAbsence
 import dev.tiebe.otarium.magister.MagisterAccount
 import dev.tiebe.otarium.magister.getAbsences
 import dev.tiebe.otarium.magister.getMagisterAgenda
-import dev.tiebe.otarium.logic.home.children.timetable.TimetableRootComponent
-import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.ui.getLocalizedString
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import kotlin.math.floor
 
 val days = listOf(
@@ -33,7 +37,7 @@ val days = listOf(
     getLocalizedString(MR.strings.sunday)
 )
 
-class DefaultTimetableComponent(
+open class DefaultTimetableComponent(
     componentContext: ComponentContext,
     val navigate: (TimetableRootComponent.Config) -> Unit,
     val back: MutableValue<BackCallback>,

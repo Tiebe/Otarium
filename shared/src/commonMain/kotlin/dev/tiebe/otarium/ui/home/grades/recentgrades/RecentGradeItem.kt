@@ -26,14 +26,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
-import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.logic.home.children.grades.children.recent.RecentGradesChildComponent
+import dev.tiebe.otarium.logic.root.home.children.grades.children.recent.RecentGradesChildComponent
 import dev.tiebe.otarium.ui.utils.topBottomRectBorder
 import dev.tiebe.otarium.utils.toFormattedString
 import dev.tiebe.otarium.utils.ui.format
 import dev.tiebe.otarium.utils.ui.getLocalizedString
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

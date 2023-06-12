@@ -3,12 +3,12 @@ package dev.tiebe.otarium.logic.root.home.children.elo
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import dev.tiebe.otarium.logic.default.home.MenuItemComponent
-import dev.tiebe.otarium.logic.default.home.children.elo.children.assignments.AssignmentsChildComponent
-import dev.tiebe.otarium.logic.default.home.children.elo.children.learningresources.LearningResourcesChildComponent
+import dev.tiebe.otarium.logic.root.home.HomeComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.learningresources.LearningResourcesChildComponent
 import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
-interface ELOComponent : MenuItemComponent {
+interface ELOComponent : HomeComponent.MenuItemComponent {
     @Parcelize
     sealed class ELOChild(val id: Int): Parcelable {
         object StudyGuides : ELOChild(0)

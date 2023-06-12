@@ -6,14 +6,13 @@ import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.api.general.GeneralFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
+import dev.tiebe.otarium.Data
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
 import io.ktor.http.*
 import kotlinx.coroutines.launch
-import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentChildScreen
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
-import dev.tiebe.otarium.logic.default.componentCoroutineScope
 
-interface AssignmentListComponent : AssignmentChildScreen {
+interface AssignmentListComponent : AssignmentsChildComponent.AssignmentChildScreen {
     val assignments: Value<List<Assignment>>
     val parentComponent: AssignmentsChildComponent
 

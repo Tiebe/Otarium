@@ -1,9 +1,20 @@
 package dev.tiebe.otarium.ui.home.elo.children.assignments.assignment
 
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.*
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,9 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
-import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import dev.tiebe.otarium.ui.utils.DownloadIndicator
 import dev.tiebe.otarium.ui.utils.parseHtml
 import dev.tiebe.otarium.utils.OtariumIcons
@@ -21,6 +31,7 @@ import dev.tiebe.otarium.utils.otariumicons.Email
 import dev.tiebe.otarium.utils.otariumicons.email.Attachment
 import dev.tiebe.otarium.utils.toFormattedString
 import dev.tiebe.otarium.utils.ui.getLocalizedString
+import kotlinx.datetime.toLocalDateTime
 
 
 @OptIn(ExperimentalMaterial3Api::class)

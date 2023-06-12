@@ -1,14 +1,11 @@
 package dev.tiebe.otarium.logic.default.home.children.settings.children.ui.children.colors
 
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
-import dev.tiebe.otarium.ui.theme.CustomTheme
-import dev.tiebe.otarium.ui.theme.defaultDarkTheme
-import dev.tiebe.otarium.ui.theme.defaultLightTheme
+import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.children.ui.children.colors.ColorChildComponent
 import dev.tiebe.otarium.ui.utils.colorpicker.HsvColor
 
 val colorSchemeChanged = MutableValue(false)

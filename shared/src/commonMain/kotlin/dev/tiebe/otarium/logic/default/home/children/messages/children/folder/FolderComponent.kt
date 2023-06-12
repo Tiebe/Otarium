@@ -3,17 +3,17 @@ package dev.tiebe.otarium.logic.default.home.children.messages.children.folder
 import androidx.compose.foundation.ScrollState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnResume
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
+import dev.tiebe.otarium.Data
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
-import dev.tiebe.otarium.logic.default.componentCoroutineScope
 
 class DefaultFolderComponent(
     componentContext: ComponentContext, override val folder: MessageFolder, val allFolders: List<MessageFolder>,

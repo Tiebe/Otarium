@@ -13,9 +13,7 @@ import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.default.home.DefaultHomeComponent
 import dev.tiebe.otarium.logic.default.login.DefaultLoginComponent
 import dev.tiebe.otarium.store.component.home.StoreHomeComponent
-import dev.tiebe.otarium.logic.login.DefaultLoginComponent
 import dev.tiebe.otarium.logic.default.onboarding.DefaultOnboardingComponent
-import dev.tiebe.otarium.logic.default.onboarding.OnboardingComponent
 import dev.tiebe.otarium.logic.root.RootComponent
 import dev.tiebe.otarium.logic.root.home.HomeComponent
 

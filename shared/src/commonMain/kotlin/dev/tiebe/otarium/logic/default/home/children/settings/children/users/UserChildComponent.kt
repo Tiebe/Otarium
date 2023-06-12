@@ -2,13 +2,13 @@ package dev.tiebe.otarium.logic.default.home.children.settings.children.users
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.otarium.Data
+import dev.tiebe.otarium.logic.default.login.DefaultLoginComponent
+import dev.tiebe.otarium.logic.root.RootComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.children.users.UserChildComponent
 import dev.tiebe.otarium.magister.MagisterAccount
 import dev.tiebe.otarium.settings
-import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
-import dev.tiebe.otarium.logic.login.DefaultLoginComponent
-import dev.tiebe.otarium.logic.default.RootComponent
 
 
 class DefaultUserChildComponent(

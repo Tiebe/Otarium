@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.debug.DebugComponent
+import dev.tiebe.otarium.logic.root.home.children.debug.DebugComponent
 import dev.tiebe.otarium.magister.refreshGrades
 import dev.tiebe.otarium.setupNotifications
 import dev.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton

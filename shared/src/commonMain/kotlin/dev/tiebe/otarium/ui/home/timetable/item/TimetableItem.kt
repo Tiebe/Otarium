@@ -2,9 +2,18 @@ package dev.tiebe.otarium.ui.home.timetable.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,12 +25,18 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
-import kotlinx.datetime.*
+import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
+import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
 import dev.tiebe.otarium.magister.getAgendaForDay
-import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.TimetableComponent
-import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.days
 import dev.tiebe.otarium.ui.utils.parseHtml
 import dev.tiebe.otarium.ui.utils.topBottomRectBorder
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.minus
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -9,13 +9,13 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
-import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
+import dev.tiebe.otarium.logic.root.home.HomeComponent
 import dev.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
 import dev.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 import dev.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
+import kotlinx.coroutines.CoroutineScope
 
-interface MessagesComponent: _root_ide_package_.dev.tiebe.otarium.logic.default.home.MenuItemComponent {
+interface MessagesComponent: HomeComponent.MenuItemComponent {
     val navigation: StackNavigation<Config>
     val childStack: Value<ChildStack<Config, Child>>
 

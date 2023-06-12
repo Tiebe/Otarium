@@ -2,9 +2,9 @@ package dev.tiebe.otarium.logic.default.home.children.settings.children.ui
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.children.ui.UIChildComponent
 
 class DefaultUIChildComponent(
     componentContext: ComponentContext,

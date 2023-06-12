@@ -1,7 +1,8 @@
 package dev.tiebe.otarium.logic.default.home.children.settings.children.main
 
 import com.arkivanov.decompose.ComponentContext
-import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.children.main.MainChildComponent
 
 class DefaultMainChildComponent(
     componentContext: ComponentContext,

@@ -2,16 +2,13 @@ package dev.tiebe.otarium.logic.default.home.children.elo.children.learningresou
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.learningresource.LearningResourceFlow
 import dev.tiebe.magisterapi.response.learningresource.LearningResource
-import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.elo.ELOChildComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
-import dev.tiebe.otarium.utils.openUrl
+import dev.tiebe.otarium.logic.root.home.children.elo.children.learningresources.LearningResourcesChildComponent
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 
 class DefaultLearningResourcesChildComponent(componentContext: ComponentContext) : LearningResourcesChildComponent, ComponentContext by componentContext {
     override val learningResources: MutableValue<List<LearningResource>> = MutableValue(emptyList())

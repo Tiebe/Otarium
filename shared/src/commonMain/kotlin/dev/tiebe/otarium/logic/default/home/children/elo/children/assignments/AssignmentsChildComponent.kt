@@ -11,12 +11,10 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.coroutines.CoroutineScope
-import dev.tiebe.otarium.logic.home.children.elo.ELOChildComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.assignment.DefaultAssignmentScreenComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.list.AssignmentListComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.list.DefaultAssignmentListComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.default.home.children.elo.children.assignments.children.assignment.DefaultAssignmentScreenComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.assignments.children.list.DefaultAssignmentListComponent
 
 class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : AssignmentsChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
@@ -34,11 +32,15 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
             childFactory = ::createChild,
         )
 
-    private fun createChild(config: AssignmentsChildComponent.Config, componentContext: ComponentContext): AssignmentsChildComponent.Child =
+    private fun createChild(
+        config: AssignmentsChildComponent.Config,
+        componentContext: ComponentContext
+    ): AssignmentsChildComponent.Child =
         when (config) {
             is AssignmentsChildComponent.Config.AssignmentList -> AssignmentsChildComponent.Child.AssignmentList(
                 createAssignmentListComponent(this)
             )
+
             is AssignmentsChildComponent.Config.Assignment -> AssignmentsChildComponent.Child.Assignment(
                 createAssignmentScreenComponent(componentContext, config.assignmentLink)
             )
@@ -84,5 +86,3 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
         }
     }
 }
-
-interface AssignmentChildScreen

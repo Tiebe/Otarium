@@ -4,20 +4,15 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
-import kotlinx.coroutines.CoroutineScope
-import dev.tiebe.otarium.logic.home.children.elo.ELOChildComponent
-import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.folder.DefaultStudyGuideFolderComponent
-import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
-import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.DefaultStudyGuideListComponent
-import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.folder.DefaultStudyGuideFolderComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.DefaultStudyGuideListComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
+import kotlinx.coroutines.CoroutineScope
 
 class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : StudyGuidesChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)

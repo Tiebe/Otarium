@@ -19,7 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)

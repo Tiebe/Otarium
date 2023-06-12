@@ -1,15 +1,14 @@
 package dev.tiebe.otarium.logic.default.home.children.timetable
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
-import dev.tiebe.otarium.logic.default.home.MenuItemComponent
-import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.DefaultTimetableComponent
-import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.TimetableComponent
+import dev.tiebe.otarium.logic.default.home.children.timetable.children.timetable.DefaultTimetableComponent
+import dev.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 
 class DefaultTimetableRootComponent(componentContext: ComponentContext): TimetableRootComponent, ComponentContext by componentContext {
     override val navigation = StackNavigation<TimetableRootComponent.Config>()

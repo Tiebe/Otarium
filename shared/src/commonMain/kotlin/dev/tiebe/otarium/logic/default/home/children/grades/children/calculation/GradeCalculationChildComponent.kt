@@ -2,17 +2,15 @@ package dev.tiebe.otarium.logic.default.home.children.grades.children.calculatio
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.magister.GradeWithGradeInfo
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
 import dev.tiebe.otarium.magister.ManualGrade
 import dev.tiebe.otarium.magister.refreshGrades
-import dev.tiebe.otarium.logic.home.children.grades.GradesChildComponent
-import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import kotlinx.coroutines.launch
 
 class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) : GradeCalculationChildComponent, ComponentContext by componentContext {
     override val openedSubject: MutableValue<Pair<Boolean, Subject?>> = MutableValue(false to null)
@@ -54,43 +52,4 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
             state.value = GradeCalculationChildComponent.State.Failed
         }
     }
-}
-
-
-fun calculateAverageGrade(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
-    return calculateAverage(grades.map {
-        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
-    }, addedGrade, addedGradeWeight)
-}
-
-fun calculateAverage(pairs: List<Pair<Float, Float>>, initialAverage: Float = 0f, initialWeight: Float = 0f): Float {
-    var sum = initialAverage * initialWeight
-    var weight = initialWeight
-
-    pairs.forEach {
-        sum += it.first * it.second
-        weight += it.second
-    }
-
-    if (weight == 0f) return 0f
-
-    return sum/weight
-}
-
-fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
-    return calculateNew(grades.map {
-        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
-    }, newAverage, newGradeWeight)
-}
-
-fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
-    var sum = 0f
-    var weight = newGradeWeight
-
-    pairs.forEach {
-        sum += it.first * it.second
-        weight += it.second
-    }
-
-    return ((newAverage * weight) - sum) / newGradeWeight
 }

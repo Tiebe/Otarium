@@ -2,20 +2,18 @@ package dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.c
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.studyguide.StudyGuideFlow
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
+import dev.tiebe.otarium.Data
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
+import dev.tiebe.otarium.utils.toFormattedString
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuideChildScreen
-import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
-import dev.tiebe.otarium.logic.default.componentCoroutineScope
-import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
-import dev.tiebe.otarium.utils.toFormattedString
 
 class DefaultStudyGuideListComponent(
     componentContext: ComponentContext,
