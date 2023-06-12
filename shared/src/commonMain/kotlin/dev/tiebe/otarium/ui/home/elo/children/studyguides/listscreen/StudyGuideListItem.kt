@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

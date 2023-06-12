@@ -10,10 +10,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import dev.tiebe.otarium.Data
+import dev.tiebe.otarium.logic.default.home.DefaultHomeComponent
+import dev.tiebe.otarium.logic.default.login.DefaultLoginComponent
 import dev.tiebe.otarium.store.component.home.StoreHomeComponent
 import dev.tiebe.otarium.logic.login.DefaultLoginComponent
 import dev.tiebe.otarium.logic.default.onboarding.DefaultOnboardingComponent
 import dev.tiebe.otarium.logic.default.onboarding.OnboardingComponent
+import dev.tiebe.otarium.logic.root.RootComponent
+import dev.tiebe.otarium.logic.root.home.HomeComponent
 
 class DefaultRootComponent(componentContext: ComponentContext): RootComponent, ComponentContext by componentContext {
     override val currentScreen: MutableValue<RootComponent.ChildScreen> = MutableValue(getScreenOnStart())
@@ -30,7 +34,7 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
         }
     }
 
-    private fun storeHomeComponent(componentContext: ComponentContext): _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent =
+    private fun storeHomeComponent(componentContext: ComponentContext): StoreHomeComponent =
         StoreHomeComponent(
             componentContext = componentContext,
             navigateRootComponent = { screen ->
@@ -38,9 +42,9 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
             }
         )
 
-    private fun homeComponent(componentContext: ComponentContext): _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent {
+    private fun homeComponent(componentContext: ComponentContext): DefaultHomeComponent {
         println("HomeComponent")
-        return _root_ide_package_.dev.tiebe.otarium.logic.default.home.DefaultHomeComponent(
+        return DefaultHomeComponent(
             componentContext = componentContext,
             navigateRootComponent = { screen ->
                 currentScreen.value = screen
@@ -56,7 +60,7 @@ class DefaultRootComponent(componentContext: ComponentContext): RootComponent, C
             }
         )
 
-    private fun onboardingComponent(componentContext: ComponentContext): OnboardingComponent =
+    private fun onboardingComponent(componentContext: ComponentContext): DefaultOnboardingComponent =
         DefaultOnboardingComponent(
             componentContext = componentContext,
             navigateRootComponent = { screen ->

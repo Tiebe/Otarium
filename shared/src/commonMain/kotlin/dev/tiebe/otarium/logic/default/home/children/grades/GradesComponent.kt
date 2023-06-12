@@ -35,6 +35,3 @@ class DefaultGradesComponent(
     }
 
 }
-
-interface GradesChildComponent {
-}

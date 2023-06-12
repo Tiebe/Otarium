@@ -3,7 +3,7 @@ package dev.tiebe.otarium.logic.root.home.children.debug
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.tiebe.magisterapi.response.TokenResponse
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.default.RootComponent
+import dev.tiebe.otarium.logic.root.RootComponent
 import dev.tiebe.otarium.logic.root.home.HomeComponent
 import dev.tiebe.otarium.magister.getAccount
 import dev.tiebe.otarium.utils.copyToClipboard

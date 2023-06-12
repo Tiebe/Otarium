@@ -1,9 +1,9 @@
 package dev.tiebe.otarium.logic.root
 
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.otarium.logic.default.onboarding.OnboardingComponent
 import dev.tiebe.otarium.logic.root.home.HomeComponent
 import dev.tiebe.otarium.logic.root.login.LoginComponent
+import dev.tiebe.otarium.logic.root.onboarding.OnboardingComponent
 
 interface RootComponent {
     val currentScreen: Value<ChildScreen>

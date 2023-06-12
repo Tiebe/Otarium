@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
 import dev.tiebe.otarium.ui.utils.ClickableText
 import dev.tiebe.otarium.ui.utils.parseHtml
 
