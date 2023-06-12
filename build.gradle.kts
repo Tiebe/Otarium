@@ -19,9 +19,9 @@ buildscript {
         classpath(libs.kotlin.serialization)
         classpath(libs.moko.gradle)
         classpath(libs.buildkonfig.gradle)
-        classpath(libs.firebase.gradle)
+/*        classpath(libs.firebase.gradle)
         classpath(libs.firebase.crashlyticsgradle)
-        classpath(libs.firebase.performancegradle)
+        classpath(libs.firebase.performancegradle)*/
     }
 }
 

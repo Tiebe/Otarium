@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.compose)
     id(libs.plugins.buildkonfig.get().pluginId)
     id(libs.plugins.mokoresources.get().pluginId)
-    id(libs.plugins.google.services.get().pluginId)
+    //id(libs.plugins.google.services.get().pluginId)
 }
 
 version = libs.versions.app.version.string.get()
@@ -23,7 +23,7 @@ android {
         minSdk = libs.versions.android.sdk.min.get().toInt()
     }
 
-    namespace = "nl.tiebe.otarium"
+    namespace = "dev.tiebe.otarium"
 
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -112,7 +112,7 @@ kotlin {
 }
 
 buildkonfig {
-    packageName = "nl.tiebe.otarium"
+    packageName = "dev.tiebe.otarium"
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", libs.versions.app.version.code.get())
@@ -120,5 +120,5 @@ buildkonfig {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "nl.tiebe.otarium"
+    multiplatformResourcesPackage = "dev.tiebe.otarium"
 }
