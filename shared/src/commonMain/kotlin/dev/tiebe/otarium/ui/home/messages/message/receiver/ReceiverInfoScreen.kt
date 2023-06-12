@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.messages.MessageData
-import dev.tiebe.otarium.logic.home.children.messages.children.message.children.ReceiverInfoComponent
+import dev.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
 
 @Composable
 internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {

@@ -1,14 +1,18 @@
 package dev.tiebe.otarium.logic.root.home.children.timetable
 
-import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import dev.tiebe.otarium.logic.root.home.HomeComponent
 import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
-interface TimetableRootComponent : _root_ide_package_.dev.tiebe.otarium.logic.default.home.MenuItemComponent {
+interface TimetableRootComponent : HomeComponent.MenuItemComponent {
     val navigation: StackNavigation<Config>
     val childStack: Value<ChildStack<Config, Child>>
 

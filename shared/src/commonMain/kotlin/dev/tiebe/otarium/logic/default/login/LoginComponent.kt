@@ -12,7 +12,6 @@ import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.magister.exchangeUrl
 import dev.tiebe.otarium.magister.refreshGrades
 import dev.tiebe.otarium.store.component.home.StoreHomeComponent
-import dev.tiebe.otarium.logic.default.RootComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.logic.default.home.DefaultHomeComponent
 import dev.tiebe.otarium.logic.root.RootComponent

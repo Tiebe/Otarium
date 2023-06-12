@@ -15,13 +15,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.default.home.HomeComponent
-import dev.tiebe.otarium.logic.home.children.debug.DebugComponent
-import dev.tiebe.otarium.logic.home.children.elo.ELOComponent
-import dev.tiebe.otarium.logic.home.children.grades.GradesComponent
-import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
-import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
-import dev.tiebe.otarium.logic.home.children.timetable.TimetableRootComponent
+import dev.tiebe.otarium.logic.root.home.HomeComponent
+import dev.tiebe.otarium.logic.root.home.children.debug.DebugComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.ELOComponent
+import dev.tiebe.otarium.logic.root.home.children.grades.GradesComponent
+import dev.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import dev.tiebe.otarium.ui.home.debug.DebugScreen
 import dev.tiebe.otarium.ui.home.elo.ELOScreen
 import dev.tiebe.otarium.ui.home.grades.GradesScreen
@@ -72,6 +72,3 @@ internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
         }
     }
 }
-
-@Composable
-internal expect fun Ads()

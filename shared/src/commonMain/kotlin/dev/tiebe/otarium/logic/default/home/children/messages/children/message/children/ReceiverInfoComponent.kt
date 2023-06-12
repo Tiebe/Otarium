@@ -2,12 +2,12 @@ package dev.tiebe.otarium.logic.default.home.children.messages.children.message.
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.MessageData
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 

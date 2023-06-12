@@ -10,13 +10,14 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.logic.root.RootComponent
+import dev.tiebe.otarium.logic.root.home.HomeComponent
 import dev.tiebe.otarium.logic.root.home.children.settings.children.main.MainChildComponent
 import dev.tiebe.otarium.logic.root.home.children.settings.children.ui.UIChildComponent
 import dev.tiebe.otarium.logic.root.home.children.settings.children.ui.children.colors.ColorChildComponent
 import dev.tiebe.otarium.logic.root.home.children.settings.children.users.UserChildComponent
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 
-interface SettingsComponent: _root_ide_package_.dev.tiebe.otarium.logic.default.home.MenuItemComponent {
+interface SettingsComponent: HomeComponent.MenuItemComponent {
     val navigation: StackNavigation<Config>
     val childStack: Value<ChildStack<Config, Child>>
 

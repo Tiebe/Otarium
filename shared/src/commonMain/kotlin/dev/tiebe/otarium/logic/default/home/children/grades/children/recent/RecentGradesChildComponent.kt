@@ -2,15 +2,15 @@ package dev.tiebe.otarium.logic.default.home.children.grades.children.recent
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.magister.getRecentGrades
-import dev.tiebe.otarium.logic.home.children.grades.GradesChildComponent
-import dev.tiebe.otarium.logic.home.children.grades.children.calculation.calculateAverageGrade
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.grades.children.recent.RecentGradesChildComponent
+import dev.tiebe.otarium.magister.getRecentGrades
+import dev.tiebe.otarium.utils.calculateAverageGrade
+import kotlinx.coroutines.launch
+
 class DefaultRecentGradesChildComponent(componentContext: ComponentContext) : RecentGradesChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
     private val scope = componentCoroutineScope()

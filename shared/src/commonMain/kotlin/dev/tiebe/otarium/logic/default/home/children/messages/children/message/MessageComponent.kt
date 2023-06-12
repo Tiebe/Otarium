@@ -2,19 +2,19 @@ package dev.tiebe.otarium.logic.default.home.children.messages.children.message
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Attachment
 import dev.tiebe.magisterapi.response.messages.MessageData
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 import dev.tiebe.otarium.utils.openFileFromCache
 import dev.tiebe.otarium.utils.requestGET
 import dev.tiebe.otarium.utils.writeFile
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 
 class DefaultMessageComponent(
     componentContext: ComponentContext, override val messageLink: String,

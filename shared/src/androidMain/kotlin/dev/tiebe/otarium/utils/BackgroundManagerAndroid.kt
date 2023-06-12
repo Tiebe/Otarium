@@ -16,10 +16,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
-import kotlinx.coroutines.runBlocking
+import dev.tiebe.otarium.R
 import dev.tiebe.otarium.magister.refreshGrades
 import dev.tiebe.otarium.utils.ui.Android
-import dev.tiebe.otarium.R
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 
 actual fun reloadTokensBackground(delay: Long) {
@@ -35,7 +35,7 @@ fun setupTokenBackgroundTask(context: Context, delay: Long = 0) {
                     .build()
             ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork("tokens", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("tokens", ExistingPeriodicWorkPolicy.UPDATE, backgroundRequest)
     } else {
         //TODO: android version below oreo
     }
@@ -54,7 +54,7 @@ fun setupGradesBackgroundTask(context: Context, delay: Long = 0) {
                 .build()
         ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.REPLACE, backgroundRequest)
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("grades", ExistingPeriodicWorkPolicy.UPDATE, backgroundRequest)
     } else {
         //TODO: android version below oreo
     }

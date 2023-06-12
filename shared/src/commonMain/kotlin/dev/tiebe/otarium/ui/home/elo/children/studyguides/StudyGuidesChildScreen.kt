@@ -6,19 +6,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material3.Surface
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.pop
-import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
-import kotlinx.coroutines.launch
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
 import dev.tiebe.otarium.ui.home.elo.children.studyguides.folder.StudyGuideFolderScreen
 import dev.tiebe.otarium.ui.home.elo.children.studyguides.listscreen.StudyGuideListScreen
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

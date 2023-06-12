@@ -86,6 +86,9 @@ kotlin {
                 implementation(libs.guava.core)
                 implementation(libs.guava.coroutines)
 
+                implementation(libs.android.appcompat)
+                implementation(libs.androidx.work)
+
             }
         }
         val iosMain by getting {

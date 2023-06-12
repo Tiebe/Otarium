@@ -2,17 +2,15 @@ package dev.tiebe.otarium.logic.default.home.children.elo.children.assignments.c
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.api.general.GeneralFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
-import io.ktor.http.*
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentChildScreen
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.list.AssignmentListComponent
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 
 class DefaultAssignmentListComponent(
     componentContext: ComponentContext,

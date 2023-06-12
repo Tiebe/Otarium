@@ -2,22 +2,20 @@ package dev.tiebe.otarium.logic.default.home.children.elo.children.assignments.c
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import dev.tiebe.magisterapi.response.assignment.FeedbackBijlagen
 import dev.tiebe.magisterapi.response.assignment.LeerlingBijlagen
-import io.ktor.client.statement.readBytes
-import io.ktor.http.URLBuilder
-import io.ktor.http.Url
-import io.ktor.http.appendEncodedPathSegments
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import dev.tiebe.otarium.utils.openFileFromCache
 import dev.tiebe.otarium.utils.requestGET
 import dev.tiebe.otarium.utils.writeFile
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 
 class DefaultAssignmentScreenComponent(componentContext: ComponentContext, override val assignmentLink: String): AssignmentScreenComponent, ComponentContext by componentContext {
     override val assignment: MutableValue<Assignment> = MutableValue(Assignment(false, null, "", listOf(), null, 0, null, "", 0, listOf(), false, "", false, 0, "", "", listOf(), false))

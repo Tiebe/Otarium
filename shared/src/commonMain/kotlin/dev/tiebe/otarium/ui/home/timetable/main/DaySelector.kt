@@ -17,12 +17,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.TimetableComponent
-import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.days
+import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
+import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
+import dev.tiebe.otarium.ui.utils.tabIndicatorOffset
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
-import dev.tiebe.otarium.ui.utils.tabIndicatorOffset
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

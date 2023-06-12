@@ -34,12 +34,12 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.pop
 import dev.icerock.moko.resources.compose.stringResource
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import dev.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import dev.tiebe.otarium.ui.home.messages.message.MessageScreen
 import dev.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

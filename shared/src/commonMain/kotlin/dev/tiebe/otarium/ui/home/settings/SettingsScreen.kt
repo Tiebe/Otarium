@@ -21,7 +21,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
 import dev.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
 import dev.tiebe.otarium.ui.home.settings.items.ui.UIChildScreen
 import dev.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildScreen

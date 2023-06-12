@@ -15,10 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.pop
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
-import kotlinx.coroutines.launch
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
 import dev.tiebe.otarium.ui.home.elo.children.assignments.assignment.AssignmentScreen
 import dev.tiebe.otarium.ui.home.elo.children.assignments.listscreen.AssignmentListScreen
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

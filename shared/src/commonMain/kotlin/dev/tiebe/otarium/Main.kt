@@ -16,11 +16,11 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.russhwolf.settings.Settings
+import dev.tiebe.otarium.logic.default.DefaultRootComponent
+import dev.tiebe.otarium.logic.root.RootComponent
 import dev.tiebe.otarium.ui.home.HomeScreen
 import dev.tiebe.otarium.ui.login.LoginScreen
 import dev.tiebe.otarium.ui.onboarding.OnboardingScreen
-import dev.tiebe.otarium.logic.default.DefaultRootComponent
-import dev.tiebe.otarium.logic.default.RootComponent
 import dev.tiebe.otarium.ui.theme.OtariumTheme
 import dev.tiebe.otarium.utils.versions.runVersionCheck
 

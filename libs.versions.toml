@@ -9,6 +9,8 @@ ios_target = "11.0"
 
 magister = "1.1.10-alpha03"
 
+work-android = "2.8.1"
+
 kotlin = "1.8.0"
 gradle = "7.4.1"
 appcompat = "1.6.1"
@@ -89,6 +91,8 @@ color-math = { group = "com.github.ajalt.colormath", name = "colormath", version
 
 guava-core = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 guava-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "guava-coroutines" }
+
+androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-android" }
 
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }

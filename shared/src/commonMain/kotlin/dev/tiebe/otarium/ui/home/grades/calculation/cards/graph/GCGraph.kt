@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.magister.GradeWithGradeInfo
 import dev.tiebe.otarium.magister.ManualGrade
-import dev.tiebe.otarium.logic.home.children.grades.children.calculation.calculateAverage
-import dev.tiebe.otarium.logic.home.children.grades.children.calculation.calculateAverageGrade
+import dev.tiebe.otarium.utils.calculateAverage
+import dev.tiebe.otarium.utils.calculateAverageGrade
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalTextApi::class)

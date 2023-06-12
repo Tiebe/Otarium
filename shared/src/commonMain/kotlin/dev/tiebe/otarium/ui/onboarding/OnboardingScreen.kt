@@ -12,10 +12,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import dev.tiebe.otarium.logic.default.onboarding.OnboardingComponent
-import kotlinx.coroutines.launch
+import dev.tiebe.otarium.logic.root.onboarding.OnboardingComponent
 import dev.tiebe.otarium.ui.onboarding.sections.BottomSection
 import dev.tiebe.otarium.ui.onboarding.sections.TopSection
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)

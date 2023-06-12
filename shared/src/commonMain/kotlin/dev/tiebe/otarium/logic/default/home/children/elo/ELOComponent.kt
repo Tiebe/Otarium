@@ -2,16 +2,13 @@ package dev.tiebe.otarium.logic.default.home.children.elo
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
-import dev.tiebe.otarium.logic.default.home.MenuItemComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.assignments.DefaultAssignmentsChildComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.learningresources.DefaultLearningResourcesChildComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.learningresources.LearningResourcesChildComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.DefaultStudyGuidesChildComponent
-import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.assignments.DefaultAssignmentsChildComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.learningresources.DefaultLearningResourcesChildComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.DefaultStudyGuidesChildComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.ELOComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.learningresources.LearningResourcesChildComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
 class DefaultELOComponent(
     componentContext: ComponentContext
