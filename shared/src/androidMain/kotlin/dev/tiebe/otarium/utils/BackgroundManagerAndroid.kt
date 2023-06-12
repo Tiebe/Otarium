@@ -19,6 +19,8 @@ import com.google.common.util.concurrent.ListenableFuture
 import dev.tiebe.otarium.R
 import dev.tiebe.otarium.magister.refreshGrades
 import dev.tiebe.otarium.utils.ui.Android
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 
@@ -89,7 +91,7 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
     @SuppressLint("RestrictedApi")
     override fun startWork(): ListenableFuture<Result> {
         val data = Data.Builder()
-        sendDebugNotification(applicationContext, "Refreshing grades", "Refreshing your grades")
+        //sendDebugNotification(applicationContext, "Refreshing grades", "Refreshing your grades")
 
         runBlocking {
             dev.tiebe.otarium.Data.selectedAccount.refreshGrades { title, message ->
@@ -100,7 +102,15 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
                 )
             }
 
-            sendDebugNotification(applicationContext, "Grades refreshed", "Your grades have been refreshed")
+            if (client.get("https://test-grades-update.groosman.workers.dev/").bodyAsText() == "true") {
+                sendDebugNotification(
+                    applicationContext,
+                    "Test grade received!",
+                    "Magicccc"
+                )
+            }
+
+            //sendDebugNotification(applicationContext, "Grades refreshed", "Your grades have been refreshed")
         }
 
         return Futures.immediateFuture(Result.success(data.build()))
@@ -131,21 +141,19 @@ fun sendNotificationAndroid(context: Context, title: String, message: String) {
         .setGroup(System.currentTimeMillis().toString())
         .setColor(Color(dev.tiebe.otarium.Data.customDarkTheme.primary).toArgb())
 
-    with(NotificationManagerCompat.from(context)) {
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        notify(System.currentTimeMillis().toInt(), builder.build())
+    if (ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.POST_NOTIFICATIONS
+        ) != PackageManager.PERMISSION_GRANTED
+    ) {
+        // TODO: Consider calling
+        //    ActivityCompat#requestPermissions
+        // here to request the missing permissions, and then overriding
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        // for ActivityCompat#requestPermissions for more details.
+        return
     }
+    NotificationManagerCompat.from(context).notify(System.currentTimeMillis().toInt(), builder.build())
 }
