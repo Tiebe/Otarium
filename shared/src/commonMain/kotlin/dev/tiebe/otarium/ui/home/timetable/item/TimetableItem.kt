@@ -18,8 +18,8 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import kotlinx.datetime.*
 import dev.tiebe.otarium.magister.getAgendaForDay
-import dev.tiebe.otarium.ui.home.timetable.main.TimetableComponent
-import dev.tiebe.otarium.ui.home.timetable.main.days
+import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.TimetableComponent
+import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.days
 import dev.tiebe.otarium.ui.utils.parseHtml
 import dev.tiebe.otarium.ui.utils.topBottomRectBorder
 import kotlin.math.floor

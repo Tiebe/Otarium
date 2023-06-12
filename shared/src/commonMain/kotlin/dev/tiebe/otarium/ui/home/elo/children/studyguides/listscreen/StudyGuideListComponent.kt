@@ -11,9 +11,9 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuideChildScreen
-import dev.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesChildComponent
-import dev.tiebe.otarium.ui.root.componentCoroutineScope
+import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuideChildScreen
+import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.toFormattedString
 
 interface StudyGuideListComponent : StudyGuideChildScreen {

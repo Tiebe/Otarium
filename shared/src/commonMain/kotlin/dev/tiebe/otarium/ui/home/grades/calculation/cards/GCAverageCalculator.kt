@@ -32,8 +32,8 @@ import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.magister.GradeWithGradeInfo
 import dev.tiebe.otarium.magister.ManualGrade
-import dev.tiebe.otarium.ui.home.grades.calculation.calculateAverage
-import dev.tiebe.otarium.ui.home.grades.calculation.calculateNew
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.calculateAverage
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.calculateNew
 import dev.tiebe.otarium.utils.ui.format
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 

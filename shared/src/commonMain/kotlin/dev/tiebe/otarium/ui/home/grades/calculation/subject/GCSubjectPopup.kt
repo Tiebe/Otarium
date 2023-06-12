@@ -37,8 +37,8 @@ import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.magister.GradeWithGradeInfo
-import dev.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
-import dev.tiebe.otarium.ui.home.grades.calculation.calculateAverage
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.GradeCalculationChildComponent
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.calculateAverage
 import dev.tiebe.otarium.ui.home.grades.calculation.cards.GCAverageCalculator
 import dev.tiebe.otarium.ui.home.grades.calculation.cards.graph.GCGraph
 import dev.tiebe.otarium.ui.utils.BackButton

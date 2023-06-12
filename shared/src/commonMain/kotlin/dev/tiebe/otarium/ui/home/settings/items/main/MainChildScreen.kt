@@ -11,7 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.ui.home.settings.SettingsComponent
+import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.home.children.settings.children.main.MainChildComponent
 import dev.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import dev.tiebe.otarium.utils.OtariumIcons
 import dev.tiebe.otarium.utils.otariumicons.Advertisements

@@ -9,36 +9,34 @@ import com.arkivanov.decompose.value.Value
 import dev.tiebe.otarium.store.component.home.children.StoreTimetableComponent
 import dev.tiebe.otarium.store.component.home.children.grades.StoreGradeComponent
 import dev.tiebe.otarium.store.component.home.children.settings.StoreSettingsComponent
-import dev.tiebe.otarium.ui.home.HomeComponent
-import dev.tiebe.otarium.ui.home.MenuItemComponent
-import dev.tiebe.otarium.ui.home.debug.DefaultDebugComponent
-import dev.tiebe.otarium.ui.home.elo.DefaultELOComponent
-import dev.tiebe.otarium.ui.home.messages.DefaultMessagesComponent
-import dev.tiebe.otarium.ui.root.RootComponent
+import dev.tiebe.otarium.logic.home.children.debug.DefaultDebugComponent
+import dev.tiebe.otarium.logic.home.children.elo.DefaultELOComponent
+import dev.tiebe.otarium.logic.home.children.messages.DefaultMessagesComponent
+import dev.tiebe.otarium.logic.default.RootComponent
 
 class StoreHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
-): HomeComponent, ComponentContext by componentContext {
-    private val dialogNavigation = SlotNavigation<HomeComponent.MenuItem>()
+): _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent, ComponentContext by componentContext {
+    private val dialogNavigation = SlotNavigation<_root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem>()
 
-    override val visibleItems: List<HomeComponent.MenuItem> = listOf(
-        HomeComponent.MenuItem.Timetable,
-        HomeComponent.MenuItem.Grades,
-        HomeComponent.MenuItem.Settings
+    override val visibleItems: List<_root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem> = listOf(
+        _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Timetable,
+        _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Grades,
+        _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Settings
     )
 
-    override val dialog: Value<ChildSlot<HomeComponent.MenuItem, MenuItemComponent>> = childSlot<HomeComponent.MenuItem, MenuItemComponent>(
+    override val dialog: Value<ChildSlot<_root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem, _root_ide_package_.dev.tiebe.otarium.logic.default.home.MenuItemComponent>> = childSlot<_root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem, _root_ide_package_.dev.tiebe.otarium.logic.default.home.MenuItemComponent>(
         dialogNavigation,
-        "DefaultChildOverlay", { HomeComponent.MenuItem.Timetable },
+        "DefaultChildOverlay", { _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Timetable },
         persistent = true,
         handleBackButton = false
     ) { config, componentContext ->
         when (config) {
-            is HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
-            is HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
-            is HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
-            is HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
-            is HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
-            is HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
+            is _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Timetable -> timetableComponent(componentContext)
+            is _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Grades -> gradesComponent(componentContext)
+            is _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Messages -> messagesComponent(componentContext)
+            is _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Settings -> settingsComponent(componentContext)
+            is _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.Debug -> debugComponent(componentContext)
+            is _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem.ELO -> eloComponent(componentContext)
         }
     }
 
@@ -75,7 +73,7 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
             navigateRootComponent = navigateRootComponent
         )
 
-    override fun navigate(item: HomeComponent.MenuItem) {
+    override fun navigate(item: _root_ide_package_.dev.tiebe.otarium.logic.default.home.HomeComponent.MenuItem) {
         dialogNavigation.activate(item)
     }
 }

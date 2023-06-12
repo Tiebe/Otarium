@@ -4,9 +4,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.otarium.store.component.home.children.grades.children.StoreGradeCalculationChildComponent
 import dev.tiebe.otarium.store.component.home.children.grades.children.StoreRecentGradesChildComponent
-import dev.tiebe.otarium.ui.home.grades.GradesComponent
-import dev.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
-import dev.tiebe.otarium.ui.home.grades.recentgrades.RecentGradesChildComponent
+import dev.tiebe.otarium.logic.home.children.grades.GradesComponent
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.GradeCalculationChildComponent
+import dev.tiebe.otarium.logic.home.children.grades.children.recent.RecentGradesChildComponent
 
 class StoreGradeComponent(
     componentContext: ComponentContext

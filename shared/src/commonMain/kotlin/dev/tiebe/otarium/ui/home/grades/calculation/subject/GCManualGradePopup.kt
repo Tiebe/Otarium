@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.magister.ManualGrade
-import dev.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.GradeCalculationChildComponent
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 
 

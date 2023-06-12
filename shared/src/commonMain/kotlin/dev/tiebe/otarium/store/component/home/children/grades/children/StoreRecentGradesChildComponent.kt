@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.ui.home.grades.recentgrades.RecentGradesChildComponent
-import dev.tiebe.otarium.ui.root.componentCoroutineScope
+import dev.tiebe.otarium.logic.home.children.grades.children.recent.RecentGradesChildComponent
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.ui.getText
 
 class StoreRecentGradesChildComponent(componentContext: ComponentContext) : RecentGradesChildComponent, ComponentContext by componentContext {

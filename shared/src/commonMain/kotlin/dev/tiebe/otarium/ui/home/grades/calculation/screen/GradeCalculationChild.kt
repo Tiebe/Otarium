@@ -3,7 +3,7 @@ package dev.tiebe.otarium.ui.home.grades.calculation.screen
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.GradeCalculationChildComponent
 import dev.tiebe.otarium.ui.home.grades.calculation.subject.GCSubjectList
 
 @Composable

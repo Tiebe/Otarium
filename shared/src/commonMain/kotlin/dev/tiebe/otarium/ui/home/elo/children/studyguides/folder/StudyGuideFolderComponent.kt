@@ -11,7 +11,7 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.ui.root.componentCoroutineScope
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.openFileFromCache
 import dev.tiebe.otarium.utils.requestGET
 import dev.tiebe.otarium.utils.writeFile
