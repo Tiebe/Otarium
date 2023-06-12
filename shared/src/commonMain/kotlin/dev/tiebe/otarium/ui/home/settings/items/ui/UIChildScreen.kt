@@ -14,7 +14,8 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.ui.home.settings.SettingsComponent
+import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.home.children.settings.children.ui.UIChildComponent
 import dev.tiebe.otarium.ui.home.settings.utils.SettingRow
 import dev.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import dev.tiebe.otarium.ui.home.settings.utils.SettingSlider

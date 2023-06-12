@@ -17,8 +17,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
+import dev.tiebe.otarium.logic.home.children.debug.DebugComponent
 import dev.tiebe.otarium.magister.refreshGrades
 import dev.tiebe.otarium.setupNotifications
 import dev.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
@@ -28,6 +28,7 @@ import dev.tiebe.otarium.utils.getClipboardText
 import dev.tiebe.otarium.utils.otariumicons.BugOutline
 import dev.tiebe.otarium.utils.refreshGradesBackground
 import dev.tiebe.otarium.utils.sendNotification
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @Composable

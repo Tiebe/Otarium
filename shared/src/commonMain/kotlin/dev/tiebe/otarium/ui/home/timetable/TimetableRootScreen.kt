@@ -13,6 +13,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.essenty.backhandler.BackCallback
+import dev.tiebe.otarium.logic.home.children.timetable.TimetableRootComponent
 import kotlinx.coroutines.launch
 import dev.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
 import dev.tiebe.otarium.ui.home.timetable.main.TimetableScreen

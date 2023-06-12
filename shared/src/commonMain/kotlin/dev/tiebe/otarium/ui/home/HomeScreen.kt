@@ -1,36 +1,32 @@
 package dev.tiebe.otarium.ui.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.ui.home.debug.DebugComponent
+import dev.tiebe.otarium.logic.default.home.HomeComponent
+import dev.tiebe.otarium.logic.home.children.debug.DebugComponent
+import dev.tiebe.otarium.logic.home.children.elo.ELOComponent
+import dev.tiebe.otarium.logic.home.children.grades.GradesComponent
+import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.home.children.timetable.TimetableRootComponent
 import dev.tiebe.otarium.ui.home.debug.DebugScreen
-import dev.tiebe.otarium.ui.home.elo.ELOComponent
 import dev.tiebe.otarium.ui.home.elo.ELOScreen
-import dev.tiebe.otarium.ui.home.grades.GradesComponent
 import dev.tiebe.otarium.ui.home.grades.GradesScreen
-import dev.tiebe.otarium.ui.home.messages.MessagesComponent
 import dev.tiebe.otarium.ui.home.messages.MessagesScreen
-import dev.tiebe.otarium.ui.home.settings.SettingsComponent
 import dev.tiebe.otarium.ui.home.settings.SettingsScreen
-import dev.tiebe.otarium.ui.home.timetable.TimetableRootComponent
 import dev.tiebe.otarium.ui.home.timetable.TimetableRootScreen
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 
@@ -45,29 +41,21 @@ internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
     Scaffold(
         contentWindowInsets = windowInsets,
         bottomBar = {
-            Column {
-                NavigationBar(windowInsets = if (adsShown.value) WindowInsets(0, 0, 0, 0) else NavigationBarDefaults.windowInsets) {
-                    component.visibleItems.forEach { screen ->
-                        NavigationBarItem(
-                            icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
-                            label = {
-                                Text(
-                                    getLocalizedString(screen.resourceId),
-                                    modifier = Modifier.wrapContentWidth(unbounded = true)
-                                )
-                            },
-                            selected = overlay.configuration == screen,
-                            onClick = {
-                                component.navigate(screen)
-                            }
-                        )
-                    }
-                }
-
-                if (adsShown.value) {
-                    Surface(modifier = Modifier.height(50.dp), color = NavigationBarDefaults.containerColor, tonalElevation = NavigationBarDefaults.Elevation) {
-                        Ads()
-                    }
+            NavigationBar {
+                component.visibleItems.forEach { screen ->
+                    NavigationBarItem(
+                        icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
+                        label = {
+                            Text(
+                                getLocalizedString(screen.resourceId),
+                                modifier = Modifier.wrapContentWidth(unbounded = true)
+                            )
+                        },
+                        selected = overlay.configuration == screen,
+                        onClick = {
+                            component.navigate(screen)
+                        }
+                    )
                 }
             }
         }

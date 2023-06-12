@@ -13,12 +13,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import dev.tiebe.otarium.ui.home.messages.MessagesComponent
-import dev.tiebe.otarium.ui.home.messages.folder.DefaultFolderComponent
-import dev.tiebe.otarium.ui.home.messages.message.DefaultMessageComponent
-import dev.tiebe.otarium.ui.home.messages.message.receiver.DefaultReceiverInfoComponent
-import dev.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoComponent
-import dev.tiebe.otarium.ui.root.componentCoroutineScope
+import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.home.children.messages.children.folder.DefaultFolderComponent
+import dev.tiebe.otarium.logic.home.children.messages.children.message.DefaultMessageComponent
+import dev.tiebe.otarium.logic.home.children.messages.children.message.children.DefaultReceiverInfoComponent
+import dev.tiebe.otarium.logic.home.children.messages.children.message.children.ReceiverInfoComponent
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
 
 class StoreMessagesComponent(
     componentContext: ComponentContext

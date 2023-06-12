@@ -13,6 +13,7 @@ import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.MR
+import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import dev.tiebe.otarium.ui.utils.DownloadIndicator
 import dev.tiebe.otarium.ui.utils.parseHtml
 import dev.tiebe.otarium.utils.OtariumIcons

@@ -22,6 +22,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.MR
+import dev.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.ColorChildComponent
 import dev.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import dev.tiebe.otarium.ui.home.settings.utils.SettingsColorPicker
 import dev.tiebe.otarium.ui.home.settings.utils.SettingsRowToggle

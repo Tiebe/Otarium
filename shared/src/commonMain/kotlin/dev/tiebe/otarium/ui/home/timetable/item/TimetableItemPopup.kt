@@ -17,7 +17,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.ui.home.timetable.main.TimetableComponent
+import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.TimetableComponent
 import dev.tiebe.otarium.ui.utils.BackButton
 import dev.tiebe.otarium.ui.utils.ClickableText
 import dev.tiebe.otarium.ui.utils.parseHtml

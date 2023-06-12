@@ -19,8 +19,8 @@ import com.russhwolf.settings.Settings
 import dev.tiebe.otarium.ui.home.HomeScreen
 import dev.tiebe.otarium.ui.login.LoginScreen
 import dev.tiebe.otarium.ui.onboarding.OnboardingScreen
-import dev.tiebe.otarium.ui.root.DefaultRootComponent
-import dev.tiebe.otarium.ui.root.RootComponent
+import dev.tiebe.otarium.logic.default.DefaultRootComponent
+import dev.tiebe.otarium.logic.default.RootComponent
 import dev.tiebe.otarium.ui.theme.OtariumTheme
 import dev.tiebe.otarium.utils.versions.runVersionCheck
 
@@ -47,18 +47,16 @@ internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = 
             modifier = Modifier.fillMaxSize()
                 .background(MaterialTheme.colorScheme.primary)
         ) {}
-        Box() {
-            val currentScreen by component.currentScreen.subscribeAsState()
+        val currentScreen by component.currentScreen.subscribeAsState()
 
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
-            ) {
-                when (val screen = currentScreen) {
-                    is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component, padding)
-                    is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
-                    is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component)
-                }
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            when (val screen = currentScreen) {
+                is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component, padding)
+                is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
+                is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component)
             }
         }
     }

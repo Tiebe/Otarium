@@ -29,6 +29,7 @@ import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
+import dev.tiebe.otarium.logic.home.children.grades.children.recent.RecentGradesChildComponent
 import dev.tiebe.otarium.ui.utils.topBottomRectBorder
 import dev.tiebe.otarium.utils.toFormattedString
 import dev.tiebe.otarium.utils.ui.format

@@ -14,16 +14,15 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.magister.AgendaItemWithAbsence
-import dev.tiebe.otarium.ui.home.MenuItemComponent
-import dev.tiebe.otarium.ui.home.timetable.main.TimetableComponent
-import dev.tiebe.otarium.ui.home.timetable.main.days
-import dev.tiebe.otarium.ui.root.componentCoroutineScope
+import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.TimetableComponent
+import dev.tiebe.otarium.logic.home.children.timetable.children.timetable.days
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.ui.getText
 import kotlin.math.floor
 
 class StoreTimetableComponent(
     componentContext: ComponentContext
-): TimetableComponent, MenuItemComponent, ComponentContext by componentContext {
+): TimetableComponent, _root_ide_package_.dev.tiebe.otarium.logic.default.home.MenuItemComponent, ComponentContext by componentContext {
     override val now: MutableValue<LocalDateTime> =
         MutableValue(Clock.System.now()
             .minus(Clock.System.now() - LocalDateTime(2023, 5, 8, 0, 0, 0).toInstant(TimeZone.of("Europe/Amsterdam")))

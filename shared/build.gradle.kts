@@ -49,10 +49,6 @@ kotlin {
             baseName = "shared"
             isStatic = false
         }
-
-        pod("Google-Mobile-Ads-SDK") {
-            moduleName = "GoogleMobileAds"
-        }
     }
     sourceSets {
         val commonMain by getting {
@@ -86,8 +82,6 @@ kotlin {
                 implementation(libs.ktor.client.logging.jvm)
                 implementation(libs.ktor.client.json.jvm)
                 implementation(libs.ktor.client.android)
-
-                implementation(libs.admob)
 
                 implementation(libs.guava.core)
                 implementation(libs.guava.coroutines)

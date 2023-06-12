@@ -13,8 +13,9 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.toLocalDateTime
 import dev.tiebe.otarium.MR
-import dev.tiebe.otarium.ui.home.messages.MessagesComponent
-import dev.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoComponent
+import dev.tiebe.otarium.logic.home.children.messages.MessagesComponent
+import dev.tiebe.otarium.logic.home.children.messages.children.message.MessageComponent
+import dev.tiebe.otarium.logic.home.children.messages.children.message.children.ReceiverInfoComponent
 import dev.tiebe.otarium.ui.utils.DownloadIndicator
 import dev.tiebe.otarium.utils.otariumicons.Email
 import dev.tiebe.otarium.utils.OtariumIcons

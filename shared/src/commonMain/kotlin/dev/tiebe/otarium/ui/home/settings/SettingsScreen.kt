@@ -21,8 +21,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.tiebe.otarium.ui.home.settings.items.ads.AdsChildScreen
-import dev.tiebe.otarium.ui.home.settings.items.bugs.BugsChildScreen
+import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
 import dev.tiebe.otarium.ui.home.settings.items.main.MainChildScreen
 import dev.tiebe.otarium.ui.home.settings.items.ui.UIChildScreen
 import dev.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildScreen
@@ -99,9 +98,7 @@ internal fun SettingsScreenChild(
         Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
             when (val child = screen.instance) {
                 is SettingsComponent.Child.MainChild -> MainChildScreen(child.component)
-                is SettingsComponent.Child.AdsChild -> AdsChildScreen(child.component)
                 is SettingsComponent.Child.UsersChild -> UserChildScreen(child.component)
-                is SettingsComponent.Child.BugsChild -> BugsChildScreen()
                 is SettingsComponent.Child.UIChild -> UIChildScreen(child.component)
                 is SettingsComponent.Child.ColorChild -> ColorChildScreen(child.component)
             }

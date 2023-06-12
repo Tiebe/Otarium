@@ -8,7 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.Data
-import dev.tiebe.otarium.ui.home.settings.items.ui.colors.colorSchemeChanged
+import dev.tiebe.otarium.logic.default.home.children.settings.children.ui.children.colors.colorSchemeChanged
 
 @Composable
 internal fun OtariumTheme(

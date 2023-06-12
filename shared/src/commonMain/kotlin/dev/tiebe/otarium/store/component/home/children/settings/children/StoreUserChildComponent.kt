@@ -7,10 +7,10 @@ import dev.tiebe.magisterapi.response.profileinfo.Person
 import dev.tiebe.magisterapi.response.profileinfo.ProfileInfo
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.magister.MagisterAccount
-import dev.tiebe.otarium.ui.home.settings.SettingsComponent
-import dev.tiebe.otarium.ui.home.settings.items.users.UserChildComponent
-import dev.tiebe.otarium.ui.login.DefaultLoginComponent
-import dev.tiebe.otarium.ui.root.RootComponent
+import dev.tiebe.otarium.logic.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.logic.home.children.settings.children.users.UserChildComponent
+import dev.tiebe.otarium.logic.login.DefaultLoginComponent
+import dev.tiebe.otarium.logic.default.RootComponent
 
 class StoreUserChildComponent(
     componentContext: ComponentContext,
@@ -58,7 +58,8 @@ class StoreUserChildComponent(
 
     override val openLoginScreen: () -> Unit = {
         Data.storeLoginBypass = false
-        navigateRootComponent(RootComponent.ChildScreen.LoginChild(
+        navigateRootComponent(
+            RootComponent.ChildScreen.LoginChild(
             DefaultLoginComponent(
                 componentContext = this,
                 navigateRootComponent

@@ -10,8 +10,8 @@ import kotlinx.serialization.json.Json
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.magister.ManualGrade
-import dev.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
-import dev.tiebe.otarium.ui.root.componentCoroutineScope
+import dev.tiebe.otarium.logic.home.children.grades.children.calculation.GradeCalculationChildComponent
+import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.ui.getText
 
 class StoreGradeCalculationChildComponent(componentContext: ComponentContext

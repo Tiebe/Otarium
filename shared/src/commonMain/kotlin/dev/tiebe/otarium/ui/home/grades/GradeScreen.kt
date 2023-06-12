@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import dev.tiebe.otarium.MR
+import dev.tiebe.otarium.logic.home.children.grades.GradesComponent
 import dev.tiebe.otarium.ui.home.grades.calculation.screen.GradeCalculationChild
 import dev.tiebe.otarium.ui.home.grades.recentgrades.RecentGradesChild
 import dev.tiebe.otarium.ui.utils.tabIndicatorOffset
