@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

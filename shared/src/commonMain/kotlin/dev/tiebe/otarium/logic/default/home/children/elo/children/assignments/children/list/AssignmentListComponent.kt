@@ -12,21 +12,7 @@ import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentChildScreen
 import dev.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
-
-interface AssignmentListComponent : AssignmentChildScreen {
-    val assignments: Value<List<Assignment>>
-    val parentComponent: AssignmentsChildComponent
-
-    val isRefreshing: Value<Boolean>
-
-    fun refreshAssignments()
-
-    fun navigateToAssignment(assignment: Assignment) {
-        parentComponent.navigate(AssignmentsChildComponent.Config.Assignment(assignment.links.first { it.rel == "Self" }.href))
-    }
-
-    val selectedTab: MutableValue<Int>
-}
+import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
 
 class DefaultAssignmentListComponent(
     componentContext: ComponentContext,

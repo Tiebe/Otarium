@@ -19,23 +19,6 @@ import dev.tiebe.otarium.utils.openFileFromCache
 import dev.tiebe.otarium.utils.requestGET
 import dev.tiebe.otarium.utils.writeFile
 
-interface AssignmentScreenComponent {
-    val assignment: Value<Assignment>
-    val versions: Value<List<AssignmentVersion>>
-
-    val assignmentLink: String
-
-    val isRefreshing: Value<Boolean>
-
-    fun refreshAssignment()
-
-    suspend fun getVersions(assignment: Assignment)
-    fun downloadAttachment(attachment: FeedbackBijlagen)
-
-    val attachmentDownloadProgress: Value<Map<Int, Float>>
-    fun downloadAttachment(attachment: LeerlingBijlagen)
-}
-
 class DefaultAssignmentScreenComponent(componentContext: ComponentContext, override val assignmentLink: String): AssignmentScreenComponent, ComponentContext by componentContext {
     override val assignment: MutableValue<Assignment> = MutableValue(Assignment(false, null, "", listOf(), null, 0, null, "", 0, listOf(), false, "", false, 0, "", "", listOf(), false))
     override val versions: MutableValue<List<AssignmentVersion>> = MutableValue(listOf())

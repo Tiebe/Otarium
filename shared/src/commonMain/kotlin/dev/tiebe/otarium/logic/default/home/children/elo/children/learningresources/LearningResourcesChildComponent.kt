@@ -13,28 +13,6 @@ import dev.tiebe.otarium.logic.home.children.elo.ELOChildComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.utils.openUrl
 
-interface LearningResourcesChildComponent : ELOChildComponent {
-    val learningResources: Value<List<LearningResource>>
-    val isRefreshing: Value<Boolean>
-
-    val scope: CoroutineScope
-
-    fun refreshLearningResources()
-
-    fun openLearningResource(learningResource: LearningResource) {
-        scope.launch {
-            val url = LearningResourceFlow.getLearningResourceUrl(
-                Url(Data.selectedAccount.tenantUrl),
-                Data.selectedAccount.tokens.accessToken,
-                learningResource.links.first { it.rel == "content" }.href
-            )
-
-            openUrl(url ?: return@launch)
-        }
-    }
-
-}
-
 class DefaultLearningResourcesChildComponent(componentContext: ComponentContext) : LearningResourcesChildComponent, ComponentContext by componentContext {
     override val learningResources: MutableValue<List<LearningResource>> = MutableValue(emptyList())
     override val isRefreshing: MutableValue<Boolean> = MutableValue(false)

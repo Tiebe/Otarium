@@ -18,37 +18,6 @@ import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.l
 import dev.tiebe.otarium.logic.home.children.elo.children.assignments.children.list.DefaultAssignmentListComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
 
-interface AssignmentsChildComponent : ELOChildComponent {
-    val navigation: StackNavigation<Config>
-    val childStack: Value<ChildStack<Config, Child>>
-
-    val refreshState: Value<Boolean>
-    val scope: CoroutineScope
-
-    fun navigate(child: Config) {
-        navigation.push(child)
-    }
-
-    sealed class Child {
-        class AssignmentList(val component: AssignmentListComponent) : Child()
-        class Assignment(val component: AssignmentScreenComponent) : Child()
-    }
-
-    sealed class Config : Parcelable {
-        @Parcelize
-        object AssignmentList : Config()
-
-        @Parcelize
-        data class Assignment(val assignmentLink: String) : Config()
-    }
-
-
-    val onBack: MutableValue<() -> Unit>
-
-    fun registerBackHandler()
-    fun unregisterBackHandler()
-}
-
 class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : AssignmentsChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 

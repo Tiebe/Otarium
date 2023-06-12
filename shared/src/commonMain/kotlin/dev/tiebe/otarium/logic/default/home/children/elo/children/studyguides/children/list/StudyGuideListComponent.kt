@@ -1,4 +1,4 @@
-package dev.tiebe.otarium.ui.home.elo.children.studyguides.listscreen
+package dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
@@ -14,20 +14,8 @@ import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuideChildScreen
 import dev.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
 import dev.tiebe.otarium.utils.toFormattedString
-
-interface StudyGuideListComponent : StudyGuideChildScreen {
-    val studyGuides: Value<List<StudyGuide>>
-    val parentComponent: StudyGuidesChildComponent
-
-    val isRefreshing: Value<Boolean>
-
-    fun refreshStudyGuides()
-
-    fun navigateToStudyGuide(studyGuide: StudyGuide) {
-        parentComponent.navigate(StudyGuidesChildComponent.Config.StudyGuide(studyGuide.links.first { it.rel == "Self" }.href))
-    }
-}
 
 class DefaultStudyGuideListComponent(
     componentContext: ComponentContext,

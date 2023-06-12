@@ -13,45 +13,11 @@ import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
 import kotlinx.coroutines.CoroutineScope
 import dev.tiebe.otarium.logic.home.children.elo.ELOChildComponent
-import dev.tiebe.otarium.ui.home.elo.children.studyguides.folder.DefaultStudyGuideFolderComponent
-import dev.tiebe.otarium.ui.home.elo.children.studyguides.folder.StudyGuideFolderComponent
-import dev.tiebe.otarium.ui.home.elo.children.studyguides.listscreen.DefaultStudyGuideListComponent
-import dev.tiebe.otarium.ui.home.elo.children.studyguides.listscreen.StudyGuideListComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.folder.DefaultStudyGuideFolderComponent
+import dev.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.DefaultStudyGuideListComponent
+import dev.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
-
-interface StudyGuidesChildComponent : ELOChildComponent {
-    val navigation: StackNavigation<Config>
-    val childStack: Value<ChildStack<Config, Child>>
-
-    val refreshState: Value<Boolean>
-    val scope: CoroutineScope
-
-    fun navigate(child: Config) {
-        navigation.push(child)
-    }
-
-    val studyGuides: Value<List<StudyGuide>>
-
-    sealed class Child {
-        class StudyGuideListChild(val component: StudyGuideListComponent) : Child()
-        class FolderChild(val component: StudyGuideFolderComponent) : Child()
-    }
-
-    sealed class Config : Parcelable {
-        @Parcelize
-        object StudyGuideList : Config()
-
-        @Parcelize
-        data class StudyGuide(val studyGuideLink: String) : Config()
-    }
-
-
-    val onBack: MutableValue<() -> Unit>
-
-    fun registerBackHandler()
-    fun unregisterBackHandler()
-
-}
 
 class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : StudyGuidesChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)

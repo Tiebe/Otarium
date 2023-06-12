@@ -2,7 +2,7 @@ package dev.tiebe.otarium.logic.root.home
 
 import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.otarium.logic.default.RootComponent
+import dev.tiebe.otarium.logic.root.RootComponent
 
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItems, MenuItemComponent>>

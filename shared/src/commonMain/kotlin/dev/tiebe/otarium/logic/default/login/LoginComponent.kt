@@ -14,6 +14,9 @@ import dev.tiebe.otarium.magister.refreshGrades
 import dev.tiebe.otarium.store.component.home.StoreHomeComponent
 import dev.tiebe.otarium.logic.default.RootComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
+import dev.tiebe.otarium.logic.default.home.DefaultHomeComponent
+import dev.tiebe.otarium.logic.root.RootComponent
+import dev.tiebe.otarium.logic.root.login.LoginComponent
 
 class DefaultLoginComponent(val componentContext: ComponentContext, val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): LoginComponent, ComponentContext by componentContext {
     override var loginUrl: LoginFlow.AuthURL = LoginFlow.createAuthURL()
@@ -22,7 +25,7 @@ class DefaultLoginComponent(val componentContext: ComponentContext, val navigate
     override fun navigateToHomeScreen() {
         navigateRootComponent(
             RootComponent.ChildScreen.HomeChild(
-            _root_ide_package_.dev.tiebe.otarium.logic.default.home.DefaultHomeComponent(
+            DefaultHomeComponent(
                 componentContext,
                 navigateRootComponent
             )
