@@ -37,7 +37,7 @@ val days = listOf(
     getLocalizedString(MR.strings.sunday)
 )
 
-open class DefaultTimetableComponent(
+class DefaultTimetableComponent(
     componentContext: ComponentContext,
     val navigate: (TimetableRootComponent.Config) -> Unit,
     val back: MutableValue<BackCallback>,
@@ -48,6 +48,9 @@ open class DefaultTimetableComponent(
     override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
 
     override val selectedWeek = MutableValue(floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt())
+    override val selectedDay = MutableValue(currentPage.value - (amountOfDays / 2) % 7)
+
+    override val selectedWeekIndex = MutableValue(selectedWeek.value + amountOfWeeks / 2)
 
     override val isRefreshingTimetable = MutableValue(false)
 
