@@ -2,7 +2,6 @@ package dev.tiebe.otarium.logic.default.login
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import io.ktor.http.*
@@ -11,7 +10,7 @@ import kotlinx.coroutines.launch
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.magister.exchangeUrl
 import dev.tiebe.otarium.magister.refreshGrades
-import dev.tiebe.otarium.store.component.home.StoreHomeComponent
+import dev.tiebe.otarium.logic.store.StoreHomeComponent
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.logic.default.home.DefaultHomeComponent
 import dev.tiebe.otarium.logic.root.RootComponent

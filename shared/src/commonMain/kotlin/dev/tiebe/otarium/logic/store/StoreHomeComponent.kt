@@ -1,4 +1,4 @@
-package dev.tiebe.otarium.store.component.home
+package dev.tiebe.otarium.logic.store
 
 import com.arkivanov.decompose.ComponentContext
 import dev.tiebe.otarium.logic.default.home.DefaultHomeComponent
