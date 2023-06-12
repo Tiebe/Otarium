@@ -4,16 +4,16 @@ plugins {
     kotlin("android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
-    id(libs.plugins.google.services.get().pluginId)
-    id(libs.plugins.firebase.crashlytics.get().pluginId)
-    id(libs.plugins.firebase.performance.get().pluginId)
+    //id(libs.plugins.google.services.get().pluginId)
+    //id(libs.plugins.firebase.crashlytics.get().pluginId)
+    //id(libs.plugins.firebase.performance.get().pluginId)
 }
 
 android {
     compileSdk = libs.versions.android.sdk.compile.get().toInt()
-    namespace = "nl.tiebe.otarium.androidApp"
+    namespace = "dev.tiebe.otarium.androidApp"
     defaultConfig {
-        applicationId = "nl.tiebe.otarium"
+        applicationId = "dev.tiebe.otarium"
         minSdk = libs.versions.android.sdk.min.get().toInt()
         targetSdk = libs.versions.android.sdk.compile.get().toInt()
         versionCode = libs.versions.app.version.code.get().toInt()
@@ -56,8 +56,8 @@ dependencies {
 
     implementation(libs.decompose.core)
 
-    implementation(project.dependencies.platform(libs.firebase.bom))
+/*    implementation(project.dependencies.platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.performance)
+    implementation(libs.firebase.performance)*/
 }

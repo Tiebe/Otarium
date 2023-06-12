@@ -1,0 +1,9 @@
+package dev.tiebe.otarium.ui.theme
+
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import dev.tiebe.otarium.utils.ui.Android
+
+actual fun setWindowTheme(color: Color) {
+    Android.window.statusBarColor = color.toArgb()
+}
