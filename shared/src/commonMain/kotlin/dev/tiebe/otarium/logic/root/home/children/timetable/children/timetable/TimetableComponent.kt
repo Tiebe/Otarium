@@ -31,22 +31,36 @@ interface TimetableComponent {
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
     val amountOfDays get() = 1000
+    val amountOfWeeks get() = amountOfDays / 5
+
+    // The index of the day in the timetable that is today (in dayPagerState days, so day 500 is monday this week)
+    val todayIndex get() = amountOfDays / 2 + now.value.dayOfWeek.ordinal
+
+    // The selected day from 0-6 (monday-sunday)
+    val selectedDay: Value<Int>
 
     val currentPage: Value<Int>
 
     val timetable: Value<List<AgendaItemWithAbsence>>
 
+    // The index of the week in the timetable that of the day that is currently selected (so the current week would be 0)
     val selectedWeek: Value<Int>
 
+    // The index of the week in the timetable that of the day that is currently selected (in weekPagerState weeks, so week 100 is this week)
+    val selectedWeekIndex: Value<Int>
+
+    //TODO: remove this variable (by returning Future or MutableValue from refreshTimetable)
     val isRefreshingTimetable: Value<Boolean>
 
     fun changeDay(day: Int) {
         (currentPage as MutableValue).value = day
 
-        println(currentPage.value)
+        (selectedDay as MutableValue).value = currentPage.value - (amountOfDays / 2) % 7
 
-        if (selectedWeek.value != floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt())
+        if (selectedWeek.value != floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt()) {
             (selectedWeek as MutableValue).value = floor((day - (amountOfDays / 2).toFloat()) / days.size).toInt()
+            (selectedWeekIndex as MutableValue).value = selectedWeek.value + amountOfWeeks / 2
+        }
     }
 
     fun refreshTimetable(from: LocalDate, to: LocalDate)

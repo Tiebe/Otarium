@@ -9,7 +9,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,53 +32,68 @@ internal fun DaySelector(
     dayPageCount: Int,
     weekPageCount: Int
 ) {
-    val scope = rememberCoroutineScope()
-    val selectedWeek = component.selectedWeek.subscribeAsState()
+    val selectedDay = component.selectedDay.subscribeAsState()
 
     HorizontalPager(pageCount = weekPageCount, state = weekPagerState) { week ->
         TabRow(
-            selectedTabIndex = (dayPagerState.currentPage - (dayPageCount / 2)) % 7,
+            selectedTabIndex = selectedDay.value,
             indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.tabIndicatorOffset(
+                TabRowDefaults.Indicator(Modifier.tabIndicatorOffset(
                         dayPagerState,
                         dayPageCount,
                         tabPositions,
-                        shouldShowIndicator = derivedStateOf { week == weekPageCount/2 + selectedWeek.value }.value
-                    )
-                )
+                        shouldShowIndicator = week == component.selectedWeekIndex.subscribeAsState().value
+                    ))
             }) {
-            days.forEachIndexed { index, title ->
-                Tab(
-                    selected = (dayPagerState.currentPage - (dayPageCount / 2)) % 7 == index && week == 100 + component.selectedWeek.subscribeAsState().value,
-                    onClick = {
-                        scope.launch {
-                            dayPagerState.animateScrollToPage((week-100)* days.size + index + (component.amountOfDays / 2))
-                        }
-                    },
-                    text = {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(
-                                text = title,
-                                maxLines = 1,
-                                overflow = TextOverflow.Clip,
-                                textAlign = TextAlign.Center,
-                                fontSize = 13.sp
-                            )
-                            Text(
-                                text = component.firstDayOfWeek.plus(
-                                    (week - 100) * 7 + index,
-                                    DateTimeUnit.DAY
-                                ).toString()
-                                    .split("-").reversed().subList(0, 1).joinToString(),
-                                textAlign = TextAlign.Center,
-                                fontSize = 10.sp
-                            )
-                        }
 
-                    }
-                )
+            days.forEachIndexed { index, title ->
+                DayTabItem(component, index, week, dayPagerState, title)
             }
         }
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun DayTabItem(
+    component: TimetableComponent,
+    dayIndex: Int,
+    weekIndex: Int,
+    dayPagerState: PagerState,
+    title: String
+) {
+    val scope = rememberCoroutineScope()
+
+    val selectedDay = component.selectedDay.subscribeAsState()
+    val selectedWeekIndex = component.selectedWeekIndex.subscribeAsState()
+
+    Tab(
+        selected = selectedDay.value == dayIndex && selectedWeekIndex.value == weekIndex,
+        onClick = {
+            scope.launch {
+                dayPagerState.animateScrollToPage((weekIndex - 100) * days.size + dayIndex + (component.amountOfDays / 2))
+            }
+        },
+        text = {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip,
+                    textAlign = TextAlign.Center,
+                    fontSize = 13.sp
+                )
+                Text(
+                    text = component.firstDayOfWeek.plus(
+                        (weekIndex - 100) * 7 + dayIndex,
+                        DateTimeUnit.DAY
+                    ).toString()
+                        .split("-").reversed().subList(0, 1).joinToString(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 10.sp
+                )
+            }
+
+        }
+    )
 }
