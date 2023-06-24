@@ -19,8 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -28,7 +26,7 @@ import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
 import dev.tiebe.otarium.magister.getAgendaForDay
-import dev.tiebe.otarium.ui.utils.parseHtml
+import dev.tiebe.otarium.ui.utils.HtmlView
 import dev.tiebe.otarium.ui.utils.topBottomRectBorder
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
@@ -90,21 +88,19 @@ internal fun TimetableItem(
                     (dpPerHour * ((startTime.toEpochMilliseconds() - timeTop).toFloat() / 60 / 60 / 1000))
                 if (distanceAfterTop < 0.dp) distanceAfterTop = 0.dp
 
-                val supportingText = mutableListOf<AnnotatedString>()
+                val supportingText = mutableListOf<String>()
 
-                if (!agendaItem.location.isNullOrEmpty()) supportingText.add(AnnotatedString(agendaItem.location!!))
+                if (!agendaItem.location.isNullOrEmpty()) supportingText.add(agendaItem.location!!)
                 supportingText.add(
-                    AnnotatedString(
-                        "${
-                            localStartTime.hour.toString().padStart(2, '0')
-                        }:${localStartTime.minute.toString().padStart(2, '0')} - ${
-                            localEndTime.hour.toString().padStart(2, '0')
-                        }:${localEndTime.minute.toString().padStart(2, '0')}"
-                    )
+                    "${
+                        localStartTime.hour.toString().padStart(2, '0')
+                    }:${localStartTime.minute.toString().padStart(2, '0')} - ${
+                        localEndTime.hour.toString().padStart(2, '0')
+                    }:${localEndTime.minute.toString().padStart(2, '0')}"
                 )
 
                 if (!agendaItem.content.isNullOrEmpty()) supportingText.add(
-                    agendaItem.content!!.parseHtml()
+                    agendaItem.content!!
                 )
 
                 ListItem(
@@ -115,10 +111,9 @@ internal fun TimetableItem(
                         .clickable { component.openTimeTableItem(agendaItemWithAbsence) },
                     headlineText = { Text(agendaItem.description ?: "") },
                     supportingText = {
-                        Text(
+                        HtmlView(
                             supportingText.joinToString(" • "),
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
                         )
                     },
                     leadingContent = {
