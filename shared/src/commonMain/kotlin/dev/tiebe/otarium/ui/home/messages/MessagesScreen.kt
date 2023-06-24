@@ -41,6 +41,9 @@ import dev.tiebe.otarium.ui.home.messages.message.MessageScreen
 import dev.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
 import kotlinx.coroutines.launch
 
+//TODO: Use native html parser
+
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun MessagesScreen(component: MessagesComponent) {

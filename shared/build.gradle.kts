@@ -23,6 +23,10 @@ android {
         minSdk = libs.versions.android.sdk.min.get().toInt()
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     namespace = "dev.tiebe.otarium"
 
     sourceSets["main"].apply {

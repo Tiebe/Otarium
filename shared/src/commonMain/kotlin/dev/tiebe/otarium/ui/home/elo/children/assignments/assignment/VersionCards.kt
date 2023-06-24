@@ -25,7 +25,7 @@ import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import dev.tiebe.otarium.ui.utils.DownloadIndicator
-import dev.tiebe.otarium.ui.utils.parseHtml
+import dev.tiebe.otarium.ui.utils.HtmlView
 import dev.tiebe.otarium.utils.OtariumIcons
 import dev.tiebe.otarium.utils.otariumicons.Email
 import dev.tiebe.otarium.utils.otariumicons.email.Attachment
@@ -57,7 +57,7 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
 
             ListItem(
                 overlineText = { Text(getLocalizedString(MR.strings.assignment_description)) },
-                headlineText = { Text(assignment.description.parseHtml()) }
+                headlineText = { HtmlView(assignment.description, maxLines = 1) }
             )
         }
     }
@@ -85,7 +85,7 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: 
             if (version.teacherNote != null) {
                 ListItem(
                     overlineText = { Text(getLocalizedString(MR.strings.assignment_feedback)) },
-                    headlineText = { Text(version.teacherNote!!.parseHtml()) }
+                    headlineText = { HtmlView(version.teacherNote!!, maxLines = 1) }
                 )
             }
 
@@ -139,7 +139,7 @@ internal fun StudentVersionCard(component: AssignmentScreenComponent, version: A
             if (version.studentNote != null) {
                 ListItem(
                     overlineText = { Text(getLocalizedString(MR.strings.assignment_description)) },
-                    headlineText = { Text(version.studentNote!!.parseHtml()) }
+                    headlineText = { HtmlView(version.studentNote!!, maxLines = 1) }
                 )
             }
 

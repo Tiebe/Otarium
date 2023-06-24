@@ -8,8 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
-import dev.tiebe.otarium.ui.utils.ClickableText
-import dev.tiebe.otarium.ui.utils.parseHtml
+import dev.tiebe.otarium.ui.utils.HtmlView
 
 @Composable
 internal fun MessageScreen(component: MessageComponent) {
@@ -19,12 +18,8 @@ internal fun MessageScreen(component: MessageComponent) {
         MessageHeader(component)
 
         val messageContent = component.message.subscribeAsState().value
-        val text = messageContent.content.parseHtml()
 
-        ClickableText(
-            text = text,
-            modifier = Modifier.fillMaxSize()
-        )
+        HtmlView(messageContent.content, maxLines = 1)
     }
 
 }

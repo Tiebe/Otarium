@@ -20,8 +20,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.MR
 import dev.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import dev.tiebe.otarium.ui.utils.BackButton
-import dev.tiebe.otarium.ui.utils.ClickableText
-import dev.tiebe.otarium.ui.utils.parseHtml
+import dev.tiebe.otarium.ui.utils.HtmlView
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -82,12 +81,10 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int
                     Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
                 }
 
-                val text = (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml()
+                val text = (agendaItemWithAbsence.agendaItem.content ?: "")
 
-                ClickableText(
-                    text = text,
-                    modifier = Modifier.fillMaxSize(),
-                    style = MaterialTheme.typography.bodyMedium
+                HtmlView(
+                    text
                 )
             }
 
