@@ -19,7 +19,7 @@ internal fun MessageScreen(component: MessageComponent) {
 
         val messageContent = component.message.subscribeAsState().value
 
-        HtmlView(messageContent.content, maxLines = 1)
+        HtmlView(messageContent.content, maxLines = 0)
     }
 
 }

@@ -5,8 +5,7 @@ import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
-import dev.tiebe.magisterapi.response.assignment.FeedbackBijlagen
-import dev.tiebe.magisterapi.response.assignment.LeerlingBijlagen
+import dev.tiebe.magisterapi.response.assignment.Attachment
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.default.componentCoroutineScope
 import dev.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
@@ -52,26 +51,7 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
 
     override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
 
-    override fun downloadAttachment(attachment: FeedbackBijlagen) {
-        scope.launch {
-            val response = requestGET(
-                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.first { it.rel == "Self" }.href).build(),
-                accessToken = Data.selectedAccount.tokens.accessToken,
-                onDownload = { bytesSentTotal, contentLength ->
-                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
-                }
-            ).readBytes()
-
-            writeFile(attachment.id.toString(), attachment.naam, response)
-            openFileFromCache(attachment.id.toString(), attachment.naam)
-
-            attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
-                it.remove(attachment.id)
-            }
-        }
-    }
-
-    override fun downloadAttachment(attachment: LeerlingBijlagen) {
+    override fun downloadAttachment(attachment: Attachment) {
         scope.launch {
             val response = requestGET(
                 URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.first { it.rel == "Self" }.href).build(),
