@@ -1,8 +1,12 @@
 package dev.tiebe.otarium.utils
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.FileProvider
 import dev.tiebe.otarium.utils.ui.Android
 import java.io.File
@@ -51,8 +55,12 @@ actual fun openFileFromCache(id: String, fileName: String) {
     Android.context.startActivity(Intent.createChooser(intent, fileName))
 }
 
-
-
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
 actual fun dynamicColorsPossible(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+}
+
+actual fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap {
+    val image = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+    return image.asImageBitmap()
 }

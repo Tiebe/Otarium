@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,15 +22,6 @@ internal fun MainChildScreen(component: MainChildComponent) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        //users
-        SettingRowIconButton(
-            leftText = AnnotatedString(SettingsComponent.Config.Users.localizedString),
-            icon = MaterialIcons.Default.AccountCircle,
-            rowClickable = true,
-        ) {
-            component.navigate(SettingsComponent.Config.Users)
-        }
-
         //ui
         SettingRowIconButton(
             leftText = AnnotatedString(SettingsComponent.Config.UI.localizedString),

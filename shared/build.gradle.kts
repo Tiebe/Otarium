@@ -75,6 +75,8 @@ kotlin {
                 implementation(libs.magister.api)
                 implementation(libs.color.math)
 
+                implementation(libs.skiko)
+
             }
         }
         val androidMain by getting {

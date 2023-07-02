@@ -7,12 +7,14 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
+import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.default.home.children.settings.children.main.DefaultMainChildComponent
 import dev.tiebe.otarium.logic.default.home.children.settings.children.ui.DefaultUIChildComponent
 import dev.tiebe.otarium.logic.default.home.children.settings.children.ui.children.colors.DefaultColorChildComponent
-import dev.tiebe.otarium.logic.default.home.children.settings.children.users.DefaultUserChildComponent
+import dev.tiebe.otarium.logic.default.login.DefaultLoginComponent
 import dev.tiebe.otarium.logic.root.RootComponent
 import dev.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
+import dev.tiebe.otarium.magister.MagisterAccount
 
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
@@ -28,10 +30,24 @@ class DefaultSettingsComponent(
             childFactory = ::createChild,
         )
 
+    override fun selectAccount(account: MagisterAccount) {
+        Data.selectedAccount = account
+    }
+
+    override fun openLoginScreen() {
+        navigateRootComponent(
+            RootComponent.ChildScreen.LoginChild(
+                DefaultLoginComponent(
+                    componentContext = this,
+                    navigateRootComponent
+                )
+            )
+        )
+    }
+
     private fun createChild(config: SettingsComponent.Config, componentContext: ComponentContext): SettingsComponent.Child =
         when (config) {
             is SettingsComponent.Config.Main -> SettingsComponent.Child.MainChild(mainChild(componentContext))
-            is SettingsComponent.Config.Users -> SettingsComponent.Child.UsersChild(usersChild(componentContext))
             is SettingsComponent.Config.UI -> SettingsComponent.Child.UIChild(uiChild(componentContext))
             is SettingsComponent.Config.Colors -> SettingsComponent.Child.ColorChild(colorChild(componentContext))
         }
@@ -40,13 +56,6 @@ class DefaultSettingsComponent(
         DefaultMainChildComponent(
             componentContext = componentContext,
             _navigate = ::navigate
-        )
-
-    private fun usersChild(componentContext: ComponentContext) =
-        DefaultUserChildComponent(
-            componentContext = componentContext,
-            _navigate = ::navigate,
-            navigateRootComponent = navigateRootComponent
         )
 
     private fun uiChild(componentContext: ComponentContext) =
