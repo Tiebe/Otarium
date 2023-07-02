@@ -4,7 +4,9 @@ import dev.tiebe.magisterapi.api.account.LoginFlow
 import dev.tiebe.magisterapi.response.TokenResponse
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import dev.tiebe.magisterapi.response.profileinfo.ProfileInfo
+import dev.tiebe.magisterapi.utils.MagisterException
 import dev.tiebe.otarium.settings
+import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
@@ -45,12 +47,24 @@ data class MagisterAccount(
         }
 
     suspend fun refreshTokens(): TokenResponse {
-        val savedTokens: TokenResponse = settings.getStringOrNull("tokens-$accountId")?.let { Json.decodeFromString(it) } ?: throw IllegalStateException("No tokens found!")
-        val newTokens = LoginFlow.refreshToken(savedTokens.refreshToken)
+        try {
+            val savedTokens: TokenResponse =
+                settings.getStringOrNull("tokens-$accountId")?.let { Json.decodeFromString(it) }
+                    ?: throw IllegalStateException("No tokens found!")
+            val newTokens = LoginFlow.refreshToken(savedTokens.refreshToken)
 
-        tokens = newTokens
+            tokens = newTokens
 
-        return newTokens
+            return newTokens
+        } catch (e: MagisterException) {
+            if (e.statusCode == HttpStatusCode.Unauthorized || e.statusCode == HttpStatusCode.Forbidden) {
+               //todo: show popup
+
+
+            }
+        } catch (_: Exception) {}
+        return settings.getStringOrNull("tokens-$accountId")?.let { Json.decodeFromString(it) }
+            ?: throw IllegalStateException("No tokens found!")
     }
 
     override fun equals(other: Any?): Boolean {

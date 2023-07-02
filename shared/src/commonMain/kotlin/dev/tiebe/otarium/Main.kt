@@ -7,11 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -45,7 +41,7 @@ internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = 
     OtariumTheme(lightColorScheme, darkColorScheme) {
         Box(
             modifier = Modifier.fillMaxSize()
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.background)
         ) {}
         val currentScreen by component.currentScreen.subscribeAsState()
 
@@ -55,8 +51,8 @@ internal fun Content(component: RootComponent, lightColorScheme: ColorScheme? = 
         ) {
             when (val screen = currentScreen) {
                 is RootComponent.ChildScreen.HomeChild -> HomeScreen(screen.component, padding)
-                is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component)
-                is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component)
+                is RootComponent.ChildScreen.LoginChild -> LoginScreen(screen.component, padding)
+                is RootComponent.ChildScreen.OnboardingChild -> OnboardingScreen(screen.component, padding)
             }
         }
     }
