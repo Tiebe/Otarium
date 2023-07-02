@@ -1,10 +1,7 @@
 package dev.tiebe.otarium.utils
 
+import androidx.compose.ui.graphics.ImageBitmap
 import dev.tiebe.otarium.magister.GradeWithGradeInfo
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.*
 
 expect fun copyToClipboard(text: String)
@@ -104,3 +101,5 @@ fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGr
 
     return ((newAverage * weight) - sum) / newGradeWeight
 }
+
+expect fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap

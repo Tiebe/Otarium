@@ -100,4 +100,6 @@
 
     <string name="mark_grades_red">Onvoldoendes rood maken</string>
     <string name="passing_grade">Voldoendegrens</string>
+
+    <string name="add_account">Account toevoegen</string>
 </resources>

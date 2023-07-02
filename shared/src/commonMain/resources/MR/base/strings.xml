@@ -52,7 +52,6 @@
     <string name="bug_text_1">Before reporting a bug, try clearing your cache by pressing the button below.</string>
     <string name="bug_text_2">If the bug persists, please contact us at otarium@tiebe.dev</string>
     <string name="switch_user_text">Switch user</string>
-    <string name="new_account">New account</string>
     <string name="advertisements">Advertisements</string>
     <string name="entered_on">Entered on</string>
     <string name="decimals_slider">Amount of decimals shown in averages:</string>
@@ -109,4 +108,6 @@
 
     <string name="mark_grades_red">Mark insufficient grades red</string>
     <string name="passing_grade">Passing grade</string>
+
+    <string name="add_account">Add account</string>
 </resources>
