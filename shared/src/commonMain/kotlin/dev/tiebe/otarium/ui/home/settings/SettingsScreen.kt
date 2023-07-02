@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.arkivanov.decompose.Child
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.*
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.MR
@@ -30,7 +30,7 @@ import dev.tiebe.otarium.ui.home.settings.items.ui.colors.ColorChildScreen
 import dev.tiebe.otarium.utils.convertImageByteArrayToBitmap
 import dev.tiebe.otarium.utils.ui.getLocalizedString
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalDecomposeApi::class)
 @Composable
 internal fun SettingsScreen(component: SettingsComponent) {
     val screen = component.childStack.subscribeAsState()
@@ -39,7 +39,11 @@ internal fun SettingsScreen(component: SettingsComponent) {
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
         Children(
             stack = screen.value,
-            animation = stackAnimation(slide())
+            animation = predictiveBackAnimation(
+                backHandler = component.backHandler,
+                animation = stackAnimation(fade() + scale()), // Your usual animation here
+                onBack = component::back,
+            )
         ) {
             SettingsScreenChild(component, it)
         }

@@ -103,3 +103,11 @@ fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGr
 }
 
 expect fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap
+
+fun runCatchingLogError(block: () -> Unit) {
+    runCatching {
+        block()
+    }.onFailure {
+        it.printStackTrace()
+    }
+}

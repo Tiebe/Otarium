@@ -4,9 +4,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import dev.tiebe.otarium.Data
 import dev.tiebe.otarium.logic.default.home.children.settings.children.main.DefaultMainChildComponent
 import dev.tiebe.otarium.logic.default.home.children.settings.children.ui.DefaultUIChildComponent
@@ -19,14 +18,14 @@ import dev.tiebe.otarium.magister.MagisterAccount
 class DefaultSettingsComponent(
     componentContext: ComponentContext,
     override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit,
-): SettingsComponent, ComponentContext by componentContext {
+): SettingsComponent, ComponentContext by componentContext, BackHandlerOwner {
     override val navigation = StackNavigation<SettingsComponent.Config>()
 
     override val childStack: Value<ChildStack<SettingsComponent.Config, SettingsComponent.Child>> =
         childStack(
             source = navigation,
             initialConfiguration = SettingsComponent.Config.Main,
-            handleBackButton = true, // Pop the back stack on back button press
+            handleBackButton = false, // Pop the back stack on back button press
             childFactory = ::createChild,
         )
 
@@ -70,30 +69,4 @@ class DefaultSettingsComponent(
             _navigate = ::navigate
         )
 
-    private val registered = MutableValue(false)
-    private val backCallback = BackCallback { onBack.value() }
-    override val onBack: MutableValue<() -> Unit> = MutableValue {}
-
-    override fun registerBackHandler() {
-        if (registered.value) return
-        backHandler.register(backCallback)
-        registered.value = true
-    }
-
-    override fun unregisterBackHandler() {
-        if (!registered.value) return
-        backHandler.unregister(backCallback)
-        registered.value = false
-    }
-
-
-    init {
-        childStack.subscribe { childStack ->
-            if (childStack.backStack.isEmpty()) {
-                unregisterBackHandler()
-            } else {
-                registerBackHandler()
-            }
-        }
-    }
 }
