@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.compose)
     id(libs.plugins.buildkonfig.get().pluginId)
     id(libs.plugins.mokoresources.get().pluginId)
-    id(libs.plugins.google.services.get().pluginId)
+    //id(libs.plugins.google.services.get().pluginId)
 }
 
 version = libs.versions.app.version.string.get()
@@ -49,10 +49,6 @@ kotlin {
             baseName = "shared"
             isStatic = false
         }
-
-        pod("Google-Mobile-Ads-SDK") {
-            moduleName = "GoogleMobileAds"
-        }
     }
     sourceSets {
         val commonMain by getting {
@@ -79,6 +75,8 @@ kotlin {
                 implementation(libs.magister.api)
                 implementation(libs.color.math)
 
+                implementation(libs.skiko)
+
             }
         }
         val androidMain by getting {
@@ -87,10 +85,11 @@ kotlin {
                 implementation(libs.ktor.client.json.jvm)
                 implementation(libs.ktor.client.android)
 
-                implementation(libs.admob)
-
                 implementation(libs.guava.core)
                 implementation(libs.guava.coroutines)
+
+                implementation(libs.android.appcompat)
+                implementation(libs.androidx.work)
 
             }
         }

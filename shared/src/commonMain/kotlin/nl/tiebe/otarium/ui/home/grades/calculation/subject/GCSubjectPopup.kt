@@ -36,12 +36,12 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
-import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
-import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
 import nl.tiebe.otarium.ui.home.grades.calculation.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.home.grades.calculation.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.BackButton
+import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 

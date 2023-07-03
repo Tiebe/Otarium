@@ -33,7 +33,7 @@
             android:value="ca-app-pub-1684141915170982~5608631544"/>
 
         <activity
-            android:name=".MainActivity"
+            android:name="nl.tiebe.otarium.androidApp.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".BootService"
+        <receiver android:name="nl.tiebe.otarium.androidApp.BootService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

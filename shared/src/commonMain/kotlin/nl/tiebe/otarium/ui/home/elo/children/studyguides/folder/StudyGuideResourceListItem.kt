@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.studyguide.Resource
+import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
 import nl.tiebe.otarium.ui.utils.DownloadingFileIndicator
 import nl.tiebe.otarium.ui.utils.LoadingFileIndicator
 

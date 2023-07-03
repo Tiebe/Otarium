@@ -18,13 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.ui.home.elo.children.assignments.AssignmentsChildScreen
 import nl.tiebe.otarium.ui.home.elo.children.learningresources.LearningResourcesChildScreen
 import nl.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesChildScreen
 import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 import nl.tiebe.otarium.utils.ui.getLocalizedString
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
