@@ -1,6 +1,5 @@
 package nl.tiebe.otarium.ui.home.grades.recentgrades
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +15,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.RecentGradesChildComponent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

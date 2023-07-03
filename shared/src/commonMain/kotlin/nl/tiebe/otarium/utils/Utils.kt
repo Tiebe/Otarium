@@ -1,10 +1,7 @@
 package nl.tiebe.otarium.utils
 
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
-import io.ktor.utils.io.*
+import androidx.compose.ui.graphics.ImageBitmap
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import kotlinx.datetime.*
 
 expect fun copyToClipboard(text: String)
@@ -63,5 +60,54 @@ fun largeLog(content: String) {
         largeLog(content.substring(4000))
     } else {
         println(content)
+    }
+}
+
+
+fun calculateAverageGrade(grades: List<GradeWithGradeInfo>, addedGrade: Float = 0f, addedGradeWeight: Float = 0f): Float {
+    return calculateAverage(grades.map {
+        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+    }, addedGrade, addedGradeWeight)
+}
+
+fun calculateAverage(pairs: List<Pair<Float, Float>>, initialAverage: Float = 0f, initialWeight: Float = 0f): Float {
+    var sum = initialAverage * initialWeight
+    var weight = initialWeight
+
+    pairs.forEach {
+        sum += it.first * it.second
+        weight += it.second
+    }
+
+    if (weight == 0f) return 0f
+
+    return sum/weight
+}
+
+fun calculateNewGrade(grades: List<GradeWithGradeInfo>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+    return calculateNew(grades.map {
+        (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
+    }, newAverage, newGradeWeight)
+}
+
+fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGradeWeight: Float = 1f): Float {
+    var sum = 0f
+    var weight = newGradeWeight
+
+    pairs.forEach {
+        sum += it.first * it.second
+        weight += it.second
+    }
+
+    return ((newAverage * weight) - sum) / newGradeWeight
+}
+
+expect fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap
+
+fun runCatchingLogError(block: () -> Unit) {
+    runCatching {
+        block()
+    }.onFailure {
+        it.printStackTrace()
     }
 }

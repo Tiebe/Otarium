@@ -2,6 +2,10 @@ package nl.tiebe.otarium.utils.versions.v21
 
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.TokenResponse
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.magister.MagisterAccount
+import nl.tiebe.otarium.magister.refreshGrades
+import nl.tiebe.otarium.settings
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
@@ -10,10 +14,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.magister.MagisterAccount
-import nl.tiebe.otarium.magister.refreshGrades
-import nl.tiebe.otarium.settings
 
 fun migrateFromV21() {
     runBlocking {
@@ -30,7 +30,7 @@ fun migrateFromV21() {
                 ProfileInfoFlow.getProfileInfo(currentAccount["tenantUrl"]!!.jsonPrimitive.content, tokens.accessToken)
 
             val newAccount =
-                MagisterAccount(accountId, profileInfo, currentAccount["tenantUrl"]!!.jsonPrimitive.content)
+                MagisterAccount(accountId, profileInfo, ByteArray(0), currentAccount["tenantUrl"]!!.jsonPrimitive.content)
 
             settings.putString("agenda-$accountId", settings.getString("agenda", "[]"))
             settings.putString("tokens-${accountId}", Json.encodeToString(tokens))

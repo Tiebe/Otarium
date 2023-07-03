@@ -32,8 +32,8 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
-import nl.tiebe.otarium.ui.home.grades.calculation.calculateNew
+import nl.tiebe.otarium.utils.calculateAverage
+import nl.tiebe.otarium.utils.calculateNew
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 

@@ -34,11 +34,15 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.pop
 import dev.icerock.moko.resources.compose.stringResource
-import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
+import kotlinx.coroutines.launch
+
+//TODO: Use native html parser
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

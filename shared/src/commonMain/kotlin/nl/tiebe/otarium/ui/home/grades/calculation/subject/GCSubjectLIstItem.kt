@@ -22,13 +22,13 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.toFormattedString
+import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -29,11 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
-import nl.tiebe.otarium.ui.home.grades.calculation.calculateAverage
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.ui.format
 
 

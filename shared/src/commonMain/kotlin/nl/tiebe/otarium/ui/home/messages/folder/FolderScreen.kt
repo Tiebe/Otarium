@@ -14,6 +14,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
 import nl.tiebe.otarium.ui.home.messages.MessageFolderItem
 import nl.tiebe.otarium.ui.home.messages.MessageItem
 

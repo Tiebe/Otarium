@@ -6,22 +6,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
+import nl.tiebe.otarium.ui.utils.BackButton
+import nl.tiebe.otarium.ui.utils.HtmlView
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.ui.home.timetable.main.TimetableComponent
-import nl.tiebe.otarium.ui.utils.BackButton
-import nl.tiebe.otarium.ui.utils.ClickableText
-import nl.tiebe.otarium.ui.utils.parseHtml
-import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
 internal fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int, modifier: Modifier) {
@@ -78,12 +81,10 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItemId: Int
                     Divider(Modifier.padding(top = 8.dp, bottom = 8.dp))
                 }
 
-                val text = (agendaItemWithAbsence.agendaItem.content ?: "").parseHtml()
+                val text = (agendaItemWithAbsence.agendaItem.content ?: "")
 
-                ClickableText(
-                    text = text,
-                    modifier = Modifier.fillMaxSize(),
-                    style = MaterialTheme.typography.bodyMedium
+                HtmlView(
+                    text
                 )
             }
 

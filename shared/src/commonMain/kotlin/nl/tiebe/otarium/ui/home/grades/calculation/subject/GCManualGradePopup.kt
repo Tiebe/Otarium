@@ -1,6 +1,10 @@
 package nl.tiebe.otarium.ui.home.grades.calculation.subject
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,8 +19,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.home.grades.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 
