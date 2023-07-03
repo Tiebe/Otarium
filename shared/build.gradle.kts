@@ -23,7 +23,7 @@ android {
         minSdk = libs.versions.android.sdk.min.get().toInt()
     }
 
-    namespace = "dev.tiebe.otarium"
+    namespace = "nl.tiebe.otarium"
 
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -111,7 +111,7 @@ kotlin {
 }
 
 buildkonfig {
-    packageName = "dev.tiebe.otarium"
+    packageName = "nl.tiebe.otarium"
 
     defaultConfigs {
         buildConfigField(INT, "versionCode", libs.versions.app.version.code.get())
@@ -119,5 +119,5 @@ buildkonfig {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "dev.tiebe.otarium"
+    multiplatformResourcesPackage = "nl.tiebe.otarium"
 }
