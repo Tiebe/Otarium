@@ -11,9 +11,9 @@ plugins {
 
 android {
     compileSdk = libs.versions.android.sdk.compile.get().toInt()
-    namespace = "dev.tiebe.otarium.androidApp"
+    namespace = "nl.tiebe.otarium.androidApp"
     defaultConfig {
-        applicationId = "dev.tiebe.otarium"
+        applicationId = "nl.tiebe.otarium"
         minSdk = libs.versions.android.sdk.min.get().toInt()
         targetSdk = libs.versions.android.sdk.compile.get().toInt()
         versionCode = libs.versions.app.version.code.get().toInt()
