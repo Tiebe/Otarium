@@ -1,10 +1,10 @@
-package nl.tiebe.otarium.ui.home.grades.calculation.screen
+package nl.tiebe.otarium.ui.home.averages
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
-import nl.tiebe.otarium.ui.home.grades.calculation.subject.GCSubjectList
+import nl.tiebe.otarium.ui.home.averages.subject.GCSubjectList
 
 @Composable
 internal fun GradeCalculationChild(component: GradeCalculationChildComponent) {

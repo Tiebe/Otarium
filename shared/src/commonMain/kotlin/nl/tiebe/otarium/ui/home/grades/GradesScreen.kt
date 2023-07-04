@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades.recentgrades
+package nl.tiebe.otarium.ui.home.grades
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,11 +15,11 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.RecentGradesChildComponent
+import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.GradesComponent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun RecentGradesChild(component: RecentGradesChildComponent) {
+internal fun GradesScreen(component: GradesComponent) {
     val refreshState = rememberPullRefreshState(component.refreshState.subscribeAsState().value, { component.refreshGrades() })
 
     Box(Modifier.pullRefresh(refreshState)) {
@@ -34,7 +34,7 @@ internal fun RecentGradesChild(component: RecentGradesChildComponent) {
                 .verticalScroll(state = scrollState)
         ) {
             grades.forEach {
-                RecentGradeItem(component = component, grade = it)
+                GradeItem(component = component, grade = it)
             }
 
             if (reachedEnd.value) {

@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades.calculation.cards.graph
+package nl.tiebe.otarium.ui.home.averages.cards.graph
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
