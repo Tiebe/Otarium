@@ -4,11 +4,16 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.MessageFolder
+import io.ktor.http.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.default.home.children.messages.children.folder.DefaultFolderComponent
@@ -16,18 +21,13 @@ import nl.tiebe.otarium.logic.default.home.children.messages.children.message.De
 import nl.tiebe.otarium.logic.default.home.children.messages.children.message.children.DefaultReceiverInfoComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
-import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class DefaultMessagesComponent(
     componentContext: ComponentContext
-): MessagesComponent, ComponentContext by componentContext {
+): MessagesComponent, ComponentContext by componentContext, BackHandlerOwner {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
-    override val onBack: MutableValue<() -> Unit> = MutableValue {}
 
     override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
 
@@ -105,31 +105,12 @@ class DefaultMessagesComponent(
         }
     }
 
-    private val registered = MutableValue(false)
-    private val backCallback = BackCallback { onBack.value() }
-
-    override fun registerBackHandler() {
-        if (registered.value) return
-        backHandler.register(backCallback)
-        registered.value = true
-    }
-
-    override fun unregisterBackHandler() {
-        if (!registered.value) return
-        backHandler.unregister(backCallback)
-        registered.value = false
+    override fun back() {
+        navigation.pop()
     }
 
 
     init {
-        childStack.subscribe { childStack ->
-            if (childStack.backStack.isEmpty()) {
-                unregisterBackHandler()
-            } else {
-                registerBackHandler()
-            }
-        }
-
         scope.launch {
             getFolders()
         }
