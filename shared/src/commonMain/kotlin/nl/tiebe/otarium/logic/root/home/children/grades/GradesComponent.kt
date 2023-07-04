@@ -5,7 +5,7 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
-import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.RecentGradesChildComponent
+import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.GradesComponent
 
 interface GradesComponent : HomeComponent.MenuItemComponent {
     @Parcelize
@@ -17,7 +17,7 @@ interface GradesComponent : HomeComponent.MenuItemComponent {
 
     }
 
-    val recentGradeComponent: RecentGradesChildComponent
+    val recentGradeComponent: GradesComponent
     val calculationChildComponent: GradeCalculationChildComponent
 
     val currentPage: Value<Int>

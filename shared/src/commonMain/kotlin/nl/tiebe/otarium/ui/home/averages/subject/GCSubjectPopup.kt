@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades.calculation.subject
+package nl.tiebe.otarium.ui.home.averages.subject
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
@@ -38,8 +38,8 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
-import nl.tiebe.otarium.ui.home.grades.calculation.cards.GCAverageCalculator
-import nl.tiebe.otarium.ui.home.grades.calculation.cards.graph.GCGraph
+import nl.tiebe.otarium.ui.home.averages.cards.GCAverageCalculator
+import nl.tiebe.otarium.ui.home.averages.cards.graph.GCGraph
 import nl.tiebe.otarium.ui.utils.BackButton
 import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.ui.format

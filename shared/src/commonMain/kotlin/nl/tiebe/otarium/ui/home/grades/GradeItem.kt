@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades.recentgrades
+package nl.tiebe.otarium.ui.home.grades
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -13,11 +13,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,18 +22,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
+import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.RecentGradesChildComponent
+import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.GradesComponent
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
-import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RecentGradeItem(component: RecentGradesChildComponent, grade: RecentGrade) {
+internal fun GradeItem(component: GradesComponent, grade: RecentGrade) {
     var showExtraInfo by remember { mutableStateOf(false) }
 
     ListItem(

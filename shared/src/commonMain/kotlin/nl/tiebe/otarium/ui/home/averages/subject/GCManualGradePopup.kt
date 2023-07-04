@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades.calculation.subject
+package nl.tiebe.otarium.ui.home.averages.subject
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

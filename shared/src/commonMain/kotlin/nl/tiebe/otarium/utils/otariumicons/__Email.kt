@@ -14,13 +14,13 @@ public object EmailGroup
 public val OtariumIcons.Email: EmailGroup
   get() = EmailGroup
 
-private var __AllIcons: ____KtList<ImageVector>? = null
+private var __AllAssets: ____KtList<ImageVector>? = null
 
-public val EmailGroup.AllIcons: ____KtList<ImageVector>
+public val EmailGroup.AllAssets: ____KtList<ImageVector>
   get() {
-    if (__AllIcons != null) {
-      return __AllIcons!!
+    if (__AllAssets != null) {
+      return __AllAssets!!
     }
-    __AllIcons= listOf(Attachment, AttachmentOff, EmailAlert, EmailAlertOpen, EmailOpen)
-    return __AllIcons!!
+    __AllAssets= listOf(Attachment, AttachmentOff, EmailAlert, EmailAlertOpen, EmailOpen)
+    return __AllAssets!!
   }

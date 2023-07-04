@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades.calculation.cards
+package nl.tiebe.otarium.ui.home.averages.cards
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
