@@ -15,6 +15,7 @@ import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
+import nl.tiebe.otarium.ui.home.averages.AveragesScreen
 import nl.tiebe.otarium.ui.home.debug.DebugScreen
 import nl.tiebe.otarium.ui.home.elo.ELOScreen
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
@@ -57,7 +58,7 @@ internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
             when (val dialogComponent = overlay.instance) {
                 is TimetableRootComponent -> TimetableRootScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
-                is AveragesComponent -> {}
+                is AveragesComponent -> AveragesScreen(dialogComponent)
                 is MessagesComponent -> MessagesScreen(dialogComponent)
                 is ELOComponent -> ELOScreen(dialogComponent)
                 is SettingsComponent -> SettingsScreen(dialogComponent)

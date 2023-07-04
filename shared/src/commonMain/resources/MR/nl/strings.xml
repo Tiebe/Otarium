@@ -25,7 +25,7 @@
     <string name="gradesItem">Cijfers</string>
     <string name="saturday">za</string>
     <string name="sunday">zo</string>
-    <string name="grade_calculation_item">Gemiddelden</string>
+    <string name="averagesItem">Gemiddelden</string>
     <string name="new_grade_calculation_placeholder">Nieuw cijfer</string>
     <string name="average_calculation_placeholder">Nieuw gemiddelde</string>
     <string name="weight_calculation_placeholder">Weging</string>

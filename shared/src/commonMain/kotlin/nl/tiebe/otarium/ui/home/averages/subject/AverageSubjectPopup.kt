@@ -4,24 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -38,15 +27,15 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
-import nl.tiebe.otarium.ui.home.averages.cards.GCAverageCalculator
-import nl.tiebe.otarium.ui.home.averages.cards.graph.GCGraph
+import nl.tiebe.otarium.ui.home.averages.cards.AverageCalculator
+import nl.tiebe.otarium.ui.home.averages.cards.graph.AverageGraph
 import nl.tiebe.otarium.ui.utils.BackButton
 import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun GCSubjectPopup(component: AveragesComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
+internal fun AverageSubjectPopup(component: AveragesComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
     val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { it.subjectId == subject.id }
     val gradeList = derivedStateOf {
         realGradeList.map {
@@ -87,9 +76,9 @@ internal fun GCSubjectPopup(component: AveragesComponent, subject: Subject, real
             }
         }
 
-        GCGraph(grades = realGradeList, manualGrades = manualGradeList)
+        AverageGraph(grades = realGradeList, manualGrades = manualGradeList)
 
-        GCAverageCalculator(grades = realGradeList, manualGrades = manualGradeList)
+        AverageCalculator(grades = realGradeList, manualGrades = manualGradeList)
 
         val addItemPopout = component.addManualGradePopupOpen.subscribeAsState().value
 

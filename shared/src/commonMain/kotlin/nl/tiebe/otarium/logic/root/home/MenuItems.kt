@@ -26,7 +26,7 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
     )
 
     object Averages: MenuItems(
-        MR.strings.average,
+        MR.strings.averagesItem,
         { Icon(OtariumIcons.Bottombar.ChartOutline, "Averages") },
         { Icon(OtariumIcons.Bottombar.ChartFilled, "Averages") },
     )

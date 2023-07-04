@@ -30,6 +30,7 @@ open class DefaultHomeComponent(componentContext: ComponentContext, override val
     override val visibleItems: List<MenuItems> = listOf(
         MenuItems.Timetable,
         MenuItems.Grades,
+        MenuItems.Averages,
         MenuItems.Messages,
     )
 

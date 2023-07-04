@@ -9,6 +9,9 @@ import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
 
 interface AveragesComponent : HomeComponent.MenuItemComponent {
+    val refreshState: Value<Boolean>
+    fun refreshGrades()
+
     val openedSubject: Value<Pair<Boolean, Subject?>>
 
     val backCallbackOpenItem: BackCallback
@@ -30,11 +33,5 @@ interface AveragesComponent : HomeComponent.MenuItemComponent {
         (openedSubject as MutableValue).value = false to openedSubject.value.second
     }
 
-    sealed class State {
-        object Loading: State()
-        data class Data(val data: List<GradeWithGradeInfo>): State()
-        object Failed: State()
-    }
-
-    val state: Value<State>
+    val gradesList: Value<List<GradeWithGradeInfo>>
 }
