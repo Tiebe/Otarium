@@ -9,14 +9,37 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.magister.refreshGrades
 
 class DefaultAveragesComponent(componentContext: ComponentContext) : AveragesComponent, ComponentContext by componentContext {
+    override val refreshState: MutableValue<Boolean> = MutableValue(false)
+
+    override fun refreshGrades() {
+        scope.launch {
+            refreshState.value = true
+            Data.selectedAccount.fullGradeList = Data.selectedAccount.refreshGrades()
+            gradesList.value = Data.selectedAccount.fullGradeList.filter {
+                it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                        it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+            }
+            refreshState.value = false
+        }
+    }
+
     override val openedSubject: MutableValue<Pair<Boolean, Subject?>> = MutableValue(false to null)
     override val backCallbackOpenItem = BackCallback(false) {
         closeSubject()
     }
+
+    override val gradesList: MutableValue<List<GradeWithGradeInfo>> = MutableValue(
+        Data.selectedAccount.fullGradeList.filter {
+            it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
+                    it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
+        }
+    )
+
     override val manualGradesList: MutableValue<List<ManualGrade>> = MutableValue(Data.manualGrades)
     override val addManualGradePopupOpen: MutableValue<Boolean> = MutableValue(false)
     override fun addManualGrade(manualGrade: ManualGrade) {
@@ -33,23 +56,11 @@ class DefaultAveragesComponent(componentContext: ComponentContext) : AveragesCom
         Data.manualGrades = manualGradesList.value
     }
 
-    override val state: MutableValue<AveragesComponent.State> = MutableValue(AveragesComponent.State.Loading)
     private val scope = componentCoroutineScope()
 
     init {
         backHandler.register(backCallbackOpenItem)
 
-        scope.launch {
-            try {
-                state.value = AveragesComponent.State.Data(Data.selectedAccount.refreshGrades().filter {
-                    it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
-                            it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
-                })
-                return@launch
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            state.value = AveragesComponent.State.Failed
-        }
+        refreshGrades()
     }
 }
