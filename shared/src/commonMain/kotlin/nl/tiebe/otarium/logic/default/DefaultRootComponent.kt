@@ -11,9 +11,9 @@ import kotlinx.coroutines.cancel
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.home.DefaultHomeComponent
 import nl.tiebe.otarium.logic.default.login.DefaultLoginComponent
-import nl.tiebe.otarium.logic.store.StoreHomeComponent
 import nl.tiebe.otarium.logic.default.onboarding.DefaultOnboardingComponent
 import nl.tiebe.otarium.logic.root.RootComponent
+import nl.tiebe.otarium.logic.store.StoreHomeComponent
 
 class DefaultRootComponent(componentContext: ComponentContext): RootComponent, ComponentContext by componentContext {
     override val currentScreen: MutableValue<RootComponent.ChildScreen> = MutableValue(getScreenOnStart())

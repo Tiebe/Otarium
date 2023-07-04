@@ -7,13 +7,7 @@ import nl.tiebe.otarium.logic.root.RootComponent
 interface HomeComponent {
     val dialog: Value<ChildSlot<MenuItems, MenuItemComponent>>
 
-    val visibleItems: List<MenuItems> /*listOf(
-        MenuItems.Timetable,
-        MenuItems.Grades,
-        MenuItems.Messages,
-        MenuItems.ELO,
-        MenuItems.Settings
-    )*/
+    val visibleItems: List<MenuItems>
 
     val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
     fun navigate(item: MenuItems)

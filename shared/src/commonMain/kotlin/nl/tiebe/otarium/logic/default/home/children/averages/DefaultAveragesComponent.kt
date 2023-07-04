@@ -1,18 +1,18 @@
-package nl.tiebe.otarium.logic.default.home.children.grades.children.calculation
+package nl.tiebe.otarium.logic.default.home.children.averages
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.grades.GradeColumn
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
-import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
+import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.magister.refreshGrades
-import kotlinx.coroutines.launch
 
-class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) : GradeCalculationChildComponent, ComponentContext by componentContext {
+class DefaultAveragesComponent(componentContext: ComponentContext) : AveragesComponent, ComponentContext by componentContext {
     override val openedSubject: MutableValue<Pair<Boolean, Subject?>> = MutableValue(false to null)
     override val backCallbackOpenItem = BackCallback(false) {
         closeSubject()
@@ -33,7 +33,7 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
         Data.manualGrades = manualGradesList.value
     }
 
-    override val state: MutableValue<GradeCalculationChildComponent.State> = MutableValue(GradeCalculationChildComponent.State.Loading)
+    override val state: MutableValue<AveragesComponent.State> = MutableValue(AveragesComponent.State.Loading)
     private val scope = componentCoroutineScope()
 
     init {
@@ -41,7 +41,7 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
 
         scope.launch {
             try {
-                state.value = GradeCalculationChildComponent.State.Data(Data.selectedAccount.refreshGrades().filter {
+                state.value = AveragesComponent.State.Data(Data.selectedAccount.refreshGrades().filter {
                     it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
                             it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null
                 })
@@ -49,7 +49,7 @@ class DefaultGradeCalculationChildComponent(componentContext: ComponentContext) 
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            state.value = GradeCalculationChildComponent.State.Failed
+            state.value = AveragesComponent.State.Failed
         }
     }
 }

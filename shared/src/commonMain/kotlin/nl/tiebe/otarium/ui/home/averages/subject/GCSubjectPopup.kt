@@ -36,7 +36,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
+import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.ui.home.averages.cards.GCAverageCalculator
 import nl.tiebe.otarium.ui.home.averages.cards.graph.GCGraph
@@ -46,7 +46,7 @@ import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun GCSubjectPopup(component: GradeCalculationChildComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
+internal fun GCSubjectPopup(component: AveragesComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
     val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { it.subjectId == subject.id }
     val gradeList = derivedStateOf {
         realGradeList.map {

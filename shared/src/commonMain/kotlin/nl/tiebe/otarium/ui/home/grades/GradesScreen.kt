@@ -15,7 +15,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.logic.root.home.children.grades.children.recent.GradesComponent
+import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
