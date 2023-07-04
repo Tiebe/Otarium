@@ -19,14 +19,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
+import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AddGradeManually(component: GradeCalculationChildComponent, subject: Subject) {
+internal fun AddGradeManually(component: AveragesComponent, subject: Subject) {
     val name = remember { mutableStateOf("") }
     val nameError = remember { mutableStateOf(false) }
 

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.root.home.children.grades.children.calculation.GradeCalculationChildComponent
+import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
 import nl.tiebe.otarium.ui.utils.topBottomRectBorder
@@ -68,7 +68,7 @@ internal fun GradeListItem(grade: GradeWithGradeInfo) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ManualGradeListItem(grade: ManualGrade, component: GradeCalculationChildComponent) {
+internal fun ManualGradeListItem(grade: ManualGrade, component: AveragesComponent) {
     ListItem(
         modifier = Modifier
             .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),

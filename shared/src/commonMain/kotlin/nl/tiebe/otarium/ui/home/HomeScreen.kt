@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.HomeComponent
+import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.logic.root.home.children.debug.DebugComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
@@ -56,6 +57,7 @@ internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
             when (val dialogComponent = overlay.instance) {
                 is TimetableRootComponent -> TimetableRootScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
+                is AveragesComponent -> {}
                 is MessagesComponent -> MessagesScreen(dialogComponent)
                 is ELOComponent -> ELOScreen(dialogComponent)
                 is SettingsComponent -> SettingsScreen(dialogComponent)

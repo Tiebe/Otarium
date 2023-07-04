@@ -1,14 +1,14 @@
-package nl.tiebe.otarium.logic.root.home.children.grades.children.calculation
+package nl.tiebe.otarium.logic.root.home.children.averages
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
-import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
+import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
 
-interface GradeCalculationChildComponent : GradesComponent.GradesChildComponent {
+interface AveragesComponent : HomeComponent.MenuItemComponent {
     val openedSubject: Value<Pair<Boolean, Subject?>>
 
     val backCallbackOpenItem: BackCallback
