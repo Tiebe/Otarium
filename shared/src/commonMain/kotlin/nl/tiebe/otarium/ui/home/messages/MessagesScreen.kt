@@ -18,7 +18,6 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.*
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
-import dev.icerock.moko.resources.compose.stringResource
 import dev.tiebe.magisterapi.response.messages.MessageFolder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -72,7 +71,7 @@ internal fun MessagesScreen(component: MessagesComponent) {
 
         },
         drawerState = drawerState,
-        gesturesEnabled = screen.value.active.instance !is MessagesComponent.Child.FolderChild
+        gesturesEnabled = screen.value.active.instance is MessagesComponent.Child.FolderChild || drawerState.isOpen
     ) {
         FolderContent(screen, component, scope, drawerState)
     }
@@ -123,10 +122,11 @@ private fun FolderContent(
     Scaffold(
         topBar = {
             val instance = screen.value.active.instance
+
             val name = when (instance) {
-                is MessagesComponent.Child.FolderChild -> instance.component.folder.name
+                is MessagesComponent.Child.FolderChild -> GetFolderIcon(instance.component.folder).first
                 is MessagesComponent.Child.MessageChild -> instance.component.message.subscribeAsState().value.subject
-                else -> stringResource(MR.strings.messagesItem)
+                is MessagesComponent.Child.ReceiverInfoChild -> getLocalizedString(MR.strings.receiverInfo)
             }
 
             TopAppBar(

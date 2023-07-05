@@ -115,4 +115,6 @@
     <string name="email_sent">Sent</string>
     <string name="email_drafts">Drafts</string>
     <string name="email_trash">Trash</string>
+
+    <string name="receiverInfo">Receivers</string>
 </resources>

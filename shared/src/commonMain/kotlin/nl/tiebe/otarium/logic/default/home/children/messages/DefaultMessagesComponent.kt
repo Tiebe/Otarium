@@ -8,9 +8,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.MessageFolder
-import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -86,13 +84,7 @@ class DefaultMessagesComponent(
         refreshState.value = true
 
         try {
-            folders.value =
-                MessageFlow.getAllFolders(
-                    Url(Data.selectedAccount.tenantUrl),
-                    Data.selectedAccount.tokens.accessToken
-                )
-
-            Data.selectedAccount.messageFolders = folders.value
+            folders.value = Data.selectedAccount.refreshFolders()
         } catch (e: Exception) {
             e.printStackTrace()
         }

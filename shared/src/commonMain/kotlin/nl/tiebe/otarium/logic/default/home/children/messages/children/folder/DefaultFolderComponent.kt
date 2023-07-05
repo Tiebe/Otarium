@@ -7,13 +7,13 @@ import com.arkivanov.essenty.lifecycle.doOnResume
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
+import io.ktor.http.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
-import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 class DefaultFolderComponent(
     componentContext: ComponentContext, override val folder: MessageFolder, val allFolders: List<MessageFolder>,
@@ -33,6 +33,8 @@ class DefaultFolderComponent(
     override fun refresh() {
         scope.launch {
             refreshState.value = true
+            parentComponent.getFoldersAsync()
+
             messages.value = getMessages()
             refreshState.value = false
         }
