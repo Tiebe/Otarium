@@ -107,4 +107,6 @@
     <string name="email_sent">Verzonden</string>
     <string name="email_drafts">Concepten</string>
     <string name="email_trash">Prullenbak</string>
+
+    <string name="receiverInfo">Ontvangers</string>
 </resources>
