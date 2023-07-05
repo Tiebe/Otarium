@@ -110,4 +110,9 @@
     <string name="passing_grade">Passing grade</string>
 
     <string name="add_account">Add account</string>
+
+    <string name="email_inbox">Inbox</string>
+    <string name="email_sent">Sent</string>
+    <string name="email_drafts">Drafts</string>
+    <string name="email_trash">Trash</string>
 </resources>
