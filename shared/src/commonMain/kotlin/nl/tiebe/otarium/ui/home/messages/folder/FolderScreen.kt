@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
-import nl.tiebe.otarium.ui.home.messages.MessageFolderItem
 import nl.tiebe.otarium.ui.home.messages.MessageItem
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -41,12 +40,7 @@ internal fun FolderScreen(component: FolderComponent) {
                 .fillMaxSize()
                 .verticalScroll(state = scrollState)
         ) {
-            val subFolders = component.subFolders.subscribeAsState().value
             val messages = component.messages.subscribeAsState().value
-
-            subFolders.forEach { folder ->
-                MessageFolderItem(component.parentComponent::navigateToFolder, folder)
-            }
 
             messages.forEach { message ->
                 MessageItem(component.parentComponent::navigateToMessage, message)
