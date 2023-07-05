@@ -5,16 +5,17 @@ import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Attachment
 import dev.tiebe.magisterapi.response.messages.MessageData
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
+import nl.tiebe.otarium.logic.root.home.unreadMessages
 import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
 import nl.tiebe.otarium.utils.writeFile
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import kotlinx.coroutines.launch
 
 class DefaultMessageComponent(
     componentContext: ComponentContext, override val messageLink: String,
@@ -35,7 +36,7 @@ class DefaultMessageComponent(
                 attachments.value = MessageFlow.getAttachmentList(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, message.value.links.attachments!!.href)
 
                 for (attachment in attachments.value) {
-                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, 0f)
+                    attachmentDownloadProgress.value += Pair(attachment.id, 0f)
                 }
             }
         }
@@ -47,7 +48,10 @@ class DefaultMessageComponent(
                 URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.downloadLink.href).build(),
                 accessToken = Data.selectedAccount.tokens.accessToken,
                 onDownload = { bytesSentTotal, contentLength ->
-                    attachmentDownloadProgress.value = attachmentDownloadProgress.value + Pair(attachment.id, bytesSentTotal.toFloat() / contentLength.toFloat())
+                    attachmentDownloadProgress.value += Pair(
+                        attachment.id,
+                        bytesSentTotal.toFloat() / contentLength.toFloat()
+                    )
                 }
             ).readBytes()
 
@@ -63,6 +67,8 @@ class DefaultMessageComponent(
     private val markAsRead: (MessageData) -> Unit = {
         if (it.id != 0) {
             scope.launch {
+                if (!it.hasBeenRead) unreadMessages.value -= 1
+
                 MessageFlow.markMessageAsRead(
                     Url(Data.selectedAccount.tenantUrl),
                     Data.selectedAccount.tokens.accessToken,
