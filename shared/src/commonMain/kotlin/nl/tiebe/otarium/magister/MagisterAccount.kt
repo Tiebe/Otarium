@@ -1,11 +1,13 @@
 package nl.tiebe.otarium.magister
 
 import dev.tiebe.magisterapi.api.account.LoginFlow
+import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.TokenResponse
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
+import dev.tiebe.magisterapi.response.messages.Message
+import dev.tiebe.magisterapi.response.messages.MessageFolder
 import dev.tiebe.magisterapi.response.profileinfo.ProfileInfo
 import dev.tiebe.magisterapi.utils.MagisterException
-import nl.tiebe.otarium.settings
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
@@ -13,6 +15,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import nl.tiebe.otarium.logic.root.home.unreadMessages
+import nl.tiebe.otarium.settings
 
 @Serializable
 data class MagisterAccount(
@@ -29,9 +33,17 @@ data class MagisterAccount(
         get() = settings.getStringOrNull("grades-$accountId")?.let { Json.decodeFromString(it) } ?: emptyList()
         set(value) = settings.putString("grades-$accountId", Json.encodeToString(value))
 
+    var messages: List<Message>
+        get() = settings.getStringOrNull("messages-$accountId")?.let { Json.decodeFromString(it) } ?: emptyList()
+        set(value) = settings.putString("messages-$accountId", Json.encodeToString(value))
+
     var fullGradeList: List<GradeWithGradeInfo>
         get() = settings.getStringOrNull("full_grade_list-$accountId")?.let { Json.decodeFromString(it) } ?: emptyList()
         set(value) = settings.putString("full_grade_list-$accountId", Json.encodeToString(value))
+
+    var messageFolders: List<MessageFolder>
+        get() = settings.getStringOrNull("message_folders-$accountId")?.let { Json.decodeFromString(it) } ?: emptyList()
+        set(value) = settings.putString("message_folders-$accountId", Json.encodeToString(value))
 
     var tokens: TokenResponse
         get() = runBlocking {
@@ -45,6 +57,18 @@ data class MagisterAccount(
         set(value) {
             settings.putString("tokens-$accountId", Json.encodeToString(value))
         }
+
+    suspend fun refreshFolders(): List<MessageFolder> {
+        val folders =
+            MessageFlow.getAllFolders(
+                Url(tenantUrl),
+                tokens.accessToken
+            )
+
+        unreadMessages.value = folders.sumOf { it.unreadCount }
+        messageFolders = folders
+        return folders
+    }
 
     suspend fun refreshTokens(): TokenResponse {
         try {

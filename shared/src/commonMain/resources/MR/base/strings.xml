@@ -37,7 +37,7 @@
     <string name="sunday">sun</string>
 
 
-    <string name="grade_calculation_item">Averages</string>
+    <string name="averagesItem">Averages</string>
     <string name="new_grade_calculation_placeholder">New grade</string>
     <string name="average_calculation_placeholder">New average</string>
     <string name="weight_calculation_placeholder">Weight</string>
@@ -110,4 +110,11 @@
     <string name="passing_grade">Passing grade</string>
 
     <string name="add_account">Add account</string>
+
+    <string name="email_inbox">Inbox</string>
+    <string name="email_sent">Sent</string>
+    <string name="email_drafts">Drafts</string>
+    <string name="email_trash">Trash</string>
+
+    <string name="receiverInfo">Receivers</string>
 </resources>
