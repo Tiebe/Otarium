@@ -29,21 +29,20 @@ class DefaultMessagesComponent(
 
     override val scope: CoroutineScope = componentCoroutineScope()
 
-    override val folders: MutableValue<List<MessageFolder>> = MutableValue(listOf())
+    override val folders: MutableValue<List<MessageFolder>> = MutableValue(Data.selectedAccount.messageFolders)
 
     override val navigation = StackNavigation<MessagesComponent.Config>()
 
     override val childStack: Value<ChildStack<MessagesComponent.Config, MessagesComponent.Child>> =
         childStack(
             source = navigation,
-            initialConfiguration = MessagesComponent.Config.Main,
+            initialConfiguration = MessagesComponent.Config.Folder(folders.value.first().id),
             handleBackButton = false, // Pop the back stack on back button press
             childFactory = ::createChild,
         )
 
     private fun createChild(config: MessagesComponent.Config, componentContext: ComponentContext): MessagesComponent.Child =
         when (config) {
-            is MessagesComponent.Config.Main -> MessagesComponent.Child.MainChild(this)
             is MessagesComponent.Config.Folder -> MessagesComponent.Child.FolderChild(
                 createFolderComponent(
                     componentContext,
@@ -92,6 +91,8 @@ class DefaultMessagesComponent(
                     Url(Data.selectedAccount.tenantUrl),
                     Data.selectedAccount.tokens.accessToken
                 )
+
+            Data.selectedAccount.messageFolders = folders.value
         } catch (e: Exception) {
             e.printStackTrace()
         }

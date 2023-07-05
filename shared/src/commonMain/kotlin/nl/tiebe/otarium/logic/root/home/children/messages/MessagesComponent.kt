@@ -3,6 +3,7 @@ package nl.tiebe.otarium.logic.root.home.children.messages
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
@@ -30,7 +31,7 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
     }
 
     fun navigateToFolder(folder: MessageFolder) {
-        navigate(Config.Folder(folder.id))
+        navigation.replaceAll(Config.Folder(folder.id))
     }
 
     fun navigateToMessage(message: Message) {
@@ -40,16 +41,12 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
     val folders: Value<List<MessageFolder>>
 
     sealed class Child {
-        class MainChild(val component: MessagesComponent) : Child()
         class FolderChild(val component: FolderComponent) : Child()
         class MessageChild(val component: MessageComponent) : Child()
         class ReceiverInfoChild(val component: ReceiverInfoComponent) : Child()
     }
 
     sealed class Config : Parcelable {
-        @Parcelize
-        object Main : Config()
-
         @Parcelize
         data class Folder(val folderId: Int) : Config()
 

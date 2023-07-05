@@ -102,4 +102,9 @@
     <string name="passing_grade">Voldoendegrens</string>
 
     <string name="add_account">Account toevoegen</string>
+
+    <string name="email_inbox">Inbox</string>
+    <string name="email_sent">Verzonden</string>
+    <string name="email_drafts">Concepten</string>
+    <string name="email_trash">Prullenbak</string>
 </resources>

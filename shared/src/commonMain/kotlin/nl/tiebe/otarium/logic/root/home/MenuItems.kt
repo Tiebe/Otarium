@@ -1,5 +1,7 @@
 package nl.tiebe.otarium.logic.root.home
 
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.arkivanov.essenty.parcelable.Parcelable
@@ -31,9 +33,10 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
         { Icon(OtariumIcons.Bottombar.ChartFilled, "Averages") },
     )
 
+    @OptIn(ExperimentalMaterial3Api::class)
     object Messages: MenuItems(
         MR.strings.messagesItem,
-        { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages") },
+        { BadgedBox(badge = {  }) { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages") } },
         { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") },
     )
 
