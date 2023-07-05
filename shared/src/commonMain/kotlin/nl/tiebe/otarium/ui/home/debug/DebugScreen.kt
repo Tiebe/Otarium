@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.TokenResponse
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.debug.DebugComponent
 import nl.tiebe.otarium.magister.refreshGrades
@@ -20,14 +23,8 @@ import nl.tiebe.otarium.settings
 import nl.tiebe.otarium.setupNotifications
 import nl.tiebe.otarium.ui.home.settings.utils.SettingRowIconButton
 import nl.tiebe.otarium.ui.home.settings.utils.SettingsRowToggle
-import nl.tiebe.otarium.utils.OtariumIcons
-import nl.tiebe.otarium.utils.getClipboardText
+import nl.tiebe.otarium.utils.*
 import nl.tiebe.otarium.utils.otariumicons.BugOutline
-import nl.tiebe.otarium.utils.refreshGradesBackground
-import nl.tiebe.otarium.utils.sendNotification
-import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import kotlin.random.Random
 
 @Composable
@@ -143,6 +140,16 @@ internal fun DebugScreen(component: DebugComponent) {
             rowClickable = true,
         ) {
             Data.selectedAccount.tokens = settings.getStringOrNull("tokens-${Data.selectedAccount.accountId}")?.let { Json.decodeFromString<TokenResponse?>(it)?.copy(accessToken = "asdsa", refreshToken = "asdsad") }!!
+        }
+
+        SettingRowIconButton(
+            leftText = AnnotatedString("Refresh messages"),
+            icon = Icons.Default.Refresh,
+            rowClickable = true,
+        ) {
+            component.scope.launch {
+                refreshMessagesBackground()
+            }
         }
     }
 

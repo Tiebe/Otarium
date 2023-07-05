@@ -16,12 +16,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.R
 import nl.tiebe.otarium.magister.refreshGrades
+import nl.tiebe.otarium.magister.refreshMessages
+import nl.tiebe.otarium.setup
 import nl.tiebe.otarium.utils.ui.Android
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
 
 actual fun reloadTokensBackground(delay: Long) {
@@ -31,11 +31,11 @@ actual fun reloadTokensBackground(delay: Long) {
 fun setupTokenBackgroundTask(context: Context, delay: Long = 0) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val backgroundRequest = PeriodicWorkRequest.Builder(TokenRefreshWorker::class.java, 45, TimeUnit.MINUTES).setConstraints(
-                Constraints.Builder()
-                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .setRequiresBatteryNotLow(true)
-                    .build()
-            ).setInitialDelay(delay, TimeUnit.SECONDS).build()
+            Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
+                .build()
+        ).setInitialDelay(delay, TimeUnit.SECONDS).build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork("tokens", ExistingPeriodicWorkPolicy.UPDATE, backgroundRequest)
     } else {
@@ -62,9 +62,30 @@ fun setupGradesBackgroundTask(context: Context, delay: Long = 0) {
     }
 }
 
+actual fun refreshMessagesBackground(delay: Long) {
+    setupMessagesBackgroundTask(Android.context, delay)
+}
+
+fun setupMessagesBackgroundTask(context: Context, delay: Long = 0) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val backgroundRequest = PeriodicWorkRequest.Builder(MessageRefreshWorker::class.java, 15, TimeUnit.MINUTES).setConstraints(
+            Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)
+                .build()
+        ).setInitialDelay(delay, TimeUnit.SECONDS).build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("messages", ExistingPeriodicWorkPolicy.UPDATE, backgroundRequest)
+    } else {
+        //todo: android version below oreo
+    }
+}
+
 class TokenRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
     override fun startWork(): ListenableFuture<Result> {
-        sendDebugNotification(applicationContext, "Refreshing tokens", "Refreshing your tokens")
+        //sendDebugNotification(applicationContext, "Refreshing tokens", "Refreshing your tokens")
+
+        setup()
 
         val outputData = Data.Builder()
 
@@ -93,6 +114,8 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
         val data = Data.Builder()
         //sendDebugNotification(applicationContext, "Refreshing grades", "Refreshing your grades")
 
+        setup()
+
         runBlocking {
             nl.tiebe.otarium.Data.selectedAccount.refreshGrades { title, message ->
                 sendNotificationAndroid(
@@ -102,15 +125,31 @@ class GradeRefreshWorker(appContext: Context, workerParams: WorkerParameters): L
                 )
             }
 
-            if (client.get("https://test-grades-update.groosman.workers.dev/").bodyAsText() == "true") {
-                sendDebugNotification(
+            sendDebugNotification(applicationContext, "Grades refreshed", "Your grades have been refreshed")
+        }
+
+        return Futures.immediateFuture(Result.success(data.build()))
+    }
+}
+
+class MessageRefreshWorker(appContext: Context, workerParams: WorkerParameters): ListenableWorker(appContext, workerParams) {
+    @SuppressLint("RestrictedApi")
+    override fun startWork(): ListenableFuture<Result> {
+        val data = Data.Builder()
+        //sendDebugNotification(applicationContext, "Refreshing messages", "Refreshing your messages")
+
+        setup()
+
+        runBlocking {
+            nl.tiebe.otarium.Data.selectedAccount.refreshMessages { title, message ->
+                sendNotificationAndroid(
                     applicationContext,
-                    "Test grade received!",
-                    "Magicccc"
+                    title,
+                    message
                 )
             }
 
-            //sendDebugNotification(applicationContext, "Grades refreshed", "Your grades have been refreshed")
+            sendDebugNotification(applicationContext, "Messages refreshed", "Your messages have been refreshed")
         }
 
         return Futures.immediateFuture(Result.success(data.build()))
@@ -134,12 +173,22 @@ fun sendNotificationAndroid(context: Context, title: String, message: String) {
     val builder = NotificationCompat.Builder(context, "grades")
         .setSmallIcon(R.drawable.ic_notification_foreground)
         .setContentTitle(title)
-        .setContentText(message)
         .setPriority(1)
         .setAutoCancel(true)
-        .setContentIntent(PendingIntent.getActivity(context, 0, intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT))
+        .setContentIntent(
+            PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) FLAG_MUTABLE else FLAG_CANCEL_CURRENT
+            )
+        )
         .setGroup(System.currentTimeMillis().toString())
         .setColor(Color(nl.tiebe.otarium.Data.customDarkTheme.primary).toArgb())
+
+    if (message != "") {
+        builder.setContentText(message)
+    }
 
     if (ActivityCompat.checkSelfPermission(
             context,

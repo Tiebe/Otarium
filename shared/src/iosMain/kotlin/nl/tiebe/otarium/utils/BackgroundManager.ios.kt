@@ -6,14 +6,7 @@ import platform.BackgroundTasks.BGAppRefreshTaskRequest
 import platform.BackgroundTasks.BGTaskScheduler
 import platform.Foundation.NSDate
 import platform.Foundation.NSUUID
-import platform.UserNotifications.UNMutableNotificationContent
-import platform.UserNotifications.UNNotification
-import platform.UserNotifications.UNNotificationPresentationOptionAlert
-import platform.UserNotifications.UNNotificationPresentationOptions
-import platform.UserNotifications.UNNotificationRequest
-import platform.UserNotifications.UNNotificationResponse
-import platform.UserNotifications.UNUserNotificationCenter
-import platform.UserNotifications.UNUserNotificationCenterDelegateProtocol
+import platform.UserNotifications.*
 import platform.darwin.NSObject
 
 actual fun reloadTokensBackground(delay: Long) {
@@ -37,6 +30,9 @@ actual fun refreshGradesBackground(delay: Long) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+actual fun refreshMessagesBackground(delay: Long) {
 }
 
 fun registerBackgroundTasks() {
