@@ -14,4 +14,6 @@ interface MessageComponent {
     val attachmentDownloadProgress: Value<Map<Int, Float>>
 
     fun downloadAttachment(attachment: Attachment)
+    fun deleteMessage()
+
 }

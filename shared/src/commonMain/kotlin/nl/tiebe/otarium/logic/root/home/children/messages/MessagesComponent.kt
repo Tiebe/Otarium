@@ -12,6 +12,7 @@ import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
 import kotlinx.coroutines.CoroutineScope
 import nl.tiebe.otarium.logic.root.home.HomeComponent
+import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
@@ -44,6 +45,7 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
         class FolderChild(val component: FolderComponent) : Child()
         class MessageChild(val component: MessageComponent) : Child()
         class ReceiverInfoChild(val component: ReceiverInfoComponent) : Child()
+        class ComposeChild(val component: MessageComposeComponent) : Child()
     }
 
     sealed class Config : Parcelable {
@@ -55,6 +57,9 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
 
         @Parcelize
         data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
+
+        @Parcelize
+        data class Compose(val receivers: List<String>, val subject: String, val body: String) : Config()
     }
 
     fun back()

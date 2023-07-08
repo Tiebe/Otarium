@@ -64,6 +64,10 @@ class DefaultMessageComponent(
         }
     }
 
+    override fun deleteMessage() {
+        TODO("Not yet implemented")
+    }
+
     private val markAsRead: (MessageData) -> Unit = {
         if (it.id != 0) {
             scope.launch {

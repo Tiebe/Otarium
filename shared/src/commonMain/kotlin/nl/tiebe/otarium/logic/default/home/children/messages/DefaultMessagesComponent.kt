@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
+import nl.tiebe.otarium.logic.default.home.children.messages.children.composing.DefaultMessageComposeComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.children.folder.DefaultFolderComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.children.message.DefaultMessageComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.children.message.children.DefaultReceiverInfoComponent
@@ -55,6 +56,10 @@ class DefaultMessagesComponent(
             is MessagesComponent.Config.ReceiverInfo -> MessagesComponent.Child.ReceiverInfoChild(
                 createReceiverInfoComponent(componentContext, config.messageLink, config.receiverType)
             )
+
+            is MessagesComponent.Config.Compose -> MessagesComponent.Child.ComposeChild(
+                createComposeComponent(componentContext, config.subject, config.body, config.receivers)
+            )
         }
 
     private fun createFolderComponent(componentContext: ComponentContext, folder: MessageFolder) =
@@ -78,6 +83,20 @@ class DefaultMessagesComponent(
             messageLink = messageLink,
             parentComponent = this,
             receiverType = receiverType
+        )
+
+    private fun createComposeComponent(
+        componentContext: ComponentContext,
+        subject: String,
+        body: String,
+        receivers: List<String>
+    ) =
+        DefaultMessageComposeComponent(
+            componentContext = componentContext,
+            parentComponent = this,
+            prefilledSubject = subject,
+            prefilledBody = body,
+            prefilledTo = receivers
         )
 
     override suspend fun getFoldersAsync() {
