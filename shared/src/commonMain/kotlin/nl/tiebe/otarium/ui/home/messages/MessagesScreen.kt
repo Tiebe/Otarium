@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -23,8 +22,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
+import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
+import nl.tiebe.otarium.ui.home.messages.message.MessageTopAppBar
+import nl.tiebe.otarium.ui.home.messages.message.ReceiverTopAppBar
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Email
@@ -123,27 +125,12 @@ private fun FolderContent(
         topBar = {
             val instance = screen.value.active.instance
 
-            val name = when (instance) {
-                is MessagesComponent.Child.FolderChild -> GetFolderIcon(instance.component.folder).first
-                is MessagesComponent.Child.MessageChild -> instance.component.message.subscribeAsState().value.subject
-                is MessagesComponent.Child.ReceiverInfoChild -> getLocalizedString(MR.strings.receiverInfo)
+            when (instance) {
+                is MessagesComponent.Child.FolderChild -> FolderTopAppBar(instance.component, drawerState)
+                is MessagesComponent.Child.MessageChild -> MessageTopAppBar(instance.component, drawerState)
+                is MessagesComponent.Child.ReceiverInfoChild -> ReceiverTopAppBar(instance.component, drawerState)
+                is MessagesComponent.Child.ComposeChild -> TODO()
             }
-
-            TopAppBar(
-                title = { Text(name, overflow = TextOverflow.Ellipsis, maxLines = 1) },
-                navigationIcon = {
-                    if (instance !is MessagesComponent.Child.FolderChild) {
-                        IconButton(onClick = component::back) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                        }
-                    } else {
-                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
-                        }
-                    }
-                },
-                windowInsets = WindowInsets(0)
-            )
         },
         contentWindowInsets = WindowInsets(0)
     ) {
@@ -160,6 +147,7 @@ private fun FolderContent(
                     is MessagesComponent.Child.FolderChild -> FolderScreen(instance.component)
                     is MessagesComponent.Child.MessageChild -> MessageScreen(instance.component)
                     is MessagesComponent.Child.ReceiverInfoChild -> ReceiverInfoScreen(instance.component)
+                    is MessagesComponent.Child.ComposeChild -> TODO()
                 }
             }
         }
@@ -176,3 +164,19 @@ fun GetFolderIcon(folder: MessageFolder): Pair<String, @Composable () -> Unit> =
     }
 
 //        2 -> getLocalizedString(MR.strings.email_drafts) to { Icon(OtariumIcons.Email.Pencil, contentDescription = "Drafts") }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FolderTopAppBar(component: FolderComponent, drawerState: DrawerState) {
+    val scope = rememberCoroutineScope()
+
+    TopAppBar(
+        title = { Text(GetFolderIcon(component.folder).first, overflow = TextOverflow.Ellipsis, maxLines = 1) },
+        navigationIcon = {
+            IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                Icon(Icons.Default.Menu, contentDescription = "Menu")
+            }
+        },
+        windowInsets = WindowInsets(0)
+    )
+}

@@ -9,9 +9,12 @@ import nl.tiebe.otarium.utils.otariumicons.email.EmailAlert
 import nl.tiebe.otarium.utils.otariumicons.email.EmailAlertOpen
 import nl.tiebe.otarium.utils.otariumicons.email.EmailOpen
 import nl.tiebe.otarium.utils.otariumicons.email.Folder
+import nl.tiebe.otarium.utils.otariumicons.email.FolderSwap
 import nl.tiebe.otarium.utils.otariumicons.email.Inbox
 import nl.tiebe.otarium.utils.otariumicons.email.Pencil
+import nl.tiebe.otarium.utils.otariumicons.email.Reply
 import nl.tiebe.otarium.utils.otariumicons.email.Send
+import nl.tiebe.otarium.utils.otariumicons.email.Share
 import kotlin.collections.List as ____KtList
 
 public object EmailGroup
@@ -27,6 +30,6 @@ public val EmailGroup.AllAssets: ____KtList<ImageVector>
       return __AllAssets!!
     }
     __AllAssets= listOf(Attachment, AttachmentOff, EmailAlert, EmailAlertOpen, EmailOpen, Inbox,
-        Folder, Send, Delete, Pencil)
+        Folder, Send, Delete, Pencil, Share, Reply, FolderSwap)
     return __AllAssets!!
   }
