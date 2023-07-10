@@ -65,10 +65,36 @@ class DefaultMessageComponent(
     }
 
     override fun deleteMessage() {
-        TODO("Not yet implemented")
+        scope.launch {
+            if (message.value.folderId == 3) {
+                MessageFlow.permanentlyDeleteMessage(
+                    Url(Data.selectedAccount.tenantUrl),
+                    Data.selectedAccount.tokens.accessToken,
+                    message.value.id
+                )
+            } else {
+                MessageFlow.deleteMessage(
+                    Url(Data.selectedAccount.tenantUrl),
+                    Data.selectedAccount.tokens.accessToken,
+                    message.value.id
+                )
+            }
+            parentComponent.back()
+        }
     }
 
-    private val markAsRead: (MessageData) -> Unit = {
+    override fun restoreMessage() {
+        scope.launch {
+            MessageFlow.moveMessage(
+                Url(Data.selectedAccount.tenantUrl),
+                Data.selectedAccount.tokens.accessToken,
+                message.value.id,
+                1
+            )
+        }
+    }
+
+    private fun markAsRead(it: MessageData) {
         if (it.id != 0) {
             scope.launch {
                 if (!it.hasBeenRead) unreadMessages.value -= 1
@@ -86,11 +112,11 @@ class DefaultMessageComponent(
     }
 
     private val unsubscribe = {
-        message.unsubscribe(markAsRead)
+        message.unsubscribe(::markAsRead)
     }
 
     init {
-        message.subscribe(markAsRead)
+        message.subscribe(::markAsRead)
 
         getMessage()
     }

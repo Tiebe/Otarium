@@ -5,6 +5,7 @@ import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.email.Attachment
 import nl.tiebe.otarium.utils.otariumicons.email.AttachmentOff
 import nl.tiebe.otarium.utils.otariumicons.email.Delete
+import nl.tiebe.otarium.utils.otariumicons.email.DeleteRestore
 import nl.tiebe.otarium.utils.otariumicons.email.EmailAlert
 import nl.tiebe.otarium.utils.otariumicons.email.EmailAlertOpen
 import nl.tiebe.otarium.utils.otariumicons.email.EmailOpen
@@ -30,6 +31,6 @@ public val EmailGroup.AllAssets: ____KtList<ImageVector>
       return __AllAssets!!
     }
     __AllAssets= listOf(Attachment, AttachmentOff, EmailAlert, EmailAlertOpen, EmailOpen, Inbox,
-        Folder, Send, Delete, Pencil, Share, Reply, FolderSwap)
+        Folder, Send, Delete, Pencil, Share, Reply, FolderSwap, DeleteRestore)
     return __AllAssets!!
   }
