@@ -23,6 +23,8 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
+import nl.tiebe.otarium.ui.home.messages.composing.MessageComposeScreen
+import nl.tiebe.otarium.ui.home.messages.composing.MessageComposeTopAppBar
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageTopAppBar
@@ -30,10 +32,7 @@ import nl.tiebe.otarium.ui.home.messages.message.ReceiverTopAppBar
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Email
-import nl.tiebe.otarium.utils.otariumicons.email.Delete
-import nl.tiebe.otarium.utils.otariumicons.email.Folder
-import nl.tiebe.otarium.utils.otariumicons.email.Inbox
-import nl.tiebe.otarium.utils.otariumicons.email.Send
+import nl.tiebe.otarium.utils.otariumicons.email.*
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,8 +128,27 @@ private fun FolderContent(
                 is MessagesComponent.Child.FolderChild -> FolderTopAppBar(instance.component, drawerState)
                 is MessagesComponent.Child.MessageChild -> MessageTopAppBar(instance.component, drawerState)
                 is MessagesComponent.Child.ReceiverInfoChild -> ReceiverTopAppBar(instance.component, drawerState)
-                is MessagesComponent.Child.ComposeChild -> TODO()
+                is MessagesComponent.Child.ComposeChild -> MessageComposeTopAppBar(instance.component)
             }
+        },
+        floatingActionButton = {
+           if (screen.value.active.instance is MessagesComponent.Child.FolderChild) {
+               FloatingActionButton(
+                   onClick = {
+                       scope.launch {
+                           component.navigate(MessagesComponent.Config.Compose(listOf(), "", ""))
+                       }
+                   },
+                   content = {
+                       Icon(
+                           imageVector = OtariumIcons.Email.Pencil,
+                           contentDescription = "Compose new message"
+                       )
+                   },
+                   containerColor = MaterialTheme.colorScheme.primary,
+                   contentColor = MaterialTheme.colorScheme.onPrimary
+               )
+           }
         },
         contentWindowInsets = WindowInsets(0)
     ) {
@@ -147,7 +165,7 @@ private fun FolderContent(
                     is MessagesComponent.Child.FolderChild -> FolderScreen(instance.component)
                     is MessagesComponent.Child.MessageChild -> MessageScreen(instance.component)
                     is MessagesComponent.Child.ReceiverInfoChild -> ReceiverInfoScreen(instance.component)
-                    is MessagesComponent.Child.ComposeChild -> TODO()
+                    is MessagesComponent.Child.ComposeChild -> MessageComposeScreen(instance.component)
                 }
             }
         }

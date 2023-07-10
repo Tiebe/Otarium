@@ -7,7 +7,7 @@ android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.10-alpha09"
+magister = "1.1.10-alpha15"
 
 work-android = "2.8.1"
 

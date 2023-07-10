@@ -16,4 +16,5 @@ interface MessageComponent {
     fun downloadAttachment(attachment: Attachment)
     fun deleteMessage()
 
+    fun restoreMessage()
 }

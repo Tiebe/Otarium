@@ -16,6 +16,7 @@ import nl.tiebe.otarium.logic.root.home.children.messages.children.message.Messa
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Email
+import nl.tiebe.otarium.utils.otariumicons.email.DeleteRestore
 import nl.tiebe.otarium.utils.otariumicons.email.Reply
 import nl.tiebe.otarium.utils.otariumicons.email.Share
 import nl.tiebe.otarium.utils.ui.getLocalizedString
@@ -35,9 +36,6 @@ fun MessageTopAppBar(component: MessageComponent, drawerState: DrawerState) {
         },
         actions = {
             // trash, move to folder, reply, forward
-            IconButton(onClick = { scope.launch { component.deleteMessage() } }) {
-                Icon(Icons.Default.Delete, contentDescription = "Delete")
-            }
 /*            IconButton(onClick = { scope.launch { component.moveToFolder() } }) {
                 Icon(OtariumIcons.Email.FolderSwap, contentDescription = "Move to folder")
             }*/
@@ -62,6 +60,15 @@ fun MessageTopAppBar(component: MessageComponent, drawerState: DrawerState) {
                 )
             } }) {
                 Icon(OtariumIcons.Email.Share, contentDescription = "Forward")
+            }
+
+            IconButton(onClick = { scope.launch { component.deleteMessage() } }) {
+                Icon(Icons.Default.Delete, contentDescription = "Delete")
+            }
+            if (message.folderId == 3) {
+                IconButton(onClick = { scope.launch { component.restoreMessage() } }) {
+                    Icon(OtariumIcons.Email.DeleteRestore, contentDescription = "Restore")
+                }
             }
         },
         windowInsets = WindowInsets(0)
