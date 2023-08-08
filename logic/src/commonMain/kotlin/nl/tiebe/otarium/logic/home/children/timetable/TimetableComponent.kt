@@ -17,8 +17,8 @@ import kotlinx.datetime.plus
  * Interface for the implementation of the backend for the timetable UI.
  */
 interface TimetableComponent<TimetableItem, ItemInformation> {
+    /** The stack navigation */
     val navigation: StackNavigation<Config>
-
 
     // Constants
     /** The amount of days supported. The user can't swipe further than this amount. */
