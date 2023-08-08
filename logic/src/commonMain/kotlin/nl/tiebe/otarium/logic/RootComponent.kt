@@ -1,12 +1,12 @@
 package nl.tiebe.otarium.logic
 
-import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.MutableValue
 import nl.tiebe.otarium.logic.home.HomeComponent
 import nl.tiebe.otarium.logic.login.LoginComponent
 import nl.tiebe.otarium.logic.onboarding.OnboardingComponent
 
 interface RootComponent {
-    val currentScreen: Value<ChildScreen>
+    val currentScreen: MutableValue<ChildScreen>
 
     sealed class ChildScreen {
         class HomeChild(val component: HomeComponent): ChildScreen()
