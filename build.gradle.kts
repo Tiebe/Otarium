@@ -1,6 +1,8 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.complete.kotlin)
+    id("com.android.application") version "8.1.0" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
 }
 
 buildscript {
@@ -27,6 +29,8 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
+
         maven {
             url = uri("https://maven.pkg.github.com/Tiebe/MagisterAPIKt")
             credentials {
@@ -37,7 +41,6 @@ allprojects {
 
         google()
         mavenCentral()
-        mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://jitpack.io")
     }
