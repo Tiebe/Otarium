@@ -1,7 +1,12 @@
-package nl.tiebe.otarium.logic.home.children.timetable.children.timetable
+package nl.tiebe.otarium.logic.home.children.timetable
 
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -12,6 +17,9 @@ import kotlinx.datetime.plus
  * Interface for the implementation of the backend for the timetable UI.
  */
 interface TimetableComponent<TimetableItem, ItemInformation> {
+    val navigation: StackNavigation<Config>
+
+
     // Constants
     /** The amount of days supported. The user can't swipe further than this amount. */
     val amountOfDays get() = 700
@@ -89,12 +97,16 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
      *
      * @param item The timetable item to show information about
      */
-    fun openTimetableItemDetails(item: FullTimetableItem<TimetableItem, ItemInformation>)
+    fun openTimetableItemDetails(item: FullTimetableItem<TimetableItem, ItemInformation>) {
+        navigation.push(Config.TimetablePopup(item.id))
+    }
 
     /**
      * Close the currently opened extra information popup.
      */
-    fun closeTimetableItemDetails()
+    fun closeTimetableItemDetails() {
+        navigation.pop()
+    }
 
     /**
      * A wrapper class for a pair of the item and the extra information associated with this item.
@@ -102,6 +114,23 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
      * @param item The timetable item
      * @param extraInformation The extra information associated with this item
      */
-    data class FullTimetableItem<TimetableItem, ItemInformation>(val item: TimetableItem, val extraInformation: ItemInformation)
+    data class FullTimetableItem<TimetableItem, ItemInformation>(val id: Int, val item: TimetableItem, val extraInformation: ItemInformation)
+
+    /**
+     * The navigation config objects.
+     */
+    sealed class Config : Parcelable {
+        /**
+         * The main timetable screen.
+         */
+        @Parcelize
+        data object Main : Config()
+
+        /**
+         * The popup for extra information
+         */
+        @Parcelize
+        data class TimetablePopup(val item: Int) : Config()
+    }
 }
 
