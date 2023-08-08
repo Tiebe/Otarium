@@ -1,27 +1,21 @@
 package nl.tiebe.otarium.ui.home
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.HomeComponent
+import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.logic.root.home.children.debug.DebugComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
+import nl.tiebe.otarium.ui.home.averages.AveragesScreen
 import nl.tiebe.otarium.ui.home.debug.DebugScreen
 import nl.tiebe.otarium.ui.home.elo.ELOScreen
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
@@ -64,6 +58,7 @@ internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
             when (val dialogComponent = overlay.instance) {
                 is TimetableRootComponent -> TimetableRootScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
+                is AveragesComponent -> AveragesScreen(dialogComponent)
                 is MessagesComponent -> MessagesScreen(dialogComponent)
                 is ELOComponent -> ELOScreen(dialogComponent)
                 is SettingsComponent -> SettingsScreen(dialogComponent)

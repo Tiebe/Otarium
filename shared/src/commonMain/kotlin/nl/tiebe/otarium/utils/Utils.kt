@@ -1,8 +1,18 @@
 package nl.tiebe.otarium.utils
 
 import androidx.compose.ui.graphics.ImageBitmap
-import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import kotlinx.datetime.*
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.magister.MagisterAccount
+import nl.tiebe.otarium.magister.refreshGrades
+
+suspend fun loadUser(user: MagisterAccount) {
+    Data.selectedAccount = user
+
+    user.refreshFolders()
+    user.refreshGrades { _, _ ->}
+}
 
 expect fun copyToClipboard(text: String)
 

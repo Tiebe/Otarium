@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.arkivanov.decompose.defaultComponentContext
 import nl.tiebe.otarium.RootView
 import nl.tiebe.otarium.utils.refreshGradesBackground
+import nl.tiebe.otarium.utils.refreshMessagesBackground
 import nl.tiebe.otarium.utils.reloadTokensBackground
 import nl.tiebe.otarium.utils.ui.Android
 import java.io.File
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         reloadTokensBackground()
         refreshGradesBackground()
+        refreshMessagesBackground()
 
         val rootComponentContext = defaultComponentContext()
 
