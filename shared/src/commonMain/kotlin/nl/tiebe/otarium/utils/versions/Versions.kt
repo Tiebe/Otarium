@@ -3,15 +3,16 @@ package nl.tiebe.otarium.utils.versions
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.TokenResponse
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.magister.isAfterNow
-import nl.tiebe.otarium.settings
-import nl.tiebe.otarium.setupNotifications
-import nl.tiebe.otarium.utils.versions.v21.migrateFromV21
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.magister.isAfterNow
+import nl.tiebe.otarium.magister.refreshMessages
+import nl.tiebe.otarium.settings
+import nl.tiebe.otarium.setupNotifications
+import nl.tiebe.otarium.utils.versions.v21.migrateFromV21
 
 fun runVersionCheck(oldVersion: Int) {
     if (oldVersion <= 14) {
@@ -71,6 +72,14 @@ fun runVersionCheck(oldVersion: Int) {
             }
 
             settings.putString("accounts", Json.encodeToString(modifiedAccounts))
+        }
+    }
+
+    if (oldVersion <= 35) {
+        runBlocking {
+            for (account in Data.accounts) {
+                account.refreshMessages { _, _ -> }
+            }
         }
     }
 }

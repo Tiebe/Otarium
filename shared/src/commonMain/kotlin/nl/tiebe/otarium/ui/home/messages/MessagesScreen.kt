@@ -1,144 +1,178 @@
 package nl.tiebe.otarium.ui.home.messages
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material.rememberDismissState
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.Child
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.*
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.pop
-import dev.icerock.moko.resources.compose.stringResource
+import dev.tiebe.magisterapi.response.messages.MessageFolder
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
 import nl.tiebe.otarium.ui.home.messages.message.receiver.ReceiverInfoScreen
-import kotlinx.coroutines.launch
+import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.Email
+import nl.tiebe.otarium.utils.otariumicons.email.Delete
+import nl.tiebe.otarium.utils.otariumicons.email.Folder
+import nl.tiebe.otarium.utils.otariumicons.email.Inbox
+import nl.tiebe.otarium.utils.otariumicons.email.Send
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 
-//TODO: Use native html parser
-
-
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MessagesScreen(component: MessagesComponent) {
     val screen = component.childStack.subscribeAsState()
     val scope = rememberCoroutineScope()
 
-    Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
-        MessageScreenChild(component, screen, screen.value.items[0], false)
 
-        for (item in screen.value.items.subList(1, screen.value.items.size)) {
-            val state = rememberDismissState()
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val foldersState = component.folders.subscribeAsState()
 
-            component.onBack.value = {
-                scope.launch {
-                    state.animateTo(DismissValue.DismissedToEnd)
+    ModalNavigationDrawer(
+        drawerContent = {
+            ModalDrawerSheet(windowInsets = WindowInsets(0)) {
+                Text(
+                    text = getLocalizedString(MR.strings.messagesItem),
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(16.dp)
+                )
+
+
+                for (folder in foldersState.value.filter { it.parentId == 0 }) {
+                    val (name, icon) = GetFolderIcon(folder)
+
+                    FolderNavigationItem(icon, name, screen, folder, scope, drawerState, component)
+
+                    for (subFolder in foldersState.value.filter { it.parentId == folder.id }) {
+                        val (subName, subIcon) = GetFolderIcon(subFolder)
+
+                        FolderNavigationItem(subIcon, subName, screen, subFolder, scope, drawerState, component, modifier = Modifier.padding(start = 16.dp))
+                    }
+
+
                 }
             }
 
-            //pop on finish
-            if (state.isDismissed(DismissDirection.StartToEnd)) {
-                component.navigation.pop()
-            }
-
-            SwipeToDismiss(
-                state = state,
-                background = {
-                },
-                directions = setOf(DismissDirection.StartToEnd)
-            ) {
-                MessageScreenChild(component, screen, item)
-            }
-        }
+        },
+        drawerState = drawerState,
+        gesturesEnabled = screen.value.active.instance is MessagesComponent.Child.FolderChild || drawerState.isOpen
+    ) {
+        FolderContent(screen, component, scope, drawerState)
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MessageScreenChild(
-    component: MessagesComponent,
+private fun FolderNavigationItem(
+    icon: @Composable () -> Unit,
+    name: String,
     screen: State<ChildStack<MessagesComponent.Config, MessagesComponent.Child>>,
-    item: Child.Created<MessagesComponent.Config, MessagesComponent.Child>,
-    poppable: Boolean = screen.value.backStack.isNotEmpty()
+    folder: MessageFolder,
+    scope: CoroutineScope,
+    drawerState: DrawerState,
+    component: MessagesComponent,
+    modifier: Modifier = Modifier
 ) {
-    val name = when (val child = item.instance) {
-        is MessagesComponent.Child.FolderChild -> child.component.folder.name
-        is MessagesComponent.Child.MessageChild -> child.component.message.subscribeAsState().value.subject
-        else -> stringResource(MR.strings.messagesItem)
-    }
-    Column {
-        TopAppBar(
-            title = { Text(name, overflow = TextOverflow.Ellipsis, maxLines = 1) },
-            navigationIcon = {
-                if (poppable) {
-                    IconButton(onClick = { component.onBack.value() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            },
-            windowInsets = WindowInsets(0.dp)
-        )
-
-        Surface(modifier = Modifier.fillMaxSize()) {
-            when (val child = item.instance) {
-                is MessagesComponent.Child.FolderChild -> FolderScreen(child.component)
-                is MessagesComponent.Child.MainChild -> MessagesFolderSelectScreen(child.component)
-                is MessagesComponent.Child.MessageChild -> MessageScreen(child.component)
-                is MessagesComponent.Child.ReceiverInfoChild -> ReceiverInfoScreen(child.component)
+    NavigationDrawerItem(
+        icon = icon,
+        label = { Text(name) },
+        selected = screen.value.active.configuration is MessagesComponent.Config.Folder && (screen.value.active.configuration as MessagesComponent.Config.Folder).folderId == folder.id,
+        onClick = {
+            scope.launch {
+                drawerState.close()
+                component.navigateToFolder(folder)
             }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-internal fun MessagesFolderSelectScreen(component: MessagesComponent) {
-    val foldersState = component.folders.subscribeAsState()
-    val refreshState = rememberPullRefreshState(
-        refreshing = component.refreshState.subscribeAsState().value,
-        onRefresh = component::getFolders
+        },
+        badge = {
+            if (folder.unreadCount > 0) {
+                Badge(
+                    content = { Text(folder.unreadCount.toString()) },
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+            }
+        },
+        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding).then(modifier)
     )
+}
 
-    Box(modifier = Modifier.fillMaxSize().pullRefresh(refreshState)) {
-        val folders = foldersState.value.filter { it.parentId == 0 }
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalDecomposeApi::class)
+@Composable
+private fun FolderContent(
+    screen: State<ChildStack<MessagesComponent.Config, MessagesComponent.Child>>,
+    component: MessagesComponent,
+    scope: CoroutineScope,
+    drawerState: DrawerState
+) {
+    Scaffold(
+        topBar = {
+            val instance = screen.value.active.instance
 
-        Column(modifier = Modifier.fillMaxSize()) {
-            folders.forEach { folder ->
-                MessageFolderItem(component::navigateToFolder, folder)
-                Divider()
+            val name = when (instance) {
+                is MessagesComponent.Child.FolderChild -> GetFolderIcon(instance.component.folder).first
+                is MessagesComponent.Child.MessageChild -> instance.component.message.subscribeAsState().value.subject
+                is MessagesComponent.Child.ReceiverInfoChild -> getLocalizedString(MR.strings.receiverInfo)
+            }
+
+            TopAppBar(
+                title = { Text(name, overflow = TextOverflow.Ellipsis, maxLines = 1) },
+                navigationIcon = {
+                    if (instance !is MessagesComponent.Child.FolderChild) {
+                        IconButton(onClick = component::back) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        }
+                    } else {
+                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                        }
+                    }
+                },
+                windowInsets = WindowInsets(0)
+            )
+        },
+        contentWindowInsets = WindowInsets(0)
+    ) {
+        Children(
+            screen.value,
+            animation = predictiveBackAnimation(
+                backHandler = component.backHandler,
+                animation = stackAnimation(fade() + scale()), // Your usual animation here
+                onBack = component::back,
+            )
+        ) { child ->
+            Surface(modifier = Modifier.fillMaxSize().padding(it)) {
+                when (val instance = child.instance) {
+                    is MessagesComponent.Child.FolderChild -> FolderScreen(instance.component)
+                    is MessagesComponent.Child.MessageChild -> MessageScreen(instance.component)
+                    is MessagesComponent.Child.ReceiverInfoChild -> ReceiverInfoScreen(instance.component)
+                }
             }
         }
-
-        PullRefreshIndicator(
-            component.refreshState.subscribeAsState().value,
-            refreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
+
+@Composable
+fun GetFolderIcon(folder: MessageFolder): Pair<String, @Composable () -> Unit> =
+    when (folder.id) {
+        1 -> getLocalizedString(MR.strings.email_inbox) to { Icon(OtariumIcons.Email.Inbox, contentDescription = "Inbox") }
+        2 -> getLocalizedString(MR.strings.email_sent) to { Icon(OtariumIcons.Email.Send, contentDescription = "Sent") }
+        3 -> getLocalizedString(MR.strings.email_trash) to { Icon(OtariumIcons.Email.Delete, contentDescription = "Trash") }
+        else -> folder.name to { Icon(OtariumIcons.Email.Folder, contentDescription = "Folder") }
+    }
+
+//        2 -> getLocalizedString(MR.strings.email_drafts) to { Icon(OtariumIcons.Email.Pencil, contentDescription = "Drafts") }

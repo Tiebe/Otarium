@@ -1,6 +1,6 @@
 [versions]
-app-version-string = "3.3.1"
-app-version-code = "35"
+app-version-string = "3.4.0"
+app-version-code = "36"
 
 android_sdk-min = "21"
 android_sdk-compile = "34"
@@ -23,7 +23,7 @@ compose-compiler = "1.5.1"
 compose-activity = "1.7.1"
 material3 = "1.0.1"
 ktor = "2.3.0"
-decompose = "2.1.0-compose-experimental-alpha-02"
+decompose = "2.1.0-compose-experimental-alpha-04"
 moko = "0.22.2"
 buildkonfig = "0.13.3"
 gms = "4.3.15"
