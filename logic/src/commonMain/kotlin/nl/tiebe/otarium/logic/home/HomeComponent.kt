@@ -1,22 +1,18 @@
 package nl.tiebe.otarium.logic.home
 
-import com.arkivanov.decompose.router.slot.ChildSlot
-import com.arkivanov.decompose.value.Value
-import nl.tiebe.otarium.logic.root.RootComponent
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import nl.tiebe.otarium.logic.RootComponent
 
 interface HomeComponent {
-    val dialog: Value<ChildSlot<MenuItems, MenuItemComponent>>
+    val rootComponent: RootComponent
+    val navigation: SlotNavigation<MenuItem>
 
-    val visibleItems: List<MenuItems> /*listOf(
-        MenuItems.Timetable,
-        MenuItems.Grades,
-        MenuItems.Messages,
-        MenuItems.ELO,
-        MenuItems.Settings
-    )*/
+    val menuItems: List<MenuItem>
 
-    val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
-    fun navigate(item: MenuItems)
+    fun navigate(item: MenuItem) {
+        navigation.activate(item)
+    }
 
     interface MenuItemComponent
 }
