@@ -1,5 +1,3 @@
-
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -10,7 +8,6 @@ plugins {
     id("kotlinx-serialization")
     id("kotlin-parcelize")
     alias(libs.plugins.compose)
-    id(libs.plugins.buildkonfig.get().pluginId)
     id(libs.plugins.mokoresources.get().pluginId)
     //id(libs.plugins.google.services.get().pluginId)
 }
@@ -111,16 +108,4 @@ kotlin {
         }
 
     }
-}
-
-buildkonfig {
-    packageName = "nl.tiebe.otarium"
-
-    defaultConfigs {
-        buildConfigField(INT, "versionCode", libs.versions.app.version.code.get())
-    }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "nl.tiebe.otarium"
 }

@@ -4,6 +4,9 @@ import com.arkivanov.decompose.ComponentContext
 import nl.tiebe.otarium.logic.default.home.DefaultHomeComponent
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.logic.root.home.MenuItems
+import nl.tiebe.otarium.logic.store.children.StoreTimetableComponent
+import nl.tiebe.otarium.store.component.home.children.grades.StoreGradeComponent
+import nl.tiebe.otarium.store.component.home.children.settings.StoreSettingsComponent
 
 class StoreHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
 ): DefaultHomeComponent(componentContext, navigateRootComponent) {
@@ -13,7 +16,6 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
         MenuItems.Settings
     )
 
-/*
     override fun timetableComponent(componentContext: ComponentContext) =
         StoreTimetableComponent(
             componentContext = componentContext,
@@ -29,5 +31,5 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
         StoreSettingsComponent(
             componentContext = componentContext,
             navigateRootComponent = navigateRootComponent
-        )*/
+        )
 }

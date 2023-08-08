@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.logic.root.home
+package nl.tiebe.otarium.logic.home
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
