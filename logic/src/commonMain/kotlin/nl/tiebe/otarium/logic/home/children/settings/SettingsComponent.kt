@@ -1,53 +1,64 @@
 package nl.tiebe.otarium.logic.home.children.settings
 
-import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.logic.root.RootComponent
-import nl.tiebe.otarium.logic.root.home.HomeComponent
-import nl.tiebe.otarium.logic.root.home.children.settings.children.main.MainChildComponent
-import nl.tiebe.otarium.logic.root.home.children.settings.children.ui.UIChildComponent
-import nl.tiebe.otarium.logic.root.home.children.settings.children.ui.children.colors.ColorChildComponent
-import nl.tiebe.otarium.magister.MagisterAccount
-import nl.tiebe.otarium.utils.ui.getLocalizedString
+import nl.tiebe.otarium.logic.RootComponent
+import nl.tiebe.otarium.logic.home.HomeComponent
 
-interface SettingsComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
+/** Interface for the implementation of the backend for the settings UI. */
+interface SettingsComponent<Account>: HomeComponent.MenuItemComponent, BackHandlerOwner {
+    /** The root component object. */
+    val rootComponent: RootComponent
+
+    /** The stack navigation. */
     val navigation: StackNavigation<Config>
-    val childStack: Value<ChildStack<Config, Child>>
 
-    val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
-
+    /**
+     * Navigate to a submenu.
+     *
+     * @param child The config for that submenu child.
+     */
     fun navigate(child: Config) {
         navigation.push(child)
     }
 
+    /**
+     * Navigate back to the previous menu.
+     */
     fun back() {
         navigation.pop()
     }
 
-    sealed class Child {
-        class MainChild(val component: MainChildComponent) : Child()
-        class UIChild(val component: UIChildComponent) : Child()
-        class ColorChild(val component: ColorChildComponent) : Child()
+    /**
+     * The possible menus.
+     */
+    sealed class Config : Parcelable {
+        /** The main menu */
+        @Parcelize
+        data object Main : Config()
+
+        /** The UI menu. Allows changing some UI settings. */
+        @Parcelize
+        data object UI : Config()
+
+        /** The colors menu. Allows changing the colors of the app. */
+        @Parcelize
+        data object Colors : Config()
     }
 
-    sealed class Config(val localizedString: String) : Parcelable {
-        @Parcelize
-        object Main : Config(getLocalizedString(MR.strings.settingsItem))
+    /**
+     * Set an account as the current active account.
+     *
+     * @param account The account to be selected.
+     */
+    fun selectAccount(account: Account)
 
-        @Parcelize
-        object UI : Config(getLocalizedString(MR.strings.ui_settings))
-
-        @Parcelize
-        object Colors : Config(getLocalizedString(MR.strings.color_settings))
-    }
-
-    fun selectAccount(account: MagisterAccount)
+    /**
+     * Open the login screen to add a new account.
+     */
     fun openLoginScreen()
 }
