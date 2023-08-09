@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'logic'
-    spec.version                  = '3.3.1'
+    spec.version                  = '3.4.0'
     spec.homepage                 = 'https://otarium.groosman.nl'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
