@@ -8,7 +8,6 @@ plugins {
     id("kotlinx-serialization")
     id("kotlin-parcelize")
     alias(libs.plugins.compose)
-    id(libs.plugins.mokoresources.get().pluginId)
     //id(libs.plugins.google.services.get().pluginId)
 }
 
@@ -58,17 +57,10 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
 
-                api(libs.moko.resources.core)
-                api(libs.moko.resources.compose)
+                implementation(libs.kotlin.serializationjson)
 
                 implementation(libs.kotlin.datetime)
-                implementation(libs.multiplatform.settings)
                 implementation(libs.decompose.core)
-                implementation(libs.decompose.compose)
-
-                implementation(libs.color.math)
-
-                implementation(libs.skiko)
 
             }
         }

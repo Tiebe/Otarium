@@ -14,7 +14,7 @@ import nl.tiebe.otarium.logic.home.children.messages.children.message.children.R
  * @param MessageItem The type of the message.
  * @param MessageFolder The type of the folder.
  */
-interface MessagesComponent<MessageItem, MessageFolder>: HomeComponent.MenuItemComponent {
+interface MessagesComponent<MessageItem: Parcelable, MessageFolder: Parcelable>: HomeComponent.MenuItemComponent {
     /** The stack navigation */
     val navigation: StackNavigation<Config>
 
@@ -68,7 +68,7 @@ interface MessagesComponent<MessageItem, MessageFolder>: HomeComponent.MenuItemC
          * @param folderId The id of the folder to show.
          */
         @Parcelize
-        data class Folder<MessageFolder>(val folder: MessageFolder) : Config()
+        data class Folder<MessageFolder: Parcelable>(val folder: MessageFolder) : Config()
 
         /**
          * Shows the message.
@@ -76,7 +76,7 @@ interface MessagesComponent<MessageItem, MessageFolder>: HomeComponent.MenuItemC
          * @param messageLink The link to the message.
          */
         @Parcelize
-        data class Message<MessageItem>(val message: MessageItem) : Config()
+        data class Message<MessageItem: Parcelable>(val message: MessageItem) : Config()
 
         /**
          * Shows information about the receiver of a message.
@@ -85,6 +85,6 @@ interface MessagesComponent<MessageItem, MessageFolder>: HomeComponent.MenuItemC
          * @param receiverType The type of the receiver. (Main, CC, BCC)
          */
         @Parcelize
-        data class ReceiverInfo<MessageItem>(val message: MessageItem, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
+        data class ReceiverInfo<MessageItem: Parcelable>(val message: MessageItem, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
     }
 }

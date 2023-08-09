@@ -1,12 +1,13 @@
 package nl.tiebe.otarium.logic.home.children.messages.children.folder
 
 import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.essenty.parcelable.Parcelable
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
  * Interface for the implementation of the backend for the folder UI.
  */
-interface FolderComponent<MessageItem, MessageFolder> {
+interface FolderComponent<MessageItem: Parcelable, MessageFolder: Parcelable> {
     /** The parent component */
     val parentComponent: MessagesComponent<MessageItem, MessageFolder>
 

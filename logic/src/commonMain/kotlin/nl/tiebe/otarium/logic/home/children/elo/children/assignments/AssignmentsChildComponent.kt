@@ -41,7 +41,7 @@ interface AssignmentsChildComponent<Assignment> : ELOComponent.ELOChildComponent
          * @param assignment The assignment to show the menu for.
          */
         @Parcelize
-        data class AssignmentMenu<Assignment>(val assignment: Assignment) : Config()
+        data class AssignmentMenu<Assignment: Parcelable>(val assignment: Assignment) : Config()
     }
 
     /**

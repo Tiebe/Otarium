@@ -1,10 +1,7 @@
 package nl.tiebe.otarium.logic.home.children.debug
 
-import dev.icerock.moko.resources.desc.StringDesc
 import nl.tiebe.otarium.logic.RootComponent
 import nl.tiebe.otarium.logic.home.HomeComponent
-
-var currentLanguage = "en"
 
 interface DebugComponent: HomeComponent.MenuItemComponent {
     /** The root component. */
@@ -25,13 +22,5 @@ interface DebugComponent: HomeComponent.MenuItemComponent {
     /**
      * Change the language.
      */
-    fun changeLanguage() {
-        if (currentLanguage == "en") {
-            StringDesc.localeType = StringDesc.LocaleType.Custom("nl")
-            currentLanguage = "nl"
-        } else {
-            StringDesc.localeType = StringDesc.LocaleType.Custom("en")
-            currentLanguage = "en"
-        }
-    }
+    fun changeLanguage()
 }
