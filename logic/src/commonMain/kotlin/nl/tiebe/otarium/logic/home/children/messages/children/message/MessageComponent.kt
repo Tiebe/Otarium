@@ -3,21 +3,22 @@ package nl.tiebe.otarium.logic.home.children.messages.children.message
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.response.messages.Attachment
-import dev.tiebe.magisterapi.response.messages.MessageData
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
  * Interface for the backend of the message screen.
+ *
+ * @param MessageItem The type of the message item.
+ * @param MessageFolder The type of the message folder.
+ * @param MessageExtraData The type of extra message data.
+ * @param Attachment The type of a message attachment.
  */
-interface MessageComponent {
+interface MessageComponent<MessageItem, MessageFolder, MessageExtraData: Any, Attachment: Any> {
     /** The parent component. */
-    val parentComponent: MessagesComponent
-
-    /** The message link. */
-    val messageLink: String
+    val parentComponent: MessagesComponent<MessageItem, MessageFolder>
 
     /** The message data. */
-    val message: MutableValue<MessageData>
+    val message: MutableValue<MessageExtraData>
 
     /** The message attachments. If there are no attachments in this list, the UI item should be hidden. */
     val attachments: Value<List<Attachment>>

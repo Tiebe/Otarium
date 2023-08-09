@@ -1,27 +1,25 @@
 package nl.tiebe.otarium.logic.home.children.messages.children.folder
 
-import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.messages.Message
-import dev.tiebe.magisterapi.response.messages.MessageFolder
+import com.arkivanov.decompose.value.MutableValue
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
  * Interface for the implementation of the backend for the folder UI.
  */
-interface FolderComponent {
+interface FolderComponent<MessageItem, MessageFolder> {
     /** The parent component */
-    val parentComponent: MessagesComponent
+    val parentComponent: MessagesComponent<MessageItem, MessageFolder>
 
     /** The folder */
     val folder: MessageFolder
 
     /** The subfolders of this folder. */
-    val subFolders: Value<List<MessageFolder>>
+    val subFolders: MutableValue<List<MessageFolder>>
 
     /** The messages in this folder. */
-    val messages: Value<List<Message>>
+    val messages: MutableValue<List<MessageItem>>
 
-    /***
+    /**
      * Refresh the messages and subfolders.
      */
     fun refresh()
@@ -31,5 +29,5 @@ interface FolderComponent {
      *
      * @return The new messages. These should also be saved to [messages].
      */
-    fun loadNewMessages(): List<Message>
+    fun loadNewMessages(): List<MessageItem>
 }
