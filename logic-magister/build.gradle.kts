@@ -7,7 +7,6 @@ plugins {
     id("com.android.library")
     id("kotlinx-serialization")
     id("kotlin-parcelize")
-    id(libs.plugins.mokoresources.get().pluginId)
 }
 
 version = libs.versions.app.version.string.get()
@@ -36,17 +35,20 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(project(":logic"))
+                implementation(libs.magister.api)
+
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.serialization.json)
+
                 implementation(libs.kotlin.serializationjson)
 
                 implementation(libs.kotlin.datetime)
                 implementation(libs.decompose.core)
 
                 implementation(libs.color.math)
-
-                implementation(libs.kotlin.coroutines)
-
-                api(libs.moko.resources.core)
-                implementation(libs.multiplatform.settings)
 
             }
         }
@@ -68,8 +70,4 @@ kotlin {
         }
 
     }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "nl.tiebe.otarium"
 }

@@ -4,7 +4,6 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.datetime.DateTimeUnit
@@ -40,13 +39,13 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
     val currentPage: MutableValue<Int>
 
     /** The list of timetable items loaded from the server. */
-    val timetable: Value<List<Pair<TimetableItem, ItemInformation>>>
+    val timetable: MutableValue<List<FullTimetableItem<TimetableItem, ItemInformation>>>
 
     // The index of the week in the timetable that of the day that is currently selected (so the current week would be 0)
-    val selectedWeek: Value<Int>
+    val selectedWeek: MutableValue<Int>
 
     //TODO: remove this variable (by returning Future or MutableValue from refreshTimetable)
-    val isRefreshingTimetable: Value<Boolean>
+    val isRefreshingTimetable: MutableValue<Boolean>
 
     /**
      * Set this day as the selected day.
@@ -62,10 +61,8 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
      *
      * @param from The starting date.
      * @param to The ending date.
-     *
-     * @return A list of timetable items.
      */
-    fun getTimeTable(from: LocalDate, to: LocalDate): List<FullTimetableItem<TimetableItem, ItemInformation>>
+    fun getTimeTable(from: LocalDate, to: LocalDate)
 
     /**
      * Refresh the currently selected week.
@@ -114,7 +111,7 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
      * @param item The timetable item
      * @param extraInformation The extra information associated with this item
      */
-    data class FullTimetableItem<TimetableItem, ItemInformation>(val id: Int, val item: TimetableItem, val extraInformation: ItemInformation)
+    data class FullTimetableItem<TimetableItem, ItemInformation>(val id: Int, val item: TimetableItem, val extraInformation: ItemInformation?)
 
     /**
      * The navigation config objects.

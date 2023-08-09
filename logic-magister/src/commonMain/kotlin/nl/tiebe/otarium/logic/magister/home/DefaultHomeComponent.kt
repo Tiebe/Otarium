@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.logic.default.home
+package nl.tiebe.otarium.logic.magister.home
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.slot.ChildSlot
@@ -6,15 +6,19 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
+import dev.tiebe.magisterapi.response.general.year.absence.Absence
+import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
+import nl.tiebe.otarium.logic.RootComponent
 import nl.tiebe.otarium.logic.default.home.children.averages.DefaultAveragesComponent
 import nl.tiebe.otarium.logic.default.home.children.debug.DefaultDebugComponent
 import nl.tiebe.otarium.logic.default.home.children.elo.DefaultELOComponent
 import nl.tiebe.otarium.logic.default.home.children.grades.DefaultGradesComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.logic.default.home.children.settings.DefaultSettingsComponent
-import nl.tiebe.otarium.logic.default.home.children.timetable.DefaultTimetableRootComponent
-import nl.tiebe.otarium.logic.root.RootComponent
-import nl.tiebe.otarium.logic.root.home.HomeComponent
+import nl.tiebe.otarium.logic.home.HomeComponent
+import nl.tiebe.otarium.logic.home.MenuItem
+import nl.tiebe.otarium.logic.home.children.timetable.TimetableComponent
+import nl.tiebe.otarium.logic.magister.home.children.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.logic.root.home.MenuItems
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.logic.root.home.children.debug.DebugComponent
@@ -22,47 +26,48 @@ import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
-import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 
-open class DefaultHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): HomeComponent, ComponentContext by componentContext {
-    private val dialogNavigation = SlotNavigation<MenuItems>()
+class DefaultHomeComponent(componentContext: ComponentContext, override val rootComponent: RootComponent): HomeComponent, ComponentContext by componentContext {
+    override val navigation = SlotNavigation<MenuItem>()
 
-    override val visibleItems: List<MenuItems> = listOf(
-        MenuItems.Timetable,
-        MenuItems.Grades,
-        MenuItems.Averages,
-        MenuItems.Messages,
+    override val menuItems = listOf(
+        MenuItem("Timetable", {}, {}),
+        MenuItem("Grades", {}, {}),
+        MenuItem("Averages", {}, {}),
+        MenuItem("Messages", {}, {}),
+        MenuItem("ELO", {}, {}),
+        MenuItem("Settings", {}, {}),
     )
 
-    override val dialog: Value<ChildSlot<MenuItems, HomeComponent.MenuItemComponent>> = childSlot<MenuItems, HomeComponent.MenuItemComponent>(
-        dialogNavigation,
+    val dialog: Value<ChildSlot<MenuItem, HomeComponent.MenuItemComponent>> = childSlot<MenuItem, HomeComponent.MenuItemComponent>(
+        navigation,
         "HomeComponentChildOverlay",
-        { MenuItems.Timetable },
+        { menuItems[0] },
         persistent = true,
         handleBackButton = false
     ) { config, componentContext ->
         when (config) {
-            is MenuItems.Timetable -> timetableComponent(componentContext)
-            is MenuItems.Grades -> gradesComponent(componentContext)
-            is MenuItems.Averages -> averagesComponent(componentContext)
-            is MenuItems.Messages -> messagesComponent(componentContext)
-            is MenuItems.ELO -> eloComponent(componentContext)
-            is MenuItems.Settings -> settingsComponent(componentContext)
-            is MenuItems.Debug -> debugComponent(componentContext)
+            menuItems[0] -> timetableComponent(componentContext)
+            menuItems[1] -> gradesComponent(componentContext)
+            menuItems[2] -> averagesComponent(componentContext)
+            menuItems[3] -> messagesComponent(componentContext)
+            menuItems[4] -> eloComponent(componentContext)
+            menuItems[5] -> settingsComponent(componentContext)
+            else -> { debugComponent(componentContext) }
         }
     }
 
-    open fun timetableComponent(componentContext: ComponentContext): TimetableRootComponent =
-        DefaultTimetableRootComponent(
+    fun timetableComponent(componentContext: ComponentContext): TimetableComponent<AgendaItem, Absence> =
+        DefaultTimetableComponent(
             componentContext = componentContext,
         )
 
-    open fun gradesComponent(componentContext: ComponentContext): GradesComponent =
+    fun gradesComponent(componentContext: ComponentContext): GradesComponent =
         DefaultGradesComponent(
             componentContext = componentContext
         )
 
-    open fun averagesComponent(componentContext: ComponentContext): AveragesComponent =
+    fun averagesComponent(componentContext: ComponentContext): AveragesComponent =
         DefaultAveragesComponent(
             componentContext = componentContext
         )

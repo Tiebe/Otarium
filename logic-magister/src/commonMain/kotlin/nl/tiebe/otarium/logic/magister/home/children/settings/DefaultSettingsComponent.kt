@@ -10,7 +10,7 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.home.children.settings.children.main.DefaultMainChildComponent
 import nl.tiebe.otarium.logic.default.home.children.settings.children.ui.DefaultUIChildComponent
 import nl.tiebe.otarium.logic.default.home.children.settings.children.ui.children.colors.DefaultColorChildComponent
-import nl.tiebe.otarium.logic.default.login.DefaultLoginComponent
+import nl.tiebe.otarium.logic.magister.login.DefaultLoginComponent
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
 import nl.tiebe.otarium.magister.MagisterAccount
@@ -36,7 +36,7 @@ class DefaultSettingsComponent(
     override fun openLoginScreen() {
         navigateRootComponent(
             RootComponent.ChildScreen.LoginChild(
-                DefaultLoginComponent(
+                nl.tiebe.otarium.logic.magister.login.DefaultLoginComponent(
                     componentContext = this,
                     navigateRootComponent
                 )
