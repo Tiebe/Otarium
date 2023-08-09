@@ -1,18 +1,33 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.studyguides.children.list
 
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.studyguide.StudyGuide
-import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
+import nl.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
-interface StudyGuideListComponent : StudyGuidesChildComponent.StudyGuideChildScreen {
+/**
+ * A child component of the study guides component that handles the study guide list.
+ *
+ * @param StudyGuide The type of study guide.
+ */
+interface StudyGuideListComponent<StudyGuide> : StudyGuidesChildComponent.StudyGuideChildScreen {
+    /** The study guides. */
     val studyGuides: Value<List<StudyGuide>>
-    val parentComponent: StudyGuidesChildComponent
 
-    val isRefreshing: Value<Boolean>
+    /** The parent component. */
+    val parentComponent: StudyGuidesChildComponent<StudyGuide>
 
-    fun refreshStudyGuides()
+    /**
+     * Refreshes the study guides.
+     *
+     * @return The refreshed study guides. These should also be stored in [studyGuides].
+     */
+    fun refreshStudyGuides(): List<StudyGuide>
 
+    /**
+     * Navigates to the study guide menu.
+     *
+     * @param studyGuide The study guide to navigate to.
+     */
     fun navigateToStudyGuide(studyGuide: StudyGuide) {
-        parentComponent.navigate(StudyGuidesChildComponent.Config.StudyGuide(studyGuide.links.first { it.rel == "Self" }.href))
+        parentComponent.navigate(StudyGuidesChildComponent.Config.StudyGuideMenu(studyGuide))
     }
 }

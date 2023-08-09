@@ -1,22 +1,41 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.assignments.children.assignment
 
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.assignment.Assignment
-import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
-import dev.tiebe.magisterapi.response.assignment.Attachment
 
-interface AssignmentScreenComponent {
-    val assignment: Value<Assignment>
-    val versions: Value<List<AssignmentVersion>>
+/**
+ * The interface for the assignment information screen.
+ *
+ * @param Assignment The type of assignment.
+ */
+interface AssignmentScreenComponent<Assignment: Any, AssignmentVersion, Attachment> {
+    /** The assignment. */
+    val assignment: MutableValue<Assignment>
 
-    val assignmentLink: String
+    /** The assignment versions. */
+    val versions: MutableValue<List<AssignmentVersion>>
 
-    val isRefreshing: Value<Boolean>
+    /**
+     * Refresh the assignment.
+     *
+     * @return The refreshed assignment. This should also be set in the [assignment] value.
+     */
+    fun refreshAssignment(): Assignment
 
-    fun refreshAssignment()
+    /**
+     * Refresh the assignment versions.
+     *
+     * @return The refreshed assignment versions. This should also be set in the [versions] value.
+     */
+    suspend fun getVersions(assignment: Assignment): List<AssignmentVersion>
 
-    suspend fun getVersions(assignment: Assignment)
+    /**
+     * Download the given attachment. The progress should be set in the [attachmentDownloadProgress] value.
+     *
+     * @param attachment The attachment to download.
+     */
     fun downloadAttachment(attachment: Attachment)
 
+    /** The download progress of the attachments. */
     val attachmentDownloadProgress: Value<Map<Int, Float>>
 }

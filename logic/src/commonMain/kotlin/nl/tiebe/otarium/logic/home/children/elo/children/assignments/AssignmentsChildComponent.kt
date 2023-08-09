@@ -1,46 +1,51 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.assignments
 
-import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.list.AssignmentListComponent
-import kotlinx.coroutines.CoroutineScope
+import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
 
-interface AssignmentsChildComponent : ELOComponent.ELOChildComponent {
+
+/**
+ * The interface for the assignment child components.
+ *
+ * @param Assignment The type of assignment.
+ */
+interface AssignmentsChildComponent<Assignment> : ELOComponent.ELOChildComponent {
+    /** The stack navigation. */
     val navigation: StackNavigation<Config>
-    val childStack: Value<ChildStack<Config, Child>>
 
-    val refreshState: Value<Boolean>
-    val scope: CoroutineScope
-
+    /**
+     * Navigate to the given child.
+     *
+     * @param child The child to navigate to.
+     */
     fun navigate(child: Config) {
         navigation.push(child)
     }
 
-    sealed class Child {
-        class AssignmentList(val component: AssignmentListComponent) : Child()
-        class Assignment(val component: AssignmentScreenComponent) : Child()
-    }
-
+    /**
+     * The possible submenus.
+     */
     sealed class Config : Parcelable {
+        /**
+         * The list of assignments.
+         */
         @Parcelize
-        object AssignmentList : Config()
+        data object AssignmentList : Config()
 
+        /**
+         * The menu for an assignment.
+         *
+         * @param assignment The assignment to show the menu for.
+         */
         @Parcelize
-        data class Assignment(val assignmentLink: String) : Config()
+        data class AssignmentMenu<Assignment>(val assignment: Assignment) : Config()
     }
 
-
-    val onBack: MutableValue<() -> Unit>
-
-    fun registerBackHandler()
-    fun unregisterBackHandler()
-
+    /**
+     * The interface that all the assignment child components should implement.
+     */
     interface AssignmentChildScreen
 }

@@ -1,50 +1,47 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.studyguides
 
-import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import dev.tiebe.magisterapi.response.studyguide.StudyGuide
-import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
-import kotlinx.coroutines.CoroutineScope
+import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
 
-interface StudyGuidesChildComponent : ELOComponent.ELOChildComponent {
+interface StudyGuidesChildComponent<StudyGuide> : ELOComponent.ELOChildComponent {
+    /** The stack navigation */
     val navigation: StackNavigation<Config>
-    val childStack: Value<ChildStack<Config, Child>>
 
-    val refreshState: Value<Boolean>
-    val scope: CoroutineScope
-
+    /**
+     * Navigate to the given child.
+     *
+     * @param child The child to navigate to.
+     */
     fun navigate(child: Config) {
         navigation.push(child)
     }
 
-    val studyGuides: Value<List<StudyGuide>>
+    /** The study guides. */
+    val studyGuides: MutableValue<List<StudyGuide>>
 
-    sealed class Child {
-        class StudyGuideListChild(val component: StudyGuideListComponent) : Child()
-        class FolderChild(val component: StudyGuideFolderComponent) : Child()
-    }
-
+    /**
+     * The possible menus.
+     */
     sealed class Config : Parcelable {
+        /**
+         * List of study guides.
+         */
         @Parcelize
-        object StudyGuideList : Config()
+        data object StudyGuideList : Config()
 
+        /**
+         * The study guide.
+         *
+         * @param studyGuide The study guide.
+         */
         @Parcelize
-        data class StudyGuide(val studyGuideLink: String) : Config()
+        data class StudyGuideMenu<StudyGuide>(val studyGuide: StudyGuide) : Config()
     }
 
-
-    val onBack: MutableValue<() -> Unit>
-
-    fun registerBackHandler()
-    fun unregisterBackHandler()
-
-
+    /** The interface that all the study guide child components should implement. */
     interface StudyGuideChildScreen
 }

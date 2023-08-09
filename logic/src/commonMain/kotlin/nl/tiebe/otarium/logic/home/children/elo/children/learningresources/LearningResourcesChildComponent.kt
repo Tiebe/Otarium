@@ -1,7 +1,6 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.learningresources
 
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.learningresource.LearningResource
 import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
 
 /**

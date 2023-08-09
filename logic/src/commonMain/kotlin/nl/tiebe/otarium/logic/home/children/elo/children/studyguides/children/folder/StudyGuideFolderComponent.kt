@@ -1,31 +1,23 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.studyguides.children.folder
 
-import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.api.studyguide.StudyGuideFlow
-import dev.tiebe.magisterapi.response.studyguide.Resource
-import dev.tiebe.magisterapi.response.studyguide.StudyGuideContent
-import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.default.componentCoroutineScope
-import nl.tiebe.otarium.utils.openFileFromCache
-import nl.tiebe.otarium.utils.requestGET
-import nl.tiebe.otarium.utils.writeFile
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import kotlinx.coroutines.launch
 
-interface StudyGuideFolderComponent {
+interface StudyGuideFolderComponent<StudyGuide, StudyGuideContent: Any, StudyGuideResource> {
     val content: Value<StudyGuideContent>
-    val contentItems: Value<List<StudyGuideContentItem>>
-    val studyGuideLink: String
+    val studyGuide: StudyGuide
 
+    /** The study guide resource download progress. A map from the resource id to the progress float (0.0-1.0) */
     val resourceDownloadProgress: Value<Map<Int, Float>>
 
-    val refreshing: Value<Boolean>
+    /**
+     * Download a resource. The progress can be tracked using [resourceDownloadProgress].
+     *
+     * @param item The resource to download.
+     */
+    fun downloadResource(item: StudyGuideResource)
 
-    fun downloadResource(item: Resource)
-
+    /**
+     * Load the content of this study guide.
+     */
     fun loadContent()
 }
