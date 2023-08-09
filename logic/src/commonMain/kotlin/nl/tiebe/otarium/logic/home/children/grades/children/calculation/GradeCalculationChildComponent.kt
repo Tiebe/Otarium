@@ -1,40 +1,87 @@
 package nl.tiebe.otarium.logic.home.children.grades.children.calculation
 
-import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
+import com.arkivanov.essenty.parcelable.Parcelize
+import dev.icerock.moko.parcelize.Parcelable
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
-import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
-import nl.tiebe.otarium.magister.GradeWithGradeInfo
-import nl.tiebe.otarium.magister.ManualGrade
+import kotlinx.serialization.Serializable
+import nl.tiebe.otarium.logic.home.children.grades.GradesComponent
 
+/**
+ * Interface for the implementation of the backend for the grade calculation UI.
+ */
 interface GradeCalculationChildComponent : GradesComponent.GradesChildComponent {
-    val openedSubject: Value<Pair<Boolean, Subject?>>
+    /** The stack navigation */
+    val navigation: StackNavigation<Config>
 
-    val backCallbackOpenItem: BackCallback
-
+    /** The manual grades */
     val manualGradesList: Value<List<ManualGrade>>
-    val addManualGradePopupOpen: MutableValue<Boolean>
 
+    /**
+     * Add a manual grade.
+     *
+     * @param manualGrade The manual grade to add.
+     */
     fun addManualGrade(manualGrade: ManualGrade)
+
+    /**
+     * Remove a manual grade.
+     *
+     * @param manualGrade The manual grade to remove.
+     */
     fun removeManualGrade(manualGrade: ManualGrade)
 
+    /**
+     * Navigate to the given subject.
+     *
+     * @param subject The subject to navigate to.
+     */
     fun openSubject(subject: Subject) {
-        backCallbackOpenItem.isEnabled = true
-
-        (openedSubject as MutableValue).value = true to subject
+        navigation.push(Config.SubjectMenu(subject))
     }
 
+    /**
+     * Close the currently opened subject.
+     */
     fun closeSubject() {
-        backCallbackOpenItem.isEnabled = false
-        (openedSubject as MutableValue).value = false to openedSubject.value.second
+        navigation.pop()
     }
 
-    sealed class State {
-        object Loading: State()
-        data class Data(val data: List<GradeWithGradeInfo>): State()
-        object Failed: State()
+    /**
+     * The possible menus.
+     */
+    sealed class Config : Parcelable {
+        /**
+         * The main menu.
+         */
+        @Parcelize
+        data object Main : Config()
+
+        /**
+         * The subject menu.
+         *
+         * @param subject The subject to show the menu for.
+         */
+        @Parcelize
+        data class SubjectMenu(val subject: Subject) : Config()
     }
 
-    val state: Value<State>
+    /**
+     * A manually added grade.
+     *
+     * @param name The name of the grade.
+     * @param grade The grade.
+     * @param weight The weight of the grade.
+     * @param subjectId The id of the subject.
+     */
+    @Serializable
+    data class ManualGrade(
+        val name: String,
+        val grade: String,
+        val weight: Float,
+        val subjectId: Int,
+    )
 }
