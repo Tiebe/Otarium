@@ -71,7 +71,6 @@ kotlin {
                 implementation(libs.decompose.core)
                 implementation(libs.decompose.compose)
 
-                implementation(libs.magister.api)
                 implementation(libs.color.math)
 
                 implementation(libs.skiko)

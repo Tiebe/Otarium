@@ -6,14 +6,13 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.parcelize.Parcelable
-import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.logic.home.children.grades.GradesComponent
 
 /**
  * Interface for the implementation of the backend for the grade calculation UI.
  */
-interface GradeCalculationChildComponent : GradesComponent.GradesChildComponent {
+interface GradeCalculationChildComponent<Subject> : GradesComponent.GradesChildComponent {
     /** The stack navigation */
     val navigation: StackNavigation<Config>
 
@@ -66,7 +65,7 @@ interface GradeCalculationChildComponent : GradesComponent.GradesChildComponent 
          * @param subject The subject to show the menu for.
          */
         @Parcelize
-        data class SubjectMenu(val subject: Subject) : Config()
+        data class SubjectMenu<Subject>(val subject: Subject) : Config()
     }
 
     /**

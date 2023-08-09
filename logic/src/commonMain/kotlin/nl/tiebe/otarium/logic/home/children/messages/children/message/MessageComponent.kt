@@ -2,7 +2,6 @@ package nl.tiebe.otarium.logic.home.children.messages.children.message
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.messages.Attachment
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
