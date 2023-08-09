@@ -1,24 +1,24 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'logic'
+    spec.name                     = 'logic_magister'
     spec.version                  = '3.4.0'
     spec.homepage                 = ''
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = ''
-    spec.vendored_frameworks      = 'build/cocoapods/framework/logic.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/logic_magister.framework'
     spec.libraries                = 'c++'
                 
                 
                 
     spec.pod_target_xcconfig = {
-        'KOTLIN_PROJECT_PATH' => ':logic',
-        'PRODUCT_MODULE_NAME' => 'logic',
+        'KOTLIN_PROJECT_PATH' => ':logic-magister',
+        'PRODUCT_MODULE_NAME' => 'logic_magister',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build logic',
+            :name => 'Build logic_magister',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT

@@ -5,5 +5,9 @@ import nl.tiebe.otarium.logic.RootComponent
 interface LoginComponent {
     val rootComponent: RootComponent
 
-    suspend fun login()
+    var startingUrl: String
+
+
+    fun urlChangeCallback(newUrl: String): Boolean
+    fun regenerateStartingUrl()
 }

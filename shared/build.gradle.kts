@@ -66,7 +66,6 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.runtime)
 
-                api(libs.moko.resources.core)
                 api(libs.moko.resources.compose)
 
                 implementation(libs.kotlin.datetime)

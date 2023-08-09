@@ -1,15 +1,16 @@
-package nl.tiebe.otarium
+package nl.tiebe.otarium.logic.data
 
-import kotlinx.serialization.decodeFromString
+import com.russhwolf.settings.Settings
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.CustomTheme
+import nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.defaultDarkTheme
+import nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.defaultLightTheme
 import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.theme.CustomTheme
-import nl.tiebe.otarium.ui.theme.defaultDarkTheme
-import nl.tiebe.otarium.ui.theme.defaultLightTheme
-
 object Data {
+    val settings = Settings()
+
     var finishedOnboarding: Boolean
         get() = settings.getBoolean("finished_onboarding", false)
         set(value) = settings.putBoolean("finished_onboarding", value)
@@ -45,12 +46,12 @@ object Data {
 
     var customLightTheme: CustomTheme
         get() = settings.getStringOrNull("custom_light_theme")?.let {
-            Json.decodeFromString(it) } ?: defaultLightTheme
+            Json.decodeFromString(it) } ?: defaultLightTheme.value
         set(value) = settings.putString("custom_light_theme", Json.encodeToString(value))
 
     var customDarkTheme: CustomTheme
         get() = settings.getStringOrNull("custom_dark_theme")?.let {
-            Json.decodeFromString(it) } ?: defaultDarkTheme
+            Json.decodeFromString(it) } ?: defaultDarkTheme.value
         set(value) = settings.putString("custom_dark_theme", Json.encodeToString(value))
 
     var dynamicTheme: Boolean

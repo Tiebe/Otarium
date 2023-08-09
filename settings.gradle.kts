@@ -19,3 +19,4 @@ rootProject.name = "Otarium"
 include(":androidApp")
 include(":shared")
 include(":logic")
+include(":logic-magister")
