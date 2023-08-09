@@ -2,6 +2,7 @@ package nl.tiebe.otarium.logic.home.children.messages.children.message
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
@@ -12,7 +13,7 @@ import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
  * @param MessageExtraData The type of extra message data.
  * @param Attachment The type of a message attachment.
  */
-interface MessageComponent<MessageItem, MessageFolder, MessageExtraData: Any, Attachment: Any> {
+interface MessageComponent<MessageItem: Parcelable, MessageFolder: Parcelable, MessageExtraData: Any, Attachment: Any> {
     /** The parent component. */
     val parentComponent: MessagesComponent<MessageItem, MessageFolder>
 

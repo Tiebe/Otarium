@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.studyguides.children.list
 
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.parcelable.Parcelable
 import nl.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
 /**
@@ -8,7 +9,7 @@ import nl.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuides
  *
  * @param StudyGuide The type of study guide.
  */
-interface StudyGuideListComponent<StudyGuide> : StudyGuidesChildComponent.StudyGuideChildScreen {
+interface StudyGuideListComponent<StudyGuide: Parcelable> : StudyGuidesChildComponent.StudyGuideChildScreen {
     /** The study guides. */
     val studyGuides: Value<List<StudyGuide>>
 

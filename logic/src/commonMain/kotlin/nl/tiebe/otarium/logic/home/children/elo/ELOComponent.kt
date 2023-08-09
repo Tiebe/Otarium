@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.logic.home.children.elo
 
+import com.arkivanov.essenty.parcelable.Parcelable
 import nl.tiebe.otarium.logic.home.HomeComponent
 import nl.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
 import nl.tiebe.otarium.logic.home.children.elo.children.learningresources.LearningResourcesChildComponent
@@ -13,7 +14,7 @@ import nl.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuides
  * @param Assignment The type of a assignment.
  * @param LearningResource The type of a learning resource.
  */
-interface ELOComponent<StudyGuide, Assignment, LearningResource> : HomeComponent.MenuItemComponent {
+interface ELOComponent<StudyGuide: Parcelable, Assignment, LearningResource> : HomeComponent.MenuItemComponent {
     /** The StudyGuidesChildComponent is the component that contains all the study guides. */
     val studyGuidesComponent: StudyGuidesChildComponent<StudyGuide>
     /** The AssignmentsChildComponent is the component that contains all the assignments. */
