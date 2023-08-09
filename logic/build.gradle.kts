@@ -1,5 +1,3 @@
-
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -10,8 +8,6 @@ plugins {
     id("kotlinx-serialization")
     id("kotlin-parcelize")
     alias(libs.plugins.compose)
-    id(libs.plugins.buildkonfig.get().pluginId)
-    id(libs.plugins.mokoresources.get().pluginId)
     //id(libs.plugins.google.services.get().pluginId)
 }
 
@@ -55,38 +51,21 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.client.logging)
-                implementation(libs.ktor.serialization.json)
-
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.runtime)
 
-                api(libs.moko.resources.core)
-                api(libs.moko.resources.compose)
+                implementation(libs.kotlin.serializationjson)
 
                 implementation(libs.kotlin.datetime)
-                implementation(libs.multiplatform.settings)
                 implementation(libs.decompose.core)
-                implementation(libs.decompose.compose)
-
-                implementation(libs.magister.api)
-                implementation(libs.color.math)
-
-                implementation(libs.skiko)
 
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.client.logging.jvm)
-                implementation(libs.ktor.client.json.jvm)
-                implementation(libs.ktor.client.android)
-
                 implementation(libs.guava.core)
                 implementation(libs.guava.coroutines)
 
@@ -98,7 +77,6 @@ kotlin {
         val iosMain by getting {
             resources.srcDirs("build/generated/moko/iosX64Main/src")
             dependencies {
-                implementation(libs.ktor.client.ios)
             }
         }
     }
@@ -111,16 +89,4 @@ kotlin {
         }
 
     }
-}
-
-buildkonfig {
-    packageName = "nl.tiebe.otarium"
-
-    defaultConfigs {
-        buildConfigField(INT, "versionCode", libs.versions.app.version.code.get())
-    }
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "nl.tiebe.otarium"
 }

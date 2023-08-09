@@ -3,6 +3,21 @@ package nl.tiebe.otarium.magister
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.TokenResponse
+import nl.tiebe.otarium.Data
+
+//TODO: REMOVE THIS AFTER
+fun setDebugServer() {
+    LoginFlow.setAuthorizationEndpoint("http://laptop:8081/realms/master/protocol/openid-connect/auth")
+    LoginFlow.setTokenEndpoint("http://laptop:8081/realms/master/protocol/openid-connect/token")
+
+    ProfileInfoFlow.setWellKnown("http://laptop:8080/.well-known/host-meta.json")
+}
+
+fun setDebugInformation() {
+    Data.finishedOnboarding = true
+    Data.storeLoginBypass = true
+}
+
 
 suspend fun exchangeUrl(code: String, codeVerifier: String): MagisterAccount {
     val response = LoginFlow.exchangeTokens(code, codeVerifier)
