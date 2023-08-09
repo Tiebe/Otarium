@@ -1,68 +1,89 @@
 package nl.tiebe.otarium.logic.home.children.messages
 
-import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
-import nl.tiebe.otarium.logic.root.home.HomeComponent
-import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
-import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
-import nl.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
-import kotlinx.coroutines.CoroutineScope
+import nl.tiebe.otarium.logic.home.HomeComponent
+import nl.tiebe.otarium.logic.home.children.messages.children.message.children.ReceiverInfoComponent
 
+/**
+ * Interface for the implementation of the backend for the messages UI.
+ */
 interface MessagesComponent: HomeComponent.MenuItemComponent {
+    /** The stack navigation */
     val navigation: StackNavigation<Config>
-    val childStack: Value<ChildStack<Config, Child>>
 
-    val refreshState: Value<Boolean>
-    val scope: CoroutineScope
+    /**
+     * Get the available folders.
+     *
+     * @return A list of the available folders.
+     */
+    suspend fun getFolders(): List<MessageFolder>
 
-    val onBack: MutableValue<() -> Unit>
-
-
-    suspend fun getFoldersAsync()
-    fun getFolders()
-
+    /**
+     * Navigate to a submenu.
+     *
+     * @param child The config for that submenu child.
+     */
     fun navigate(child: Config) {
         navigation.push(child)
     }
 
-    fun navigateToFolder(folder: MessageFolder) {
-        navigate(Config.Folder(folder.id))
-    }
+    /**
+     * Navigate to the given folder.
+     *
+     * @param folder The folder to navigate to.
+     */
+    fun navigateToFolder(folder: MessageFolder) = navigate(Config.Folder(folder.id))
 
-    fun navigateToMessage(message: Message) {
-        navigate(Config.Message(message.links.self?.href ?: return))
-    }
+    /**
+     * Navigate to the given message.
+     *
+     * @param message The message to navigate to.
+     */
+    fun navigateToMessage(message: Message) { navigate(Config.Message(message.links.self?.href ?: return)) }
 
-    val folders: Value<List<MessageFolder>>
+    /** The folder available on the server. */
+    val folders: MutableValue<List<MessageFolder>>
 
-    sealed class Child {
-        class MainChild(val component: MessagesComponent) : Child()
-        class FolderChild(val component: FolderComponent) : Child()
-        class MessageChild(val component: MessageComponent) : Child()
-        class ReceiverInfoChild(val component: ReceiverInfoComponent) : Child()
-    }
-
+    /**
+     * The possible menus.
+     */
     sealed class Config : Parcelable {
+        /**
+         * The main menu, will probably stop existing in the near future, in favor of just going to the first folder.
+         */
+        @Deprecated("Should go to the first folder instead")
         @Parcelize
-        object Main : Config()
+        data object Main : Config()
 
+        /**
+         * Shows the folder contents, with all the messages.
+         *
+         * @param folderId The id of the folder to show.
+         */
         @Parcelize
         data class Folder(val folderId: Int) : Config()
 
+        /**
+         * Shows the message.
+         *
+         * @param messageLink The link to the message.
+         */
         @Parcelize
         data class Message(val messageLink: String) : Config()
 
+        /**
+         * Shows information about the receiver of a message.
+         *
+         * @param messageLink The link to the message.
+         * @param receiverType The type of the receiver. (Main, CC, BCC)
+         */
         @Parcelize
         data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
     }
-
-    fun registerBackHandler()
-    fun unregisterBackHandler()
 }
