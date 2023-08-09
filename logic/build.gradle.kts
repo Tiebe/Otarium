@@ -52,11 +52,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.ktor.client.core)
-                implementation(libs.ktor.client.content.negotiation)
-                implementation(libs.ktor.client.logging)
-                implementation(libs.ktor.serialization.json)
-
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
@@ -79,10 +74,6 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation(libs.ktor.client.logging.jvm)
-                implementation(libs.ktor.client.json.jvm)
-                implementation(libs.ktor.client.android)
-
                 implementation(libs.guava.core)
                 implementation(libs.guava.coroutines)
 
@@ -94,7 +85,6 @@ kotlin {
         val iosMain by getting {
             resources.srcDirs("build/generated/moko/iosX64Main/src")
             dependencies {
-                implementation(libs.ktor.client.ios)
             }
         }
     }
