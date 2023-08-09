@@ -1,54 +1,33 @@
 package nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import com.arkivanov.decompose.value.MutableValue
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
-import nl.tiebe.otarium.ui.theme.CustomTheme
-import nl.tiebe.otarium.ui.theme.defaultDarkTheme
-import nl.tiebe.otarium.ui.theme.defaultLightTheme
-import nl.tiebe.otarium.ui.utils.colorpicker.HsvColor
+import nl.tiebe.otarium.logic.home.children.settings.SettingsComponent
 
-val colorSchemeChanged = MutableValue(false)
-
+/**
+ * Interface for the color menu of the settings screen.
+ */
 interface ColorChildComponent {
+    /**
+     * Navigate to the given child.
+     */
     fun navigate(child: SettingsComponent.Config)
 
-    val dynamicColorState: MutableValue<Boolean>
-    val customColorScheme: MutableValue<Boolean>
+    /**
+     * Should reset the color scheme to the default color scheme.
+     */
+    fun resetCustomColorSchemes()
 
-    val primaryLightColor: MutableValue<HsvColor>
-    val secondaryLightColor: MutableValue<HsvColor>
-    val tertiaryLightColor: MutableValue<HsvColor>
+    /**
+     * Gets the current custom color schemes.
+     *
+     * @return A pair of the light and dark color schemes.
+     */
+    fun getCustomColorScheme(): Pair<CustomTheme, CustomTheme>
 
-    val primaryDarkColor: MutableValue<HsvColor>
-    val secondaryDarkColor: MutableValue<HsvColor>
-    val tertiaryDarkColor: MutableValue<HsvColor>
-
-    fun resetColorScheme() {
-        primaryLightColor.value = HsvColor.from(Color(defaultLightTheme.primary))
-        secondaryLightColor.value = HsvColor.from(Color(defaultLightTheme.secondary))
-        tertiaryLightColor.value = HsvColor.from(Color(defaultLightTheme.tertiary))
-
-        primaryDarkColor.value = HsvColor.from(Color(defaultDarkTheme.primary))
-        secondaryDarkColor.value = HsvColor.from(Color(defaultDarkTheme.secondary))
-        tertiaryDarkColor.value = HsvColor.from(Color(defaultDarkTheme.tertiary))
-    }
-
-    fun saveColorScheme() {
-        Data.customLightTheme = CustomTheme(
-            primary = primaryLightColor.value.toColor().toArgb(),
-            secondary = secondaryLightColor.value.toColor().toArgb(),
-            tertiary = tertiaryLightColor.value.toColor().toArgb()
-        )
-
-        Data.customDarkTheme = CustomTheme(
-            primary = primaryDarkColor.value.toColor().toArgb(),
-            secondary = secondaryDarkColor.value.toColor().toArgb(),
-            tertiary = tertiaryDarkColor.value.toColor().toArgb()
-        )
-
-        colorSchemeChanged.value = !colorSchemeChanged.value
-    }
+    /**
+     * Sets the custom color schemes.
+     *
+     * @param customLightTheme The light color scheme.
+     * @param customDarkTheme The dark color scheme.
+     */
+    fun setCustomColorScheme(customLightTheme: CustomTheme, customDarkTheme: CustomTheme)
 }
