@@ -1,20 +1,17 @@
 package nl.tiebe.otarium.logic.home.children.messages.children.message.children
 
-import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.messages.MessageData
+import com.arkivanov.decompose.value.MutableValue
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
  * Interface for the implementation of the backend for the receiver info UI.
  */
-interface ReceiverInfoComponent {
+interface ReceiverInfoComponent<MessageItem, MessageFolder, MessageExtraData: Any> {
     /** The parent component */
-    val parentComponent: MessagesComponent
-    /** The message link */
-    val messageLink: String
+    val parentComponent: MessagesComponent<MessageItem, MessageFolder>
 
     /** The message */
-    val message: Value<MessageData>
+    val message: MutableValue<MessageExtraData>
 
     /** The receiver type */
     val receiverType: ReceiverType

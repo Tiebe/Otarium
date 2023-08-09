@@ -1,29 +1,22 @@
 package nl.tiebe.otarium.logic.home.children.elo
 
-import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
-import nl.tiebe.otarium.logic.root.home.HomeComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.learningresources.LearningResourcesChildComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
+import nl.tiebe.otarium.logic.home.HomeComponent
+import nl.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
+import nl.tiebe.otarium.logic.home.children.elo.children.learningresources.LearningResourcesChildComponent
+import nl.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
+/**
+ * The ELOComponent is the component that contains all the ELO related components.
+ * This component is used to navigate to the different ELO related components.
+ */
 interface ELOComponent : HomeComponent.MenuItemComponent {
-    @Parcelize
-    sealed class ELOChild(val id: Int): Parcelable {
-        object StudyGuides : ELOChild(0)
-        object Assignments : ELOChild(1)
-        object LearningResources : ELOChild(2)
-
-    }
-
+    /** The StudyGuidesChildComponent is the component that contains all the study guides. */
     val studyGuidesComponent: StudyGuidesChildComponent
+    /** The AssignmentsChildComponent is the component that contains all the assignments. */
     val assignmentsComponent: AssignmentsChildComponent
+    /** The LearningResourcesChildComponent is the component that contains all the learning resources. */
     val learningResourcesComponent: LearningResourcesChildComponent
 
-    val currentPage: Value<Int>
-
-    fun changeChild(eloChild: ELOChild)
-
+    /** The interface that all the ELO child components should implement. */
     interface ELOChildComponent
 }

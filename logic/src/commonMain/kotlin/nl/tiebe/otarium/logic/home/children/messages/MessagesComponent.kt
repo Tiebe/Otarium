@@ -5,15 +5,16 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import dev.tiebe.magisterapi.response.messages.Message
-import dev.tiebe.magisterapi.response.messages.MessageFolder
 import nl.tiebe.otarium.logic.home.HomeComponent
 import nl.tiebe.otarium.logic.home.children.messages.children.message.children.ReceiverInfoComponent
 
 /**
  * Interface for the implementation of the backend for the messages UI.
+ *
+ * @param MessageItem The type of the message.
+ * @param MessageFolder The type of the folder.
  */
-interface MessagesComponent: HomeComponent.MenuItemComponent {
+interface MessagesComponent<MessageItem, MessageFolder>: HomeComponent.MenuItemComponent {
     /** The stack navigation */
     val navigation: StackNavigation<Config>
 
@@ -38,14 +39,14 @@ interface MessagesComponent: HomeComponent.MenuItemComponent {
      *
      * @param folder The folder to navigate to.
      */
-    fun navigateToFolder(folder: MessageFolder) = navigate(Config.Folder(folder.id))
+    fun navigateToFolder(folder: MessageFolder) = navigate(Config.Folder(folder))
 
     /**
      * Navigate to the given message.
      *
      * @param message The message to navigate to.
      */
-    fun navigateToMessage(message: Message) { navigate(Config.Message(message.links.self?.href ?: return)) }
+    fun navigateToMessage(message: MessageItem) { navigate(Config.Message(message)) }
 
     /** The folder available on the server. */
     val folders: MutableValue<List<MessageFolder>>
@@ -67,7 +68,7 @@ interface MessagesComponent: HomeComponent.MenuItemComponent {
          * @param folderId The id of the folder to show.
          */
         @Parcelize
-        data class Folder(val folderId: Int) : Config()
+        data class Folder<MessageFolder>(val folder: MessageFolder) : Config()
 
         /**
          * Shows the message.
@@ -75,7 +76,7 @@ interface MessagesComponent: HomeComponent.MenuItemComponent {
          * @param messageLink The link to the message.
          */
         @Parcelize
-        data class Message(val messageLink: String) : Config()
+        data class Message<MessageItem>(val message: MessageItem) : Config()
 
         /**
          * Shows information about the receiver of a message.
@@ -84,6 +85,6 @@ interface MessagesComponent: HomeComponent.MenuItemComponent {
          * @param receiverType The type of the receiver. (Main, CC, BCC)
          */
         @Parcelize
-        data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
+        data class ReceiverInfo<MessageItem>(val message: MessageItem, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
     }
 }
