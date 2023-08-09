@@ -1,49 +1,30 @@
 package nl.tiebe.otarium.logic.home.children.debug
 
 import dev.icerock.moko.resources.desc.StringDesc
-import dev.tiebe.magisterapi.response.TokenResponse
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.root.RootComponent
-import nl.tiebe.otarium.logic.root.home.HomeComponent
-import nl.tiebe.otarium.magister.getAccount
-import nl.tiebe.otarium.utils.copyToClipboard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import nl.tiebe.otarium.logic.RootComponent
+import nl.tiebe.otarium.logic.home.HomeComponent
 
 var currentLanguage = "en"
 
 interface DebugComponent: HomeComponent.MenuItemComponent {
-    val navigateRootComponent: (RootComponent.ChildScreen) -> Unit
-    val scope: CoroutineScope
+    /** The root component. */
+    val rootComponent: RootComponent
 
-    fun exportAccounts() {
-        val tokenList = Data.accounts.map {
-            it.tokens
-        }
+    /**
+     * Export the accounts to the clipboard.
+     */
+    fun exportAccounts()
 
-        copyToClipboard(Json.encodeToString(tokenList))
-    }
+    /**
+     * Import the accounts from a string.
+     *
+     * @param accounts The accounts to import.
+     */
+    fun importAccounts(accounts: String)
 
-    fun importAccounts(accounts: String) {
-        scope.launch {
-            val tokenList: List<TokenResponse> = Json.decodeFromString(accounts)
-
-            val accountList = tokenList.map {
-                getAccount(it)
-            }
-
-            for (account in accountList) {
-                if (Data.accounts.find { acc -> acc.profileInfo.person.id == account.profileInfo.person.id } == null) {
-                    Data.accounts =
-                        Data.accounts.toMutableList().apply { add(account) }
-                }
-            }
-        }
-    }
-
+    /**
+     * Change the language.
+     */
     fun changeLanguage() {
         if (currentLanguage == "en") {
             StringDesc.localeType = StringDesc.LocaleType.Custom("nl")
