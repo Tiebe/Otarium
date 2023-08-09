@@ -7,17 +7,21 @@ android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.10-alpha08"
+magister = "1.1.10-alpha26"
+
+kotlin-serialization = "1.6.0-RC"
 
 work-android = "2.8.1"
 
-kotlin = "1.8.0"
-gradle = "8.1.0-rc01"
+kotlin = "1.9.0"
+gradle = "8.1.0"
+gradle-android = "8.1.0"
+
 appcompat = "1.6.1"
 material = "1.4.0"
-compose = "1.4.0"
+compose = "1.4.3"
 compose-android = "1.4.3"
-compose-compiler = "1.4.0"
+compose-compiler = "1.5.1"
 compose-activity = "1.7.1"
 material3 = "1.0.1"
 ktor = "2.3.0"
@@ -32,7 +36,7 @@ guava = "31.1-android"
 guava-coroutines = "1.7.0-RC"
 
 complete-kotlin = "1.1.0"
-colormath = "3.2.0"
+colormath = "3.3.1"
 
 kotlin-datetime = "0.4.0"
 
@@ -51,9 +55,10 @@ compose-material3 = { group = "androidx.compose.material3", name = "material3", 
 
 android-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle-android" }
 
 kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
+kotlin-serializationjson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
