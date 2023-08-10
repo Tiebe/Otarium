@@ -7,6 +7,7 @@ plugins {
     id("com.android.library")
     id("kotlinx-serialization")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
     id(libs.plugins.mokoresources.get().pluginId)
 }
 
@@ -28,6 +29,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 kotlin {
@@ -52,6 +54,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                dependsOn(commonMain)
             }
         }
         val iosMain by getting {

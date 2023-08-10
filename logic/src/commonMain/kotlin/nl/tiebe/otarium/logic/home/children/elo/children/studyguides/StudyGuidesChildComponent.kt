@@ -5,9 +5,10 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import nl.tiebe.otarium.logic.data.wrapper.elo.StudyGuide
 import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
 
-interface StudyGuidesChildComponent<StudyGuide: Parcelable> : ELOComponent.ELOChildComponent {
+interface StudyGuidesChildComponent : ELOComponent.ELOChildComponent {
     /** The stack navigation */
     val navigation: StackNavigation<Config>
 
@@ -39,7 +40,7 @@ interface StudyGuidesChildComponent<StudyGuide: Parcelable> : ELOComponent.ELOCh
          * @param studyGuide The study guide.
          */
         @Parcelize
-        data class StudyGuideMenu<StudyGuide: Parcelable>(val studyGuide: StudyGuide) : Config()
+        data class StudyGuideMenu(val studyGuide: StudyGuide) : Config()
     }
 
     /** The interface that all the study guide child components should implement. */

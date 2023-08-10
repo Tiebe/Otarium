@@ -4,6 +4,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import nl.tiebe.otarium.logic.data.wrapper.elo.Assignment
 import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
 
 
@@ -12,7 +13,7 @@ import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
  *
  * @param Assignment The type of assignment.
  */
-interface AssignmentsChildComponent<Assignment> : ELOComponent.ELOChildComponent {
+interface AssignmentsChildComponent : ELOComponent.ELOChildComponent {
     /** The stack navigation. */
     val navigation: StackNavigation<Config>
 
@@ -38,10 +39,10 @@ interface AssignmentsChildComponent<Assignment> : ELOComponent.ELOChildComponent
         /**
          * The menu for an assignment.
          *
-         * @param assignment The assignment to show the menu for.
+         * @param assignment The assignment
          */
         @Parcelize
-        data class AssignmentMenu<Assignment: Parcelable>(val assignment: Assignment) : Config()
+        data class AssignmentMenu(val assignment: Assignment) : Config()
     }
 
     /**

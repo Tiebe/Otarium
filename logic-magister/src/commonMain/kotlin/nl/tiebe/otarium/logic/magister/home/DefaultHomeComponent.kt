@@ -6,18 +6,15 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
-import dev.tiebe.magisterapi.response.general.year.absence.Absence
-import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import nl.tiebe.otarium.logic.RootComponent
 import nl.tiebe.otarium.logic.default.home.children.averages.DefaultAveragesComponent
 import nl.tiebe.otarium.logic.default.home.children.debug.DefaultDebugComponent
 import nl.tiebe.otarium.logic.default.home.children.elo.DefaultELOComponent
-import nl.tiebe.otarium.logic.default.home.children.grades.DefaultGradesComponent
+import nl.tiebe.otarium.logic.magister.home.children.grades.DefaultGradesComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.DefaultMessagesComponent
 import nl.tiebe.otarium.logic.default.home.children.settings.DefaultSettingsComponent
 import nl.tiebe.otarium.logic.home.HomeComponent
 import nl.tiebe.otarium.logic.home.MenuItem
-import nl.tiebe.otarium.logic.home.children.timetable.TimetableComponent
 import nl.tiebe.otarium.logic.magister.home.children.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.logic.root.home.MenuItems
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
@@ -57,7 +54,7 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val root
         }
     }
 
-    fun timetableComponent(componentContext: ComponentContext): TimetableComponent<AgendaItem, Absence> =
+    fun timetableComponent(componentContext: ComponentContext) =
         DefaultTimetableComponent(
             componentContext = componentContext,
         )

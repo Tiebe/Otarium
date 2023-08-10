@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.learningresources
 
 import com.arkivanov.decompose.value.Value
+import nl.tiebe.otarium.logic.data.wrapper.elo.LearningResource
 import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
 
 /**
@@ -8,7 +9,7 @@ import nl.tiebe.otarium.logic.home.children.elo.ELOComponent
  *
  * @param LearningResource The type of learning resource.
  */
-interface LearningResourcesChildComponent<LearningResource>: ELOComponent.ELOChildComponent {
+interface LearningResourcesChildComponent: ELOComponent.ELOChildComponent {
     /** The learning resources. */
     val learningResources: Value<List<LearningResource>>
 

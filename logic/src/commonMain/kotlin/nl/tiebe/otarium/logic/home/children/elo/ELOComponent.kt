@@ -14,13 +14,13 @@ import nl.tiebe.otarium.logic.home.children.elo.children.studyguides.StudyGuides
  * @param Assignment The type of a assignment.
  * @param LearningResource The type of a learning resource.
  */
-interface ELOComponent<StudyGuide: Parcelable, Assignment, LearningResource> : HomeComponent.MenuItemComponent {
+interface ELOComponent : HomeComponent.MenuItemComponent {
     /** The StudyGuidesChildComponent is the component that contains all the study guides. */
-    val studyGuidesComponent: StudyGuidesChildComponent<StudyGuide>
+    val studyGuidesComponent: StudyGuidesChildComponent
     /** The AssignmentsChildComponent is the component that contains all the assignments. */
-    val assignmentsComponent: AssignmentsChildComponent<Assignment>
+    val assignmentsComponent: AssignmentsChildComponent
     /** The LearningResourcesChildComponent is the component that contains all the learning resources. */
-    val learningResourcesComponent: LearningResourcesChildComponent<LearningResource>
+    val learningResourcesComponent: LearningResourcesChildComponent
 
     /** The interface that all the ELO child components should implement. */
     interface ELOChildComponent

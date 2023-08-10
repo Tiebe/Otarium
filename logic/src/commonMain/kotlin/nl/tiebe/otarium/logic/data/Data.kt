@@ -3,11 +3,12 @@ package nl.tiebe.otarium.logic.data
 import com.russhwolf.settings.Settings
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import nl.tiebe.otarium.logic.data.wrapper.Account
+import nl.tiebe.otarium.logic.home.children.grades.children.calculation.GradeCalculationChildComponent
 import nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.CustomTheme
 import nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.defaultDarkTheme
 import nl.tiebe.otarium.logic.home.children.settings.children.ui.children.colors.defaultLightTheme
-import nl.tiebe.otarium.magister.MagisterAccount
-import nl.tiebe.otarium.magister.ManualGrade
+
 object Data {
     val settings = Settings()
 
@@ -27,14 +28,14 @@ object Data {
         get() = settings.getBoolean("age_of_consent", false)
         set(value) = settings.putBoolean("age_of_consent", value)
 
-    var accounts: List<MagisterAccount>
+    var accounts: List<Account>
         get() = settings.getString("accounts", "[]").let {
             Json.decodeFromString(it) }
         set(value) = settings.putString("accounts", Json.encodeToString(value))
 
-    var selectedAccount: MagisterAccount
-        get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: run { throw RuntimeException("No accounts found") }
-        set(value) = settings.putInt("selected_account", value.accountId)
+    var selectedAccount: Account
+        get() = accounts.find { it.id == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: run { throw RuntimeException("No accounts found") }
+        set(value) = settings.putInt("selected_account", value.id)
 
     var decimals: Int
         get() = settings.getInt("decimals", 2)
@@ -62,7 +63,7 @@ object Data {
         get() = settings.getBoolean("show_cancelled_lessons", false)
         set(value) = settings.putBoolean("show_cancelled_lessons", value)
 
-    var manualGrades: List<ManualGrade>
+    var manualGrades: List<GradeCalculationChildComponent.ManualGrade>
         get() = settings.getString("manual_grades", "[]").let {
             Json.decodeFromString(it) }
         set(value) = settings.putString("manual_grades", Json.encodeToString(value))

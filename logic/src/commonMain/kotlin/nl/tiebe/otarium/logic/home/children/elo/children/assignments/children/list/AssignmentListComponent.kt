@@ -1,7 +1,7 @@
 package nl.tiebe.otarium.logic.home.children.elo.children.assignments.children.list
 
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
+import nl.tiebe.otarium.logic.data.wrapper.elo.Assignment
 import nl.tiebe.otarium.logic.home.children.elo.children.assignments.AssignmentsChildComponent
 
 /**
@@ -9,11 +9,11 @@ import nl.tiebe.otarium.logic.home.children.elo.children.assignments.Assignments
  *
  * @param Assignment The type of assignment.
  */
-interface AssignmentListComponent<Assignment: Parcelable> : AssignmentsChildComponent.AssignmentChildScreen {
+interface AssignmentListComponent : AssignmentsChildComponent.AssignmentChildScreen {
     /** The assignments. */
     val assignments: Value<List<Assignment>>
     /** The parent component. */
-    val parentComponent: AssignmentsChildComponent<Assignment>
+    val parentComponent: AssignmentsChildComponent
 
     /**
      * Refresh the assignments.
