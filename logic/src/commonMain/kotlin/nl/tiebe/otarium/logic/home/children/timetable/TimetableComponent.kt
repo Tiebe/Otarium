@@ -11,11 +11,14 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import nl.tiebe.otarium.logic.data.wrapper.TimetableItem
+import nl.tiebe.otarium.logic.data.wrapper.TimetableItemInformation
+import nl.tiebe.otarium.logic.home.HomeComponent
 
 /**
  * Interface for the implementation of the backend for the timetable UI.
  */
-interface TimetableComponent<TimetableItem, ItemInformation> {
+interface TimetableComponent : HomeComponent.MenuItemComponent {
     /** The stack navigation */
     val navigation: StackNavigation<Config>
 
@@ -39,7 +42,7 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
     val currentPage: MutableValue<Int>
 
     /** The list of timetable items loaded from the server. */
-    val timetable: MutableValue<List<FullTimetableItem<TimetableItem, ItemInformation>>>
+    val timetable: MutableValue<List<FullTimetableItem>>
 
     // The index of the week in the timetable that of the day that is currently selected (so the current week would be 0)
     val selectedWeek: MutableValue<Int>
@@ -87,15 +90,15 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
      * @param startOfWeekDate The monday of the specified week, represented as a LocalDate object.
      * @return A list of the timetable items, with their extra information.
      */
-    fun getFilteredWeekTimeTable(startOfWeekDate: LocalDate): List<FullTimetableItem<TimetableItem, ItemInformation>>
+    fun getFilteredWeekTimeTable(startOfWeekDate: LocalDate): List<FullTimetableItem>
 
     /**
      * Open the an extra information popup with info about the timetable item. For example: start time, end time, teacher, homework.
      *
      * @param item The timetable item to show information about
      */
-    fun openTimetableItemDetails(item: FullTimetableItem<TimetableItem, ItemInformation>) {
-        navigation.push(Config.TimetablePopup(item.id))
+    fun openTimetableItemDetails(item: FullTimetableItem) {
+        navigation.push(Config.TimetablePopup(item))
     }
 
     /**
@@ -109,9 +112,10 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
      * A wrapper class for a pair of the item and the extra information associated with this item.
      *
      * @param item The timetable item
-     * @param extraInformation The extra information associated with this item
+     * @param information The extra information associated with this item
      */
-    data class FullTimetableItem<TimetableItem, ItemInformation>(val id: Int, val item: TimetableItem, val extraInformation: ItemInformation?)
+    @Parcelize
+    data class FullTimetableItem(val item: TimetableItem, val information: TimetableItemInformation?): Parcelable
 
     /**
      * The navigation config objects.
@@ -127,7 +131,7 @@ interface TimetableComponent<TimetableItem, ItemInformation> {
          * The popup for extra information
          */
         @Parcelize
-        data class TimetablePopup(val item: Int) : Config()
+        data class TimetablePopup(val item: FullTimetableItem) : Config()
     }
 }
 

@@ -1,12 +1,13 @@
 package nl.tiebe.otarium.logic.home.children.grades.children.recent
 
 import com.arkivanov.decompose.value.MutableValue
+import nl.tiebe.otarium.logic.data.wrapper.RecentGrade
 import nl.tiebe.otarium.logic.home.children.grades.GradesComponent
 
 /**
  * Interface for the recent grades menu of the grades screen.
  */
-interface RecentGradesChildComponent<RecentGrade> : GradesComponent.GradesChildComponent {
+interface RecentGradesChildComponent : GradesComponent.GradesChildComponent {
     /** The currently loaded grades */
     val grades: MutableValue<List<RecentGrade>>
 

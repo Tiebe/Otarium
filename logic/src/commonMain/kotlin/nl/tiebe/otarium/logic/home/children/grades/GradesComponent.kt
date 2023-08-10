@@ -9,12 +9,12 @@ import nl.tiebe.otarium.logic.home.children.grades.children.recent.RecentGradesC
 /**
  * Interface for the grades menu of the home screen.
  */
-interface GradesComponent<Subject: Parcelable, RecentGrade> : HomeComponent.MenuItemComponent {
+interface GradesComponent : HomeComponent.MenuItemComponent {
     /** The recent grades menu. */
-    val recentGradeComponent: RecentGradesChildComponent<RecentGrade>
+    val recentGradeComponent: RecentGradesChildComponent
 
     /** The grade calculation menu. */
-    val calculationChildComponent: GradeCalculationChildComponent<Subject>
+    val calculationChildComponent: GradeCalculationChildComponent
 
     /** The interface for submenus. */
     interface GradesChildComponent

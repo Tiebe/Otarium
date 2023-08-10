@@ -2,7 +2,8 @@ package nl.tiebe.otarium.logic.home.children.messages.children.message
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
+import nl.tiebe.otarium.logic.data.wrapper.messages.Attachment
+import nl.tiebe.otarium.logic.data.wrapper.messages.MessageData
 import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
 
 /**
@@ -13,12 +14,12 @@ import nl.tiebe.otarium.logic.home.children.messages.MessagesComponent
  * @param MessageExtraData The type of extra message data.
  * @param Attachment The type of a message attachment.
  */
-interface MessageComponent<MessageItem: Parcelable, MessageFolder: Parcelable, MessageExtraData: Any, Attachment: Any> {
+interface MessageComponent {
     /** The parent component. */
-    val parentComponent: MessagesComponent<MessageItem, MessageFolder>
+    val parentComponent: MessagesComponent
 
     /** The message data. */
-    val message: MutableValue<MessageExtraData>
+    val message: MutableValue<MessageData>
 
     /** The message attachments. If there are no attachments in this list, the UI item should be hidden. */
     val attachments: Value<List<Attachment>>

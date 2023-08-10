@@ -7,12 +7,13 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import kotlinx.serialization.Serializable
+import nl.tiebe.otarium.logic.data.wrapper.Subject
 import nl.tiebe.otarium.logic.home.children.grades.GradesComponent
 
 /**
  * Interface for the implementation of the backend for the grade calculation UI.
  */
-interface GradeCalculationChildComponent<Subject: Parcelable> : GradesComponent.GradesChildComponent {
+interface GradeCalculationChildComponent : GradesComponent.GradesChildComponent {
     /** The stack navigation */
     val navigation: StackNavigation<Config>
 
@@ -65,7 +66,7 @@ interface GradeCalculationChildComponent<Subject: Parcelable> : GradesComponent.
          * @param subject The subject to show the menu for.
          */
         @Parcelize
-        data class SubjectMenu<Subject: Parcelable>(val subject: Subject) : Config()
+        data class SubjectMenu(val subject: Subject) : Config()
     }
 
     /**
