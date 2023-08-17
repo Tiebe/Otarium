@@ -8,13 +8,13 @@ import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.magister.exchangeUrl
-import nl.tiebe.otarium.magister.refreshGrades
-import nl.tiebe.otarium.logic.store.StoreHomeComponent
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.default.home.DefaultHomeComponent
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.logic.root.login.LoginComponent
+import nl.tiebe.otarium.logic.store.StoreHomeComponent
+import nl.tiebe.otarium.magister.exchangeUrl
+import nl.tiebe.otarium.magister.refreshGrades
 
 class DefaultLoginComponent(val componentContext: ComponentContext, val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): LoginComponent, ComponentContext by componentContext {
     override var loginUrl: LoginFlow.AuthURL = LoginFlow.createAuthURL()
@@ -50,6 +50,7 @@ class DefaultLoginComponent(val componentContext: ComponentContext, val navigate
             }
 
             account.refreshGrades()
+            account.refreshFolders()
             navigateToHomeScreen()
         } catch (e: Exception) {
             e.printStackTrace()
