@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.complete.kotlin)
-    id("com.android.application") version "8.1.0" apply false
+    id("com.android.application") version "8.1.0-rc01" apply false // TODO: update this once intellij supports 8.1.0
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("org.jetbrains.kotlin.jvm") version "1.9.0" apply false
 }
