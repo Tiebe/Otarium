@@ -8,3 +8,6 @@ typealias SubjectWrapper = nl.tiebe.otarium.logic.data.wrapper.Subject
 
 typealias MagisterTimetableItem = dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 typealias TimetableItemWrapper = nl.tiebe.otarium.logic.data.wrapper.TimetableItem
+
+typealias MagisterMessage = dev.tiebe.magisterapi.response.messages.Message
+typealias MessageItemWrapper = nl.tiebe.otarium.logic.data.wrapper.messages.MessageItem

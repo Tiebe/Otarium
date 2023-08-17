@@ -11,6 +11,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
+import nl.tiebe.otarium.logic.data.wrapper.FullTimetableItem
 import nl.tiebe.otarium.logic.data.wrapper.TimetableItem
 import nl.tiebe.otarium.logic.data.wrapper.TimetableItemInformation
 import nl.tiebe.otarium.logic.home.HomeComponent
@@ -107,15 +108,6 @@ interface TimetableComponent : HomeComponent.MenuItemComponent {
     fun closeTimetableItemDetails() {
         navigation.pop()
     }
-
-    /**
-     * A wrapper class for a pair of the item and the extra information associated with this item.
-     *
-     * @param item The timetable item
-     * @param information The extra information associated with this item
-     */
-    @Parcelize
-    data class FullTimetableItem(val item: TimetableItem, val information: TimetableItemInformation?): Parcelable
 
     /**
      * The navigation config objects.

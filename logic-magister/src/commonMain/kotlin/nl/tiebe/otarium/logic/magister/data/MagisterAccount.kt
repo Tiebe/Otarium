@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.logic.magister.data
 
+import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.api.account.LoginFlow
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.TokenResponse
@@ -14,9 +15,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.otarium.logic.data.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.logic.root.home.unreadMessages
-import nl.tiebe.otarium.settings
+import nl.tiebe.otarium.logic.data.Data.settings
 
 @Serializable
 data class MagisterAccount(

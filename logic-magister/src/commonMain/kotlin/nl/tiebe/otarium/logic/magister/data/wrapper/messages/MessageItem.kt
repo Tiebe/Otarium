@@ -1,9 +1,9 @@
 package nl.tiebe.otarium.logic.magister.data.wrapper.messages
 
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import nl.tiebe.otarium.logic.magister.data.wrapper.MagisterMessage
+import nl.tiebe.otarium.logic.magister.data.wrapper.MessageItemWrapper
 
-interface MessageItem : Parcelable {
-    val id: Int
+class MessageItem(val message: MagisterMessage) : MessageItemWrapper {
+    override val id: Int = message.id
 
 }
