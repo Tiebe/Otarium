@@ -40,7 +40,7 @@ internal fun TimetableScreen(component: TimetableComponent) {
         }
     }
 
-    val dayPagerState = rememberPagerState(350) { 700 }
+    val dayPagerState = rememberPagerState(350 + currentTime.dayOfWeek.ordinal) { 700 }
     val weekPagerState = rememberPagerState(50) { 100 }
 
     Column(modifier = Modifier.fillMaxSize()) {
