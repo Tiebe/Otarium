@@ -12,7 +12,6 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
-import nl.tiebe.otarium.logic.root.home.unreadMessages
 import nl.tiebe.otarium.utils.requestGET
 
 class DefaultMessageComponent(
@@ -65,7 +64,7 @@ class DefaultMessageComponent(
     private val markAsRead: (MessageData) -> Unit = {
         if (it.id != 0) {
             scope.launch {
-                if (!it.hasBeenRead) unreadMessages.value -= 1
+                //todo: if (!it.hasBeenRead) unreadMessages.value -= 1
 
                 MessageFlow.markMessageAsRead(
                     Url(Data.selectedAccount.tenantUrl),
