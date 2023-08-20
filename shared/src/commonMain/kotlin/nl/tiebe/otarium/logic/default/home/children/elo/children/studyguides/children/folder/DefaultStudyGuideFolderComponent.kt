@@ -12,9 +12,7 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
-import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
-import nl.tiebe.otarium.utils.writeFile
 
 class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, override val studyGuideLink: String) : StudyGuideFolderComponent, ComponentContext by componentContext {
     override val content: MutableValue<StudyGuideContent> = MutableValue(StudyGuideContent(0, false, false, null, StudyGuideContent.Companion.Contents(listOf(), listOf(), 0), "", "", listOf(), ""))
@@ -57,8 +55,8 @@ class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, overr
                 }
             ).readBytes()
 
-            writeFile(item.id.toString(), item.name, response)
-            openFileFromCache(item.id.toString(), item.name)
+            //TODO: writeFile(item.id.toString(), item.name, response)
+            //TODO: openFileFromCache(item.id.toString(), item.name)
 
             resourceDownloadProgress.value = resourceDownloadProgress.value.toMutableMap().also {
                 it.remove(item.id)

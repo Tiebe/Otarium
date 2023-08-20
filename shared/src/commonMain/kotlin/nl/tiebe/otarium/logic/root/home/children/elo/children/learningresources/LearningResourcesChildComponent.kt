@@ -3,12 +3,11 @@ package nl.tiebe.otarium.logic.root.home.children.elo.children.learningresources
 import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.learningresource.LearningResourceFlow
 import dev.tiebe.magisterapi.response.learningresource.LearningResource
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
-import nl.tiebe.otarium.utils.openUrl
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 
 interface LearningResourcesChildComponent : ELOComponent.ELOChildComponent {
     val learningResources: Value<List<LearningResource>>
@@ -26,7 +25,7 @@ interface LearningResourcesChildComponent : ELOComponent.ELOChildComponent {
                 learningResource.links.first { it.rel == "content" }.href
             )
 
-            openUrl(url ?: return@launch)
+            //TODO: openUrl(url ?: return@launch)
         }
     }
 

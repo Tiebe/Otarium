@@ -2,16 +2,14 @@ package nl.tiebe.otarium.logic.root.home.children.debug
 
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.tiebe.magisterapi.response.TokenResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.magister.getAccount
-import nl.tiebe.otarium.utils.copyToClipboard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 var currentLanguage = "en"
 
@@ -24,7 +22,7 @@ interface DebugComponent: HomeComponent.MenuItemComponent {
             it.tokens
         }
 
-        copyToClipboard(Json.encodeToString(tokenList))
+        //TODO: copyToClipboard(Json.encodeToString(tokenList))
     }
 
     fun importAccounts(accounts: String) {

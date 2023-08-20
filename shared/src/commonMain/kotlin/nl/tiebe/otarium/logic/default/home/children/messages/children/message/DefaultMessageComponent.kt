@@ -13,9 +13,7 @@ import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 import nl.tiebe.otarium.logic.root.home.unreadMessages
-import nl.tiebe.otarium.utils.openFileFromCache
 import nl.tiebe.otarium.utils.requestGET
-import nl.tiebe.otarium.utils.writeFile
 
 class DefaultMessageComponent(
     componentContext: ComponentContext, override val messageLink: String,
@@ -55,8 +53,8 @@ class DefaultMessageComponent(
                 }
             ).readBytes()
 
-            writeFile(attachment.id.toString(), attachment.name, response)
-            openFileFromCache(attachment.id.toString(), attachment.name)
+            //TODO: writeFile(attachment.id.toString(), attachment.name, response)
+            //TODO: openFileFromCache(attachment.id.toString(), attachment.name)
 
             attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
                 it.remove(attachment.id)

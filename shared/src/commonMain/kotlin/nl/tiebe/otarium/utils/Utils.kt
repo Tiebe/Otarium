@@ -1,6 +1,5 @@
 package nl.tiebe.otarium.utils
 
-import androidx.compose.ui.graphics.ImageBitmap
 import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
@@ -13,18 +12,6 @@ suspend fun loadUser(user: MagisterAccount) {
     user.refreshFolders()
     user.refreshGrades { _, _ ->}
 }
-
-expect fun copyToClipboard(text: String)
-
-expect fun getClipboardText(): String
-
-expect fun openUrl(url: String)
-
-expect fun writeFile(id: String, fileName: String, data: ByteArray)
-
-expect fun openFileFromCache(id: String, fileName: String)
-
-expect fun dynamicColorsPossible(): Boolean
 
 fun LocalDateTime.toFormattedString(): String {
     val dateTime = this.toInstant(TimeZone.UTC)
@@ -111,8 +98,6 @@ fun calculateNew(pairs: List<Pair<Float, Float>>, newAverage: Float = 10f, newGr
 
     return ((newAverage * weight) - sum) / newGradeWeight
 }
-
-expect fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap
 
 fun runCatchingLogError(block: () -> Unit) {
     runCatching {

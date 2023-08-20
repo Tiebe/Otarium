@@ -4,43 +4,29 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.essenty.backhandler.BackCallback
+import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
+import dev.tiebe.magisterapi.response.profileinfo.Contact
 import dev.tiebe.magisterapi.utils.MagisterException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
+import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.getAbsences
 import nl.tiebe.otarium.magister.getMagisterAgenda
-import nl.tiebe.otarium.utils.ui.getLocalizedString
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import kotlin.math.floor
-
-val days = listOf(
-    getLocalizedString(MR.strings.monday),
-    getLocalizedString(MR.strings.tuesday),
-    getLocalizedString(MR.strings.wednesday),
-    getLocalizedString(MR.strings.thursday),
-    getLocalizedString(MR.strings.friday),
-    getLocalizedString(MR.strings.saturday),
-    getLocalizedString(MR.strings.sunday)
-)
 
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
     val navigate: (TimetableRootComponent.Config) -> Unit,
-    val back: MutableValue<BackCallback>,
+    val back: () -> Unit,
 ): TimetableComponent, ComponentContext by componentContext {
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
@@ -104,12 +90,31 @@ class DefaultTimetableComponent(
         }
     }
 
+    override suspend fun getClassMembers(agendaItemWithAbsence: AgendaItemWithAbsence): List<Contact> {
+        val className = agendaItemWithAbsence.agendaItem.description?.split(" - ")
+        if (className == null || className.size < 3) {
+            return emptyList()
+        }
+
+        return ProfileInfoFlow.getContacts(
+            Data.selectedAccount.tenantUrl,
+            Data.selectedAccount.tokens.accessToken,
+            className[2]
+        ).filter {
+            it.type == "leerling"
+        }.sortedBy { it.roepnaam ?: it.voorletters }
+    }
+
     override fun openTimeTableItem(item: AgendaItemWithAbsence) {
         navigate(TimetableRootComponent.Config.TimetablePopup(item.agendaItem.id))
     }
 
     override fun closeItemPopup() {
-        back.value.onBack()
+        back()
+    }
+
+    override fun openTimetableMemberPopup(item: AgendaItemWithAbsence) {
+        navigate(TimetableRootComponent.Config.TimetableMembers(item.agendaItem.id))
     }
 
 

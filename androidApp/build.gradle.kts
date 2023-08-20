@@ -55,9 +55,21 @@ dependencies {
     implementation(libs.compose.material)
 
     implementation(libs.decompose.core)
+    implementation(libs.decompose.compose)
 
-/*    implementation(project.dependencies.platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.performance)*/
+    implementation(libs.magister.api)
+
+    implementation(libs.kotlin.datetime)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.color.math)
+    implementation(libs.androidx.work)
+    implementation(libs.guava.core)
+    implementation(libs.androidx.ui.tooling.preview.android)
+    debugImplementation(libs.androidx.ui.tooling)
+
+
+    /*    implementation(project.dependencies.platform(libs.firebase.bom))
+        implementation(libs.firebase.analytics)
+        implementation(libs.firebase.crashlytics)
+        implementation(libs.firebase.performance)*/
 }

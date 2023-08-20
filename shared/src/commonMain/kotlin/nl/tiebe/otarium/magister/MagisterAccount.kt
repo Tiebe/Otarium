@@ -82,7 +82,7 @@ data class MagisterAccount(
             return newTokens
         } catch (e: MagisterException) {
             if (e.statusCode == HttpStatusCode.Unauthorized || e.statusCode == HttpStatusCode.Forbidden) {
-               //todo: show popup
+               //TODO: show popup
 
 
             }

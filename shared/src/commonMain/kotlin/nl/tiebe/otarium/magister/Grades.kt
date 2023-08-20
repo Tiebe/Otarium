@@ -8,7 +8,6 @@ import dev.tiebe.magisterapi.response.general.year.grades.GradeInfo
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import io.ktor.http.*
 import kotlinx.serialization.Serializable
-import nl.tiebe.otarium.utils.sendNotification
 
 suspend fun MagisterAccount.getRecentGrades(amount: Int, skip: Int): List<RecentGrade> {
     val newGrades = GradeFlow.getRecentGrades(Url(tenantUrl), tokens.accessToken, accountId, amount, skip)
@@ -17,7 +16,7 @@ suspend fun MagisterAccount.getRecentGrades(amount: Int, skip: Int): List<Recent
     return newGrades
 }
 
-suspend fun MagisterAccount.refreshGrades(notification: (String, String) -> Unit = { title, message -> sendNotification(title, message) }): List<GradeWithGradeInfo> {
+suspend fun MagisterAccount.refreshGrades(notification: (String, String) -> Unit): List<GradeWithGradeInfo> {
     val years = GeneralFlow.getYears(tenantUrl, tokens.accessToken, accountId)
     val grades = GradeFlow.getGrades(Url(tenantUrl), tokens.accessToken, accountId, years[0]).filter {
         it.gradeColumn.type == GradeColumn.Type.Grade ||

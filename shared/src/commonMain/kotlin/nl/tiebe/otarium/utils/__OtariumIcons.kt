@@ -1,6 +1,7 @@
 package nl.tiebe.otarium.utils
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import nl.tiebe.otarium.utils.otariumicons.AccountGroup
 import nl.tiebe.otarium.utils.otariumicons.Advertisements
 import nl.tiebe.otarium.utils.otariumicons.AdvertisementsOff
 import nl.tiebe.otarium.utils.otariumicons.AllAssets
@@ -22,6 +23,6 @@ public val OtariumIcons.AllAssets: ____KtList<ImageVector>
       return __AllAssets!!
     }
     __AllAssets= Bottombar.AllAssets + Email.AllAssets + listOf(Advertisements, AdvertisementsOff,
-        BugOutline, ContentSave, Folder, Palette)
+        BugOutline, ContentSave, Folder, Palette, AccountGroup)
     return __AllAssets!!
   }

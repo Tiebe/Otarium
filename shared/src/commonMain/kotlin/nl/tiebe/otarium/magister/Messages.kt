@@ -3,9 +3,8 @@ package nl.tiebe.otarium.magister
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.messages.Message
 import io.ktor.http.*
-import nl.tiebe.otarium.utils.sendNotification
 
-suspend fun MagisterAccount.refreshMessages(notification: (String, String) -> Unit = { title, message -> sendNotification(title, message) }): List<Message> {
+suspend fun MagisterAccount.refreshMessages(notification: (String, String) -> Unit): List<Message> {
     val newMessages = MessageFlow.getMessages(Url(tenantUrl), tokens.accessToken, messageFolders.first { it.id == 1 }.links.messagesLink, 50, 0)
 
     val updated: MutableList<Message> = messages.toMutableList()
