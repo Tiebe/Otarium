@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
+import nl.tiebe.otarium.androidApp.getStartOfWeekFromDay
 import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItems
 import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItemsPreview
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
@@ -40,10 +41,13 @@ internal fun Timetable(
         beyondBoundsPageCount = 3
     ) { page ->
         val scope = rememberCoroutineScope()
-        val now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
-        val startOfWeekDate = now.date.minus(page % 7, DateTimeUnit.DAY)
+        val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
+
+        val startOfWeekDate = getStartOfWeekFromDay(page, dayPagerState.initialPage, now)
         val endOfWeekDate = startOfWeekDate.plus(6, DateTimeUnit.DAY)
+
+        println(startOfWeekDate)
 
         var refreshing by remember { mutableStateOf(false) }
 

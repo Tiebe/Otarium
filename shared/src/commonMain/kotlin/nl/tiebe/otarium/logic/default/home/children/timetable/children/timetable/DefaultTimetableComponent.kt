@@ -8,7 +8,6 @@ import dev.tiebe.magisterapi.response.profileinfo.Contact
 import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.datetime.LocalDate
 import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
@@ -22,8 +21,6 @@ class DefaultTimetableComponent(
     val back: () -> Unit,
 ): TimetableComponent, ComponentContext by componentContext {
     override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
-
-    private val scope = componentCoroutineScope()
 
     override suspend fun refreshTimetable(from: LocalDate, to: LocalDate) {
         val account: MagisterAccount = Data.selectedAccount
