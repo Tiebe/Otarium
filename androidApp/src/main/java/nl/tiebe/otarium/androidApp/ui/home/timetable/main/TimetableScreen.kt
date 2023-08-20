@@ -18,19 +18,30 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun TimetableScreen(component: TimetableComponent) {
-    val dayPagerState = rememberPagerState(component.currentPage.value) {
-        component.amountOfDays
+    var currentTime = remember {
+        Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
     }
-    val weekPagerState = rememberPagerState(100) {
-        component.amountOfWeeks
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            currentTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+            delay(10000)
+        }
     }
+
+    val dayPagerState = rememberPagerState(350) { 700 }
+    val weekPagerState = rememberPagerState(50) { 100 }
 
     Column(modifier = Modifier.fillMaxSize()) {
         DaySelector(
@@ -45,35 +56,22 @@ internal fun TimetableScreen(component: TimetableComponent) {
         )
     }
 
-    TodayButton(component, dayPagerState)
-
-    var currentPage = remember { dayPagerState.currentPage }
-
-    LaunchedEffect(dayPagerState.currentPage) {
-        if (currentPage != dayPagerState.currentPage) {
-            currentPage = dayPagerState.currentPage
-            component.changeDay(dayPagerState.currentPage)
-        }
-    }
-
-    val scope = rememberCoroutineScope()
-
-    component.selectedWeek.subscribe { week ->
-        scope.launch {
-            weekPagerState.animateScrollToPage(week + 100)
-        }
-    }
+    TodayButton(dayPagerState, currentTime.dayOfWeek.ordinal)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodayButton(component: TimetableComponent, dayPagerState: PagerState) {
+fun TodayButton(dayPagerState: PagerState, currentDayOfWeek: Int) {
     val scope = rememberCoroutineScope()
 
-    if (dayPagerState.currentPage != component.todayIndex) {
+    val todayIndex = remember {
+        dayPagerState.pageCount / 2 + currentDayOfWeek
+    }
+
+    if (dayPagerState.currentPage != todayIndex) {
         Box(Modifier.fillMaxSize()) {
             Button(
-                onClick = { component.scrollToPage(scope, component.todayIndex, dayPagerState) },
+                onClick = { scope.launch { dayPagerState.scrollToPage(todayIndex) } },
                 modifier = Modifier
                     .size(60.dp)
                     .padding(10.dp)
