@@ -17,11 +17,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItems
+import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItemsPreview
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
 val timesShown = 8..17
@@ -52,12 +54,11 @@ internal fun Timetable(
                 refreshing = false
             }
         })
-        val scrollState = rememberScrollState()
 
         Box(
             Modifier
                 .pullRefresh(refreshState)
-                .verticalScroll(scrollState)) {
+                .verticalScroll(rememberScrollState())) {
 
             val minutes = ((now.hour - timesShown.first) * 60) + now.minute
 
@@ -90,5 +91,26 @@ internal fun Timetable(
                 modifier = Modifier.align(Alignment.TopCenter)
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Preview
+@Composable
+fun TimetablePreview() {
+    Box(
+        Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+        Divider(
+            Modifier
+                .width(40.dp)
+                .padding(top = 128 / 60f * dpPerHour),
+            color = MaterialTheme.colorScheme.primary
+        )
+
+        TimetableGrid()
+        TimetableItemsPreview()
+
     }
 }

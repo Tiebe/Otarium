@@ -68,6 +68,10 @@ fun DayTabItem(
         Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
     }
 
+    val firstDayOfWeek = remember {
+        currentDate.date.minus(currentDate.dayOfWeek.ordinal, DateTimeUnit.DAY)
+    }
+
     Tab(
         selected = selected,
         onClick = {
@@ -85,7 +89,7 @@ fun DayTabItem(
                     fontSize = 13.sp
                 )
                 Text(
-                    text = currentDate.date.plus(dayIndex - dayPagerState.pageCount / 2, DateTimeUnit.DAY).toString()
+                    text = firstDayOfWeek.plus(dayIndex - dayPagerState.pageCount / 2, DateTimeUnit.DAY).toString()
                         .split("-").reversed().subList(0, 1).joinToString(),
                     textAlign = TextAlign.Center,
                     fontSize = 10.sp
@@ -100,8 +104,12 @@ fun DayTabItem(
 @Preview
 @Composable
 fun DaySelectorPreview() {
+    val currentDate = remember {
+        Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+    }
+
     DaySelector(
-        dayPagerState = rememberPagerState(350) { 700 },
+        dayPagerState = rememberPagerState(350 + currentDate.dayOfWeek.ordinal) { 700 },
         weekPagerState = rememberPagerState(50) { 100 }
     )
 }

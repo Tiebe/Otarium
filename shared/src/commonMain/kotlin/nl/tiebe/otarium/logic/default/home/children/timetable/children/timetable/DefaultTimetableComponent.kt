@@ -6,7 +6,6 @@ import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.response.profileinfo.Contact
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
@@ -29,42 +28,36 @@ class DefaultTimetableComponent(
     override suspend fun refreshTimetable(from: LocalDate, to: LocalDate) {
         val account: MagisterAccount = Data.selectedAccount
 
-        scope.launch {
-            try {
-                val timeTableWeek = getAbsences(
+        try {
+            val timeTableWeek = getAbsences(
+                account.accountId,
+                account.tenantUrl,
+                account.tokens.accessToken,
+                "${from.year}-${from.month}-${from.dayOfMonth}",
+                "${to.year}-${to.month}-${to.dayOfMonth}",
+                getMagisterAgenda(
                     account.accountId,
                     account.tenantUrl,
                     account.tokens.accessToken,
-                    "${from.year}-${from.month}-${from.dayOfMonth}",
-                    "${to.year}-${to.month}-${to.dayOfMonth}",
-                    getMagisterAgenda(
-                        account.accountId,
-                        account.tenantUrl,
-                        account.tokens.accessToken,
-                        from,
-                        to,
-                        if (Data.showCancelledLessons) AgendaItem.Companion.Status.NONE else AgendaItem.Companion.Status.SCHEDULED_AUTOMATICALLY
-                    )
+                    from,
+                    to,
+                    if (Data.showCancelledLessons) AgendaItem.Companion.Status.NONE else AgendaItem.Companion.Status.SCHEDULED_AUTOMATICALLY
                 )
+            )
 
-                timeTableWeek.forEach {
-                    if (timetable.value.find { item -> item.agendaItem.id == it.agendaItem.id } == null) {
-                        timetable.value = timetable.value + it
-                    } else {
-                        timetable.value = timetable.value.map { item ->
-                            if (item.agendaItem.id == it.agendaItem.id) {
-                                it
-                            } else {
-                                item
-                            }
-                        }
+            timeTableWeek.forEach {
+                if (timetable.value.find { item -> item.agendaItem.id == it.agendaItem.id } == null) {
+                    timetable.value += it
+                } else {
+                    timetable.value = timetable.value.map { item ->
+                        if (item.agendaItem.id == it.agendaItem.id) it else item
                     }
                 }
-            } catch (e: MagisterException) {
-                e.printStackTrace()
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
+        } catch (e: MagisterException) {
+            e.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

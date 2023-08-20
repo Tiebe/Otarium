@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
@@ -39,7 +40,7 @@ internal fun TimetableItems(
         val startOfWeekDate = currentDate.date.minus(page % 7, DateTimeUnit.DAY)
 
         // Get the time as Instant of the top of the timetable
-        val timeTop = startOfWeekDate.atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).plus(timesShown.first(), DateTimeUnit.HOUR)
+        val timeTop = currentDate.date.atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).plus(timesShown.first(), DateTimeUnit.HOUR)
 
         val timetable = component.timetable.subscribeAsState()
 
@@ -140,4 +141,10 @@ fun AbsenceBox(absence: Absence) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun TimetableItemsPreview() {
+
 }
