@@ -8,14 +8,12 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.children.main.MainChildComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.children.ui.UIChildComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.children.ui.children.colors.ColorChildComponent
 import nl.tiebe.otarium.magister.MagisterAccount
-import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 interface SettingsComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
     val navigation: StackNavigation<Config>
@@ -37,15 +35,15 @@ interface SettingsComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
         class ColorChild(val component: ColorChildComponent) : Child()
     }
 
-    sealed class Config(val localizedString: String) : Parcelable {
+    sealed class Config() : Parcelable {
         @Parcelize
-        object Main : Config(getLocalizedString(MR.strings.settingsItem))
+        object Main : Config()
 
         @Parcelize
-        object UI : Config(getLocalizedString(MR.strings.ui_settings))
+        object UI : Config()
 
         @Parcelize
-        object Colors : Config(getLocalizedString(MR.strings.color_settings))
+        object Colors : Config()
     }
 
     fun selectAccount(account: MagisterAccount)

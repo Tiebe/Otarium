@@ -5,9 +5,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.theme.CustomTheme
-import nl.tiebe.otarium.ui.theme.defaultDarkTheme
-import nl.tiebe.otarium.ui.theme.defaultLightTheme
 
 object Data {
     var finishedOnboarding: Boolean
@@ -42,16 +39,6 @@ object Data {
     var customThemeEnabled: Boolean
         get() = settings.getBoolean("custom_theme", false)
         set(value) = settings.putBoolean("custom_theme", value)
-
-    var customLightTheme: CustomTheme
-        get() = settings.getStringOrNull("custom_light_theme")?.let {
-            Json.decodeFromString(it) } ?: defaultLightTheme
-        set(value) = settings.putString("custom_light_theme", Json.encodeToString(value))
-
-    var customDarkTheme: CustomTheme
-        get() = settings.getStringOrNull("custom_dark_theme")?.let {
-            Json.decodeFromString(it) } ?: defaultDarkTheme
-        set(value) = settings.putString("custom_dark_theme", Json.encodeToString(value))
 
     var dynamicTheme: Boolean
         get() = settings.getBoolean("dynamic_theme", false)

@@ -1,13 +1,13 @@
 [versions]
 app-version-string = "3.4.0"
-app-version-code = "36"
+app-version-code = "37"
 
-android_sdk-min = "21"
+android_sdk-min = "26"
 android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.10-alpha08"
+magister = "1.1.11"
 
 work-android = "2.8.1"
 
@@ -97,6 +97,8 @@ guava-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines
 androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-android" }
 
 skiko = { group = "org.jetbrains.skiko", name = "skiko", version.ref = "skiko" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version = "1.5.0" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version = "1.5.0" }
 
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }

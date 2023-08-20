@@ -4,34 +4,28 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.utils.ui.getLocalizedString
+import dev.tiebe.magisterapi.response.profileinfo.Contact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
+import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import kotlin.math.floor
 
 val days = listOf(
-    getLocalizedString(MR.strings.monday),
-    getLocalizedString(MR.strings.tuesday),
-    getLocalizedString(MR.strings.wednesday),
-    getLocalizedString(MR.strings.thursday),
-    getLocalizedString(MR.strings.friday),
-    getLocalizedString(MR.strings.saturday),
-    getLocalizedString(MR.strings.sunday)
+    DayOfWeek.MONDAY,
+    DayOfWeek.TUESDAY,
+    DayOfWeek.WEDNESDAY,
+    DayOfWeek.THURSDAY,
+    DayOfWeek.FRIDAY,
+    DayOfWeek.SATURDAY,
+    DayOfWeek.SUNDAY
 )
 
 interface TimetableComponent {
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
-    val amountOfDays get() = 1000
-    val amountOfWeeks get() = amountOfDays / 5
+    val amountOfDays get() = amountOfWeeks * days.size
+    val amountOfWeeks get() = 100
 
     // The index of the day in the timetable that is today (in dayPagerState days, so day 500 is monday this week)
     val todayIndex get() = amountOfDays / 2 + now.value.dayOfWeek.ordinal
@@ -78,6 +72,8 @@ interface TimetableComponent {
         )
     }
 
+    suspend fun getClassMembers(agendaItemWithAbsence: AgendaItemWithAbsence): List<Contact>
+
     fun getTimetableForWeek(timetable: List<AgendaItemWithAbsence>, startOfWeekDate: LocalDate): List<AgendaItemWithAbsence> {
         return timetable.filter {
             val startTime =
@@ -93,6 +89,8 @@ interface TimetableComponent {
     fun openTimeTableItem(item: AgendaItemWithAbsence)
 
     fun closeItemPopup()
+
+    fun openTimetableMemberPopup(item: AgendaItemWithAbsence)
 
     @OptIn(ExperimentalFoundationApi::class)
     fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {

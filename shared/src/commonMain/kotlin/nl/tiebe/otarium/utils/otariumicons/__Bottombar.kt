@@ -30,6 +30,6 @@ public val BottombarGroup.AllAssets: ____KtList<ImageVector>
     }
     __AllAssets= listOf(BookOpenFilled, BookOpenOutline, Box10Filled, Box10Outline,
         CalendarTodayFilled, CalendarTodayOutline, CogFilled, CogOutline, EmailFilled, EmailOutline,
-        ChartOutline, ChartFilled)
+        ChartFilled, ChartOutline)
     return __AllAssets!!
   }

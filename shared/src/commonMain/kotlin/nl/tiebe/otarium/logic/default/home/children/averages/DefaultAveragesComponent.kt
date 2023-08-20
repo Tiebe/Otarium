@@ -11,7 +11,6 @@ import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.magister.refreshGrades
 
 class DefaultAveragesComponent(componentContext: ComponentContext) : AveragesComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
@@ -19,7 +18,7 @@ class DefaultAveragesComponent(componentContext: ComponentContext) : AveragesCom
     override fun refreshGrades() {
         scope.launch {
             refreshState.value = true
-            Data.selectedAccount.fullGradeList = Data.selectedAccount.refreshGrades()
+            //TODO: Data.selectedAccount.fullGradeList = Data.selectedAccount.refreshGrades()
             gradesList.value = Data.selectedAccount.fullGradeList.filter {
                 it.grade.gradeColumn.type == GradeColumn.Type.Grade &&
                         it.grade.grade?.replace(",", ".")?.toDoubleOrNull() != null

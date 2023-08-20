@@ -6,15 +6,13 @@ import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import dev.tiebe.magisterapi.response.assignment.Attachment
-import nl.tiebe.otarium.Data
-import nl.tiebe.otarium.logic.default.componentCoroutineScope
-import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
-import nl.tiebe.otarium.utils.openFileFromCache
-import nl.tiebe.otarium.utils.requestGET
-import nl.tiebe.otarium.utils.writeFile
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.launch
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.logic.default.componentCoroutineScope
+import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
+import nl.tiebe.otarium.utils.requestGET
 
 class DefaultAssignmentScreenComponent(componentContext: ComponentContext, override val assignmentLink: String): AssignmentScreenComponent, ComponentContext by componentContext {
     override val assignment: MutableValue<Assignment> = MutableValue(Assignment(false, null, "", listOf(), null, 0, null, "", 0, listOf(), false, "", false, 0, "", "", listOf(), false))
@@ -61,8 +59,8 @@ class DefaultAssignmentScreenComponent(componentContext: ComponentContext, overr
                 }
             ).readBytes()
 
-            writeFile(attachment.id.toString(), attachment.naam, response)
-            openFileFromCache(attachment.id.toString(), attachment.naam)
+            //TODO: writeFile(attachment.id.toString(), attachment.naam, response)
+            //TODO: openFileFromCache(attachment.id.toString(), attachment.naam)
 
             attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
                 it.remove(attachment.id)

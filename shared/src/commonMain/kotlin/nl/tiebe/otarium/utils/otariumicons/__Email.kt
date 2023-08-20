@@ -26,7 +26,7 @@ public val EmailGroup.AllAssets: ____KtList<ImageVector>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= listOf(Attachment, AttachmentOff, EmailAlert, EmailAlertOpen, EmailOpen, Inbox,
-        Folder, Send, Delete, Pencil)
+    __AllAssets= listOf(Attachment, AttachmentOff, EmailAlert, EmailAlertOpen, EmailOpen, Delete,
+        Folder, Inbox, Pencil, Send)
     return __AllAssets!!
   }
