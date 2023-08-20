@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
+import nl.tiebe.otarium.androidApp.ui.utils.HtmlView
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,7 +21,7 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
 
     ListItem(
         headlineText = { Text(item.title) },
-        supportingText = { }, //todo: HtmlView(item.description, maxLines = 1) },
+        supportingText = { HtmlView(item.description, maxLines = 1) },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
         ),
@@ -39,5 +40,4 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
             }
         }
     }
-
 }

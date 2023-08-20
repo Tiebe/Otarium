@@ -15,6 +15,7 @@ import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.androidApp.ui.utils.DownloadIndicator
+import nl.tiebe.otarium.androidApp.ui.utils.HtmlView
 import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Email
@@ -45,7 +46,7 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
 
             ListItem(
                 overlineText = { Text(stringResource(MR.strings.assignment_description.resourceId)) },
-                headlineText = { }//todo: HtmlView(assignment.description, maxLines = 1) }
+                headlineText = { HtmlView(assignment.description, maxLines = 1) }
             )
         }
     }
@@ -73,7 +74,7 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: 
             if (version.teacherNote != null) {
                 ListItem(
                     overlineText = { Text(stringResource(MR.strings.assignment_feedback.resourceId)) },
-                    headlineText = {} //todo: HtmlView(version.teacherNote!!, maxLines = 1) }
+                    headlineText = { HtmlView(version.teacherNote!!, maxLines = 1) }
                 )
             }
 
@@ -127,7 +128,7 @@ internal fun StudentVersionCard(component: AssignmentScreenComponent, version: A
             if (version.studentNote != null) {
                 ListItem(
                     overlineText = { Text(stringResource(MR.strings.assignment_description.resourceId)) },
-                    headlineText = {} //todo: HtmlView(version.studentNote!!, maxLines = 1) }
+                    headlineText = { HtmlView(version.studentNote!!, maxLines = 1) }
                 )
             }
 
