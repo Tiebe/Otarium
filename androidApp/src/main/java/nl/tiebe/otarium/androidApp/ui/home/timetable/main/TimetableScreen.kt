@@ -45,7 +45,6 @@ internal fun TimetableScreen(component: TimetableComponent) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         DaySelector(
-            component = component,
             dayPagerState = dayPagerState,
             weekPagerState = weekPagerState
         )
