@@ -5,13 +5,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.home.children.settings.children.ui.children.colors.colorSchemeChanged
-import nl.tiebe.otarium.androidApp.ui.utils.Android
 
 @Composable
 internal fun OtariumTheme(
@@ -53,7 +53,15 @@ internal fun OtariumTheme(
     }
 
 
-    Android.window.statusBarColor = selectedColorScheme.primary.toArgb()
+    val systemUiController = rememberSystemUiController()
+    DisposableEffect(systemUiController, darkMode) {
+        systemUiController.setSystemBarsColor(
+            color = selectedColorScheme.primary,
+            darkIcons = !darkMode
+        )
+
+        onDispose {}
+    }
 
     MaterialTheme(
         colorScheme = selectedColorScheme,

@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview.android)
     debugImplementation(libs.androidx.ui.tooling)
 
+    implementation(libs.accompanist.systemuicontroller)
+
 
     /*    implementation(project.dependencies.platform(libs.firebase.bom))
         implementation(libs.firebase.analytics)

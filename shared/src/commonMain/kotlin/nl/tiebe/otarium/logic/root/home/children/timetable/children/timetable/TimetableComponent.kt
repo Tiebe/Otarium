@@ -29,7 +29,7 @@ interface TimetableComponent {
 
     val timetable: MutableValue<List<AgendaItemWithAbsence>>
 
-    suspend fun refreshTimetable(from: LocalDate, to: LocalDate)
+    suspend fun refreshTimetable(from: LocalDate, to: LocalDate = from.plus(6, DateTimeUnit.DAY))
     suspend fun getClassMembers(agendaItemWithAbsence: AgendaItemWithAbsence): List<Contact>
 
     fun getTimetableForWeek(timetable: List<AgendaItemWithAbsence>, startOfWeekDate: LocalDate): List<AgendaItemWithAbsence> {
