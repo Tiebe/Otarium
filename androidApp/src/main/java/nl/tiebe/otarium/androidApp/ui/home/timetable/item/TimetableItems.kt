@@ -21,6 +21,7 @@ import kotlinx.datetime.*
 import nl.tiebe.otarium.androidApp.getStartOfWeekFromDay
 import nl.tiebe.otarium.androidApp.isCancelled
 import nl.tiebe.otarium.androidApp.magisterDateToInstant
+import nl.tiebe.otarium.androidApp.ui.utils.HtmlView
 import nl.tiebe.otarium.androidApp.ui.utils.topBottomRectBorder
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
@@ -96,10 +97,10 @@ fun TimetableItem(item: AgendaItemWithAbsence, modifier: Modifier, onClick: () -
             .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
         headlineText = { Text(agendaItem.description ?: "") },
         supportingText = {
-            /* todo: HtmlView(
+             HtmlView(
                 supportingText.joinToString(" • "),
                 maxLines = 1,
-            ) */
+            )
         },
         leadingContent = {
             if (agendaItem.fromPeriod != null) Text(agendaItem.fromPeriod!!.toString(), modifier = Modifier.padding(2.dp))

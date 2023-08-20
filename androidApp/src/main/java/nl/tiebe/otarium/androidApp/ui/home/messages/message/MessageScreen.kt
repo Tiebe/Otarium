@@ -7,6 +7,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.androidApp.ui.utils.HtmlView
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 
 @Composable
@@ -18,7 +19,7 @@ internal fun MessageScreen(component: MessageComponent) {
 
         val messageContent = component.message.subscribeAsState().value
 
-        //todo: HtmlView(messageContent.content, maxLines = 0)
+        HtmlView(messageContent.content, maxLines = 0)
     }
 
 }
