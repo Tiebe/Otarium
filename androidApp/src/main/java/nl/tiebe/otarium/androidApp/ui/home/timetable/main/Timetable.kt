@@ -9,15 +9,18 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import kotlinx.coroutines.launch
+import kotlinx.datetime.*
 import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItems
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
@@ -34,18 +37,34 @@ internal fun Timetable(
         state = dayPagerState,
         beyondBoundsPageCount = 3
     ) { page ->
-        val refreshState = rememberPullRefreshState(false, { component.refreshSelectedWeek() })
+        val scope = rememberCoroutineScope()
+        val now = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+
+        val startOfWeekDate = now.date.minus(page % 7, DateTimeUnit.DAY)
+        val endOfWeekDate = startOfWeekDate.plus(6, DateTimeUnit.DAY)
+
+        var refreshing by remember { mutableStateOf(false) }
+
+        val refreshState = rememberPullRefreshState(refreshing, {
+            scope.launch {
+                refreshing = true
+                component.refreshTimetable(startOfWeekDate, endOfWeekDate)
+                refreshing = false
+            }
+        })
         val scrollState = rememberScrollState()
 
-        Box(Modifier.pullRefresh(refreshState).verticalScroll(scrollState)) {
-            val now = component.now.subscribeAsState().value
+        Box(
+            Modifier
+                .pullRefresh(refreshState)
+                .verticalScroll(scrollState)) {
 
             val minutes = ((now.hour - timesShown.first) * 60) + now.minute
 
             if (
                 minutes > 0 &&
-                page == (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal &&
-                now.hour in timesShown
+                now.hour in timesShown &&
+                page == dayPagerState.pageCount / 2
             ) {
                 Divider(
                     Modifier
@@ -55,7 +74,7 @@ internal fun Timetable(
                 )
             }
 
-            TimetableBackground()
+            TimetableGrid()
 
             TimetableItems(
                 component = component,
@@ -63,12 +82,13 @@ internal fun Timetable(
                 timesShown = timesShown,
                 dpPerHour = dpPerHour,
             )
-//todo
-/*            PullRefreshIndicator(
-                refreshing = component.isRefreshingTimetable.subscribeAsState().value,
+
+
+            PullRefreshIndicator(
+                refreshing = refreshing,
                 state = refreshState,
                 modifier = Modifier.align(Alignment.TopCenter)
-            )*/
+            )
         }
     }
 }
