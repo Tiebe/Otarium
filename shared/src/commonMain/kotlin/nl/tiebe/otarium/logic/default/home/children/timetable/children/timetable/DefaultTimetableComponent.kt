@@ -1,52 +1,35 @@
 package nl.tiebe.otarium.logic.default.home.children.timetable.children.timetable
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.response.profileinfo.Contact
 import dev.tiebe.magisterapi.utils.MagisterException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.datetime.*
+import kotlinx.datetime.LocalDate
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
-import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.getAbsences
 import nl.tiebe.otarium.magister.getMagisterAgenda
-import kotlin.math.floor
 
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
     val navigate: (TimetableRootComponent.Config) -> Unit,
     val back: () -> Unit,
 ): TimetableComponent, ComponentContext by componentContext {
-    override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
-    override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
-
     override val timetable: MutableValue<List<AgendaItemWithAbsence>> = MutableValue(emptyList())
-
-    override val selectedWeek = MutableValue(floor((currentPage.value - (amountOfDays / 2).toFloat()) / days.size).toInt())
-    override val selectedDay = MutableValue(currentPage.value - (amountOfDays / 2) % 7)
-
-    override val selectedWeekIndex = MutableValue(selectedWeek.value + amountOfWeeks / 2)
-
-    override val isRefreshingTimetable = MutableValue(false)
 
     private val scope = componentCoroutineScope()
 
-    override fun refreshTimetable(from: LocalDate, to: LocalDate) {
+    override suspend fun refreshTimetable(from: LocalDate, to: LocalDate) {
         val account: MagisterAccount = Data.selectedAccount
 
         scope.launch {
-            isRefreshingTimetable.value = true
             try {
                 val timeTableWeek = getAbsences(
                     account.accountId,
@@ -63,10 +46,6 @@ class DefaultTimetableComponent(
                         if (Data.showCancelledLessons) AgendaItem.Companion.Status.NONE else AgendaItem.Companion.Status.SCHEDULED_AUTOMATICALLY
                     )
                 )
-
-                if (selectedWeek.value == 0) {
-                    account.agenda = timeTableWeek
-                }
 
                 timeTableWeek.forEach {
                     if (timetable.value.find { item -> item.agendaItem.id == it.agendaItem.id } == null) {
@@ -86,7 +65,6 @@ class DefaultTimetableComponent(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            isRefreshingTimetable.value = false
         }
     }
 
@@ -116,29 +94,4 @@ class DefaultTimetableComponent(
     override fun openTimetableMemberPopup(item: AgendaItemWithAbsence) {
         navigate(TimetableRootComponent.Config.TimetableMembers(item.agendaItem.id))
     }
-
-
-    @OptIn(ExperimentalFoundationApi::class)
-    override fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {
-        coroutineScope.launch {
-            pagerState.animateScrollToPage(page)
-        }
-        currentPage.value = page
-    }
-
-
-    init {
-        selectedWeek.subscribe {
-            refreshSelectedWeek()
-        }
-
-        scope.launch {
-            while (true) {
-                now.value = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
-
-                delay(60_000)
-            }
-        }
-    }
-
 }

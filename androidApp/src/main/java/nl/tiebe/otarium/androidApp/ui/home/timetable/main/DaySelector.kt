@@ -4,11 +4,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,38 +18,38 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.plus
+import kotlinx.datetime.*
 import nl.tiebe.otarium.androidApp.ui.utils.tabIndicatorOffset
-import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
+import kotlin.math.floor
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun DaySelector(
-    component: TimetableComponent,
     dayPagerState: PagerState,
     weekPagerState: PagerState,
 ) {
-    val selectedDay = component.selectedDay.subscribeAsState()
-    println(selectedDay.value)
-    println(component.selectedWeekIndex.subscribeAsState().value)
-
     HorizontalPager(state = weekPagerState) { week ->
         TabRow(
-            selectedTabIndex = selectedDay.value,
+            selectedTabIndex = (dayPagerState.currentPage - dayPagerState.pageCount) % days.size,
             indicator = { tabPositions ->
                 TabRowDefaults.Indicator(Modifier.tabIndicatorOffset(
                         dayPagerState,
                         tabPositions,
-                        shouldShowIndicator = week == component.selectedWeekIndex.subscribeAsState().value
+                        shouldShowIndicator = week == floor(dayPagerState.currentPage / days.size.toDouble()).toInt()
                     ))
             }) {
 
-            days.forEachIndexed { index, title ->
-                DayTabItem(component, index, week, dayPagerState, title.name /* todo: localized string */)
+            days.forEachIndexed { dayIndex, title ->
+                val index = dayIndex + (week * days.size)
+                DayTabItem(
+                    index == dayPagerState.currentPage &&
+                            week == floor(dayPagerState.currentPage / days.size.toDouble()).toInt(),
+                    index,
+                    dayPagerState,
+                    title.name /* todo: localized string */
+                )
             }
         }
     }
@@ -56,22 +58,21 @@ internal fun DaySelector(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DayTabItem(
-    component: TimetableComponent,
+    selected: Boolean,
     dayIndex: Int,
-    weekIndex: Int,
     dayPagerState: PagerState,
     title: String
 ) {
     val scope = rememberCoroutineScope()
-
-    val selectedDay = component.selectedDay.subscribeAsState()
-    val selectedWeekIndex = component.selectedWeekIndex.subscribeAsState()
+    val currentDate = remember {
+        Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
+    }
 
     Tab(
-        selected = selectedDay.value == dayIndex && selectedWeekIndex.value == weekIndex,
+        selected = selected,
         onClick = {
             scope.launch {
-                dayPagerState.animateScrollToPage((weekIndex - 100) * days.size + dayIndex + (component.amountOfDays / 2))
+                dayPagerState.animateScrollToPage(dayIndex)
             }
         },
         text = {
@@ -84,10 +85,7 @@ fun DayTabItem(
                     fontSize = 13.sp
                 )
                 Text(
-                    text = component.firstDayOfWeek.plus(
-                        (weekIndex - 100) * 7 + dayIndex,
-                        DateTimeUnit.DAY
-                    ).toString()
+                    text = currentDate.date.plus(dayIndex - dayPagerState.pageCount / 2, DateTimeUnit.DAY).toString()
                         .split("-").reversed().subList(0, 1).joinToString(),
                     textAlign = TextAlign.Center,
                     fontSize = 10.sp
@@ -98,7 +96,12 @@ fun DayTabItem(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun DaySelectorPreview() {
+    DaySelector(
+        dayPagerState = rememberPagerState(350) { 700 },
+        weekPagerState = rememberPagerState(50) { 100 }
+    )
 }

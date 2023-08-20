@@ -9,18 +9,16 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItem
+import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItems
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
 val timesShown = 8..17
@@ -59,18 +57,18 @@ internal fun Timetable(
 
             TimetableBackground()
 
-            TimetableItem(
+            TimetableItems(
                 component = component,
-                page = page - (dayPagerState.pageCount / 2),
+                page = page,
                 timesShown = timesShown,
                 dpPerHour = dpPerHour,
             )
-
-            PullRefreshIndicator(
+//todo
+/*            PullRefreshIndicator(
                 refreshing = component.isRefreshingTimetable.subscribeAsState().value,
                 state = refreshState,
                 modifier = Modifier.align(Alignment.TopCenter)
-            )
+            )*/
         }
     }
 }
