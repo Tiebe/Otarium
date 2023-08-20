@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.androidApp.ui.home.timetable.item
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.absence.Absence
 import kotlinx.datetime.*
+import nl.tiebe.otarium.androidApp.getStartOfWeekFromDay
 import nl.tiebe.otarium.androidApp.isCancelled
 import nl.tiebe.otarium.androidApp.magisterDateToInstant
 import nl.tiebe.otarium.androidApp.ui.utils.topBottomRectBorder
@@ -25,6 +27,7 @@ import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.getAgendaForDay
 import kotlin.time.DurationUnit
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun TimetableItems(
     component: TimetableComponent,
@@ -36,11 +39,13 @@ internal fun TimetableItems(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        val currentDate = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
-        val startOfWeekDate = currentDate.date.minus(page % 7, DateTimeUnit.DAY)
+        val now = remember { Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")) }
+
+        val startOfWeekDate = getStartOfWeekFromDay(page, 350, now)
+        val selectedDayDate = startOfWeekDate.plus(page % 7, DateTimeUnit.DAY)
 
         // Get the time as Instant of the top of the timetable
-        val timeTop = currentDate.date.atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).plus(timesShown.first(), DateTimeUnit.HOUR)
+        val timeTop = selectedDayDate.atStartOfDayIn(TimeZone.of("Europe/Amsterdam")).plus(timesShown.first(), DateTimeUnit.HOUR)
 
         val timetable = component.timetable.subscribeAsState()
 
@@ -86,10 +91,9 @@ fun TimetableItem(item: AgendaItemWithAbsence, modifier: Modifier, onClick: () -
     )
 
     ListItem(
-        modifier = Modifier
-            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
+        modifier = modifier
             .clickable(onClick = onClick)
-            .then(modifier),
+            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
         headlineText = { Text(agendaItem.description ?: "") },
         supportingText = {
             /* todo: HtmlView(

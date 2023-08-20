@@ -12,10 +12,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import kotlinx.datetime.*
 import nl.tiebe.otarium.R
 import java.io.File
 
@@ -119,4 +121,11 @@ fun dynamicColorsPossible(): Boolean {
 fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap {
     val image = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
     return image.asImageBitmap()
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun getStartOfWeekFromDay(page: Int, initialPage: Int, now: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))): LocalDate {
+    val initialPageDate = now.date.minus(now.dayOfWeek.ordinal, DateTimeUnit.DAY)
+
+    return initialPageDate.plus(7*(page.floorDiv(7) - initialPage.floorDiv(7)), DateTimeUnit.DAY)
 }
