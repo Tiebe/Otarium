@@ -91,3 +91,4 @@ fun TodayButton(component: TimetableComponent, dayPagerState: PagerState) {
         }
     }
 }
+

@@ -15,7 +15,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nl.tiebe.otarium.logic.root.home.unreadMessages
 import nl.tiebe.otarium.settings
 
 @Serializable
@@ -65,7 +64,7 @@ data class MagisterAccount(
                 tokens.accessToken
             )
 
-        unreadMessages.value = folders.sumOf { it.unreadCount }
+        //todo: unreadMessages.value = folders.sumOf { it.unreadCount }
         messageFolders = folders
         return folders
     }

@@ -2,18 +2,13 @@ package nl.tiebe.otarium.logic.root.home
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import dev.icerock.moko.resources.StringResource
-import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Bottombar
 import nl.tiebe.otarium.utils.otariumicons.bottombar.*
-
-val unreadMessages = MutableValue(Data.selectedAccount.messageFolders.sumOf { it.unreadCount })
 
 @Parcelize
 sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit):
@@ -37,22 +32,26 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
     )
 
     @OptIn(ExperimentalMaterial3Api::class)
-    object Messages: MenuItems(
+    class Messages(private val unreadItems: Int): MenuItems(
         MR.strings.messagesItem,
-        { BadgedBox(badge = {
-            if (unreadMessages.subscribeAsState().value > 0) {
-                Badge(
-                    content = { Text(unreadMessages.subscribeAsState().value.toString()) }
-                )
-            }
-        }) { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages") } },
-        { BadgedBox(badge = {
-            if (unreadMessages.subscribeAsState().value > 0) {
-                Badge(
-                    content = { Text(unreadMessages.subscribeAsState().value.toString()) }
-                )
-            }
-        }) { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") } },
+        {
+            BadgedBox(badge = {
+                if (unreadItems > 0) {
+                    Badge(
+                        content = { Text(unreadItems.toString()) }
+                    )
+                }
+            }) { Icon(OtariumIcons.Bottombar.EmailOutline, "Messages") }
+        },
+        {
+            BadgedBox(badge = {
+                if (unreadItems > 0) {
+                    Badge(
+                        content = { Text(unreadItems.toString()) }
+                    )
+                }
+            }) { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") }
+        }
     )
 
     object ELO: MenuItems(

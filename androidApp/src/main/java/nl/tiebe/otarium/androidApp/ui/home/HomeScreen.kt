@@ -78,21 +78,16 @@ fun Navigation(visibleItems: List<MenuItems>, overlay: Child.Created<MenuItems, 
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
-fun HomeScreenPreview() {
+fun NavigationPreview() {
     val visibleItems: List<MenuItems> = listOf(
         MenuItems.Timetable,
         MenuItems.Grades,
         MenuItems.Averages,
-        MenuItems.Messages,
+        MenuItems.Messages(5),
     )
 
-    Scaffold(
-        bottomBar = {
-            Navigation(visibleItems, null) {}
-        }
-    ) {}
+    Navigation(visibleItems, null) {}
 }

@@ -31,7 +31,7 @@ open class DefaultHomeComponent(componentContext: ComponentContext, override val
         MenuItems.Timetable,
         MenuItems.Grades,
         MenuItems.Averages,
-        MenuItems.Messages,
+        MenuItems.Messages(0 /*todo*/),
     )
 
     override val dialog: Value<ChildSlot<MenuItems, HomeComponent.MenuItemComponent>> = childSlot<MenuItems, HomeComponent.MenuItemComponent>(
