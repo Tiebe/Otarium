@@ -100,6 +100,8 @@ skiko = { group = "org.jetbrains.skiko", name = "skiko", version.ref = "skiko" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version = "1.5.0" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version = "1.5.0" }
 
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version = "0.33.0-alpha" }
+
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
 

@@ -3,6 +3,7 @@ package nl.tiebe.otarium.androidApp
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.defaultComponentContext
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Android.context = this
         Android.window = window
 
         setupTokenBackgroundTask(this)
@@ -41,6 +42,15 @@ class MainActivity : AppCompatActivity() {
         setupMessagesBackgroundTask(this)
 
         val rootComponentContext = defaultComponentContext()
+
+        val darkMode = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = !darkMode
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         setContent {
             ProvideComponentContext(rootComponentContext) {

@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import nl.tiebe.otarium.androidApp.getStartOfWeekFromDay
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
 
@@ -33,6 +34,9 @@ internal fun TimetableScreen(component: TimetableComponent) {
         Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
     }
 
+    val dayPagerState = rememberPagerState(350 + currentTime.dayOfWeek.ordinal) { 700 }
+    val weekPagerState = rememberPagerState(50) { 100 }
+
     LaunchedEffect(Unit) {
         while (true) {
             currentTime = Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
@@ -40,8 +44,14 @@ internal fun TimetableScreen(component: TimetableComponent) {
         }
     }
 
-    val dayPagerState = rememberPagerState(350 + currentTime.dayOfWeek.ordinal) { 700 }
-    val weekPagerState = rememberPagerState(50) { 100 }
+    LaunchedEffect(dayPagerState.currentPage) {
+        val startOfWeekDate = getStartOfWeekFromDay(dayPagerState.currentPage, 350)
+        component.refreshTimetable(startOfWeekDate)
+
+        weekPagerState.animateScrollToPage(dayPagerState.currentPage / 7)
+    }
+
+
 
     Column(modifier = Modifier.fillMaxSize()) {
         DaySelector(
