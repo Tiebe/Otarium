@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.androidApp.ui.home.timetable.item
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -33,9 +34,12 @@ fun TimetableItemMembers(component: TimetableComponent, id: Int) {
                 .padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
             LazyColumn {
                 items(contacts.size) { contactIndex ->
-                    ListItem(headlineText = {
-                        Text(contacts[contactIndex].roepnaam ?: "")
-                    })
+                    ListItem(
+                        headlineText = {
+                            Text((contacts[contactIndex].roepnaam ?: contacts[contactIndex].voorletters) + " " + contacts[contactIndex].achternaam)
+                        },
+                        modifier = Modifier.clickable { component.openContactInfo(contacts[contactIndex]) }
+                    )
 
                 }
             }

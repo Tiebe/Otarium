@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.*
+import nl.tiebe.otarium.androidApp.ui.home.timetable.item.ContactScreen
 import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItemMembers
 import nl.tiebe.otarium.androidApp.ui.home.timetable.item.TimetableItemPopup
 import nl.tiebe.otarium.androidApp.ui.home.timetable.main.TimetableScreen
@@ -29,6 +30,10 @@ internal fun TimetableRootScreen(component: TimetableRootComponent) {
             }
             is TimetableRootComponent.Child.TimetableMembersChild -> {
                 TimetableItemMembers(child.component, child.id)
+            }
+
+            is TimetableRootComponent.Child.ContactInfoChild -> {
+                ContactScreen(component = child.component)
             }
         }
     }
