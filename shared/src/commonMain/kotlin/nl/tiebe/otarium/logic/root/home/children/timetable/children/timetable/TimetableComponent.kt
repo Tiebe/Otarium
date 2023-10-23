@@ -12,7 +12,7 @@ val days = listOf(
     DayOfWeek.THURSDAY,
     DayOfWeek.FRIDAY,
     DayOfWeek.SATURDAY,
-    DayOfWeek.SUNDAY
+    DayOfWeek.SUNDAY,
 )
 
 interface TimetableComponent {
@@ -49,4 +49,6 @@ interface TimetableComponent {
     fun closeItemPopup()
 
     fun openTimetableMemberPopup(item: AgendaItemWithAbsence)
+
+    fun openContactInfo(item: Contact)
 }

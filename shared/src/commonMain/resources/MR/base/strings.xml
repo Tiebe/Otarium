@@ -117,4 +117,6 @@
     <string name="email_trash">Trash</string>
 
     <string name="receiverInfo">Receivers</string>
+
+    <string name="contact_not_found">Contact not found</string>
 </resources>

@@ -9,6 +9,7 @@ import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import nl.tiebe.otarium.logic.root.home.HomeComponent
+import nl.tiebe.otarium.logic.root.home.children.other.contact.ContactComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 
 interface TimetableRootComponent : HomeComponent.MenuItemComponent, BackHandlerOwner {
@@ -27,6 +28,7 @@ interface TimetableRootComponent : HomeComponent.MenuItemComponent, BackHandlerO
         class TimetableChild(val component: TimetableComponent) : Child()
         class TimetablePopupChild(val component: TimetableComponent, val id: Int) : Child()
         class TimetableMembersChild(val component: TimetableComponent, val id: Int) : Child()
+        class ContactInfoChild(val component: ContactComponent, val name: String) : Child()
     }
 
     sealed class Config : Parcelable {
@@ -38,6 +40,9 @@ interface TimetableRootComponent : HomeComponent.MenuItemComponent, BackHandlerO
 
         @Parcelize
         data class TimetableMembers(val id: Int) : Config()
+
+        @Parcelize
+        data class ContactInfo(val name: String): Config()
 
     }
 

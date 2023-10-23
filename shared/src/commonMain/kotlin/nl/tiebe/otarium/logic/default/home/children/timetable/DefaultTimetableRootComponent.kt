@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
+import nl.tiebe.otarium.logic.default.home.children.other.contact.DefaultContactComponent
 import nl.tiebe.otarium.logic.default.home.children.timetable.children.timetable.DefaultTimetableComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 
@@ -33,6 +34,11 @@ class DefaultTimetableRootComponent(componentContext: ComponentContext): Timetab
             is TimetableRootComponent.Config.TimetableMembers -> TimetableRootComponent.Child.TimetableMembersChild(
                 timetableComponent,
                 config.id
+            )
+
+            is TimetableRootComponent.Config.ContactInfo -> TimetableRootComponent.Child.ContactInfoChild(
+                DefaultContactComponent(componentContext, config.name),
+                config.name
             )
         }
 }

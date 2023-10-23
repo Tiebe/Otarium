@@ -7,7 +7,7 @@ android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.11"
+magister_api = "1.1.11"
 
 work-android = "2.8.1"
 
@@ -87,7 +87,7 @@ multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settin
 
 admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
 
-magister-api = { group = "dev.tiebe", name = "magisterapi", version.ref = "magister" }
+magister-api = { group = "dev.tiebe", name = "magisterapi", version.ref = "magister_api" }
 
 color-math = { group = "com.github.ajalt.colormath", name = "colormath", version.ref = "colormath" }
 

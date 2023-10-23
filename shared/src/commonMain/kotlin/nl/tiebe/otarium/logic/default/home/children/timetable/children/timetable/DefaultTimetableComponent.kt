@@ -84,4 +84,8 @@ class DefaultTimetableComponent(
     override fun openTimetableMemberPopup(item: AgendaItemWithAbsence) {
         navigate(TimetableRootComponent.Config.TimetableMembers(item.agendaItem.id))
     }
+
+    override fun openContactInfo(item: Contact) {
+        navigate(TimetableRootComponent.Config.ContactInfo("${item.roepnaam ?: item.voorletters} ${item.tussenvoegsel?.plus(" ") ?: ""}${item.achternaam}"))
+    }
 }

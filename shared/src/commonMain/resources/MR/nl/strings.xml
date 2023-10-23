@@ -109,4 +109,6 @@
     <string name="email_trash">Prullenbak</string>
 
     <string name="receiverInfo">Ontvangers</string>
+
+    <string name="contact_not_found">Contact niet gevonden</string>
 </resources>
