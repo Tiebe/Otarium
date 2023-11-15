@@ -30,7 +30,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ELOScreen(component: ELOComponent) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) {
+        3
+    }
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -97,7 +102,7 @@ internal fun ELOScreen(component: ELOComponent) {
             }
         }
 
-        HorizontalPager(pageCount = 3, state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize()) { page ->
+        HorizontalPager(state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
                 0 -> StudyGuidesChildScreen(component.studyGuidesComponent)
                 1 -> AssignmentsChildScreen(component.assignmentsComponent)

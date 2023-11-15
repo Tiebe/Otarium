@@ -23,7 +23,7 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.ui.utils.rectBorder
 import nl.tiebe.otarium.utils.toFormattedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,9 +31,9 @@ import nl.tiebe.otarium.utils.toFormattedString
 internal fun GradeListItem(grade: GradeWithGradeInfo) {
     ListItem(
         modifier = Modifier
-            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-        headlineText = { Text(grade.gradeInfo.columnDescription ?: "") },
-        supportingText = { Text(grade.grade.dateEntered?.substring(0, 26)?.toLocalDateTime()?.toFormattedString() ?: "") },
+            .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+        headlineContent = { Text(grade.gradeInfo.columnDescription ?: "") },
+        supportingContent = { Text(grade.grade.dateEntered?.substring(0, 26)?.toLocalDateTime()?.toFormattedString() ?: "") },
         trailingContent = {
             Box(
                 modifier = Modifier
@@ -67,8 +67,8 @@ internal fun GradeListItem(grade: GradeWithGradeInfo) {
 internal fun ManualGradeListItem(grade: ManualGrade, component: AveragesComponent) {
     ListItem(
         modifier = Modifier
-            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-        headlineText = { Text(grade.name) },
+            .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+        headlineContent = { Text(grade.name) },
         trailingContent = {
             Row {
 

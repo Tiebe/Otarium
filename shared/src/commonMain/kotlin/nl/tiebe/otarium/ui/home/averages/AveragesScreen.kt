@@ -30,7 +30,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.ui.home.averages.subject.AverageSubjectPopup
-import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.ui.utils.rectBorder
 import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.ui.format
 
@@ -79,9 +79,9 @@ internal fun AveragesScreen(component: AveragesComponent) {
 
                 ListItem(
                     modifier = Modifier
-                        .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
+                        .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
                         .clickable { component.openSubject(subject) },
-                    headlineText = {
+                    headlineContent = {
                         Text(subject.description.replaceFirstChar {
                             if (it.isLowerCase()) it.titlecase() else it.toString()
                         })

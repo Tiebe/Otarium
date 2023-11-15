@@ -40,24 +40,24 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
     ElevatedCard {
         Column {
             ListItem(
-                overlineText = { Text(getLocalizedString(MR.strings.assignment_title)) },
-                headlineText = { Text(assignment.title) }
+                overlineContent = { Text(getLocalizedString(MR.strings.assignment_title)) },
+                headlineContent = { Text(assignment.title) }
             )
 
             ListItem(
-                overlineText = { Text(getLocalizedString(MR.strings.assignment_version)) },
-                headlineText = { Text(version.versionIndex.toString()) }
+                overlineContent = { Text(getLocalizedString(MR.strings.assignment_version)) },
+                headlineContent = { Text(version.versionIndex.toString()) }
             )
 
             ListItem(
-                overlineText = { Text(getLocalizedString(MR.strings.assignment_deadline)) },
-                headlineText = { Text(version.deadline.substring(0, 26).toLocalDateTime().toFormattedString()) }
+                overlineContent = { Text(getLocalizedString(MR.strings.assignment_deadline)) },
+                headlineContent = { Text(version.deadline.substring(0, 26).toLocalDateTime().toFormattedString()) }
             )
 
 
             ListItem(
-                overlineText = { Text(getLocalizedString(MR.strings.assignment_description)) },
-                headlineText = { HtmlView(assignment.description, maxLines = 1) }
+                overlineContent = { Text(getLocalizedString(MR.strings.assignment_description)) },
+                headlineContent = { HtmlView(assignment.description, maxLines = 1) }
             )
         }
     }
@@ -70,22 +70,22 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: 
         Column {
             if (version.gradedOn != null) {
                 ListItem(
-                    overlineText = { Text(getLocalizedString(MR.strings.assignment_graded_on)) },
-                    headlineText = { Text(version.gradedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
+                    overlineContent = { Text(getLocalizedString(MR.strings.assignment_graded_on)) },
+                    headlineContent = { Text(version.gradedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
                 )
             }
 
             if (version.grade != null) {
                 ListItem(
-                    overlineText = { Text(getLocalizedString(MR.strings.assignment_grade)) },
-                    headlineText = { Text(version.grade!!) }
+                    overlineContent = { Text(getLocalizedString(MR.strings.assignment_grade)) },
+                    headlineContent = { Text(version.grade!!) }
                 )
             }
 
             if (version.teacherNote != null) {
                 ListItem(
-                    overlineText = { Text(getLocalizedString(MR.strings.assignment_feedback)) },
-                    headlineText = { HtmlView(version.teacherNote!!, maxLines = 1) }
+                    overlineContent = { Text(getLocalizedString(MR.strings.assignment_feedback)) },
+                    headlineContent = { HtmlView(version.teacherNote!!, maxLines = 1) }
                 )
             }
 
@@ -131,15 +131,15 @@ internal fun StudentVersionCard(component: AssignmentScreenComponent, version: A
         Column {
             if (version.submittedOn != null) {
                 ListItem(
-                    overlineText = { Text(getLocalizedString(MR.strings.assignment_submitted_on)) },
-                    headlineText = { Text(version.submittedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
+                    overlineContent = { Text(getLocalizedString(MR.strings.assignment_submitted_on)) },
+                    headlineContent = { Text(version.submittedOn!!.substring(0, 26).toLocalDateTime().toFormattedString()) }
                 )
             }
 
             if (version.studentNote != null) {
                 ListItem(
-                    overlineText = { Text(getLocalizedString(MR.strings.assignment_description)) },
-                    headlineText = { HtmlView(version.studentNote!!, maxLines = 1) }
+                    overlineContent = { Text(getLocalizedString(MR.strings.assignment_description)) },
+                    headlineContent = { HtmlView(version.studentNote!!, maxLines = 1) }
                 )
             }
 

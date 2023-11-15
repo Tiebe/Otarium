@@ -29,8 +29,8 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
     var showContents by remember { mutableStateOf(false) }
 
     ListItem(
-        headlineText = { Text(item.title) },
-        supportingText = { HtmlView(item.description, maxLines = 1) },
+        headlineContent = { Text(item.title) },
+        overlineContent = { HtmlView(item.description, maxLines = 1) },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
         ),

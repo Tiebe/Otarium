@@ -12,9 +12,11 @@ import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
 
 @Suppress("UnnecessaryComposedModifier")
-fun Modifier.topBottomRectBorder(
+fun Modifier.rectBorder(
     width: Dp = Dp.Hairline,
-    brush: Brush = SolidColor(Color.LightGray)
+    brush: Brush = SolidColor(Color.LightGray),
+    drawLeft: Boolean = false,
+    drawRight: Boolean = false,
 ): Modifier = composed(
     factory = {
         this.then(
@@ -31,6 +33,17 @@ fun Modifier.topBottomRectBorder(
                         Offset(0f, size.height - width.value),
                         Offset(size.width, size.height - width.value)
                     )
+                    if (drawLeft) drawLine(
+                        brush,
+                        Offset(0f, 0f),
+                        Offset(0f, size.height)
+                    )
+                    if (drawRight) drawLine(
+                        brush,
+                        Offset(size.width, 0f),
+                        Offset(size.width, size.height)
+                    )
+
                 }
             }
         )

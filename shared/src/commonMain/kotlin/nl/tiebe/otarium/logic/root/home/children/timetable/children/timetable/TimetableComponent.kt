@@ -4,17 +4,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.datetime.*
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.utils.ui.getLocalizedString
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
 import kotlin.math.floor
 
 val days = listOf(

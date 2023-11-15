@@ -13,7 +13,7 @@ import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.childr
 @Composable
 internal fun StudyGuideListItem(component: StudyGuideListComponent, item: StudyGuide) {
     ListItem(
-        headlineText = { Text(item.title) },
+        headlineContent = { Text(item.title) },
         modifier = Modifier.clickable { component.navigateToStudyGuide(item) }
     )
 }

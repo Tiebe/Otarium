@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
-import nl.tiebe.otarium.ui.home.timetable.item.TimetableItem
+import nl.tiebe.otarium.ui.home.timetable.item.TimetableItems
 
 val timesShown = 8..17
 val dpPerHour = 80.dp
@@ -34,7 +34,6 @@ internal fun Timetable(
     pageCount: Int
 ) {
     HorizontalPager(
-        pageCount = pageCount,
         state = dayPagerState,
         beyondBoundsPageCount = 3
     ) { page ->
@@ -61,7 +60,7 @@ internal fun Timetable(
 
             TimetableBackground()
 
-            TimetableItem(
+            TimetableItems(
                 component = component,
                 page = page - (pageCount / 2),
                 timesShown = timesShown,
