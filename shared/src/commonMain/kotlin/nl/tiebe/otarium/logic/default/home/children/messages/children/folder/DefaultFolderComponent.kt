@@ -31,6 +31,8 @@ class DefaultFolderComponent(
     }
 
     override fun refresh() {
+        if (folder.id == -1) return
+
         scope.launch {
             refreshState.value = true
             parentComponent.getFoldersAsync()
@@ -43,7 +45,7 @@ class DefaultFolderComponent(
     override fun loadNewMessages() {
         scope.launch {
             refreshState.value = true
-            messages.value = messages.value + getMessages(skip = messages.value.size)
+            messages.value += getMessages(skip = messages.value.size)
             refreshState.value = false
         }
     }

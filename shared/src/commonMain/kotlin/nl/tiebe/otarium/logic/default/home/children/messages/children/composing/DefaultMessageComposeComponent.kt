@@ -34,7 +34,7 @@ class DefaultMessageComposeComponent(
 
     init {
         scope.launch {
-            contactList.value = ProfileInfoFlow.getContacts(Data.selectedAccount.tenantUrl, Data.selectedAccount.tokens.accessToken, Data.selectedAccount.accountId)
+            contactList.value = ProfileInfoFlow.getContacts(Data.selectedAccount.tenantUrl, Data.selectedAccount.tokens.accessToken)
         }
     }
 }
