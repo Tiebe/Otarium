@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.ParentDataModifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -140,7 +141,7 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
             .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline), drawLeft = agendaItemWithAbsence.col != 0, drawRight = agendaItemWithAbsence.col + agendaItemWithAbsence.colSpan != agendaItemWithAbsence.colTotal)
             .clickable { onClick() }
             .then(modifier),
-        headlineContent = { Text(agendaItem.description ?: "") },
+        headlineContent = { Text(agendaItem.description ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
             HtmlView(
                 overlineContent.joinToString(" • "),
