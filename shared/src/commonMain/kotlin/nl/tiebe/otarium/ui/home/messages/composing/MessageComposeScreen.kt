@@ -35,7 +35,7 @@ fun ToInputField(component: MessageComposeComponent) {
         AutoCompleteTextView(
             query = query,
             onQueryChanged = { query = it },
-            predictions = component.contactList.subscribeAsState().value.map { it.lastName }, //todo
+            predictions = component.contactList.subscribeAsState().value.map { it }, //todo
             queryLabel = "Test"
         )
     }

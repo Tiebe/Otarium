@@ -151,6 +151,16 @@ internal fun DebugScreen(component: DebugComponent) {
                 refreshMessagesBackground()
             }
         }
+
+        SettingRowIconButton(
+            leftText = AnnotatedString("Refresh folders"),
+            icon = Icons.Default.Refresh,
+            rowClickable = true,
+        ) {
+            component.scope.launch {
+                Data.selectedAccount.refreshFolders()
+            }
+        }
     }
 
 }

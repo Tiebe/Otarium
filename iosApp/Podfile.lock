@@ -101,8 +101,7 @@ PODS:
   - PromisesObjC (2.2.0)
   - PromisesSwift (2.2.0):
     - PromisesObjC (= 2.2.0)
-  - shared (3.3.0):
-    - Google-Mobile-Ads-SDK
+  - shared (3.4.0)
 
 DEPENDENCIES:
   - FirebaseAnalytics
@@ -148,8 +147,8 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   PromisesSwift: cf9eb58666a43bbe007302226e510b16c1e10959
-  shared: a89767c3a5ee89b4d14141730a19bf70d025ac53
+  shared: fb5e8d42a33a32efb5a1afa48ea80e1a2a9840f3
 
 PODFILE CHECKSUM: b8dd2b271efca238eaf5bf83c03f19dcc4a59504
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.2
