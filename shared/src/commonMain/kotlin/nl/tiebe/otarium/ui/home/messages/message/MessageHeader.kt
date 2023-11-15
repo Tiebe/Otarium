@@ -42,22 +42,22 @@ internal fun MessageHeader(component: MessageComponent) {
     if (message.id == 0) return
 
     ListItem(
-        headlineText = { Text(text = message.subject) },
-        overlineText = { Text(text = stringResource(MR.strings.message_subject)) },
+        headlineContent = { Text(text = message.subject) },
+        overlineContent = { Text(text = stringResource(MR.strings.message_subject)) },
     )
 
     Divider()
 
     ListItem(
-        headlineText = { Text(text = message.sender.naam) },
-        overlineText = { Text(text = stringResource(MR.strings.message_sender)) },
+        headlineContent = { Text(text = message.sender.naam) },
+        overlineContent = { Text(text = stringResource(MR.strings.message_sender)) },
     )
 
     Divider()
 
     ListItem(
-        headlineText = { Text(text = message.receivers.joinToString(limit = 10) { it.name }) },
-        overlineText = { Text(text = stringResource(MR.strings.message_receivers)) },
+        headlineContent = { Text(text = message.receivers.joinToString(limit = 10) { it.name }) },
+        overlineContent = { Text(text = stringResource(MR.strings.message_receivers)) },
         modifier = Modifier.clickable { component.parentComponent.navigate(MessagesComponent.Config.ReceiverInfo(component.messageLink, ReceiverInfoComponent.ReceiverType.NORMAL)) }
     )
 
@@ -65,8 +65,8 @@ internal fun MessageHeader(component: MessageComponent) {
 
     if (message.ccReceivers.isNotEmpty()) {
         ListItem(
-            headlineText = { Text(text = message.ccReceivers.joinToString(limit = 10) { it.name }) },
-            overlineText = { Text(text = stringResource(MR.strings.message_cc_receivers)) },
+            headlineContent = { Text(text = message.ccReceivers.joinToString(limit = 10) { it.name }) },
+            overlineContent = { Text(text = stringResource(MR.strings.message_cc_receivers)) },
             modifier = Modifier.clickable { component.parentComponent.navigate(MessagesComponent.Config.ReceiverInfo(component.messageLink, ReceiverInfoComponent.ReceiverType.CC)) }
         )
 
@@ -75,8 +75,8 @@ internal fun MessageHeader(component: MessageComponent) {
 
     if (message.bccReceivers.isNotEmpty()) {
         ListItem(
-            headlineText = { Text(text = message.bccReceivers.joinToString(limit = 10) { it.name }) },
-            overlineText = { Text(text = stringResource(MR.strings.message_bcc_receivers)) },
+            headlineContent = { Text(text = message.bccReceivers.joinToString(limit = 10) { it.name }) },
+            overlineContent = { Text(text = stringResource(MR.strings.message_bcc_receivers)) },
             modifier = Modifier.clickable { component.parentComponent.navigate(MessagesComponent.Config.ReceiverInfo(component.messageLink, ReceiverInfoComponent.ReceiverType.BCC)) }
         )
 
@@ -84,8 +84,8 @@ internal fun MessageHeader(component: MessageComponent) {
     }
 
     ListItem(
-        headlineText = { Text(text = message.sentOn.substring(0, 26).toLocalDateTime().toFormattedString()) },
-        overlineText = { Text(text = stringResource(MR.strings.message_date)) },
+        headlineContent = { Text(text = message.sentOn.substring(0, 26).toLocalDateTime().toFormattedString()) },
+        overlineContent = { Text(text = stringResource(MR.strings.message_date)) },
     )
 
     val attachments = component.attachments.subscribeAsState().value

@@ -26,7 +26,7 @@ import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
-import nl.tiebe.otarium.ui.utils.topBottomRectBorder
+import nl.tiebe.otarium.ui.utils.rectBorder
 import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
@@ -38,10 +38,10 @@ internal fun GradeItem(component: GradesComponent, grade: RecentGrade) {
 
     ListItem(
         modifier = Modifier
-            .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
+            .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline))
             .clickable { showExtraInfo = !showExtraInfo },
-        headlineText = { Text(grade.description) },
-        supportingText = { Text(grade.subject.description.replaceFirstChar {
+        headlineContent = { Text(grade.description) },
+        overlineContent = { Text(grade.subject.description.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase() else it.toString()
         }) },
         trailingContent = {
@@ -76,22 +76,22 @@ internal fun GradeItem(component: GradesComponent, grade: RecentGrade) {
         Column(modifier = Modifier.padding(start = 16.dp)) {
             ListItem(
                 modifier = Modifier
-                    .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-                headlineText = { Text(grade.grade) },
-                overlineText = {
+                    .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+                headlineContent = { Text(grade.grade) },
+                overlineContent = {
                     Text(getLocalizedString(MR.strings.grade))
                 }
             )
 
             ListItem(
                 modifier = Modifier
-                    .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-                headlineText = { //parse date
+                    .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+                headlineContent = { //parse date
                     val date = grade.enteredOn.substring(0, 26).toLocalDateTime()
 
                     Text(date.toFormattedString())
                 },
-                overlineText = {
+                overlineContent = {
                     Text(getLocalizedString(MR.strings.entered_on))
                 }
             )
@@ -101,11 +101,11 @@ internal fun GradeItem(component: GradesComponent, grade: RecentGrade) {
 
                 ListItem(
                     modifier = Modifier
-                        .topBottomRectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
-                    headlineText = {
+                        .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline)),
+                    headlineContent = {
                         Text("${beforeAfterAverage.first.format(Data.decimals)} -> ${beforeAfterAverage.second.format(Data.decimals)}")
                     },
-                    overlineText = {
+                    overlineContent = {
                         Text(getLocalizedString(MR.strings.average))
                     }
                 )

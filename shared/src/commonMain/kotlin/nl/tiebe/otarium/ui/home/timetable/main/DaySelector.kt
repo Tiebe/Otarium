@@ -34,7 +34,7 @@ internal fun DaySelector(
 ) {
     val selectedDay = component.selectedDay.subscribeAsState()
 
-    HorizontalPager(pageCount = weekPageCount, state = weekPagerState) { week ->
+    HorizontalPager(state = weekPagerState) { week ->
         TabRow(
             selectedTabIndex = selectedDay.value,
             indicator = { tabPositions ->

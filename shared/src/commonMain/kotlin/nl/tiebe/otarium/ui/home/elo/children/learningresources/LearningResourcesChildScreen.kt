@@ -32,7 +32,7 @@ internal fun LearningResourcesChildScreen(component: LearningResourcesChildCompo
         Column(Modifier.verticalScroll(scrollState)) {
             learningResources.forEach {
                 ListItem(
-                    headlineText = { Text(it.title) },
+                    headlineContent = { Text(it.title) },
                     modifier = Modifier.clickable { component.openLearningResource(it) }
                 )
 

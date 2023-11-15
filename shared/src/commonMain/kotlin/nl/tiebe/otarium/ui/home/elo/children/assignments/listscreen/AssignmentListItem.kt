@@ -13,7 +13,7 @@ import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.childr
 @Composable
 internal fun AssignmentListItem(component: AssignmentListComponent, item: Assignment) {
     ListItem(
-        headlineText = { Text(item.title) },
+        headlineContent = { Text(item.title) },
         modifier = Modifier.clickable { component.navigateToAssignment(item) },
         trailingContent = { Text(item.grade)
         }

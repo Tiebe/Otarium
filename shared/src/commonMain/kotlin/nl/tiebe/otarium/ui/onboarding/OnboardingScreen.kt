@@ -22,7 +22,7 @@ internal fun OnboardingScreen(component: OnboardingComponent, padding: WindowIns
         Column(Modifier.fillMaxSize().padding(it)) {
             val items = OnboardingItems.getData()
             val scope = rememberCoroutineScope()
-            val pageState = rememberPagerState()
+            val pageState = rememberPagerState() { items.size }
             TopSection(
                 onBackClick = {
                     if (pageState.currentPage + 1 > 1) scope.launch {
@@ -37,7 +37,6 @@ internal fun OnboardingScreen(component: OnboardingComponent, padding: WindowIns
             )
 
             HorizontalPager(
-                pageCount = items.size,
                 state = pageState,
                 modifier = Modifier
                     .fillMaxHeight(0.9f)

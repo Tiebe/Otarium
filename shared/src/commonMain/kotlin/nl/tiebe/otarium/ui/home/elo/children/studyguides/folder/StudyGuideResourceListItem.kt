@@ -22,7 +22,7 @@ internal fun StudyGuideResourceListItem(component: StudyGuideFolderComponent, it
     Box {
         ListItem(
             modifier = Modifier.clickable { component.downloadResource(item) },
-            headlineText = { Text(item.name) },
+            headlineContent = { Text(item.name) },
         )
 
         val progress =

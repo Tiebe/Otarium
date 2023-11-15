@@ -50,6 +50,6 @@ internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
 @Composable
 internal fun ReceiverInfoItem(receiver: MessageData.Companion.Receiver) {
     ListItem(
-        headlineText = { Text(text = receiver.name) },
+        headlineContent = { Text(text = receiver.name) },
     )
 }
