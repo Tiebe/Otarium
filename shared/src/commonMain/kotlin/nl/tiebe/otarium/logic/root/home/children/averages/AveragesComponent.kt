@@ -1,20 +1,24 @@
 package nl.tiebe.otarium.logic.root.home.children.averages
 
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
+import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
 
-interface AveragesComponent : HomeComponent.MenuItemComponent {
+interface AveragesComponent : HomeComponent.MenuItemComponent, BackHandlerOwner {
     val refreshState: Value<Boolean>
     fun refreshGrades()
 
-    val openedSubject: Value<Pair<Boolean, Subject?>>
-
-    val backCallbackOpenItem: BackCallback
+    val navigation: StackNavigation<Config>
+    val childStack: Value<ChildStack<Config, Child>>
 
     val manualGradesList: Value<List<ManualGrade>>
     val addManualGradePopupOpen: MutableValue<Boolean>
@@ -22,16 +26,25 @@ interface AveragesComponent : HomeComponent.MenuItemComponent {
     fun addManualGrade(manualGrade: ManualGrade)
     fun removeManualGrade(manualGrade: ManualGrade)
 
-    fun openSubject(subject: Subject) {
-        backCallbackOpenItem.isEnabled = true
-
-        (openedSubject as MutableValue).value = true to subject
+    sealed class Child {
+        class ListChild(val component: AveragesComponent) : Child()
+        class SubjectChild(val component: AveragesComponent, val subjectId: Int) : Child()
     }
 
-    fun closeSubject() {
-        backCallbackOpenItem.isEnabled = false
-        (openedSubject as MutableValue).value = false to openedSubject.value.second
+    sealed class Config : Parcelable {
+        @Parcelize
+        object List : Config()
+
+        @Parcelize
+        data class Subject(val subjectId: Int) : Config()
+    }
+
+    fun back()
+
+    fun openSubject(subject: Subject) {
+        navigation.push(Config.Subject(subject.id))
     }
 
     val gradesList: Value<List<GradeWithGradeInfo>>
+    val cardList: MutableValue<Boolean>
 }

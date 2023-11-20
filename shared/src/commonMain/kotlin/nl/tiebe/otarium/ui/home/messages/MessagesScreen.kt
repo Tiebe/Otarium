@@ -118,9 +118,7 @@ private fun FolderContent(
 ) {
     Scaffold(
         topBar = {
-            val instance = screen.value.active.instance
-
-            when (instance) {
+            when (val instance = screen.value.active.instance) {
                 is MessagesComponent.Child.FolderChild -> FolderTopAppBar(instance.component, drawerState)
                 is MessagesComponent.Child.MessageChild -> MessageTopAppBar(instance.component, drawerState)
                 is MessagesComponent.Child.ReceiverInfoChild -> ReceiverTopAppBar(instance.component, drawerState)
