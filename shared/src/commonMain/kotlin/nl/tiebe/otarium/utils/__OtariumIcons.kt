@@ -6,9 +6,12 @@ import nl.tiebe.otarium.utils.otariumicons.AdvertisementsOff
 import nl.tiebe.otarium.utils.otariumicons.AllAssets
 import nl.tiebe.otarium.utils.otariumicons.Bottombar
 import nl.tiebe.otarium.utils.otariumicons.BugOutline
+import nl.tiebe.otarium.utils.otariumicons.Cards
 import nl.tiebe.otarium.utils.otariumicons.ContentSave
+import nl.tiebe.otarium.utils.otariumicons.Down
 import nl.tiebe.otarium.utils.otariumicons.Email
 import nl.tiebe.otarium.utils.otariumicons.Folder
+import nl.tiebe.otarium.utils.otariumicons.List
 import nl.tiebe.otarium.utils.otariumicons.Palette
 import kotlin.collections.List as ____KtList
 
@@ -21,7 +24,7 @@ public val OtariumIcons.AllAssets: ____KtList<ImageVector>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= Bottombar.AllAssets + Email.AllAssets + listOf(Advertisements, AdvertisementsOff,
-        BugOutline, ContentSave, Folder, Palette)
+    __AllAssets= Email.AllAssets + Bottombar.AllAssets + listOf(List, BugOutline, Down,
+        Advertisements, Palette, AdvertisementsOff, ContentSave, Cards, Folder)
     return __AllAssets!!
   }

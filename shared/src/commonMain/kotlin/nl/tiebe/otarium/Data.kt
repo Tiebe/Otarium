@@ -78,4 +78,8 @@ object Data {
         get() = settings.getBoolean("debug_notifications", false)
         set(value) = settings.putBoolean("debug_notifications", value)
 
+    var cardList: Boolean
+        get() = settings.getBoolean("card_list", true)
+        set(value) = settings.putBoolean("card_list", value)
+
 }
