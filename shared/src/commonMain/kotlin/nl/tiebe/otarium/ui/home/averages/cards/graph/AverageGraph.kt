@@ -35,7 +35,6 @@ import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.calculateAverageGrade
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
-@OptIn(ExperimentalTextApi::class)
 @Composable
 internal fun AverageGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
     ElevatedCard(
