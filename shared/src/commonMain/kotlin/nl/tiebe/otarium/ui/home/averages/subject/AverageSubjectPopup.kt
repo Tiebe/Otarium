@@ -37,8 +37,8 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AverageSubjectPopupTopAppBar(component: AveragesComponent, subject: Subject) {
-    val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { it.subjectId == subject.id }
-    val gradeList = component.gradesList.subscribeAsState().value.filter { it.grade.subject.id == subject.id}.map {
+    val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { subject.id == -1 || it.subjectId == subject.id }
+    val gradeList = component.gradesList.subscribeAsState().value.filter { subject.id == -1 || it.grade.subject.id == subject.id}.map {
             (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
         } + manualGradeList.map {
             (it.grade.toFloatOrNull() ?: 0f) to it.weight
@@ -71,23 +71,17 @@ fun AverageSubjectPopupTopAppBar(component: AveragesComponent, subject: Subject)
 
 @Composable
 internal fun AverageSubjectPopup(component: AveragesComponent, subject: Subject, realGradeList: List<GradeWithGradeInfo>) {
-    val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { it.subjectId == subject.id }
-    val gradeList = derivedStateOf {
-        realGradeList.map {
-            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
-        } + manualGradeList.map {
-            (it.grade.toFloatOrNull() ?: 0f) to it.weight
-        }
-    }
+    val gradeList = realGradeList.filter { subject.id == -1 || it.grade.subject.id == subject.id }
+    val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { subject.id == -1 || it.subjectId == subject.id }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        AverageGraph(grades = realGradeList, manualGrades = manualGradeList, modifier = Modifier.padding(10.dp))
+        AverageGraph(grades = gradeList, manualGrades = manualGradeList, modifier = Modifier.padding(10.dp))
 
-        AverageCalculator(grades = realGradeList, manualGrades = manualGradeList)
+        AverageCalculator(grades = gradeList, manualGrades = manualGradeList)
 
         val addItemPopout = component.addManualGradePopupOpen.subscribeAsState().value
 
@@ -131,7 +125,7 @@ internal fun AverageSubjectPopup(component: AveragesComponent, subject: Subject,
             modifier = Modifier.padding(20.dp)
         )
 
-        realGradeList.reversed().forEach { grade ->
+        gradeList.reversed().forEach { grade ->
             GradeListItem(grade)
         }
     }

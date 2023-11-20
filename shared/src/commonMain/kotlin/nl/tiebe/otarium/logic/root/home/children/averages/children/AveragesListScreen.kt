@@ -64,8 +64,8 @@ fun AveragesListScreen(component: AveragesComponent, subjects: List<Subject>,) {
                 SubjectCard(
                     component,
                     subject,
-                    grades.filter { it.grade.subject.id == subject.id },
-                    manualGrades.filter { it.subjectId == subject.id },
+                    grades.filter { subject.id == -1 || it.grade.subject.id == subject.id },
+                    manualGrades.filter { subject.id == -1 || it.subjectId == subject.id },
                     component.cardList.subscribeAsState().value
                 )
             }

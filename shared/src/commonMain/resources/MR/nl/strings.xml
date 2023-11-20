@@ -109,4 +109,6 @@
     <string name="email_trash">Prullenbak</string>
 
     <string name="receiverInfo">Ontvangers</string>
+
+    <string name="global_averages">Totaal</string>
 </resources>
