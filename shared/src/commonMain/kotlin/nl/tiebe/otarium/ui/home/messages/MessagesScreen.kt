@@ -54,7 +54,6 @@ internal fun MessagesScreen(component: MessagesComponent) {
                     modifier = Modifier.padding(16.dp)
                 )
 
-
                 for (folder in foldersState.value.filter { it.parentId == 0 }) {
                     val (name, icon) = GetFolderIcon(folder)
 
@@ -65,11 +64,8 @@ internal fun MessagesScreen(component: MessagesComponent) {
 
                         FolderNavigationItem(subIcon, subName, screen, subFolder, scope, drawerState, component, modifier = Modifier.padding(start = 16.dp))
                     }
-
-
                 }
             }
-
         },
         drawerState = drawerState,
         gesturesEnabled = screen.value.active.instance is MessagesComponent.Child.FolderChild || drawerState.isOpen

@@ -36,16 +36,10 @@ import nl.tiebe.otarium.utils.calculateAverageGrade
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @Composable
-internal fun AverageGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>) {
+internal fun AverageGraph(grades: List<GradeWithGradeInfo>, manualGrades: List<ManualGrade>, modifier: Modifier = Modifier) {
     ElevatedCard(
-        modifier = Modifier.padding(10.dp),
+        modifier = modifier,
     ) {
-        Text(
-            text = getLocalizedString(MR.strings.graph),
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
         val textColor = MaterialTheme.colorScheme.onBackground
         val gradeLineColor = MaterialTheme.colorScheme.secondary
         val averageLineColor = MaterialTheme.colorScheme.tertiary
