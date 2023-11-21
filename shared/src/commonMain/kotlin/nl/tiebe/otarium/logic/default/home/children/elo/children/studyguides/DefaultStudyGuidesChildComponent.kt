@@ -8,11 +8,11 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
+import kotlinx.coroutines.CoroutineScope
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.folder.DefaultStudyGuideFolderComponent
 import nl.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.DefaultStudyGuideListComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
-import kotlinx.coroutines.CoroutineScope
 
 class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : StudyGuidesChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
@@ -25,6 +25,7 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
     override val childStack: Value<ChildStack<StudyGuidesChildComponent.Config, StudyGuidesChildComponent.Child>> =
         childStack(
             source = navigation,
+            serializer = StudyGuidesChildComponent.Config.serializer(),
             initialConfiguration = StudyGuidesChildComponent.Config.StudyGuideList,
             key = "StudyGuideChildStack",
             handleBackButton = true, // Pop the back stack on back button press

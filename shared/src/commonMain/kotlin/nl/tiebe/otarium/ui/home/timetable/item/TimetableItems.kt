@@ -4,11 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -24,20 +20,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
+import kotlinx.datetime.*
+import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
+import nl.tiebe.otarium.magister.AgendaItemWithAbsence
+import nl.tiebe.otarium.magister.arrangeEvents
 import nl.tiebe.otarium.magister.getAgendaForDay
 import nl.tiebe.otarium.ui.utils.HtmlView
 import nl.tiebe.otarium.ui.utils.rectBorder
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
-import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.magister.arrangeEvents
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -80,7 +71,7 @@ internal fun TimetableItems(
             content = {
                 items.forEach { item ->
                     Box(modifier = Modifier.eventData(item)) {
-                        TimetableItem(Modifier, item) { component.openTimeTableItem(item) } //todo: onclick
+                        TimetableItem(Modifier, item) { component.parentComponent.navigate(TimetableRootComponent.Config.TimetablePopup(item)) }
                     }
                 }
             },

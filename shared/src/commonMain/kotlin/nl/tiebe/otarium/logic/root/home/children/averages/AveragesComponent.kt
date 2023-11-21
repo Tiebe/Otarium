@@ -6,9 +6,8 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
+import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
@@ -31,11 +30,10 @@ interface AveragesComponent : HomeComponent.MenuItemComponent, BackHandlerOwner 
         class SubjectChild(val component: AveragesComponent, val subjectId: Int) : Child()
     }
 
-    sealed class Config : Parcelable {
-        @Parcelize
+    @Serializable
+    sealed class Config {
         object List : Config()
 
-        @Parcelize
         data class Subject(val subjectId: Int) : Config()
     }
 

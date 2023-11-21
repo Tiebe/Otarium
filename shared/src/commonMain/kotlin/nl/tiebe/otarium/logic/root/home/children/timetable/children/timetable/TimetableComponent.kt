@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
@@ -23,6 +24,8 @@ val days = listOf(
 )
 
 interface TimetableComponent {
+    val parentComponent: TimetableRootComponent
+
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)
     val amountOfDays get() = 1000
@@ -84,10 +87,6 @@ interface TimetableComponent {
             )
         }
     }
-
-    fun openTimeTableItem(item: AgendaItemWithAbsence)
-
-    fun closeItemPopup()
 
     @OptIn(ExperimentalFoundationApi::class)
     fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {

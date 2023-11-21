@@ -26,7 +26,7 @@ internal fun GradesScreen(component: GradesComponent) {
         val grades = component.grades.subscribeAsState().value
 
         val scrollState = rememberScrollState()
-        val reachedEnd = derivedStateOf { scrollState.value == scrollState.maxValue }
+        val reachedEnd = derivedStateOf { scrollState.value >= (scrollState.maxValue * 0.5).toInt() }
 
         Column(
             modifier = Modifier

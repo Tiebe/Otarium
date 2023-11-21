@@ -52,8 +52,10 @@ internal class OnboardingItems(
                         checkable = checkedState.value,
                         checked = checkedState2.value,
                         onCheckedChange = {
-                            checkedState2.value = it
-                            Data.ageOfConsent = true
+                            if (checkedState.value) {
+                                checkedState2.value = it
+                                Data.ageOfConsent = true
+                            }
                         },
                         label = getLocalizedString(MR.strings.age_checkbox)
                     )

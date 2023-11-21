@@ -38,6 +38,7 @@ class DefaultAveragesComponent(componentContext: ComponentContext) : AveragesCom
     override val childStack: Value<ChildStack<AveragesComponent.Config, AveragesComponent.Child>> =
         childStack(
             source = navigation,
+            serializer = AveragesComponent.Config.serializer(),
             initialConfiguration = AveragesComponent.Config.List,
             handleBackButton = false, // Pop the back stack on back button press
             childFactory = ::createChild,

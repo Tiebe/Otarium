@@ -1,57 +1,50 @@
 package nl.tiebe.otarium.ui.home.timetable
 
-import androidx.compose.animation.core.tween
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.SwipeToDismiss
-import androidx.compose.material.rememberDismissState
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.plus
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.predictiveback.predictiveBackAnimation
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.arkivanov.essenty.backhandler.BackCallback
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.ui.home.timetable.item.TimetableItemPopup
+import nl.tiebe.otarium.ui.home.timetable.item.TimetablePopupTopAppBar
 import nl.tiebe.otarium.ui.home.timetable.main.TimetableScreen
-import kotlinx.coroutines.launch
+import nl.tiebe.otarium.ui.home.timetable.main.TimetableTopAppBar
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 internal fun TimetableRootScreen(component: TimetableRootComponent) {
-    val child = component.childStack.subscribeAsState().value.active.instance
-    val state = rememberDismissState(DismissValue.DismissedToEnd)
-    val scope = rememberCoroutineScope()
-
-    LaunchedEffect(child) {
-        if (child is TimetableRootComponent.Child.TimetablePopupChild) {
-            component.onBack.value = BackCallback { scope.launch { state.animateTo(DismissValue.DismissedToEnd) } }
-            component.registerBackHandler()
-
-            state.animateTo(DismissValue.Default, tween())
-        }
-    }
-
-    LaunchedEffect(state.currentValue) {
-        if (state.currentValue != DismissValue.Default) {
-            component.back()
-            component.unregisterBackHandler()
-        }
-    }
-
-    TimetableScreen(component.timetableComponent)
-
-    SwipeToDismiss(
-        state = state,
-        dismissThresholds = { FractionalThreshold(0.5f) },
-        directions = setOf(DismissDirection.StartToEnd),
-        background = {
-        }
-    ) {
-        if (child is TimetableRootComponent.Child.TimetablePopupChild) {
-            TimetableItemPopup(child.component, child.id, Modifier)
+    Children(
+        component.childStack.subscribeAsState().value,
+        animation = predictiveBackAnimation(
+            backHandler = component.backHandler,
+            animation = stackAnimation(fade() + com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.scale()), // Your usual animation here
+            onBack = component::back,
+        )
+    ) { child ->
+        androidx.compose.material3.Scaffold(
+            topBar = {
+                when (val instance = child.instance) {
+                    is TimetableRootComponent.Child.TimetableChild -> TimetableTopAppBar(component.timetableComponent)
+                    is TimetableRootComponent.Child.TimetablePopupChild -> TimetablePopupTopAppBar(component.timetableComponent, instance.agendaItem)
+                }
+            },
+            contentWindowInsets = WindowInsets(0)
+        ) {
+            Surface(modifier = Modifier.fillMaxSize().padding(it)) {
+                when (val instance = child.instance) {
+                    is TimetableRootComponent.Child.TimetableChild -> TimetableScreen(component.timetableComponent)
+                    is TimetableRootComponent.Child.TimetablePopupChild -> TimetableItemPopup(instance.component, instance.agendaItem)
+                }
+            }
         }
     }
 

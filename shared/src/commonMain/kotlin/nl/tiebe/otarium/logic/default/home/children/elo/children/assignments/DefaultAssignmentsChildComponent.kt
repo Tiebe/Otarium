@@ -10,8 +10,8 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import kotlinx.coroutines.CoroutineScope
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.default.home.children.elo.children.assignments.children.assignment.DefaultAssignmentScreenComponent
-import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
 import nl.tiebe.otarium.logic.default.home.children.elo.children.assignments.children.list.DefaultAssignmentListComponent
+import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
 
 class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : AssignmentsChildComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
@@ -23,6 +23,7 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
     override val childStack: Value<ChildStack<AssignmentsChildComponent.Config, AssignmentsChildComponent.Child>> =
         childStack(
             source = navigation,
+            serializer = AssignmentsChildComponent.Config.serializer(),
             initialConfiguration = AssignmentsChildComponent.Config.AssignmentList,
             key = "AssignmentsChildStack",
             handleBackButton = true, // Pop the back stack on back button press
