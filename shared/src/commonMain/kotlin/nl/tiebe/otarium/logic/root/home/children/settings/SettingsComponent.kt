@@ -6,8 +6,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.logic.root.home.HomeComponent
@@ -37,14 +36,12 @@ interface SettingsComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
         class ColorChild(val component: ColorChildComponent) : Child()
     }
 
-    sealed class Config(val localizedString: String) : Parcelable {
-        @Parcelize
+    @Serializable
+    sealed class Config(val localizedString: String) {
         object Main : Config(getLocalizedString(MR.strings.settingsItem))
 
-        @Parcelize
         object UI : Config(getLocalizedString(MR.strings.ui_settings))
 
-        @Parcelize
         object Colors : Config(getLocalizedString(MR.strings.color_settings))
     }
 

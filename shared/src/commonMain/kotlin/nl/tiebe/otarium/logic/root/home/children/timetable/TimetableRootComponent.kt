@@ -4,22 +4,16 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
+import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
+import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 
-interface TimetableRootComponent : HomeComponent.MenuItemComponent {
+interface TimetableRootComponent : HomeComponent.MenuItemComponent, BackHandlerOwner {
     val navigation: StackNavigation<Config>
     val childStack: Value<ChildStack<Config, Child>>
-
-    val onBack: MutableValue<BackCallback>
-
-    fun registerBackHandler()
-    fun unregisterBackHandler()
 
     fun navigate(child: Config) {
         navigation.push(child)
@@ -31,16 +25,14 @@ interface TimetableRootComponent : HomeComponent.MenuItemComponent {
 
     sealed class Child {
         class TimetableChild(val component: TimetableComponent) : Child()
-        class TimetablePopupChild(val component: TimetableComponent, val id: Int) : Child()
+        class TimetablePopupChild(val component: TimetableComponent, val agendaItem: AgendaItemWithAbsence) : Child()
     }
 
-    sealed class Config : Parcelable {
-        @Parcelize
+    @Serializable
+    sealed class Config {
         object Main : Config()
 
-        @Parcelize
-        data class TimetablePopup(val id: Int) : Config()
-
+        data class TimetablePopup(val item: AgendaItemWithAbsence) : Config()
     }
 
     val timetableComponent: TimetableComponent

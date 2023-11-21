@@ -26,7 +26,7 @@ internal fun FolderScreen(component: FolderComponent) {
         modifier = Modifier.pullRefresh(refreshState)
     ) {
         val scrollState = component.scrollState
-        val reachedEnd = derivedStateOf { scrollState.value == scrollState.maxValue }
+        val reachedEnd = derivedStateOf { scrollState.value >= (scrollState.maxValue * 0.5).toInt() }
 
         if (reachedEnd.value) {
             LaunchedEffect(Unit) {

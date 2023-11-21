@@ -5,13 +5,12 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.list.StudyGuideListComponent
-import kotlinx.coroutines.CoroutineScope
 
 interface StudyGuidesChildComponent : ELOComponent.ELOChildComponent {
     val navigation: StackNavigation<Config>
@@ -31,11 +30,10 @@ interface StudyGuidesChildComponent : ELOComponent.ELOChildComponent {
         class FolderChild(val component: StudyGuideFolderComponent) : Child()
     }
 
-    sealed class Config : Parcelable {
-        @Parcelize
+    @Serializable
+    sealed class Config {
         object StudyGuideList : Config()
 
-        @Parcelize
         data class StudyGuide(val studyGuideLink: String) : Config()
     }
 

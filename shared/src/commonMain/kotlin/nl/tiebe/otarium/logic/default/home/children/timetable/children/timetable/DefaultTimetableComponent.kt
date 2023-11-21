@@ -4,9 +4,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.essenty.backhandler.BackCallback
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.utils.MagisterException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
@@ -17,14 +20,6 @@ import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.getAbsences
 import nl.tiebe.otarium.magister.getMagisterAgenda
 import nl.tiebe.otarium.utils.ui.getLocalizedString
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import kotlin.math.floor
 
 val days = listOf(
@@ -39,8 +34,7 @@ val days = listOf(
 
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
-    val navigate: (TimetableRootComponent.Config) -> Unit,
-    val back: MutableValue<BackCallback>,
+    override val parentComponent: TimetableRootComponent,
 ): TimetableComponent, ComponentContext by componentContext {
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
@@ -103,15 +97,6 @@ class DefaultTimetableComponent(
             isRefreshingTimetable.value = false
         }
     }
-
-    override fun openTimeTableItem(item: AgendaItemWithAbsence) {
-        navigate(TimetableRootComponent.Config.TimetablePopup(item.agendaItem.id))
-    }
-
-    override fun closeItemPopup() {
-        back.value.onBack()
-    }
-
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun scrollToPage(coroutineScope: CoroutineScope, page: Int, pagerState: PagerState) {

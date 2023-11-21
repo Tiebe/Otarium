@@ -24,6 +24,7 @@ class DefaultSettingsComponent(
     override val childStack: Value<ChildStack<SettingsComponent.Config, SettingsComponent.Child>> =
         childStack(
             source = navigation,
+            serializer = SettingsComponent.Config.serializer(),
             initialConfiguration = SettingsComponent.Config.Main,
             handleBackButton = false, // Pop the back stack on back button press
             childFactory = ::createChild,

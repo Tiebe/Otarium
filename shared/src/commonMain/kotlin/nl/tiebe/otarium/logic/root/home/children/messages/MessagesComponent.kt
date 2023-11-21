@@ -6,11 +6,10 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.backhandler.BackHandlerOwner
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
@@ -48,17 +47,14 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
         class ComposeChild(val component: MessageComposeComponent) : Child()
     }
 
-    sealed class Config : Parcelable {
-        @Parcelize
+    @Serializable
+    sealed class Config {
         data class Folder(val folderId: Int) : Config()
 
-        @Parcelize
         data class Message(val messageLink: String) : Config()
 
-        @Parcelize
         data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
 
-        @Parcelize
         data class Compose(val receivers: List<String>, val subject: String, val body: String) : Config()
     }
 

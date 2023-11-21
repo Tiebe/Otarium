@@ -35,6 +35,7 @@ class DefaultMessagesComponent(
     override val childStack: Value<ChildStack<MessagesComponent.Config, MessagesComponent.Child>> =
         childStack(
             source = navigation,
+            serializer = MessagesComponent.Config.serializer(),
             initialConfiguration = MessagesComponent.Config.Folder(let { if (folders.value.isEmpty()) runBlocking { getFoldersAsync() }; folders.value.first().id }),
             handleBackButton = false, // Pop the back stack on back button press
             childFactory = ::createChild,

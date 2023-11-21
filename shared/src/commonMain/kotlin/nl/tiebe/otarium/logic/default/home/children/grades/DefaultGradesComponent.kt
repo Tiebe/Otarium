@@ -21,7 +21,7 @@ class DefaultGradesComponent(componentContext: ComponentContext) : GradesCompone
         scope.launch {
             refreshState.value = true
             try {
-                grades.value = Data.selectedAccount.getRecentGrades(30, 0)
+                grades.value = Data.selectedAccount.getRecentGrades(100, 0)
             } catch (e: MagisterException) {
                 e.printStackTrace()
             } catch (_: Exception) {
@@ -35,7 +35,7 @@ class DefaultGradesComponent(componentContext: ComponentContext) : GradesCompone
         scope.launch {
             refreshState.value = true
             try {
-                grades.value = listOf(grades.value, Data.selectedAccount.getRecentGrades(30, grades.value.size)).flatten()
+                grades.value = listOf(grades.value, Data.selectedAccount.getRecentGrades(100, grades.value.size)).flatten()
             } catch (e: MagisterException) {
                 e.printStackTrace()
             } catch (_: Exception) {
