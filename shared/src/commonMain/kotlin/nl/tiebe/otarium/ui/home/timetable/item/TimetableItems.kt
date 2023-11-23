@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import dev.tiebe.magisterapi.response.general.year.absence.Absence
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import kotlinx.datetime.*
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
@@ -147,35 +148,7 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
             }
         },
         trailingContent = {
-            if (absence?.justified == true) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(5.dp))
-                        .size(25.dp)
-                        .background(MaterialTheme.colorScheme.secondary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        absence.code.uppercase(),
-                        modifier = Modifier.padding(2.dp),
-                        color = MaterialTheme.colorScheme.onSecondary
-                    )
-                }
-            } else if (absence?.justified == false) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(5.dp))
-                        .size(25.dp)
-                        .background(MaterialTheme.colorScheme.tertiary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        absence.code.uppercase(),
-                        modifier = Modifier.padding(2.dp),
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
-                }
-            }
+            AbsenceBox(absence)
         },
         colors = ListItemDefaults.colors(
             containerColor = if (
@@ -196,4 +169,39 @@ private class EventDataModifier(
     val agendaItemWithAbsence: AgendaItemWithAbsence,
 ) : ParentDataModifier {
     override fun Density.modifyParentData(parentData: Any?) = agendaItemWithAbsence
+}
+
+@Composable
+fun AbsenceBox(absence: Absence?) {
+    if (absence?.justified == true) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(5.dp))
+                .size(25.dp)
+                .background(MaterialTheme.colorScheme.secondary),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                absence.code.uppercase(),
+                modifier = Modifier.padding(2.dp),
+                color = MaterialTheme.colorScheme.onSecondary,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    } else if (absence?.justified == false) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(5.dp))
+                .size(25.dp)
+                .background(MaterialTheme.colorScheme.tertiary),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                absence.code.uppercase(),
+                modifier = Modifier.padding(2.dp),
+                color = MaterialTheme.colorScheme.onTertiary,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    }
 }
