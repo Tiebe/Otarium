@@ -31,6 +31,7 @@ open class DefaultHomeComponent(componentContext: ComponentContext, override val
         MenuItems.Timetable,
         MenuItems.Grades,
         MenuItems.Averages,
+        MenuItems.ELO,
         MenuItems.Messages,
     )
 
