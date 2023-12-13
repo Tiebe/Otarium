@@ -9,7 +9,7 @@ ios_target = "11.0"
 
 magister = "1.1.13"
 
-work-android = "2.8.1"
+work-android = "2.9.0"
 
 kotlin = "1.8.20"
 gradle = "8.1.4"
