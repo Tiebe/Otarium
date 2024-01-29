@@ -9,6 +9,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 
 suspend fun getAbsences(accountId: Int, tenantUrl: String, accessToken: String, start: String, end: String, loadedAgenda: List<AgendaItem>): List<AgendaItemWithAbsence> {
     val absence = AbsenceFlow.getAbsences(Url(tenantUrl), accessToken, accountId, start, end)

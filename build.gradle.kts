@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.complete.kotlin)
+    //alias(libs.plugins.complete.kotlin)
 }
 
 buildscript {
