@@ -28,7 +28,7 @@ android {
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
         res.srcDirs("src/androidMain/resources", "src/commonMain/resources")
-        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+        res.srcDir(File(layout.buildDirectory.asFile.get(), "generated/moko/androidMain/res"))
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -38,8 +38,10 @@ android {
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
-    android()
-    ios()
+    androidTarget()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
     cocoapods {
         summary = "Otarium"
         homepage = "https://otarium.groosman.nl"
@@ -51,7 +53,7 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
@@ -79,7 +81,7 @@ kotlin {
 
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(libs.ktor.client.logging.jvm)
                 implementation(libs.ktor.client.json.jvm)
@@ -93,7 +95,7 @@ kotlin {
 
             }
         }
-        val iosMain by getting {
+        iosMain {
             dependencies {
                 implementation(libs.ktor.client.ios)
             }
@@ -119,5 +121,5 @@ buildkonfig {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "nl.tiebe.otarium"
+    resourcesPackage.set("nl.tiebe.otarium")
 }

@@ -7,39 +7,39 @@ android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.13"
+magister = "1.1.16"
 
-work-android = "2.8.1"
+work-android = "2.9.0"
 
-kotlin = "1.8.20"
-gradle = "8.1.4"
+kotlin = "1.9.21"
+gradle = "8.2.2"
 appcompat = "1.6.1"
-material = "1.10.0"
-compose = "1.5.10"
-compose-android = "1.5.4"
+material = "1.11.0"
+compose = "1.5.11"
+compose-android = "1.6.0"
 compose-compiler = "1.4.6"
-compose-activity = "1.8.0"
+compose-activity = "1.8.2"
 material3 = "1.1.2"
-ktor = "2.3.4"
+ktor = "2.3.7"
 decompose = "2.2.0-compose-experimental-alpha05"
-moko = "0.23.0"
+moko = "0.24.0-alpha-2"
 buildkonfig = "0.13.3"
 gms = "4.4.0"
-firebase = "32.5.0"
-multiplatform-settings = "1.0.0"
-admob = "22.5.0"
+firebase = "32.7.1"
+multiplatform-settings = "1.1.1"
+admob = "22.6.0"
 guava = "31.1-android"
 guava-coroutines = "1.7.3"
 
 complete-kotlin = "1.1.0"
-colormath = "3.2.0"
+colormath = "3.4.0"
 
-kotlin-datetime = "0.4.1"
+kotlin-datetime = "0.5.0"
 
 crashlytics = "2.9.9"
 firebaseperf = "1.4.2"
 
-skiko = "0.7.85"
+skiko = "0.7.85.4"
 
 [libraries]
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
