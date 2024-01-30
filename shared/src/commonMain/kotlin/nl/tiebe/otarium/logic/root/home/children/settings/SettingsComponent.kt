@@ -38,11 +38,14 @@ interface SettingsComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
 
     @Serializable
     sealed class Config(val localizedString: String) {
-        object Main : Config(getLocalizedString(MR.strings.settingsItem))
+        @Serializable
+        data object Main : Config(getLocalizedString(MR.strings.settingsItem))
 
-        object UI : Config(getLocalizedString(MR.strings.ui_settings))
+        @Serializable
+        data object UI : Config(getLocalizedString(MR.strings.ui_settings))
 
-        object Colors : Config(getLocalizedString(MR.strings.color_settings))
+        @Serializable
+        data object Colors : Config(getLocalizedString(MR.strings.color_settings))
     }
 
     fun selectAccount(account: MagisterAccount)

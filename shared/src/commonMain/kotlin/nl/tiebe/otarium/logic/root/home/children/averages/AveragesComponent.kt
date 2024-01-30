@@ -32,8 +32,10 @@ interface AveragesComponent : HomeComponent.MenuItemComponent, BackHandlerOwner 
 
     @Serializable
     sealed class Config {
-        object List : Config()
+        @Serializable
+        data object List : Config()
 
+        @Serializable
         data class Subject(val subjectId: Int) : Config()
     }
 
