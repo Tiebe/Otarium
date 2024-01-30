@@ -9,5 +9,6 @@ expect fun HtmlView(
     html: String,
     textColor: Int = 0,
     linkColor: Int = Color(83, 155, 245).toArgb(),
+    backgroundColor: Int,
     maxLines: Int = 0
 )

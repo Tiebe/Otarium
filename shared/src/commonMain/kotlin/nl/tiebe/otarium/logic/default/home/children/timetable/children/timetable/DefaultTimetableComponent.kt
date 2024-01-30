@@ -108,7 +108,7 @@ class DefaultTimetableComponent(
 
 
     init {
-        selectedWeek.subscribe {
+        selectedWeek.observe {
             refreshSelectedWeek()
         }
 

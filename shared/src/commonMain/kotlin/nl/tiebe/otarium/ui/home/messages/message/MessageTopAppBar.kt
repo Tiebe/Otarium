@@ -23,7 +23,7 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageTopAppBar(component: MessageComponent, drawerState: DrawerState) {
+fun MessageTopAppBar(component: MessageComponent) {
     val scope = rememberCoroutineScope()
     val message = component.message.subscribeAsState().value
 

@@ -14,6 +14,7 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import platform.UIKit.UIApplication
+import platform.UIKit.UIColor
 import platform.UIKit.UIViewController
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -26,8 +27,6 @@ fun RootViewController(): UIViewController = ComposeUIViewController {
         null,
         backHandler = backDispatcher
     )
-
-    println(UIApplication.sharedApplication.keyWindow?.safeAreaInsets)
 
     ProvideComponentContext(componentContext) {
         setup()
@@ -44,10 +43,8 @@ fun RootViewController(): UIViewController = ComposeUIViewController {
             Content(componentContext = componentContext)
         }
     }
-}
-
-val safeArea = MutableValue(WindowInsets(0, 0, 0, 0))
-
-fun setSafeArea(start: Int, top: Int, end: Int, bottom: Int) {
-    safeArea.value = WindowInsets(start, top, end, bottom)
+}.apply {
+    view.backgroundColor = UIColor.clearColor
+    view.opaque = true
+    view.setClipsToBounds(true)
 }

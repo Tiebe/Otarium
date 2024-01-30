@@ -1,6 +1,5 @@
 import SwiftUI
 import shared
-import FirebaseCore
 
 @UIApplicationMain
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -11,18 +10,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         let controller = AvoidDispose(RootViewControllersKt.RootViewController())
-        controller.view.backgroundColor = .white
+        controller.view.backgroundColor = .clear
+        controller.view.isOpaque = false
         
         IOS.shared.viewController = controller
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.backgroundColor = .white
+        window.backgroundColor = .clear
+        window.isOpaque = false
         window.rootViewController = controller
         window.makeKeyAndVisible()
         self.window = window
         
-        FirebaseApp.configure()
-        BackgroundManagerIOSKt.registerBackgroundTasks()
+        BackgroundManager_iosKt.registerBackgroundTasks()
         
         return true
     }

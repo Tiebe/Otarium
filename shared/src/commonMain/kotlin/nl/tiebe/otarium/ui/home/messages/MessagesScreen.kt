@@ -74,7 +74,7 @@ internal fun MessagesScreen(component: MessagesComponent) {
         drawerState = drawerState,
         gesturesEnabled = screen.value.active.instance is MessagesComponent.Child.FolderChild || drawerState.isOpen
     ) {
-        FolderContent(screen, component, scope, drawerState)
+        FolderContent(screen, component, drawerState)
     }
 }
 
@@ -117,14 +117,13 @@ private fun FolderNavigationItem(
 private fun FolderContent(
     screen: State<ChildStack<MessagesComponent.Config, MessagesComponent.Child>>,
     component: MessagesComponent,
-    scope: CoroutineScope,
     drawerState: DrawerState
 ) {
     Scaffold(
         topBar = {
             when (val instance = screen.value.active.instance) {
                 is MessagesComponent.Child.FolderChild -> FolderTopAppBar(instance.component, drawerState)
-                is MessagesComponent.Child.MessageChild -> MessageTopAppBar(instance.component, drawerState)
+                is MessagesComponent.Child.MessageChild -> MessageTopAppBar(instance.component)
                 is MessagesComponent.Child.ReceiverInfoChild -> ReceiverTopAppBar(instance.component, drawerState)
                 is MessagesComponent.Child.ComposeChild -> MessageComposeTopAppBar(instance.component)
             }

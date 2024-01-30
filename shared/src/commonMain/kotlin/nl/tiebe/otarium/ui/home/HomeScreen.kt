@@ -12,16 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.logic.root.home.HomeComponent
-import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.logic.root.home.children.debug.DebugComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
-import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
-import nl.tiebe.otarium.ui.home.averages.AveragesScreen
 import nl.tiebe.otarium.ui.home.debug.DebugScreen
 import nl.tiebe.otarium.ui.home.elo.ELOScreen
+import nl.tiebe.otarium.ui.home.grades.GradesComponent
 import nl.tiebe.otarium.ui.home.grades.GradesScreen
 import nl.tiebe.otarium.ui.home.messages.MessagesScreen
 import nl.tiebe.otarium.ui.home.settings.SettingsScreen
@@ -58,7 +56,6 @@ internal fun HomeScreen(component: HomeComponent) {
             when (val dialogComponent = overlay.instance) {
                 is TimetableRootComponent -> TimetableRootScreen(dialogComponent)
                 is GradesComponent -> GradesScreen(dialogComponent)
-                is AveragesComponent -> AveragesScreen(dialogComponent)
                 is MessagesComponent -> MessagesScreen(dialogComponent)
                 is ELOComponent -> ELOScreen(dialogComponent)
                 is SettingsComponent -> SettingsScreen(dialogComponent)

@@ -38,7 +38,6 @@ import nl.tiebe.otarium.utils.ui.getLocalizedString
 @Composable
 internal fun SettingsScreen(component: SettingsComponent) {
     val screen = component.childStack.subscribeAsState()
-    val scope = rememberCoroutineScope()
 
     Box(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
         Children(

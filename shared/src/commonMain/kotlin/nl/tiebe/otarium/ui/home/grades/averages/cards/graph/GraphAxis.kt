@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.averages.cards.graph
+package nl.tiebe.otarium.ui.home.grades.averages.cards.graph
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color

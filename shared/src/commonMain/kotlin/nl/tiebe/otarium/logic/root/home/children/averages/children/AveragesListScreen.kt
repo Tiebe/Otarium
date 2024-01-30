@@ -19,7 +19,7 @@ import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
-import nl.tiebe.otarium.ui.home.averages.SubjectCard
+import nl.tiebe.otarium.ui.home.grades.averages.SubjectCard
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Cards
 import nl.tiebe.otarium.utils.otariumicons.List

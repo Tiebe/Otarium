@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.elo
+package nl.tiebe.otarium.ui.home.grades
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -19,35 +19,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
-import nl.tiebe.otarium.ui.home.elo.children.assignments.AssignmentsChildScreen
-import nl.tiebe.otarium.ui.home.elo.children.learningresources.LearningResourcesChildScreen
-import nl.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesChildScreen
+import nl.tiebe.otarium.ui.home.grades.averages.AveragesScreen
+import nl.tiebe.otarium.ui.home.grades.grades.RecentGradesScreen
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun ELOScreen(component: ELOComponent) {
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        initialPageOffsetFraction = 0f
-    ) {
-        3
-    }
+internal fun GradesScreen(component: GradesComponent) {
+    val pagerState = rememberPagerState { 2 }
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
         TabRow(
-            selectedTabIndex = pagerState.currentPage
+            selectedTabIndex = pagerState.currentPage,
         ) {
             Tab(
                 selected = pagerState.currentPage == 0,
-                onClick = { component.changeChild(ELOComponent.ELOChild.StudyGuides) },
+                onClick = { component.changeChild(GradesComponent.GradesChild.RecentGrades) },
                 modifier = Modifier.height(53.dp)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = getLocalizedString(MR.strings.study_guides),
+                        text = getLocalizedString(MR.strings.gradesItem),
                         maxLines = 1,
                         overflow = TextOverflow.Clip,
                         textAlign = TextAlign.Center,
@@ -58,28 +51,12 @@ internal fun ELOScreen(component: ELOComponent) {
 
             Tab(
                 selected = pagerState.currentPage == 1,
-                onClick = { component.changeChild(ELOComponent.ELOChild.Assignments) },
+                onClick = { component.changeChild(GradesComponent.GradesChild.Calculation) },
                 modifier = Modifier.height(53.dp)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = getLocalizedString(MR.strings.assignments),
-                        maxLines = 1,
-                        overflow = TextOverflow.Clip,
-                        textAlign = TextAlign.Center,
-                        fontSize = 13.sp
-                    )
-                }
-            }
-
-            Tab(
-                selected = pagerState.currentPage == 2,
-                onClick = { component.changeChild(ELOComponent.ELOChild.LearningResources) },
-                modifier = Modifier.height(53.dp)
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = getLocalizedString(MR.strings.learning_resources),
+                        text = getLocalizedString(MR.strings.averagesItem),
                         maxLines = 1,
                         overflow = TextOverflow.Clip,
                         textAlign = TextAlign.Center,
@@ -89,11 +66,10 @@ internal fun ELOScreen(component: ELOComponent) {
             }
         }
 
-        HorizontalPager(state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize(), userScrollEnabled = false) { page ->
+        HorizontalPager(state = pagerState, beyondBoundsPageCount = 1, userScrollEnabled = false) { page ->
             when (page) {
-                0 -> StudyGuidesChildScreen(component.studyGuidesComponent)
-                1 -> AssignmentsChildScreen(component.assignmentsComponent)
-                2 -> LearningResourcesChildScreen(component.learningResourcesComponent)
+                0 -> RecentGradesScreen(component.recentGradeComponent)
+                1 -> AveragesScreen(component.averagesComponent)
             }
         }
 

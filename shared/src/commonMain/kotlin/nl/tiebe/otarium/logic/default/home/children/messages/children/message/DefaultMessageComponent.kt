@@ -106,18 +106,14 @@ class DefaultMessageComponent(
                     true
                 )
 
-                unsubscribe()
+                observation.cancel()
             }
         }
     }
 
-    private val unsubscribe = {
-        message.unsubscribe(::markAsRead)
-    }
+    private val observation = message.observe(::markAsRead)
 
     init {
-        message.subscribe(::markAsRead)
-
         getMessage()
     }
 

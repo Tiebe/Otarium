@@ -1,5 +1,7 @@
 package nl.tiebe.otarium.utils
 
+import kotlinx.cinterop.BetaInteropApi
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.allocArrayOf
 import kotlinx.cinterop.memScoped
 import platform.Foundation.NSCachesDirectory
@@ -22,6 +24,7 @@ actual fun openUrl(url: String) {
 
 }
 
+@OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 actual fun writeFile(id: String, fileName: String, data: ByteArray) {
     memScoped {
         val nsData = NSData.create(bytes = allocArrayOf(data), length = data.size.toULong())
@@ -42,6 +45,7 @@ actual fun writeFile(id: String, fileName: String, data: ByteArray) {
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 actual fun openFileFromCache(id: String, fileName: String) {
     val cacheDir = NSFileManager.defaultManager.URLForDirectory(NSCachesDirectory, NSUserDomainMask, null, false, null)!!
 

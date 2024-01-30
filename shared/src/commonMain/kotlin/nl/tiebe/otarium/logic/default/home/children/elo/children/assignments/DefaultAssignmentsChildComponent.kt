@@ -75,7 +75,7 @@ class DefaultAssignmentsChildComponent(componentContext: ComponentContext) : Ass
 
 
     init {
-        childStack.subscribe { childStack ->
+        childStack.observe { childStack ->
             if (childStack.backStack.isEmpty()) {
                 unregisterBackHandler()
             } else {

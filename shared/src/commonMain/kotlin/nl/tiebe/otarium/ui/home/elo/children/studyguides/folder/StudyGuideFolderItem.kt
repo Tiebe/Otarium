@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
@@ -30,7 +31,11 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
 
     ListItem(
         headlineContent = { Text(item.title) },
-        overlineContent = { HtmlView(item.description, maxLines = 1) },
+        overlineContent = { HtmlView(
+            item.description,
+            maxLines = 1,
+            backgroundColor = ListItemDefaults.containerColor.toArgb()
+        ) },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
         ),

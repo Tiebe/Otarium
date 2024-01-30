@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.averages
+package nl.tiebe.otarium.ui.home.grades.averages
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,8 +20,8 @@ import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.logic.root.home.children.averages.children.AveragesListScreen
 import nl.tiebe.otarium.logic.root.home.children.averages.children.AveragesListScreenTopAppBar
-import nl.tiebe.otarium.ui.home.averages.subject.AverageSubjectPopup
-import nl.tiebe.otarium.ui.home.averages.subject.AverageSubjectPopupTopAppBar
+import nl.tiebe.otarium.ui.home.grades.averages.subject.AverageSubjectPopup
+import nl.tiebe.otarium.ui.home.grades.averages.subject.AverageSubjectPopupTopAppBar
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalDecomposeApi::class)
