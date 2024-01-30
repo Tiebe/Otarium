@@ -6,6 +6,11 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.home.children.averages.DefaultAveragesComponent
 import nl.tiebe.otarium.logic.default.home.children.debug.DefaultDebugComponent
 import nl.tiebe.otarium.logic.default.home.children.elo.DefaultELOComponent
@@ -103,6 +108,14 @@ open class DefaultHomeComponent(componentContext: ComponentContext, override val
 
         if (clickCount.second >= 8) {
             dialogNavigation.activate(MenuItems.Debug)
+        }
+    }
+
+    init {
+        runBlocking {
+            launch {
+                Data.selectedAccount.refreshFolders()
+            }
         }
     }
 }

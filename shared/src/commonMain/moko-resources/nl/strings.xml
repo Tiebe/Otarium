@@ -40,7 +40,7 @@
     <string name="bug_text_1">Voordat je een bug meld, probeer je cache te verwijderen met de knop hieronder.</string>
     <string name="bug_text_2">Als de bug blijft, neem contact met ons op: otarium@tiebe.dev.</string>
     <string name="switch_user_text">Wissel gebruiker</string>
-    <string name="new_account">Nieuwe gebruiker</string>
+    <string name="add_account">Voeg account toe</string>
     <string name="advertisements">Advertenties</string>
     <string name="entered_on">Ingevoerd op</string>
     <string name="decimals_slider">Aantal decimalen in het gemiddelde:</string>
