@@ -1,5 +1,6 @@
 package nl.tiebe.otarium.utils
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.runBlocking
 import nl.tiebe.otarium.magister.refreshGrades
 import platform.BackgroundTasks.BGAppRefreshTaskRequest
@@ -9,6 +10,7 @@ import platform.Foundation.NSUUID
 import platform.UserNotifications.*
 import platform.darwin.NSObject
 
+@OptIn(ExperimentalForeignApi::class)
 actual fun reloadTokensBackground(delay: Long) {
     val request = BGAppRefreshTaskRequest(identifier = "nl.tiebe.otarium.tokenrefresh")
     request.earliestBeginDate = NSDate(timeIntervalSinceReferenceDate = delay.toDouble())
@@ -21,6 +23,7 @@ actual fun reloadTokensBackground(delay: Long) {
 
 }
 
+@OptIn(ExperimentalForeignApi::class)
 actual fun refreshGradesBackground(delay: Long) {
     val request = BGAppRefreshTaskRequest(identifier = "nl.tiebe.otarium.graderefresh")
     request.earliestBeginDate = NSDate(timeIntervalSinceReferenceDate = delay.toDouble())

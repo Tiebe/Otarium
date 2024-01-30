@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
@@ -67,7 +63,7 @@ internal fun UIChildScreen(component: UIChildComponent) {
                 Data.decimals = sliderValue.roundToInt()
             },
             valueRange = 0f..4f,
-            steps = 2
+            steps = 3
         )
 
         val checkedStateMarkGrades = component.markGrades.subscribeAsState()

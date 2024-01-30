@@ -29,8 +29,7 @@ internal fun DaySelector(
     component: TimetableComponent,
     dayPagerState: PagerState,
     weekPagerState: PagerState,
-    dayPageCount: Int,
-    weekPageCount: Int
+    dayPageCount: Int
 ) {
     val selectedDay = component.selectedDay.subscribeAsState()
 

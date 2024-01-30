@@ -30,12 +30,6 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
         { Icon(OtariumIcons.Bottombar.Box10Filled, "Grades") },
     )
 
-    object Averages: MenuItems(
-        MR.strings.averagesItem,
-        { Icon(OtariumIcons.Bottombar.ChartOutline, "Averages") },
-        { Icon(OtariumIcons.Bottombar.ChartFilled, "Averages") },
-    )
-
     @OptIn(ExperimentalMaterial3Api::class)
     object Messages: MenuItems(
         MR.strings.messagesItem,

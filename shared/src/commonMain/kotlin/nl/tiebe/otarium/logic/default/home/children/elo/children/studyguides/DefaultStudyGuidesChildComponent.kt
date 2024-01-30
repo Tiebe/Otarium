@@ -73,7 +73,7 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
 
 
     init {
-        childStack.subscribe { childStack ->
+        childStack.observe { childStack ->
             if (childStack.backStack.isEmpty()) {
                 unregisterBackHandler()
             } else {

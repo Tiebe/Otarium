@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.grades
+package nl.tiebe.otarium.ui.home.grades.grades
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -25,15 +23,14 @@ import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
-import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
+import nl.tiebe.otarium.logic.root.home.children.grades.RecentGradesComponent
 import nl.tiebe.otarium.ui.utils.rectBorder
 import nl.tiebe.otarium.utils.toFormattedString
 import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GradeItem(component: GradesComponent, grade: RecentGrade) {
+internal fun GradeItem(component: RecentGradesComponent, grade: RecentGrade) {
     var showExtraInfo by remember { mutableStateOf(false) }
 
     ListItem(
@@ -66,10 +63,7 @@ internal fun GradeItem(component: GradesComponent, grade: RecentGrade) {
                         .align(Alignment.BottomEnd)
                 )
             }
-        },
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
-        ),
+        }
     )
 
     AnimatedVisibility(visible = showExtraInfo, enter = expandVertically(), exit = shrinkVertically()) {
