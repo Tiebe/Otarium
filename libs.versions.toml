@@ -7,7 +7,7 @@ android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.16"
+magister = "1.1.17"
 
 work-android = "2.9.0"
 
@@ -24,10 +24,8 @@ ktor = "2.3.7"
 decompose = "2.2.0-compose-experimental-alpha05"
 moko = "0.24.0-alpha-2"
 buildkonfig = "0.13.3"
-gms = "4.4.0"
-firebase = "32.7.1"
 multiplatform-settings = "1.1.1"
-admob = "22.6.0"
+#noinspection GradleDependency # it thinks the jre version is higher than the android version. remove this line to allow IDE checking for version updates again
 guava = "31.1-android"
 guava-coroutines = "1.7.3"
 
@@ -35,9 +33,6 @@ complete-kotlin = "1.1.0"
 colormath = "3.4.0"
 
 kotlin-datetime = "0.5.0"
-
-crashlytics = "2.9.9"
-firebaseperf = "1.4.2"
 
 skiko = "0.7.85.4"
 
@@ -72,20 +67,10 @@ moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose
 
 buildkonfig-gradle = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
 
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-performance = { group = "com.google.firebase", name = "firebase-perf-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-performancegradle = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebaseperf" }
-firebase-crashlyticsgradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlytics" }
-firebase-gradle = { group = "com.google.gms", name = "google-services", version.ref = "gms" }
-
 decompose-core = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose-jetbrains", version.ref = "decompose" }
 
 multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
-
-admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
 
 magister-api = { group = "dev.tiebe", name = "magisterapi", version.ref = "magister" }
 
@@ -100,12 +85,6 @@ skiko = { group = "org.jetbrains.skiko", name = "skiko", version.ref = "skiko" }
 
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
-
 complete_kotlin = { id = "com.louiscad.complete-kotlin", version.ref = "complete-kotlin" }
-
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
-
-google_services = { id = "com.google.gms.google-services", version.ref = "gms" }
-firebase_crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase" }
-firebase_performance = { id = "com.google.firebase.firebase-perf", version.ref = "firebase" }

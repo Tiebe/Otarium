@@ -15,10 +15,10 @@ import nl.tiebe.otarium.ui.onboarding.sections.TopSection
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun OnboardingScreen(component: OnboardingComponent, padding: WindowInsets) {
-    Scaffold(modifier = Modifier.fillMaxSize(), contentWindowInsets = padding) {
+internal fun OnboardingScreen(component: OnboardingComponent) {
+    Scaffold(modifier = Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize().padding(it)) {
             val items = OnboardingItems.getData()
             val scope = rememberCoroutineScope()

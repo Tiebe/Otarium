@@ -6,4 +6,4 @@ import androidx.compose.runtime.Composable
 import nl.tiebe.otarium.logic.root.login.LoginComponent
 
 @Composable
-internal expect fun LoginScreen(component: LoginComponent, padding: WindowInsets)
+internal expect fun LoginScreen(component: LoginComponent)

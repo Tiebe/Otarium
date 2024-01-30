@@ -10,6 +10,6 @@ fun RootView(rootComponentContext: DefaultComponentContext, lightColorScheme: Co
     ProvideComponentContext(rootComponentContext) {
         setup()
 
-        Content(componentContext = rootComponentContext, lightColorScheme, darkColorScheme, padding = padding)
+        Content(componentContext = rootComponentContext, lightColorScheme, darkColorScheme)
     }
 }

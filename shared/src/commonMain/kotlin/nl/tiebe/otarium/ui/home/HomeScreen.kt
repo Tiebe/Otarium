@@ -1,12 +1,16 @@
 package nl.tiebe.otarium.ui.home
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.logic.root.home.children.debug.DebugComponent
@@ -24,16 +28,12 @@ import nl.tiebe.otarium.ui.home.settings.SettingsScreen
 import nl.tiebe.otarium.ui.home.timetable.TimetableRootScreen
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
-var adsShown = mutableStateOf(Data.showAds)
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeScreen(component: HomeComponent, windowInsets: WindowInsets) {
+internal fun HomeScreen(component: HomeComponent) {
     val dialog = component.dialog.subscribeAsState()
     val overlay = dialog.value.child ?: return
 
     Scaffold(
-        contentWindowInsets = windowInsets,
         bottomBar = {
             NavigationBar {
                 component.visibleItems.forEach { screen ->
