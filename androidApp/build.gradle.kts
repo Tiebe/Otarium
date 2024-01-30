@@ -4,9 +4,6 @@ plugins {
     kotlin("android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
-    //id(libs.plugins.google.services.get().pluginId)
-    //id(libs.plugins.firebase.crashlytics.get().pluginId)
-    //id(libs.plugins.firebase.performance.get().pluginId)
 }
 
 android {
@@ -56,9 +53,4 @@ dependencies {
     implementation(libs.compose.material)
 
     implementation(libs.decompose.core)
-
-/*    implementation(project.dependencies.platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics)
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.performance)*/
 }

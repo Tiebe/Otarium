@@ -65,7 +65,7 @@ fun TimetablePopupTopAppBar(component: TimetableComponent, agendaItem: AgendaIte
 }
 
 @Composable
-internal fun TimetableItemPopup(component: TimetableComponent, agendaItem: AgendaItemWithAbsence) {
+internal fun TimetableItemPopup(agendaItem: AgendaItemWithAbsence) {
     Box(Modifier.fillMaxSize().padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -73,7 +73,8 @@ internal fun TimetableItemPopup(component: TimetableComponent, agendaItem: Agend
             val text = (agendaItem.agendaItem.content ?: "")
 
             HtmlView(
-                text
+                text,
+                backgroundColor = MaterialTheme.colorScheme.surface.value.toInt()
             )
         }
     }

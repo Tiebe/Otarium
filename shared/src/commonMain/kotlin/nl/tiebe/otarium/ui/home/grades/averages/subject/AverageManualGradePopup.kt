@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.averages.subject
+package nl.tiebe.otarium.ui.home.grades.averages.subject
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions

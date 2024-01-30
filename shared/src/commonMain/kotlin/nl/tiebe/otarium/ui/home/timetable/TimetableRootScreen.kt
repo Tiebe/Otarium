@@ -42,7 +42,7 @@ internal fun TimetableRootScreen(component: TimetableRootComponent) {
             Surface(modifier = Modifier.fillMaxSize().padding(it)) {
                 when (val instance = child.instance) {
                     is TimetableRootComponent.Child.TimetableChild -> TimetableScreen(component.timetableComponent)
-                    is TimetableRootComponent.Child.TimetablePopupChild -> TimetableItemPopup(instance.component, instance.agendaItem)
+                    is TimetableRootComponent.Child.TimetablePopupChild -> TimetableItemPopup(instance.agendaItem)
                 }
             }
         }

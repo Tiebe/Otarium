@@ -8,7 +8,7 @@ actual fun setupNotifications() {
 
     center.requestAuthorizationWithOptions(
         options = UNAuthorizationOptionAlert,
-        completionHandler = { granted, error ->
+        completionHandler = { granted, _ ->
             if (granted) {
                 println("Notifications granted")
             } else {

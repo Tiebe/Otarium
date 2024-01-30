@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.averages.cards
+package nl.tiebe.otarium.ui.home.grades.averages.cards
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable

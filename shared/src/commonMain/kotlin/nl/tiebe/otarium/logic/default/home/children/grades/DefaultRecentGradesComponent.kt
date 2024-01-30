@@ -7,11 +7,11 @@ import dev.tiebe.magisterapi.utils.MagisterException
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
-import nl.tiebe.otarium.logic.root.home.children.grades.GradesComponent
+import nl.tiebe.otarium.logic.root.home.children.grades.RecentGradesComponent
 import nl.tiebe.otarium.magister.getRecentGrades
 import nl.tiebe.otarium.utils.calculateAverageGrade
 
-class DefaultGradesComponent(componentContext: ComponentContext) : GradesComponent, ComponentContext by componentContext {
+class DefaultRecentGradesComponent(componentContext: ComponentContext) : RecentGradesComponent, ComponentContext by componentContext {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
     private val scope = componentCoroutineScope()
 
