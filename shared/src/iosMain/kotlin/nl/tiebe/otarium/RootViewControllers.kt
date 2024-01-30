@@ -10,13 +10,11 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.PredictiveBackGestureIcon
 import com.arkivanov.decompose.extensions.compose.jetbrains.PredictiveBackGestureOverlay
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.essenty.backhandler.BackDispatcher
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import platform.UIKit.UIApplication
 import platform.UIKit.UIViewController
-import platform.UIKit.safeAreaInsets
 
 @OptIn(ExperimentalDecomposeApi::class)
 fun RootViewController(): UIViewController = ComposeUIViewController {
@@ -43,7 +41,7 @@ fun RootViewController(): UIViewController = ComposeUIViewController {
             },
             modifier = Modifier.fillMaxSize(),
         ) {
-            Content(componentContext = componentContext, padding = safeArea.subscribeAsState().value)
+            Content(componentContext = componentContext)
         }
     }
 }

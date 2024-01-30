@@ -18,14 +18,6 @@ object Data {
         get() = settings.getBoolean("bypass", false)
         set(value) = settings.putBoolean("bypass", value)
 
-    var showAds: Boolean
-        get() = settings.getBoolean("show_ads", false)
-        set(value) = settings.putBoolean("show_ads", value)
-
-    var ageOfConsent: Boolean
-        get() = settings.getBoolean("age_of_consent", false)
-        set(value) = settings.putBoolean("age_of_consent", value)
-
     var accounts: List<MagisterAccount>
         get() = settings.getString("accounts", "[]").let {
             Json.decodeFromString(it) }

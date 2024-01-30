@@ -25,8 +25,8 @@ import nl.tiebe.otarium.logic.root.login.LoginComponent
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-internal actual fun LoginScreen(component: LoginComponent, padding: WindowInsets) {
-    Scaffold(modifier = Modifier.fillMaxSize(), contentWindowInsets = padding) {
+internal actual fun LoginScreen(component: LoginComponent) {
+    Scaffold(modifier = Modifier.fillMaxSize()) {
         Box(Modifier.fillMaxSize().padding(it)) {
             if (component.loading.subscribeAsState().value) {
                 LoadingScreen()

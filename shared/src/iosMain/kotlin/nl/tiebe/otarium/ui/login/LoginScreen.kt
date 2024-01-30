@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import kotlinx.cinterop.ExperimentalForeignApi
 import nl.tiebe.otarium.logic.root.login.LoginComponent
 import platform.CoreGraphics.CGRectMake
 import platform.Foundation.NSURL
@@ -19,10 +20,10 @@ import platform.Foundation.NSURLRequest
 import platform.WebKit.*
 import platform.darwin.NSObject
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalForeignApi::class)
 @Composable
-internal actual fun LoginScreen(component: LoginComponent, padding: WindowInsets) {
-    Scaffold(modifier = Modifier.fillMaxSize(), contentWindowInsets = padding) {
+internal actual fun LoginScreen(component: LoginComponent) {
+    Scaffold(modifier = Modifier.fillMaxSize()) {
         Box(Modifier.fillMaxSize().padding(it)) {
             if (component.loading.subscribeAsState().value) {
                 LoadingScreen()
