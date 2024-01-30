@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
@@ -30,7 +31,7 @@ internal fun AssignmentScreen(component: AssignmentScreenComponent) {
 
     Box(Modifier.fillMaxSize().pullRefresh(pullRefreshState)) {
         val versions = component.versions.subscribeAsState().value
-        val pagerState = rememberPagerState()
+        val pagerState = rememberPagerState() { versions.size }
 
         Row(
             Modifier
@@ -52,7 +53,7 @@ internal fun AssignmentScreen(component: AssignmentScreenComponent) {
             }
         }
 
-        HorizontalPager(pageCount = versions.size, state = pagerState, pageSize = PageSize.Fixed(350.dp), contentPadding = PaddingValues(20.dp)) {
+        HorizontalPager(state = pagerState, pageSize = PageSize.Fixed(350.dp), contentPadding = PaddingValues(20.dp)) {
             VersionInfoScreen(component, assignment, assignment.navigationItemsVersion.reversed()[it].id,
                 Modifier.width(350.dp).padding(5.dp).graphicsLayer {
                     // Calculate the absolute offset for the current page from the

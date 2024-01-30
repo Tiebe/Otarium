@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.compose)
     id(libs.plugins.buildkonfig.get().pluginId)
     id(libs.plugins.mokoresources.get().pluginId)
-    id(libs.plugins.google.services.get().pluginId)
+    //id(libs.plugins.google.services.get().pluginId)
 }
 
 version = libs.versions.app.version.string.get()
@@ -28,7 +28,7 @@ android {
     sourceSets["main"].apply {
         manifest.srcFile("src/androidMain/AndroidManifest.xml")
         res.srcDirs("src/androidMain/resources", "src/commonMain/resources")
-        res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+        res.srcDir(File(layout.buildDirectory.asFile.get(), "generated/moko/androidMain/res"))
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -38,8 +38,10 @@ android {
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
-    android()
-    ios()
+    androidTarget()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
     cocoapods {
         summary = "Otarium"
         homepage = "https://otarium.groosman.nl"
@@ -48,17 +50,10 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = false
-
-            binaryOption("bundleVersion",libs.versions.app.version.string.get())
-            binaryOption("bundleShortVersionString", libs.versions.app.version.code.get())
-        }
-
-        pod("Google-Mobile-Ads-SDK") {
-            moduleName = "GoogleMobileAds"
         }
     }
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
@@ -82,22 +77,25 @@ kotlin {
                 implementation(libs.magister.api)
                 implementation(libs.color.math)
 
+                implementation(libs.skiko)
+
             }
         }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(libs.ktor.client.logging.jvm)
                 implementation(libs.ktor.client.json.jvm)
                 implementation(libs.ktor.client.android)
 
-                implementation(libs.admob)
-
                 implementation(libs.guava.core)
                 implementation(libs.guava.coroutines)
 
+                implementation(libs.android.appcompat)
+                implementation(libs.androidx.work)
+
             }
         }
-        val iosMain by getting {
+        iosMain {
             dependencies {
                 implementation(libs.ktor.client.ios)
             }
@@ -110,6 +108,7 @@ kotlin {
         binaries.all {
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
         }
+
     }
 }
 
@@ -122,5 +121,5 @@ buildkonfig {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "nl.tiebe.otarium"
+    resourcesPackage.set("nl.tiebe.otarium")
 }

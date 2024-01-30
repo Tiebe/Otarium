@@ -4,18 +4,19 @@ import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import nl.tiebe.otarium.utils.refreshGradesBackground
-import nl.tiebe.otarium.utils.reloadTokensBackground
-import nl.tiebe.otarium.utils.ui.Android
+import nl.tiebe.otarium.utils.setupGradesBackgroundTask
+import nl.tiebe.otarium.utils.setupMessagesBackgroundTask
+import nl.tiebe.otarium.utils.setupTokenBackgroundTask
 
 
 class BootService : BroadcastReceiver() {
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context?, intent: Intent?) {
-        Android.context = context!!
+        if (context == null) return
 
-        reloadTokensBackground()
-        refreshGradesBackground()
+        setupTokenBackgroundTask(context)
+        setupGradesBackgroundTask(context)
+        setupMessagesBackgroundTask(context)
     }
 }

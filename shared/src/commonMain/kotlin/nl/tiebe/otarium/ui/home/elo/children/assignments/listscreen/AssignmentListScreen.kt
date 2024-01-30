@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.list.AssignmentListComponent
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterialApi::class)

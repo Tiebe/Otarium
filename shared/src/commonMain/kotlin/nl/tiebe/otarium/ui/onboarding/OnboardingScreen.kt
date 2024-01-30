@@ -1,10 +1,7 @@
 package nl.tiebe.otarium.ui.onboarding
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,20 +9,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.launch
+import nl.tiebe.otarium.logic.root.onboarding.OnboardingComponent
 import nl.tiebe.otarium.ui.onboarding.sections.BottomSection
 import nl.tiebe.otarium.ui.onboarding.sections.TopSection
+import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OnboardingScreen(component: OnboardingComponent) {
-    val items = OnboardingItems.getData()
-    val scope = rememberCoroutineScope()
-    val pageState = rememberPagerState()
-
-    Scaffold {
-        Column(modifier = Modifier.fillMaxSize()) {
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize().padding(it)) {
+            val items = OnboardingItems.getData()
+            val scope = rememberCoroutineScope()
+            val pageState = rememberPagerState() { items.size }
             TopSection(
                 onBackClick = {
                     if (pageState.currentPage + 1 > 1) scope.launch {
@@ -40,7 +37,6 @@ internal fun OnboardingScreen(component: OnboardingComponent) {
             )
 
             HorizontalPager(
-                pageCount = items.size,
                 state = pageState,
                 modifier = Modifier
                     .fillMaxHeight(0.9f)

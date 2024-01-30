@@ -1,40 +1,40 @@
 [versions]
-app-version-string = "3.3.0-alpha01"
-app-version-code = "32"
+app-version-string = "3.4.0"
+app-version-code = "36"
 
 android_sdk-min = "21"
-android_sdk-compile = "33"
+android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.10-alpha03"
+magister = "1.1.17"
 
-kotlin = "1.8.0"
-gradle = "7.4.1"
+work-android = "2.9.0"
+
+kotlin = "1.9.21"
+gradle = "8.2.2"
 appcompat = "1.6.1"
-material = "1.4.0"
-compose = "1.4.0"
-compose-android = "1.4.3"
-compose-compiler = "1.4.0"
-compose-activity = "1.7.1"
-material3 = "1.0.1"
-ktor = "2.3.0"
-decompose = "2.0.0-compose-experimental-alpha-02"
-moko = "0.22.2"
+material = "1.11.0"
+compose = "1.5.11"
+compose-android = "1.6.0"
+compose-compiler = "1.5.7"
+compose-activity = "1.8.2"
+material3 = "1.2.0-rc01"
+ktor = "2.3.7"
+decompose = "2.2.0-compose-experimental-alpha05"
+moko = "0.24.0-alpha-2"
 buildkonfig = "0.13.3"
-gms = "4.3.15"
-firebase = "32.0.0"
-multiplatform-settings = "1.0.0"
-admob = "22.0.0"
+multiplatform-settings = "1.1.1"
+#noinspection GradleDependency # it thinks the jre version is higher than the android version. remove this line to allow IDE checking for version updates again
 guava = "31.1-android"
-guava-coroutines = "1.7.0-RC"
+guava-coroutines = "1.7.3"
 
 complete-kotlin = "1.1.0"
-colormath = "3.2.0"
+colormath = "3.4.0"
 
-kotlin-datetime = "0.4.0"
+kotlin-datetime = "0.5.0"
 
-crashlytics = "2.9.5"
+skiko = "0.7.85.4"
 
 [libraries]
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
@@ -67,18 +67,10 @@ moko-resources-compose = { group = "dev.icerock.moko", name = "resources-compose
 
 buildkonfig-gradle = { group = "com.codingfeline.buildkonfig", name = "buildkonfig-gradle-plugin", version.ref = "buildkonfig" }
 
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-crashlyticsgradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "crashlytics" }
-firebase-gradle = { group = "com.google.gms", name = "google-services", version.ref = "gms" }
-
 decompose-core = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose-jetbrains", version.ref = "decompose" }
 
 multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
-
-admob = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "admob" }
 
 magister-api = { group = "dev.tiebe", name = "magisterapi", version.ref = "magister" }
 
@@ -87,13 +79,12 @@ color-math = { group = "com.github.ajalt.colormath", name = "colormath", version
 guava-core = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 guava-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "guava-coroutines" }
 
+androidx-work = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-android" }
+
+skiko = { group = "org.jetbrains.skiko", name = "skiko", version.ref = "skiko" }
+
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }
-
 complete_kotlin = { id = "com.louiscad.complete-kotlin", version.ref = "complete-kotlin" }
-
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
-
-google_services = { id = "com.google.gms.google-services", version.ref = "gms" }
-firebase_crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase" }
