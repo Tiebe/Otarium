@@ -49,12 +49,13 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
 
     @Serializable
     sealed class Config {
+        @Serializable
         data class Folder(val folderId: Int) : Config()
-
+        @Serializable
         data class Message(val messageLink: String) : Config()
-
+        @Serializable
         data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
-
+        @Serializable
         data class Compose(val receivers: List<String>, val subject: String, val body: String) : Config()
     }
 

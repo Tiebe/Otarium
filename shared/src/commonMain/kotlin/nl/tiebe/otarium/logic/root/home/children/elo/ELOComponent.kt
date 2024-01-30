@@ -8,11 +8,10 @@ import nl.tiebe.otarium.logic.root.home.children.elo.children.learningresources.
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
 interface ELOComponent : HomeComponent.MenuItemComponent {
-    @Serializable
     sealed class ELOChild(val id: Int) {
-        object StudyGuides : ELOChild(0)
-        object Assignments : ELOChild(1)
-        object LearningResources : ELOChild(2)
+        data object StudyGuides : ELOChild(0)
+        data object Assignments : ELOChild(1)
+        data object LearningResources : ELOChild(2)
 
     }
 

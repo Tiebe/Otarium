@@ -32,8 +32,10 @@ interface StudyGuidesChildComponent : ELOComponent.ELOChildComponent {
 
     @Serializable
     sealed class Config {
-        object StudyGuideList : Config()
+        @Serializable
+        data object StudyGuideList : Config()
 
+        @Serializable
         data class StudyGuide(val studyGuideLink: String) : Config()
     }
 

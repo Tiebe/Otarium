@@ -30,8 +30,9 @@ interface TimetableRootComponent : HomeComponent.MenuItemComponent, BackHandlerO
 
     @Serializable
     sealed class Config {
-        object Main : Config()
-
+        @Serializable
+        data object Main : Config()
+        @Serializable
         data class TimetablePopup(val item: AgendaItemWithAbsence) : Config()
     }
 

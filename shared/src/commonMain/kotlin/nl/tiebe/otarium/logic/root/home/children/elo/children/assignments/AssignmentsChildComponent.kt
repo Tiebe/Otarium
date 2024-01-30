@@ -29,8 +29,9 @@ interface AssignmentsChildComponent : ELOComponent.ELOChildComponent {
 
     @Serializable
     sealed class Config {
-        object AssignmentList : Config()
-
+        @Serializable
+        data object AssignmentList : Config()
+        @Serializable
         data class Assignment(val assignmentLink: String) : Config()
     }
 
