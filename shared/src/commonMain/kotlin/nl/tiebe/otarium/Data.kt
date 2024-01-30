@@ -18,21 +18,13 @@ object Data {
         get() = settings.getBoolean("bypass", false)
         set(value) = settings.putBoolean("bypass", value)
 
-    var showAds: Boolean
-        get() = settings.getBoolean("show_ads", false)
-        set(value) = settings.putBoolean("show_ads", value)
-
-    var ageOfConsent: Boolean
-        get() = settings.getBoolean("age_of_consent", false)
-        set(value) = settings.putBoolean("age_of_consent", value)
-
     var accounts: List<MagisterAccount>
         get() = settings.getString("accounts", "[]").let {
             Json.decodeFromString(it) }
         set(value) = settings.putString("accounts", Json.encodeToString(value))
 
     var selectedAccount: MagisterAccount
-        get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: throw IllegalStateException("No accounts found!")
+        get() = accounts.find { it.accountId == settings.getInt("selected_account", -1) } ?: accounts.firstOrNull() ?: run { throw RuntimeException("No accounts found") }
         set(value) = settings.putInt("selected_account", value.accountId)
 
     var decimals: Int
@@ -73,5 +65,13 @@ object Data {
     var passingGrade: Float
         get() = settings.getFloat("passing_grade", 5.5f)
         set(value) = settings.putFloat("passing_grade", value)
+
+    var debugNotifications: Boolean
+        get() = settings.getBoolean("debug_notifications", false)
+        set(value) = settings.putBoolean("debug_notifications", value)
+
+    var cardList: Boolean
+        get() = settings.getBoolean("card_list", true)
+        set(value) = settings.putBoolean("card_list", value)
 
 }

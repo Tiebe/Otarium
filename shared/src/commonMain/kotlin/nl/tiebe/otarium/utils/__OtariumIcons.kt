@@ -1,19 +1,30 @@
 package nl.tiebe.otarium.utils
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import nl.tiebe.otarium.utils.otariumicons.*
+import nl.tiebe.otarium.utils.otariumicons.Advertisements
+import nl.tiebe.otarium.utils.otariumicons.AdvertisementsOff
+import nl.tiebe.otarium.utils.otariumicons.AllAssets
+import nl.tiebe.otarium.utils.otariumicons.Bottombar
+import nl.tiebe.otarium.utils.otariumicons.BugOutline
+import nl.tiebe.otarium.utils.otariumicons.Cards
+import nl.tiebe.otarium.utils.otariumicons.ContentSave
+import nl.tiebe.otarium.utils.otariumicons.Down
+import nl.tiebe.otarium.utils.otariumicons.Email
+import nl.tiebe.otarium.utils.otariumicons.Folder
+import nl.tiebe.otarium.utils.otariumicons.List
+import nl.tiebe.otarium.utils.otariumicons.Palette
 import kotlin.collections.List as ____KtList
 
 public object OtariumIcons
 
-private var __AllIcons: ____KtList<ImageVector>? = null
+private var __AllAssets: ____KtList<ImageVector>? = null
 
-public val OtariumIcons.AllIcons: ____KtList<ImageVector>
+public val OtariumIcons.AllAssets: ____KtList<ImageVector>
   get() {
-    if (__AllIcons != null) {
-      return __AllIcons!!
+    if (__AllAssets != null) {
+      return __AllAssets!!
     }
-    __AllIcons= Bottombar.AllIcons + Email.AllIcons + listOf(Advertisements, AdvertisementsOff,
-        BugOutline, Folder, ContentSave, Palette)
-    return __AllIcons!!
+    __AllAssets= Email.AllAssets + Bottombar.AllAssets + listOf(List, BugOutline, Down,
+        Advertisements, Palette, AdvertisementsOff, ContentSave, Cards, Folder)
+    return __AllAssets!!
   }

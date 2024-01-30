@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.messages.MessageData
+import nl.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
 
 @Composable
 internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
@@ -49,6 +50,6 @@ internal fun ReceiverInfoScreen(component: ReceiverInfoComponent) {
 @Composable
 internal fun ReceiverInfoItem(receiver: MessageData.Companion.Receiver) {
     ListItem(
-        headlineText = { Text(text = receiver.name) },
+        headlineContent = { Text(text = receiver.name) },
     )
 }

@@ -18,18 +18,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
+import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.ui.home.elo.children.assignments.AssignmentsChildScreen
 import nl.tiebe.otarium.ui.home.elo.children.learningresources.LearningResourcesChildScreen
 import nl.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesChildScreen
 import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 import nl.tiebe.otarium.utils.ui.getLocalizedString
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun ELOScreen(component: ELOComponent) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) {
+        3
+    }
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -96,7 +102,7 @@ internal fun ELOScreen(component: ELOComponent) {
             }
         }
 
-        HorizontalPager(pageCount = 3, state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize()) { page ->
+        HorizontalPager(state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
                 0 -> StudyGuidesChildScreen(component.studyGuidesComponent)
                 1 -> AssignmentsChildScreen(component.assignmentsComponent)

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'shared'
-    spec.version                  = '3.3.0-alpha01'
+    spec.version                  = '3.4.0'
     spec.homepage                 = 'https://otarium.groosman.nl'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
@@ -9,7 +9,18 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '11.0'
-    spec.dependency 'Google-Mobile-Ads-SDK'
+                
+                
+    if !Dir.exist?('build/cocoapods/framework/shared.framework') || Dir.empty?('build/cocoapods/framework/shared.framework')
+        raise "
+
+        Kotlin framework 'shared' doesn't exist yet, so a proper Xcode project can't be generated.
+        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
+
+            ./gradlew :shared:generateDummyFramework
+
+        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
+    end
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':shared',

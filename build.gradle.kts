@@ -19,21 +19,11 @@ buildscript {
         classpath(libs.kotlin.serialization)
         classpath(libs.moko.gradle)
         classpath(libs.buildkonfig.gradle)
-        classpath(libs.firebase.gradle)
-        classpath(libs.firebase.crashlyticsgradle)
     }
 }
 
 allprojects {
     repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/Tiebe/MagisterAPIKt")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
-            }
-        }
-
         google()
         mavenCentral()
         mavenLocal()

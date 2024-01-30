@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import nl.tiebe.otarium.logic.root.home.children.elo.children.learningresources.LearningResourcesChildComponent
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -31,7 +32,7 @@ internal fun LearningResourcesChildScreen(component: LearningResourcesChildCompo
         Column(Modifier.verticalScroll(scrollState)) {
             learningResources.forEach {
                 ListItem(
-                    headlineText = { Text(it.title) },
+                    headlineContent = { Text(it.title) },
                     modifier = Modifier.clickable { component.openLearningResource(it) }
                 )
 

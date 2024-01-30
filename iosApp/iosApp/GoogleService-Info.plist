@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>272611126110-8iaf5jq640tie7lprtai2cvd53m8gdla.apps.googleusercontent.com</string>
+	<string>272611126110-i5humb8256nchgjt448g73uk1vmncmrk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.272611126110-8iaf5jq640tie7lprtai2cvd53m8gdla</string>
+	<string>com.googleusercontent.apps.272611126110-i5humb8256nchgjt448g73uk1vmncmrk</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>272611126110-2ckrgb3ak8o18psi86svuvihjauccsok.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>nl.tiebe.Otarium</string>
+	<string>nl.tiebe.otarium</string>
 	<key>PROJECT_ID</key>
 	<string>openbaar-lyceum-zeist</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,10 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:272611126110:ios:9dc06b8c347a5cf2b8bdcf</string>
+	<string>1:272611126110:ios:c8583564bf48ac42b8bdcf</string>
+	<key>DATABASE_URL</key>
+	<string>https://openbaar-lyceum-zeist-default-rtdb.europe-west1.firebasedatabase.app</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-1684141915170982~1192677410</string>
 </dict>
 </plist>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Otarium</string>
+    <string name="grades_channel">Cijfers</string>
+    <string name="grades_channel_description">Notificaties voor nieuwe cijfers</string>
+    <string name="agendaItem">Rooster</string>
+    <string name="sign_in">Inloggen</string>
+    <string name="onboarding_title_1">Otarium</string>
+    <string name="onboarding_desc_1">Welkom bij Otarium</string>
+    <string name="onboarding_title_2">Notificaties</string>
+    <string name="onboarding_desc_2">Otarium geeft je notificaties voor cijfers. Je kan deze altijd uitzetten in de instellingen.</string>
+    <string name="onboarding_title_3">Inloggen</string>
+    <string name="onboarding_desc_3">Om de app te gebruiken moet je inloggen op het volgende scherm</string>
+    <string name="settingsItem">Instellingen</string>
+    <string name="monday">ma</string>
+    <string name="tuesday">di</string>
+    <string name="wednesday">wo</string>
+    <string name="thursday">do</string>
+    <string name="friday">vr</string>
+    <string name="gradesItem">Cijfers</string>
+    <string name="saturday">za</string>
+    <string name="sunday">zo</string>
+    <string name="averagesItem">Gemiddelden</string>
+    <string name="new_grade_calculation_placeholder">Nieuw cijfer</string>
+    <string name="average_calculation_placeholder">Nieuw gemiddelde</string>
+    <string name="weight_calculation_placeholder">Weging</string>
+    <string name="calculate_new_grade">Nieuw cijfer</string>
+    <string name="calculate_new_average">Nieuw gemiddelde</string>
+    <string name="calculate">Bereken</string>
+    <string name="grade">Cijfer</string>
+    <string name="average">Gemiddelde</string>
+    <string name="calculation">Berekenen</string>
+    <string name="graph">Grafiek</string>
+    <string name="bug_report">Meld een bug</string>
+    <string name="bug_text_1">Voordat je een bug meld, probeer je cache te verwijderen met de knop hieronder.</string>
+    <string name="bug_text_2">Als de bug blijft, neem contact met ons op: otarium@tiebe.dev.</string>
+    <string name="switch_user_text">Wissel gebruiker</string>
+    <string name="add_account">Voeg account toe</string>
+    <string name="advertisements">Advertenties</string>
+    <string name="entered_on">Ingevoerd op</string>
+    <string name="decimals_slider">Aantal decimalen in het gemiddelde:</string>
+    <string name="ui_settings">UI</string>
+    <string name="messagesItem">Berichten</string>
+
+    <string name="message_subject">Onderwerp</string>
+    <string name="message_sender">Van</string>
+    <string name="message_date">Datum</string>
+    <string name="message_receivers">Aan</string>
+    <string name="message_cc_receivers">CC</string>
+    <string name="message_bcc_receivers">BCC</string>
+
+    <string name="eloItem">ELO</string>
+    <string name="study_guides">Studiewijzers</string>
+    <string name="assignments">Opdrachten</string>
+    <string name="learning_resources">Leermiddelen</string>
+
+    <string name="loading">Aan het laden...</string>
+    <string name="absence">Absentie</string>
+
+    <string name="assignment_title">Titel</string>
+    <string name="assignment_version">Versie</string>
+    <string name="assignment_deadline">Inleveren voor</string>
+    <string name="assignment_description">Beschrijving</string>
+
+    <string name="assignment_all">Alle</string>
+    <string name="assignment_open">Open</string>
+    <string name="assignment_submitted">Ingeleverd</string>
+    <string name="assignment_closed">Afgerond</string>
+    <string name="assignment_graded">Beoordeeld</string>
+
+    <string name="assignment_graded_on">Beoordeld op</string>
+    <string name="assignment_grade">Beoordeling</string>
+    <string name="assignment_submitted_on">Ingeleverd op</string>
+    <string name="assignment_feedback">Opmerkingen</string>
+
+    <string name="color_settings">Kleuren</string>
+
+    <string name="color_dynamic">Dynamisch kleurenschema</string>
+    <string name="color_custom">Aangepast kleurenschema</string>
+    <string name="color_reset">Reset kleurenschema</string>
+    <string name="color_save">Kleurenschema opslaan</string>
+
+    <string name="color_primary">Primaire kleur</string>
+    <string name="color_secondary">Secundaire kleur</string>
+    <string name="color_tertiary">Tertiaire kleur</string>
+
+    <string name="show_cancelled_lessons">Laat lesuitval zien</string>
+
+    <string name="manual_grades">Handmatig ingevoerde cijfers</string>
+    <string name="real_grades">Cijfers</string>
+
+    <string name="manual_grade">Cijfer</string>
+    <string name="manual_weight">Weging</string>
+    <string name="manual_name">Naam</string>
+
+    <string name="mark_grades_red">Onvoldoendes rood maken</string>
+    <string name="passing_grade">Voldoendegrens</string>
+
+    <string name="add_account">Account toevoegen</string>
+
+    <string name="email_inbox">Inbox</string>
+    <string name="email_sent">Verzonden</string>
+    <string name="email_drafts">Concepten</string>
+    <string name="email_trash">Prullenbak</string>
+
+    <string name="receiverInfo">Ontvangers</string>
+
+    <string name="global_averages">Totaal</string>
+</resources>

@@ -1,0 +1,3 @@
+This app will give you notifications when you receive a grade on Magister. I'm planning to add notifications for other things soon, but for now, this is it. 
+
+If you have any feedback please email me with the email provided on the store listing.

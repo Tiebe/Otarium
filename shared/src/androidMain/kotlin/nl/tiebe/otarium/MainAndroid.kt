@@ -1,4 +1,4 @@
- package nl.tiebe.otarium
+package nl.tiebe.otarium
 
 import android.Manifest
 import android.annotation.SuppressLint

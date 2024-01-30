@@ -21,7 +21,7 @@ import nl.tiebe.otarium.utils.otariumicons.email.EmailOpen
 @Composable
 internal fun MessageFolderItem(navigateToFolder: (MessageFolder) -> Unit, folder: MessageFolder) {
     ListItem(
-        headlineText = { Text(folder.name) },
+        headlineContent = { Text(folder.name) },
         leadingContent = { Icon(OtariumIcons.Folder, contentDescription = null) },
         trailingContent = { Text(folder.unreadCount.toString()) },
         modifier = Modifier.clickable {
@@ -38,8 +38,8 @@ internal fun MessageItem(navigateToMessage: (Message) -> Unit, message: Message)
     else if (message.hasPriority) OtariumIcons.Email.EmailAlert else OtariumIcons.Bottombar.EmailFilled
 
     ListItem(
-        headlineText = { Text(message.subject) },
-        supportingText = { Text(message.sender?.name ?: message.receivers?.joinToString { it.name } ?: "") },
+        headlineContent = { Text(message.subject) },
+        overlineContent = { Text(message.sender?.name ?: message.receivers?.joinToString { it.name } ?: "") },
         leadingContent = { Icon(icon, contentDescription = null, tint = if (message.hasPriority) red else LocalContentColor.current) },
         trailingContent = { if (message.hasAttachments) Icon(OtariumIcons.Email.Attachment, contentDescription = null) },
         modifier = Modifier.clickable {

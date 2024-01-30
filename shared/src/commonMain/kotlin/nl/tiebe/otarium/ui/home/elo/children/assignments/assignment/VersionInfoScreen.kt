@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.tiebe.magisterapi.response.assignment.Assignment
+import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 
 @Composable
 internal fun VersionInfoScreen(component: AssignmentScreenComponent, assignment: Assignment, versionId: Int, modifier: Modifier) {

@@ -4,8 +4,9 @@ plugins {
     kotlin("android")
     id("kotlin-parcelize")
     id("kotlinx-serialization")
-    id(libs.plugins.google.services.get().pluginId)
-    id(libs.plugins.firebase.crashlytics.get().pluginId)
+    //id(libs.plugins.google.services.get().pluginId)
+    //id(libs.plugins.firebase.crashlytics.get().pluginId)
+    //id(libs.plugins.firebase.performance.get().pluginId)
 }
 
 android {
@@ -23,6 +24,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -55,7 +57,8 @@ dependencies {
 
     implementation(libs.decompose.core)
 
-    implementation(project.dependencies.platform(libs.firebase.bom))
+/*    implementation(project.dependencies.platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.performance)*/
 }

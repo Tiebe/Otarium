@@ -47,13 +47,13 @@ jobs:
         
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: build.log
           path: /Users/runner/Library/Logs/gym/Otarium-iosApp.log
           
       - name: Upload IPA
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: Otarium.ipa
           path: Otarium.ipa
