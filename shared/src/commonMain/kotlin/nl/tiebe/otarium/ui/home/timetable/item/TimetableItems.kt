@@ -3,6 +3,7 @@ package nl.tiebe.otarium.ui.home.timetable.item
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -11,7 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -100,8 +103,11 @@ internal fun TimetableItems(
     }
 }
 
+
 @Composable
 fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsence, onClick: () -> Unit) {
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
     val agendaItem = agendaItemWithAbsence.agendaItem
     val absence = agendaItemWithAbsence.absence
     val startTime =
@@ -138,6 +144,7 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
             HtmlView(
                 overlineContent.joinToString(" • "),
                 maxLines = 1,
+                backgroundColor = surfaceColor.toArgb() //ListItemDefaults.containerColor.toArgb()
             )
         },
         leadingContent = {
@@ -157,7 +164,7 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
             ) {
                 MaterialTheme.colorScheme.errorContainer
             } else {
-                MaterialTheme.colorScheme.inverseOnSurface
+                surfaceColor
             },
         ),
     )

@@ -34,8 +34,7 @@ internal fun TimetableScreen(component: TimetableComponent) {
             component = component,
             dayPagerState = dayPagerState,
             weekPagerState = weekPagerState,
-            dayPageCount = component.amountOfDays,
-            weekPageCount = component.amountOfWeeks
+            dayPageCount = component.amountOfDays
         )
 
         Timetable(
@@ -58,7 +57,7 @@ internal fun TimetableScreen(component: TimetableComponent) {
 
     val scope = rememberCoroutineScope()
 
-    component.selectedWeek.subscribe { week ->
+    component.selectedWeek.observe { week ->
         scope.launch {
             weekPagerState.animateScrollToPage(week + 100)
         }

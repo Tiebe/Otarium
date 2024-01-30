@@ -62,7 +62,6 @@ class AvoidDispose: UIViewController {
     private func skiaRefresh() {
         controller.view.frame = view.bounds
         controller.viewWillAppear(false)
-        RootViewControllersKt.setSafeArea(start: Int32(view.safeAreaInsets.left), top: Int32(view.safeAreaInsets.top), end: Int32(view.safeAreaInsets.right), bottom: Int32(view.safeAreaInsets.bottom))
         //kotlin compose refresh
         controller.view.touchesCancelled([UITouch()], with: UIEvent())
     }

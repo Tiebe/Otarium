@@ -69,7 +69,7 @@ internal actual fun LoginScreen(component: LoginComponent) {
                                     didReceiveScriptMessage: WKScriptMessage
                                 ) {
                                     try {
-                                        val dict = didReceiveScriptMessage.body as Map<String, Any>
+                                        val dict = didReceiveScriptMessage.body as Map<*, *>
                                         val url = dict["responseURL"] as String
 
                                         if (url.contains("appstorelogin"))
@@ -90,7 +90,7 @@ internal actual fun LoginScreen(component: LoginComponent) {
 
                         webView
                     },
-                    update = { webView: WKWebView ->
+                    update = {
                     },
                     modifier = Modifier.fillMaxSize(),
                     interactive = true

@@ -35,12 +35,12 @@ class DefaultColorChildComponent(
     }
 
     init {
-        dynamicColorState.subscribe {
+        dynamicColorState.observe {
             Data.dynamicTheme = it
             colorSchemeChanged.value = !colorSchemeChanged.value
             if (it) customColorScheme.value = false
         }
-        customColorScheme.subscribe {
+        customColorScheme.observe {
             Data.customThemeEnabled = it
             colorSchemeChanged.value = !colorSchemeChanged.value
             if (it) dynamicColorState.value = false

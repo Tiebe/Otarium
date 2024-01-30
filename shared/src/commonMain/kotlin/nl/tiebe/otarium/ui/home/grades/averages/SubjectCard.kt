@@ -1,4 +1,4 @@
-package nl.tiebe.otarium.ui.home.averages
+package nl.tiebe.otarium.ui.home.grades.averages
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -15,13 +15,12 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.ManualGrade
-import nl.tiebe.otarium.ui.home.averages.cards.graph.AverageGraph
+import nl.tiebe.otarium.ui.home.grades.averages.cards.graph.AverageGraph
 import nl.tiebe.otarium.utils.calculateAverage
 import nl.tiebe.otarium.utils.ui.format
 
