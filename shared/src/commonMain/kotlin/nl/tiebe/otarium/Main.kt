@@ -73,6 +73,6 @@ internal val LocalComponentContext: ProvidableCompositionLocal<ComponentContext>
     staticCompositionLocalOf { error("Root component context was not provided") }
 
 @Composable
-internal fun ProvideComponentContext(componentContext: ComponentContext, content: @Composable () -> Unit) {
+fun ProvideComponentContext(componentContext: ComponentContext, content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalComponentContext provides componentContext, content = content)
 }
