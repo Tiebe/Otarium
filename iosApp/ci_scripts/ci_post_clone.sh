@@ -5,5 +5,5 @@ source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install java 19.0.1-tem
 
 # cd into actual project root
-cd ../../../
+cd ../../
 ./gradlew shared:podinstall
