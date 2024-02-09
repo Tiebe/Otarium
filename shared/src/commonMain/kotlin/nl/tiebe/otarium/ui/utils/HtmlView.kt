@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.toArgb
 @Composable
 expect fun HtmlView(
     html: String,
-    textColor: Int = 0,
+    textColor: Int = -1,
     linkColor: Int = Color(83, 155, 245).toArgb(),
     backgroundColor: Int,
     maxLines: Int = 0
