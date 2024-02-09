@@ -61,6 +61,8 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
+    implementation(libs.kotlin.datetime)
+
     implementation(libs.decompose.core)
     implementation(libs.decompose.compose)
 

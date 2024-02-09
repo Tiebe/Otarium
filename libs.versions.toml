@@ -7,7 +7,7 @@ android_sdk-compile = "34"
 
 ios_target = "11.0"
 
-magister = "1.1.17"
+magister = "1.2.0"
 
 work-android = "2.9.0"
 
@@ -16,10 +16,10 @@ gradle = "8.2.2"
 appcompat = "1.6.1"
 material = "1.11.0"
 compose = "1.5.11"
-compose-android = "1.6.0"
+compose-android = "1.6.1"
 compose-compiler = "1.5.7"
 compose-activity = "1.8.2"
-material3 = "1.2.0-rc01"
+material3 = "1.2.0"
 ktor = "2.3.7"
 decompose = "2.2.0-compose-experimental-alpha05"
 moko = "0.24.0-alpha-2"
