@@ -9,11 +9,11 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.defaultComponentContext
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.google.android.gms.wearable.MessageEvent
 import nl.tiebe.otarium.ProvideComponentContext
 import nl.tiebe.otarium.logic.default.DefaultRootComponent
 import nl.tiebe.otarium.logic.root.RootComponent
 import nl.tiebe.otarium.setup
+import nl.tiebe.otarium.utils.ui.Android
 import nl.tiebe.otarium.wear.theme.OtariumTheme
 import nl.tiebe.otarium.wear.ui.home.HomeScreen
 import nl.tiebe.otarium.wear.ui.login.LoginScreen
@@ -21,8 +21,10 @@ import nl.tiebe.otarium.wear.ui.login.LoginScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
+
+        Android.context = this
+        Android.window = this.window
 
         setTheme(android.R.style.Theme_DeviceDefault)
 
