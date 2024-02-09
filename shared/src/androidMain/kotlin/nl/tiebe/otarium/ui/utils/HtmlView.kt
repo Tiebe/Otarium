@@ -13,7 +13,7 @@ import androidx.core.text.HtmlCompat
 
 @Composable
 actual fun HtmlView(html: String, textColor: Int, linkColor: Int, backgroundColor: Int, maxLines: Int) {
-    val color = if (textColor == 0) {
+    val color = if (textColor == -1) {
         LocalTextStyle.current.color.takeOrElse { LocalContentColor.current }.toArgb()
     } else textColor
 
@@ -25,7 +25,7 @@ actual fun HtmlView(html: String, textColor: Int, linkColor: Int, backgroundColo
 
                 setTextColor(color)
                 setLinkTextColor(linkColor)
-                setBackgroundColor(backgroundColor)
+                if (backgroundColor != -1) setBackgroundColor(backgroundColor)
 
                 if (maxLines > 0) {
                     setMaxLines(maxLines)
