@@ -6,4 +6,4 @@ sdk install java 19.0.1-tem
 
 # cd into actual project root
 cd ../../../
-./gradlew app:ios:podinstall
+./gradlew shared:podinstall
