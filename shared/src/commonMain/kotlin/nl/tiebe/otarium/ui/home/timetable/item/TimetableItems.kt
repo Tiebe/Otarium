@@ -1,9 +1,9 @@
 package nl.tiebe.otarium.ui.home.timetable.item
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.Layout
@@ -25,6 +24,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.absence.Absence
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import kotlinx.datetime.*
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
@@ -106,8 +106,6 @@ internal fun TimetableItems(
 
 @Composable
 fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsence, onClick: () -> Unit) {
-    val surfaceColor = MaterialTheme.colorScheme.surface
-
     val agendaItem = agendaItemWithAbsence.agendaItem
     val absence = agendaItemWithAbsence.absence
     val startTime =
@@ -133,18 +131,35 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
         agendaItem.content!!
     )
 
+    val containerColor = if (
+        agendaItem.getStatus() == AgendaItem.Companion.Status.CANCELED_AUTOMATICALLY
+        || agendaItem.getStatus() == AgendaItem.Companion.Status.CANCELED_MANUALLY
+    ) {
+        MaterialTheme.colorScheme.errorContainer
+    } else {
+        if (Data.timetableContrast) MaterialTheme.colorScheme.inverseOnSurface
+        else MaterialTheme.colorScheme.surface
+    }
+
+    var listItemModifier = Modifier
+        .fillMaxHeight()
+        .clickable { onClick() }
+
+    listItemModifier = if (Data.timetableRounding > 0) {
+        listItemModifier.clip(shape = RoundedCornerShape(Data.timetableRounding)).border(brush = SolidColor(MaterialTheme.colorScheme.outline), shape = RoundedCornerShape(Data.timetableRounding), width = Dp.Hairline)
+    } else {
+        listItemModifier.rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline), drawLeft = agendaItemWithAbsence.col != 0, drawRight = agendaItemWithAbsence.col + agendaItemWithAbsence.colSpan != agendaItemWithAbsence.colTotal)
+    }
+
     ListItem(
-        modifier = Modifier
-            .fillMaxHeight()
-            .rectBorder(brush = SolidColor(MaterialTheme.colorScheme.outline), drawLeft = agendaItemWithAbsence.col != 0, drawRight = agendaItemWithAbsence.col + agendaItemWithAbsence.colSpan != agendaItemWithAbsence.colTotal)
-            .clickable { onClick() }
-            .then(modifier),
+        modifier = listItemModifier.then(modifier),
         headlineContent = { Text(agendaItem.description ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
             HtmlView(
                 overlineContent.joinToString(" • "),
                 maxLines = 1,
-                backgroundColor = surfaceColor.toArgb() //ListItemDefaults.containerColor.toArgb()
+                backgroundColor = containerColor.toArgb(),
+                onClick = onClick
             )
         },
         leadingContent = {
@@ -158,14 +173,7 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
             AbsenceBox(absence)
         },
         colors = ListItemDefaults.colors(
-            containerColor = if (
-                agendaItem.getStatus() == AgendaItem.Companion.Status.CANCELED_AUTOMATICALLY
-                || agendaItem.getStatus() == AgendaItem.Companion.Status.CANCELED_MANUALLY
-            ) {
-                MaterialTheme.colorScheme.errorContainer
-            } else {
-                surfaceColor
-            },
+            containerColor = containerColor,
         ),
     )
 }

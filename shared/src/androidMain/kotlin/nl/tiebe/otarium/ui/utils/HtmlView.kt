@@ -12,7 +12,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 
 @Composable
-actual fun HtmlView(html: String, textColor: Int, linkColor: Int, backgroundColor: Int, maxLines: Int) {
+actual fun HtmlView(html: String, textColor: Int, linkColor: Int, backgroundColor: Int, maxLines: Int, onClick: () -> Unit) {
     val color = if (textColor == -1) {
         LocalTextStyle.current.color.takeOrElse { LocalContentColor.current }.toArgb()
     } else textColor

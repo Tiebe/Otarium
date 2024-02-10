@@ -5,12 +5,12 @@ import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.api.general.GeneralFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.list.AssignmentListComponent
-import io.ktor.http.*
-import kotlinx.coroutines.launch
 
 class DefaultAssignmentListComponent(
     componentContext: ComponentContext,
@@ -40,7 +40,7 @@ class DefaultAssignmentListComponent(
                 250,
                 year.start,
                 year.end
-            )
+            ).sortedBy { it.title }
 
             isRefreshing.value = false
         }

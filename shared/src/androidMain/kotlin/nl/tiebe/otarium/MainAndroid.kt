@@ -17,7 +17,10 @@ import nl.tiebe.otarium.utils.ui.Android.context
 
 
 actual fun setupNotifications() {
-    createNotificationChannel(context)
+    val name = context.getString(R.string.grades_channel)
+    val descriptionText = context.getString(R.string.grades_channel_description)
+
+    createNotificationChannel(context, "grades", name, descriptionText)
     askNotificationPermission(context)
 
     askBatteryOptimizationPermission(context)
@@ -35,13 +38,11 @@ fun askNotificationPermission(context: Context) {
     }
 }
 
-fun createNotificationChannel(context: Context) {
+fun createNotificationChannel(context: Context, id: String, name: String, description: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = context.getString(R.string.grades_channel)
-        val descriptionText = context.getString(R.string.grades_channel_description)
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel("grades", name, importance).apply {
-            description = descriptionText
+        val channel = NotificationChannel(id, name, importance).apply {
+            this.description = description
         }
         channel.enableVibration(true)
 

@@ -20,6 +20,13 @@ class DefaultUIChildComponent(
         showCancelledLessons.value = value
     }
 
+    override val timetableContrast: MutableValue<Boolean> = MutableValue(Data.timetableContrast)
+
+    override fun timetableContrast(value: Boolean) {
+        Data.timetableContrast = value
+        timetableContrast.value = value
+    }
+
     override val markGrades: MutableValue<Boolean> = MutableValue(Data.markGrades)
     override fun markGrades(value: Boolean) {
         Data.markGrades = value
