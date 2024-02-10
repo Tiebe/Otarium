@@ -4,8 +4,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.Scaffold
+import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material3.ExperimentalWearMaterial3Api
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.rememberPageIndicatorState
@@ -26,12 +29,14 @@ internal fun HomeScreen(componentContext: ComponentContext) {
     Scaffold(
         pageIndicator = {
             HorizontalPageIndicator(pageIndicatorState = pageIndicatorState)
+        }, timeText = {
+            TimeText()
         }
     ) {
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize(), outOfBoundsPageCount = pagerState.pageCount - 1) {
             when (it) {
-                0 -> TimetableRootScreen(DefaultTimetableRootComponent(componentContext))
-                1 -> GradeScreen(DefaultRecentGradesComponent(componentContext))
+                0 -> TimetableRootScreen(DefaultTimetableRootComponent(componentContext), remember { derivedStateOf { pagerState.currentPage == 0 } })
+                1 -> GradeScreen(DefaultRecentGradesComponent(componentContext), remember { derivedStateOf { pagerState.currentPage == 1 } })
             }
         }
     }

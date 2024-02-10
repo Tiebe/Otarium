@@ -1,9 +1,11 @@
 [versions]
-app-version-string = "4.0.0"
-app-version-code = "40"
+app-version-string = "4.1.0"
+app-version-code = "43"
 
 android_sdk-min = "21"
 android_sdk-compile = "34"
+wear_sdk-min = "30"
+wear_sdk-compile = "33"
 
 ios_target = "11.0"
 
@@ -33,10 +35,7 @@ complete-kotlin = "1.1.0"
 colormath = "3.4.0"
 
 kotlin-datetime = "0.5.0"
-
-# --- IDEA ---
-# Make navigation between agenda and grades screen like spotify. That means first page is agenda, second page is grades. You can only swipe to exit on the agenda page.
-
+horologist = "0.5.21"
 skiko = "0.7.85.4"
 agp = "8.2.2"
 kotlin190 = "1.9.0"
@@ -104,6 +103,9 @@ androidx-wear-compose-compose-material3 = { group = "androidx.wear.compose", nam
 compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "compose-foundation" }
 core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "core-splashscreen" }
 androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone-interactions", version.ref = "wear-phone-interactions" }
+
+horologist-compose-layout = { group = "com.google.android.horologist", name = "horologist-compose-layout", version.ref = "horologist" }
+horologist-compose-material = { group = "com.google.android.horologist", name = "horologist-compose-material", version.ref = "horologist" }
 
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }

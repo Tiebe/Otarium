@@ -11,9 +11,9 @@ android {
 
     defaultConfig {
         applicationId = "nl.tiebe.otarium"
-        minSdk = 30
-        targetSdk = libs.versions.android.sdk.compile.get().toInt()
-        versionCode = libs.versions.app.version.code.get().toInt()
+        minSdk = libs.versions.wear.sdk.min.get().toInt()
+        targetSdk = libs.versions.wear.sdk.compile.get().toInt()
+        versionCode = libs.versions.app.version.code.get().toInt() + 100
         versionName = libs.versions.app.version.string.get()
         vectorDrawables {
             useSupportLibrary = true
@@ -22,14 +22,14 @@ android {
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -58,6 +58,10 @@ dependencies {
     implementation(libs.compose.activity)
     implementation(libs.core.splashscreen)
     implementation(libs.androidx.wear.phone.interactions)
+
+    implementation(libs.horologist.compose.material)
+    implementation(libs.horologist.compose.layout)
+
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 
