@@ -20,7 +20,9 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.ui.home.grades.averages.AveragesScreen
+import nl.tiebe.otarium.ui.home.grades.averages.AveragesScreenTopBar
 import nl.tiebe.otarium.ui.home.grades.grades.RecentGradesScreen
+import nl.tiebe.otarium.ui.home.grades.grades.RecentGradesTopBar
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -30,6 +32,11 @@ internal fun GradesScreen(component: GradesComponent) {
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
+        when (pagerState.currentPage) {
+            0 -> RecentGradesTopBar(component.recentGradeComponent)
+            1 -> AveragesScreenTopBar(component.averagesComponent)
+        }
+
         TabRow(
             selectedTabIndex = pagerState.currentPage,
         ) {

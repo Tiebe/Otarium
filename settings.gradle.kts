@@ -17,5 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "Otarium"
 
 include(":androidApp")
-include(":shared")
 include(":wearApp")
+include(":shared")

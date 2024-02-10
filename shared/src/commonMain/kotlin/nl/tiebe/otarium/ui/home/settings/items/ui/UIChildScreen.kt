@@ -32,7 +32,6 @@ internal fun UIChildScreen(component: UIChildComponent) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-         var sliderValue by remember { mutableStateOf(Data.decimals.toFloat()) }
 
         SettingRowIconButton(
             leftText = AnnotatedString(getLocalizedString(MR.strings.color_settings)),
@@ -55,15 +54,41 @@ internal fun UIChildScreen(component: UIChildComponent) {
             }
         )
 
+        var decimals by remember { mutableStateOf(Data.decimals.toFloat()) }
+
         SettingSlider(
             text = AnnotatedString(getLocalizedString(MR.strings.decimals_slider)),
-            value = sliderValue,
-            onValueChange = { sliderValue = it },
+            value = decimals,
+            onValueChange = { decimals = it },
             onValueChangeFinished = {
-                Data.decimals = sliderValue.roundToInt()
+                Data.decimals = decimals.roundToInt()
             },
             valueRange = 0f..4f,
             steps = 3
+        )
+
+        var rounding by remember { mutableStateOf(Data.timetableRounding.toFloat()) }
+
+        SettingSlider(
+            text = AnnotatedString(getLocalizedString(MR.strings.timetable_rounding)),
+            value = rounding,
+            onValueChange = { rounding = it },
+            onValueChangeFinished = {
+                Data.timetableRounding = rounding.roundToInt()
+            },
+            valueRange = 0f..100f,
+            steps = 99
+        )
+
+        val checkedStateTimetableContrast = component.timetableContrast.subscribeAsState()
+
+        SettingsRowToggle(
+            leftText = AnnotatedString(getLocalizedString(MR.strings.timetable_contrast)),
+            checked = checkedStateTimetableContrast.value,
+            rowClickable = true,
+            onClick = {
+                component.timetableContrast(it)
+            }
         )
 
         val checkedStateMarkGrades = component.markGrades.subscribeAsState()

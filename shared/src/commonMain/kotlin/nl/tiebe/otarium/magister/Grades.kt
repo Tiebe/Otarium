@@ -20,8 +20,8 @@ suspend fun MagisterAccount.getRecentGrades(amount: Int, skip: Int): List<Recent
 suspend fun MagisterAccount.refreshGrades(notification: (String, String) -> Unit = { title, message -> sendNotification(title, message) }): List<GradeWithGradeInfo> {
     val years = GeneralFlow.getYears(tenantUrl, tokens.accessToken, accountId)
     val grades = GradeFlow.getGrades(Url(tenantUrl), tokens.accessToken, accountId, years[0]).filter {
-        it.gradeColumn.type == GradeColumn.Type.Grade ||
-                it.gradeColumn.type == GradeColumn.Type.Text
+        (it.gradeColumn.type == GradeColumn.Type.Grade ||
+                it.gradeColumn.type == GradeColumn.Type.Text)
     }
 
     val newFullGradeList: MutableList<GradeWithGradeInfo> = fullGradeList.toMutableList()
@@ -70,15 +70,18 @@ suspend fun MagisterAccount.refreshGrades(notification: (String, String) -> Unit
         } catch (e: Exception) { e.printStackTrace() }
     }
 
-    fullGradeList = newFullGradeList
+    fullGradeList = newFullGradeList.sortedBy { it.grade.dateEntered }
     return fullGradeList
 }
 
 @Serializable
 data class GradeWithGradeInfo(
     val grade: Grade,
-    val gradeInfo: GradeInfo
-)
+    val gradeInfo: GradeInfo,
+) {
+    val isPTA get() = grade.gradeSemester?.name == "PTA"
+
+}
 
 @Serializable
 data class ManualGrade(

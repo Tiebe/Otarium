@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 import nl.tiebe.otarium.ui.utils.HtmlView
@@ -24,7 +24,7 @@ internal fun MessageScreen(component: MessageComponent) {
         HtmlView(
             messageContent.content,
             maxLines = 0,
-            backgroundColor = MaterialTheme.colorScheme.surface.value.toInt()
+            backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
         )
     }
 

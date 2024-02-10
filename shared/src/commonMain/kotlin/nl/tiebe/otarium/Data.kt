@@ -1,6 +1,5 @@
 package nl.tiebe.otarium
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nl.tiebe.otarium.magister.MagisterAccount
@@ -62,9 +61,17 @@ object Data {
         get() = settings.getBoolean("mark_grades", false)
         set(value) = settings.putBoolean("mark_grades", value)
 
+    var timetableContrast: Boolean
+        get() = settings.getBoolean("timetable_contrast", false)
+        set(value) = settings.putBoolean("timetable_contrast", value)
+
     var passingGrade: Float
         get() = settings.getFloat("passing_grade", 5.5f)
         set(value) = settings.putFloat("passing_grade", value)
+
+    var timetableRounding: Int
+        get() = settings.getInt("timetable_rounding", 0)
+        set(value) = settings.putInt("timetable_rounding", value)
 
     var debugNotifications: Boolean
         get() = settings.getBoolean("debug_notifications", false)

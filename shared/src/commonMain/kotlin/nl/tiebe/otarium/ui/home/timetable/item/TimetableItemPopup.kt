@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -74,7 +75,7 @@ internal fun TimetableItemPopup(agendaItem: AgendaItemWithAbsence) {
 
             HtmlView(
                 text,
-                backgroundColor = MaterialTheme.colorScheme.surface.value.toInt()
+                backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
             )
         }
     }

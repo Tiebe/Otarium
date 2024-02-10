@@ -12,6 +12,10 @@ interface UIChildComponent {
 
     val markGrades: Value<Boolean>
 
+    val timetableContrast: Value<Boolean>
+
+    fun timetableContrast(value: Boolean)
+
     fun markGrades(value: Boolean)
 
     val passingGrade: Value<String>
