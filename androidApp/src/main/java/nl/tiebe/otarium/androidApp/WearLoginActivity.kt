@@ -40,8 +40,9 @@ class WearLoginActivity : AppCompatActivity() {
                         val checkUrl = webResourceRequest.url.toString()
 
                         if (checkUrl.startsWith("m6loapp://oauth2redirect")) {
-                            println("sending....")
-                            Wearable.getMessageClient(applicationContext).sendMessage(node, "/login_completed", checkUrl.toByteArray())
+                            Wearable.getMessageClient(applicationContext).sendMessage(node, "/login_completed", checkUrl.toByteArray()).addOnCompleteListener { task ->
+                                getActivity(it)?.finishAfterTransition()
+                            }
                             return true
                         }
 
@@ -53,7 +54,9 @@ class WearLoginActivity : AppCompatActivity() {
                         request: WebResourceRequest?
                     ): WebResourceResponse? {
                         if (request?.url.toString().contains("playconsolelogin")) {
-                            Wearable.getMessageClient(applicationContext).sendMessage(node, "/login_bypass", null)
+                            Wearable.getMessageClient(applicationContext).sendMessage(node, "/login_bypass", null).addOnCompleteListener { task ->
+                                getActivity(it)?.finishAfterTransition()
+                            }
                         }
                         return super.shouldInterceptRequest(view, request)
                     }
