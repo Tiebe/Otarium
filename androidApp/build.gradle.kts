@@ -13,7 +13,7 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = libs.versions.android.sdk.min.get().toInt()
         targetSdk = libs.versions.android.sdk.compile.get().toInt()
-        versionCode = libs.versions.app.version.code.get().toInt()
+        versionCode = (System.currentTimeMillis() / 1000).toInt()
         versionName = libs.versions.app.version.string.get()
     }
     buildTypes {
