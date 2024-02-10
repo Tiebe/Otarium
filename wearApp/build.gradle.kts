@@ -13,8 +13,8 @@ android {
         applicationId = "nl.tiebe.otarium"
         minSdk = libs.versions.wear.sdk.min.get().toInt()
         targetSdk = libs.versions.wear.sdk.compile.get().toInt()
-        versionCode = libs.versions.app.version.code.get().toInt() + 100
-        versionName = libs.versions.app.version.string.get()
+        versionCode = (System.currentTimeMillis() / 1000).toInt()
+        versionName = libs.versions.app.version.string.get() + "-wear"
         vectorDrawables {
             useSupportLibrary = true
         }
