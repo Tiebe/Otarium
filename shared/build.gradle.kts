@@ -116,7 +116,7 @@ buildkonfig {
     packageName = "nl.tiebe.otarium"
 
     defaultConfigs {
-        buildConfigField(INT, "versionCode", libs.versions.app.version.code.get())
+        buildConfigField(INT, "versionCode", (System.currentTimeMillis() / 1000).toInt().toString())
     }
 }
 
