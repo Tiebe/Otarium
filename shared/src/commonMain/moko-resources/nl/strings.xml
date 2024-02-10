@@ -106,4 +106,7 @@
     <string name="receiverInfo">Ontvangers</string>
 
     <string name="global_averages">Totaal</string>
+    <string name="timetable_contrast">Rooster contrast</string>
+
+    <string name="timetable_rounding">Timetable afronding</string>
 </resources>

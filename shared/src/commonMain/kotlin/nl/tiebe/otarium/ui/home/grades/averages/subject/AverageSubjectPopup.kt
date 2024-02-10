@@ -14,35 +14,36 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
-import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
+import nl.tiebe.otarium.ui.home.grades.averages.AverageCard
 import nl.tiebe.otarium.ui.home.grades.averages.cards.AverageCalculator
 import nl.tiebe.otarium.ui.home.grades.averages.cards.graph.AverageGraph
-import nl.tiebe.otarium.utils.calculateAverage
-import nl.tiebe.otarium.utils.ui.format
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AverageSubjectPopupTopAppBar(component: AveragesComponent, subject: Subject) {
     val manualGradeList = component.manualGradesList.subscribeAsState().value.filter { subject.id == -1 || it.subjectId == subject.id }
-    val gradeList = component.gradesList.subscribeAsState().value.filter { subject.id == -1 || it.grade.subject.id == subject.id}.map {
-            (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat()
-        } + manualGradeList.map {
-            (it.grade.toFloatOrNull() ?: 0f) to it.weight
-        }
+    val gradeList = component.gradesList.subscribeAsState().value.filter { subject.id == -1 || it.grade.subject.id == subject.id}
+
+    val ptaGrades = derivedStateOf {
+        gradeList.filter { it.isPTA }.map { (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat() } +
+                manualGradeList.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight }
+    }
+
+    val ptbGrades = derivedStateOf {
+        gradeList.filterNot { it.isPTA }.map { (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat() } +
+                manualGradeList.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight }
+    }
 
     TopAppBar(
         title = { Text(subject.description.capitalize(Locale.current)) },
@@ -52,18 +53,8 @@ fun AverageSubjectPopupTopAppBar(component: AveragesComponent, subject: Subject)
             }
         },
         actions = {
-            ElevatedCard(modifier = Modifier.size(40.dp)) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    val average = derivedStateOf { calculateAverage(gradeList) }
-
-                    Text(
-                        text = average.value.format(Data.decimals),
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center,
-                        color = if (Data.markGrades && average.value < Data.passingGrade) MaterialTheme.colorScheme.error else Color.Unspecified,
-                    )
-                }
-            }
+            if (ptaGrades.value.isNotEmpty()) AverageCard(ptaGrades.value, Modifier.padding(end = 5.dp))
+            if (ptbGrades.value.isNotEmpty()) AverageCard(ptbGrades.value, Modifier.padding(end = 5.dp))
         },
         windowInsets = WindowInsets(0)
     )

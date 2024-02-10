@@ -3,13 +3,7 @@ package nl.tiebe.otarium.ui.home.grades.averages.subject
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,14 +49,10 @@ internal fun GradeListItem(grade: GradeWithGradeInfo) {
                         .align(Alignment.BottomEnd)
                 )
             }
-        },
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
-        ),
+        }
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManualGradeListItem(grade: ManualGrade, component: AveragesComponent) {
     ListItem(
@@ -105,9 +95,6 @@ internal fun ManualGradeListItem(grade: ManualGrade, component: AveragesComponen
                     )
                 }
             }
-        },
-        colors = ListItemDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.inverseOnSurface
-        ),
+        }
     )
 }
