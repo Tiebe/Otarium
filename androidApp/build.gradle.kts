@@ -53,4 +53,5 @@ dependencies {
     implementation(libs.compose.material)
 
     implementation(libs.decompose.core)
+    implementation(libs.play.services.wearable)
 }

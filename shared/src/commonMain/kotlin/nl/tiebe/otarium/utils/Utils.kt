@@ -1,7 +1,11 @@
 package nl.tiebe.otarium.utils
 
 import androidx.compose.ui.graphics.ImageBitmap
-import kotlinx.datetime.*
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
 import nl.tiebe.otarium.magister.MagisterAccount
@@ -54,10 +58,10 @@ fun Instant.toFormattedStringDate(): String {
     return "${dateTime.dayOfMonth.toFormattedString()}-${dateTime.monthNumber.toFormattedString()}-${dateTime.year.toFormattedString()}"
 }
 
-fun Instant.toFormattedStringTime(): String {
+fun Instant.toFormattedStringTime(seconds: Boolean = true): String {
     val dateTime = this.toLocalDateTime(TimeZone.of("Europe/Amsterdam"))
 
-    return "${dateTime.hour.toFormattedString()}:${dateTime.minute.toFormattedString()}:${dateTime.second.toFormattedString()}"
+    return "${dateTime.hour.toFormattedString()}:${dateTime.minute.toFormattedString()}" + if (seconds) ":${dateTime.second.toFormattedString()}" else ""
 }
 
 fun Int.toFormattedString(): String {
