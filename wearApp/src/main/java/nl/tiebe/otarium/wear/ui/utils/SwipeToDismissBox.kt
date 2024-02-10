@@ -110,3 +110,13 @@ private fun RetainStates(holder: SaveableStateHolder, currentKeys: Set<String>) 
 }
 
 private class Keys(var set: Set<String>)
+
+
+@Composable
+fun Modifier.conditional(condition : Boolean, modifier : @Composable Modifier.() -> Modifier) : Modifier {
+    return if (condition) {
+        then(modifier(Modifier))
+    } else {
+        this
+    }
+}
