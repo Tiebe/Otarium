@@ -10,5 +10,6 @@ expect fun HtmlView(
     textColor: Int = -1,
     linkColor: Int = Color(83, 155, 245).toArgb(),
     backgroundColor: Int,
-    maxLines: Int = 0
+    maxLines: Int = 0,
+    onClick: () -> Unit = {}
 )

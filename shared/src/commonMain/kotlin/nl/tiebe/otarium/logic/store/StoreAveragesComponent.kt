@@ -45,7 +45,6 @@ class StoreAveragesComponent(componentContext: ComponentContext): AveragesCompon
             is AveragesComponent.Config.Subject -> AveragesComponent.Child.SubjectChild(this, config.subjectId)
         }
 
-
     override val gradesList: MutableValue<List<GradeWithGradeInfo>> = MutableValue(
         emptyList()
     )

@@ -113,4 +113,7 @@
     <string name="receiverInfo">Receivers</string>
 
     <string name="global_averages">Total</string>
+
+    <string name="timetable_contrast">Timetable item contrast</string>
+    <string name="timetable_rounding">Timetable rounding</string>
 </resources>

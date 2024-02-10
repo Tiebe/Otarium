@@ -6,17 +6,8 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
@@ -34,7 +25,8 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
         overlineContent = { HtmlView(
             item.description,
             maxLines = 1,
-            backgroundColor = ListItemDefaults.containerColor.toArgb()
+            backgroundColor = ListItemDefaults.containerColor.toArgb(),
+            onClick = { showContents = !showContents }
         ) },
         colors = ListItemDefaults.colors(
             containerColor = MaterialTheme.colorScheme.inverseOnSurface
