@@ -25,7 +25,7 @@ import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponen
 import nl.tiebe.otarium.ui.home.grades.DefaultGradesComponent
 import nl.tiebe.otarium.ui.home.grades.GradesComponent
 
-open class DefaultHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): HomeComponent, ComponentContext by componentContext {
+class DefaultHomeComponent(componentContext: ComponentContext, override val navigateRootComponent: (RootComponent.ChildScreen) -> Unit): HomeComponent, ComponentContext by componentContext {
     private val dialogNavigation = SlotNavigation<MenuItems>()
 
     override val visibleItems: List<MenuItems> = listOf(
@@ -53,33 +53,33 @@ open class DefaultHomeComponent(componentContext: ComponentContext, override val
         }
     }
 
-    open fun timetableComponent(componentContext: ComponentContext): TimetableRootComponent =
+    private fun timetableComponent(componentContext: ComponentContext): TimetableRootComponent =
         DefaultTimetableRootComponent(
             componentContext = componentContext,
         )
 
-    open fun gradesComponent(componentContext: ComponentContext): GradesComponent =
+    private fun gradesComponent(componentContext: ComponentContext): GradesComponent =
         DefaultGradesComponent(
             componentContext = componentContext
         )
 
-    open fun messagesComponent(componentContext: ComponentContext): MessagesComponent =
+    private fun messagesComponent(componentContext: ComponentContext): MessagesComponent =
         DefaultMessagesComponent(
             componentContext = componentContext
         )
 
-    open fun eloComponent(componentContext: ComponentContext): ELOComponent =
+    private fun eloComponent(componentContext: ComponentContext): ELOComponent =
         DefaultELOComponent(
             componentContext = componentContext
         )
 
-    open fun settingsComponent(componentContext: ComponentContext): SettingsComponent =
+    private fun settingsComponent(componentContext: ComponentContext): SettingsComponent =
         DefaultSettingsComponent(
             componentContext = componentContext,
             navigateRootComponent = navigateRootComponent
         )
 
-    open fun debugComponent(componentContext: ComponentContext): DebugComponent =
+    private fun debugComponent(componentContext: ComponentContext): DebugComponent =
         DefaultDebugComponent(
             componentContext = componentContext,
             navigateRootComponent = navigateRootComponent
