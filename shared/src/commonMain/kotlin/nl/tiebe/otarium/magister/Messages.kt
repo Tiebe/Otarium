@@ -20,8 +20,10 @@ suspend fun MagisterAccount.refreshMessages(notification: (String, String) -> Un
         updated.add(message)
 
         if (message.hasBeenRead) continue@newMessages
+        val content = MessageFlow.getMessageData(Url(tenantUrl), tokens.accessToken, message.links.self?.href ?: continue@newMessages)
+
         notification(
-            "Nieuw bericht van ${message.sender?.name?.trim()}: ${message.subject.trim()}", ""
+            "Nieuw bericht van ${message.sender?.name?.trim()}: ${message.subject.trim()}", content.content
         )
     }
 
