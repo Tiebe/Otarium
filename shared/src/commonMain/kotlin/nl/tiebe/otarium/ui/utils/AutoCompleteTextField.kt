@@ -1,10 +1,7 @@
 package nl.tiebe.otarium.ui.utils
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -34,34 +31,29 @@ fun <T> AutoCompleteTextView(
     state: ChipTextFieldState<ContactChip>
 ) {
     val lazyListState = rememberLazyListState()
-    LazyColumn(
-        state = lazyListState,
-        modifier = modifier.heightIn(max = TextFieldDefaults.MinHeight * 6)
-    ) {
-
-        item {
-            QuerySearch(
-                query = query,
-                label = queryLabel,
-                onQueryChanged = onQueryChanged,
-                onDoneActionClick = {
-                    onDoneActionClick()
-                },
-                state = state
-            )
-        }
-
-        if (predictions.isNotEmpty()) {
-            items(predictions) { prediction ->
-                Row(
-                    Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            onItemClick(prediction)
-                        }
-                ) {
-                    itemContent(prediction)
+    Column {
+        QuerySearch(
+            query = query,
+            label = queryLabel,
+            onQueryChanged = onQueryChanged,
+            state = state
+        )
+        LazyColumn(
+            state = lazyListState,
+            modifier = modifier.heightIn(max = TextFieldDefaults.MinHeight * 6)
+        ) {
+            if (predictions.isNotEmpty()) {
+                items(predictions) { prediction ->
+                    Row(
+                        Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                onItemClick(prediction)
+                            }
+                    ) {
+                        itemContent(prediction)
+                    }
                 }
             }
         }
@@ -71,13 +63,11 @@ fun <T> AutoCompleteTextView(
 class ContactChip(public val contact: Contact) : Chip(getName(contact))
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuerySearch(
     modifier: Modifier = Modifier,
     query: String,
     label: String,
-    onDoneActionClick: () -> Unit = {},
     onQueryChanged: (String) -> Unit,
     state: ChipTextFieldState<ContactChip>
 ) {

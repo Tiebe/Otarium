@@ -90,7 +90,7 @@ class DefaultMessagesComponent(
         componentContext: ComponentContext,
         subject: String,
         body: String,
-        receivers: List<String>
+        receivers: List<Int>
     ) =
         DefaultMessageComposeComponent(
             componentContext = componentContext,
