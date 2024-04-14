@@ -119,6 +119,8 @@ private fun FolderContent(
     component: MessagesComponent,
     drawerState: DrawerState
 ) {
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             when (val instance = screen.value.active.instance) {
@@ -129,23 +131,23 @@ private fun FolderContent(
             }
         },
         floatingActionButton = {
-//           if (screen.value.active.instance is MessagesComponent.Child.FolderChild) {
-//               FloatingActionButton(
-//                   onClick = {
-//                       scope.launch {
-//                           component.navigate(MessagesComponent.Config.Compose(listOf(), "", ""))
-//                       }
-//                   },
-//                   content = {
-//                       Icon(
-//                           imageVector = OtariumIcons.Email.Pencil,
-//                           contentDescription = "Compose new message"
-//                       )
-//                   },
-//                   containerColor = MaterialTheme.colorScheme.primary,
-//                   contentColor = MaterialTheme.colorScheme.onPrimary
-//               )
-//           }
+           if (screen.value.active.instance is MessagesComponent.Child.FolderChild) {
+               FloatingActionButton(
+                   onClick = {
+                       scope.launch {
+                           component.navigate(MessagesComponent.Config.Compose(listOf(), "", ""))
+                       }
+                   },
+                   content = {
+                       Icon(
+                           imageVector = OtariumIcons.Email.Pencil,
+                           contentDescription = "Compose new message"
+                       )
+                   },
+                   containerColor = MaterialTheme.colorScheme.primary,
+                   contentColor = MaterialTheme.colorScheme.onPrimary
+               )
+           }
         },
         contentWindowInsets = WindowInsets(0)
     ) {

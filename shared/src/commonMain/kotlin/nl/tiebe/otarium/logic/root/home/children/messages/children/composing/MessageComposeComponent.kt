@@ -21,6 +21,6 @@ interface MessageComposeComponent {
 
     fun back() = parentComponent::back
 
-    fun send()
+    suspend fun send()
 
 }

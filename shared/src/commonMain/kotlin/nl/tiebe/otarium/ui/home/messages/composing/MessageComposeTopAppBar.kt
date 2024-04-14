@@ -9,11 +9,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MessageComposeTopAppBar(component: MessageComposeComponent) {
+    val scope = rememberCoroutineScope()
+
     TopAppBar(
         title = {},
         navigationIcon = {
@@ -23,7 +27,10 @@ fun MessageComposeTopAppBar(component: MessageComposeComponent) {
         },
         actions = {
             // send
-            IconButton(onClick = { component.send() }) {
+            IconButton(onClick = { scope.launch {
+                component.parentComponent.back()
+                component.send()
+            }}) {
                 Icon(Icons.Default.Send, contentDescription = "Send")
             }
         },

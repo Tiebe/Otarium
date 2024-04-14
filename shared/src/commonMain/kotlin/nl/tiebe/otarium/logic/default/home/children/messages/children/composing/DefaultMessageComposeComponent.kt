@@ -3,7 +3,9 @@ package nl.tiebe.otarium.logic.default.home.children.messages.children.composing
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
+import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.profileinfo.Contact
+import io.ktor.http.*
 import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
@@ -30,8 +32,16 @@ class DefaultMessageComposeComponent(
     override val subject: MutableValue<String> = MutableValue(prefilledSubject ?: "")
     override val body: MutableValue<String> = MutableValue(prefilledBody ?: "")
 
-    override fun send() {
-        TODO("Not yet implemented")
+    override suspend fun send() {
+        MessageFlow.sendMessage(
+            Url(Data.selectedAccount.tenantUrl),
+            Data.selectedAccount.tokens.accessToken,
+            subject.value,
+            body.value,
+            toList.chips.map { it.contact.id },
+            ccList.chips.map { it.contact.id },
+            bccList.chips.map { it.contact.id }
+        )
     }
 
     init {
