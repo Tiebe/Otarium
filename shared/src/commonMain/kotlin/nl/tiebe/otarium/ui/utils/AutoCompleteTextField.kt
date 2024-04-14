@@ -8,17 +8,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import dev.tiebe.magisterapi.response.profileinfo.Contact
+import nl.tiebe.otarium.ui.home.messages.composing.getName
+import nl.tiebe.otarium.ui.utils.chips.Chip
+import nl.tiebe.otarium.ui.utils.chips.ChipTextFieldState
+import nl.tiebe.otarium.ui.utils.chips.OutlinedChipTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,9 +29,9 @@ fun <T> AutoCompleteTextView(
     onQueryChanged: (String) -> Unit = {},
     predictions: List<T>,
     onDoneActionClick: () -> Unit = {},
-    onClearClick: () -> Unit = {},
     onItemClick: (T) -> Unit = {},
-    itemContent: @Composable (T) -> Unit = {}
+    itemContent: @Composable (T) -> Unit = {},
+    state: ChipTextFieldState<ContactChip>
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(
@@ -47,13 +47,11 @@ fun <T> AutoCompleteTextView(
                 onDoneActionClick = {
                     onDoneActionClick()
                 },
-                onClearClick = {
-                    onClearClick()
-                }
+                state = state
             )
         }
 
-        if (predictions.count() > 0) {
+        if (predictions.isNotEmpty()) {
             items(predictions) { prediction ->
                 Row(
                     Modifier
@@ -70,6 +68,8 @@ fun <T> AutoCompleteTextView(
     }
 }
 
+class ContactChip(public val contact: Contact) : Chip(getName(contact))
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,41 +78,16 @@ fun QuerySearch(
     query: String,
     label: String,
     onDoneActionClick: () -> Unit = {},
-    onClearClick: () -> Unit = {},
-    onQueryChanged: (String) -> Unit
+    onQueryChanged: (String) -> Unit,
+    state: ChipTextFieldState<ContactChip>
 ) {
-
-
-    var showClearButton by remember { mutableStateOf(false) }
-
-
-    OutlinedTextField(
+    OutlinedChipTextField(
+        state = state,
         modifier = modifier
-            .fillMaxWidth()
-            .onFocusChanged { focusState ->
-                showClearButton = (focusState.isFocused)
-            },
+            .fillMaxWidth(),
         value = query,
         onValueChange = onQueryChanged,
+        onSubmit = { null },
         label = { Text(text = label) },
-        textStyle = MaterialTheme.typography.labelSmall,
-        singleLine = true,
-        trailingIcon = {
-            if (showClearButton) {
-                IconButton(onClick = { onClearClick() }) {
-                    Icon(imageVector = Icons.Filled.Close, contentDescription = "Clear")
-                }
-            }
-
-        },
-        keyboardActions = KeyboardActions(onDone = {
-            onDoneActionClick()
-        }),
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text
-        )
     )
-
-
 }

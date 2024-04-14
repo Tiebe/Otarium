@@ -8,8 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import dev.tiebe.magisterapi.response.profileinfo.Contact
 import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 import nl.tiebe.otarium.ui.utils.AutoCompleteTextView
+import nl.tiebe.otarium.ui.utils.ContactChip
+import nl.tiebe.otarium.ui.utils.chips.rememberChipTextFieldState
 
 @Composable
 fun MessageComposeScreen(component: MessageComposeComponent) {
@@ -27,19 +30,37 @@ fun MessageComposeScreen(component: MessageComposeComponent) {
 
 @Composable
 fun ToInputField(component: MessageComposeComponent) {
-    var toText by remember { mutableStateOf("") }
-
     Box(Modifier.padding(start= 16.dp, end = 16.dp, top = 24.dp)) {
         var query by remember { mutableStateOf("") }
+        val state = rememberChipTextFieldState(emptyList<ContactChip>())
 
         AutoCompleteTextView(
             query = query,
             onQueryChanged = { query = it },
-            predictions = component.contactList.subscribeAsState().value.map { it }, //todo
-            queryLabel = "Test"
+            predictions = component.contactList.subscribeAsState().value.filter {
+                if (query.isEmpty()) return@filter true
+                getName(it).contains(query, ignoreCase = true)
+            },
+            queryLabel = "To",
+            itemContent = { Text(getName(it)) },
+            onItemClick = {
+                state.addChip(ContactChip(it))
+                query = ""
+            },
+            state = state
         )
     }
 
+}
+
+fun getName(contact: Contact): String {
+    var searchTerm =
+        "${contact.roepnaam ?: contact.voorletters} ${contact.tussenvoegsel?.plus(" ") ?: ""}${contact.achternaam}"
+    if (contact.klas != null) {
+        searchTerm += " (${contact.klas})"
+    }
+
+    return searchTerm
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
