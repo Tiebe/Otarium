@@ -14,18 +14,15 @@ import androidx.wear.compose.material3.TitleCard
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.*
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.ui.utils.HtmlView
 import nl.tiebe.otarium.utils.toFormattedStringTime
 import nl.tiebe.otarium.wear.ui.utils.conditional
 import java.time.format.TextStyle
-import java.util.Locale
+import java.util.*
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -59,5 +56,5 @@ fun TimetableItem(item: AgendaItemWithAbsence, onClick: () -> Unit) {
         Text(text = item.agendaItem.subjects.firstOrNull()?.name?.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } ?: item.agendaItem.description ?: "No description")
     }, subtitle = {
         if (item.agendaItem.content != null) HtmlView(html = item.agendaItem.content!!, maxLines = 1, backgroundColor = -1, textColor = MaterialTheme.colorScheme.onSurface.toArgb())
-    }, time = { Text("${item.start.toFormattedStringTime(false)} - ${item.end.toFormattedStringTime(false)} in ${item.agendaItem.classrooms.joinToString(", ")}") })
+    }, time = { Text("${item.start.toFormattedStringTime(false)} - ${item.end.toFormattedStringTime(false)} in ${item.agendaItem.location}") })
 }

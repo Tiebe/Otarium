@@ -43,8 +43,8 @@ fun MessageTopAppBar(component: MessageComponent) {
                 component.parentComponent.navigate(
                     MessagesComponent.Config.Compose(
                         subject = "RE: ${message.subject}",
-                        body = "On ${message.sender.naam} ${message.sender} wrote:\n${message.content}",
-                        receivers = listOf()
+                        body = "\n\n${message.sender.naam} wrote:\n\n${message.content}",
+                        receivers = listOf(message.sender.id)
                     )
                 )
             } }) {
@@ -53,8 +53,8 @@ fun MessageTopAppBar(component: MessageComponent) {
             IconButton(onClick = { scope.launch {
                 component.parentComponent.navigate(
                     MessagesComponent.Config.Compose(
-                        subject = "FWD: ${message.subject}",
-                        body = "On ${message.sender.naam} ${message.sender} wrote:\n${message.content}",
+                        subject = "FW: ${message.subject}",
+                        body = "\n\n${message.sender.naam} wrote:\n\n${message.content}",
                         receivers = listOf()
                     )
                 )

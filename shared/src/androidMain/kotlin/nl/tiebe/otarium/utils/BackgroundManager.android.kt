@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.text.HtmlCompat
 import androidx.work.*
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
@@ -187,7 +188,7 @@ fun sendNotificationAndroid(context: Context, title: String, message: String) {
         .setColor(Color(nl.tiebe.otarium.Data.customDarkTheme.primary).toArgb())
 
     if (message != "") {
-        builder.setContentText(message)
+        builder.setContentText(HtmlCompat.fromHtml(message, HtmlCompat.FROM_HTML_MODE_LEGACY).toString())
     }
 
     if (ActivityCompat.checkSelfPermission(

@@ -34,6 +34,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -78,7 +79,6 @@ kotlin {
                 implementation(libs.color.math)
 
                 implementation(libs.skiko)
-
             }
         }
         androidMain {
