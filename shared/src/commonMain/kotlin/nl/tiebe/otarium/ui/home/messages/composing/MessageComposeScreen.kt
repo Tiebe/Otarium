@@ -1,61 +1,92 @@
 package nl.tiebe.otarium.ui.home.messages.composing
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import dev.tiebe.magisterapi.response.profileinfo.Contact
 import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 import nl.tiebe.otarium.ui.utils.AutoCompleteTextView
+import nl.tiebe.otarium.ui.utils.ContactChip
+import nl.tiebe.otarium.ui.utils.chips.ChipTextFieldState
 
 @Composable
 fun MessageComposeScreen(component: MessageComposeComponent) {
-    Column(Modifier.fillMaxSize()) {
-        ToInputField(component)
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+        ToInputField(component, component.toList, "To")
+        ToInputField(component, component.ccList, "CC")
+        ToInputField(component, component.bccList, "BCC")
+
         SubjectInputField(component)
 
-        /*        CcInputField(component)
-                BccInputField(component)
-                BodyInputField(component)
-                SendButton(component)*/
+        BodyInputField(component)
     }
 }
 
 
 @Composable
-fun ToInputField(component: MessageComposeComponent) {
-    var toText by remember { mutableStateOf("") }
-
-    Box(Modifier.padding(start= 16.dp, end = 16.dp, top = 24.dp)) {
+fun ToInputField(component: MessageComposeComponent, state: ChipTextFieldState<ContactChip>, label: String) {
+    Box(Modifier.padding(start= 16.dp, end = 16.dp)) {
         var query by remember { mutableStateOf("") }
 
         AutoCompleteTextView(
             query = query,
             onQueryChanged = { query = it },
-            predictions = component.contactList.subscribeAsState().value.map { it }, //todo
-            queryLabel = "Test"
+            predictions = component.contactList.subscribeAsState().value.filter { contact ->
+                if (query.isEmpty() || state.chips.any { it.contact == contact }) return@filter false
+                getName(contact).contains(query, ignoreCase = true)
+            }.sortedBy { getName(it) },
+            queryLabel = label,
+            itemContent = { Text(getName(it)) },
+            onItemClick = { clickedItem ->
+                if (state.chips.any { it.contact == clickedItem }) return@AutoCompleteTextView
+                state.addChip(ContactChip(clickedItem))
+                query = ""
+            },
+            state = state
         )
     }
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+fun getName(contact: Contact): String {
+    var searchTerm =
+        "${contact.roepnaam ?: contact.voorletters} ${contact.tussenvoegsel?.plus(" ") ?: ""}${contact.achternaam}"
+    if (contact.klas != null) {
+        searchTerm += " (${contact.klas})"
+    }
+
+    return searchTerm
+}
+
 @Composable
 fun SubjectInputField(component: MessageComposeComponent) {
-    var subjectText by remember { mutableStateOf("") }
-
-    Box(Modifier.padding(start= 16.dp, end = 16.dp, top = 24.dp)) {
+    Box(Modifier.padding(start = 16.dp, end = 16.dp)) {
         OutlinedTextField(
-            value = subjectText,
-            onValueChange = { subjectText = it },
+            value = component.subject.subscribeAsState().value,
+            onValueChange = { component.subject.value = it },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Subject") },
-            singleLine = true,
-
+            singleLine = true
         )
     }
-
 }
+
+@Composable
+fun BodyInputField(component: MessageComposeComponent) {
+    Box(Modifier.padding(start = 16.dp, end = 16.dp)) {
+        OutlinedTextField(
+            value = component.body.subscribeAsState().value,
+            onValueChange = { component.body.value = it },
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Body") },
+            singleLine = false,
+        )
+    }
+}
+

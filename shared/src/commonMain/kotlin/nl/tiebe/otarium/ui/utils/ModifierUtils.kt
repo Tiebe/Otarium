@@ -11,6 +11,18 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
 
+
+inline fun Modifier.runIf(
+    value: Boolean,
+    block: Modifier.() -> Modifier
+): Modifier {
+    return if (value) {
+        this.block()
+    } else {
+        this
+    }
+}
+
 @Suppress("UnnecessaryComposedModifier")
 fun Modifier.rectBorder(
     width: Dp = Dp.Hairline,

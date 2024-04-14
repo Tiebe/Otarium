@@ -56,7 +56,7 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
         @Serializable
         data class ReceiverInfo(val messageLink: String, val receiverType: ReceiverInfoComponent.ReceiverType) : Config()
         @Serializable
-        data class Compose(val receivers: List<String>, val subject: String, val body: String) : Config()
+        data class Compose(val receivers: List<Int>, val subject: String, val body: String) : Config()
     }
 
     fun back()
