@@ -38,7 +38,7 @@ fun ToInputField(component: MessageComposeComponent) {
             query = query,
             onQueryChanged = { query = it },
             predictions = component.contactList.subscribeAsState().value.filter {
-                if (query.isEmpty()) return@filter true
+                if (query.isEmpty()) return@filter false
                 getName(it).contains(query, ignoreCase = true)
             },
             queryLabel = "To",

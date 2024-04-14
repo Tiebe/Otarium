@@ -89,5 +89,6 @@ fun QuerySearch(
         onValueChange = onQueryChanged,
         onSubmit = { null },
         label = { Text(text = label) },
+        readOnlyChips = true
     )
 }

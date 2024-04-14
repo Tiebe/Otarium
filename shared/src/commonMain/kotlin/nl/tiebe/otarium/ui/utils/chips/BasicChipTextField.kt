@@ -13,10 +13,6 @@ import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -25,11 +21,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.input.key.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalTextInputService
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
@@ -41,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import nl.tiebe.otarium.utils.awaitFrame
 
 /**
  * A text field can display chips, press enter to create a new chip.
@@ -56,17 +53,18 @@ import kotlinx.coroutines.launch
  * @param keyboardOptions See [BasicTextField] for the details.
  * @param textStyle Text style, also apply to text in chips.
  * @param chipStyle Chip style, include shape, text color, background color, etc. See [ChipStyle].
+ * @param chipVerticalSpacing Vertical spacing between chips.
  * @param chipHorizontalSpacing Horizontal spacing between chips.
  * @param chipLeadingIcon Leading chip icon, nothing will be displayed by default.
- * @param chipTrailingIcon Trailing chip icon, by default, a [CloseButton] will be displayed.
+ * @param chipTrailingIcon Trailing chip icon, by default, a [BasicCloseButton] will be displayed.
  * @param onChipClick Chip click action.
  * @param onChipLongClick Chip long click action.
- * @param colors Text colors. [TextFieldDefaults.textFieldColors] is default colors.
+ * @param colors Colors of the chip text field. Defaults to
+ * [BasicChipTextFieldDefaults.chipTextFieldColors].
  * @param decorationBox The decoration box to wrap around text field.
  *
  * @see BasicTextField
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Chip> BasicChipTextField(
     state: ChipTextFieldState<T>,
@@ -77,15 +75,16 @@ fun <T : Chip> BasicChipTextField(
     readOnlyChips: Boolean = readOnly,
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    textStyle: TextStyle = LocalTextStyle.current,
-    chipStyle: ChipStyle = ChipTextFieldDefaults.chipStyle(),
+    textStyle: TextStyle = BasicChipTextFieldDefaults.textStyle,
+    chipStyle: ChipStyle = BasicChipTextFieldDefaults.chipStyle(),
+    chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    colors: ChipTextFieldColors = BasicChipTextFieldDefaults.chipTextFieldColors(),
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit =
         @Composable { innerTextField -> innerTextField() },
 ) {
@@ -104,6 +103,7 @@ fun <T : Chip> BasicChipTextField(
         keyboardOptions = keyboardOptions,
         textStyle = textStyle,
         chipStyle = chipStyle,
+        chipVerticalSpacing = chipVerticalSpacing,
         chipHorizontalSpacing = chipHorizontalSpacing,
         chipLeadingIcon = chipLeadingIcon,
         chipTrailingIcon = chipTrailingIcon,
@@ -131,17 +131,18 @@ fun <T : Chip> BasicChipTextField(
  * @param keyboardOptions See [BasicTextField] for the details.
  * @param textStyle Text style, also apply to text in chips.
  * @param chipStyle Chip style, include shape, text color, background color, etc. See [ChipStyle].
+ * @param chipVerticalSpacing Vertical spacing between chips.
  * @param chipHorizontalSpacing Horizontal spacing between chips.
  * @param chipLeadingIcon Leading chip icon, nothing will be displayed by default.
- * @param chipTrailingIcon Trailing chip icon, by default, a [CloseButton] will be displayed.
+ * @param chipTrailingIcon Trailing chip icon, by default, a [BasicCloseButton] will be displayed.
  * @param onChipClick Chip click action.
  * @param onChipLongClick Chip long click action.
- * @param colors Text colors. [TextFieldDefaults.textFieldColors] is default colors.
+ * @param colors Colors of the chip text field. Defaults to
+ * [BasicChipTextFieldDefaults.chipTextFieldColors].
  * @param decorationBox The decoration box to wrap around text field.
  *
  * @see BasicTextField
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Chip> BasicChipTextField(
     state: ChipTextFieldState<T>,
@@ -154,15 +155,16 @@ fun <T : Chip> BasicChipTextField(
     readOnlyChips: Boolean = readOnly,
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    textStyle: TextStyle = LocalTextStyle.current,
-    chipStyle: ChipStyle = ChipTextFieldDefaults.chipStyle(),
+    textStyle: TextStyle = BasicChipTextFieldDefaults.textStyle,
+    chipStyle: ChipStyle = BasicChipTextFieldDefaults.chipStyle(),
+    chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    colors: ChipTextFieldColors = BasicChipTextFieldDefaults.chipTextFieldColors(),
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit =
         @Composable { innerTextField -> innerTextField() },
 ) {
@@ -200,6 +202,7 @@ fun <T : Chip> BasicChipTextField(
         keyboardOptions = keyboardOptions,
         textStyle = textStyle,
         chipStyle = chipStyle,
+        chipVerticalSpacing = chipVerticalSpacing,
         chipHorizontalSpacing = chipHorizontalSpacing,
         chipLeadingIcon = chipLeadingIcon,
         chipTrailingIcon = chipTrailingIcon,
@@ -227,12 +230,14 @@ fun <T : Chip> BasicChipTextField(
  * @param keyboardOptions See [BasicTextField] for the details.
  * @param textStyle Text style, also apply to text in chips.
  * @param chipStyle Chip style, include shape, text color, background color, etc. See [ChipStyle].
+ * @param chipVerticalSpacing Vertical spacing between chips.
  * @param chipHorizontalSpacing Horizontal spacing between chips.
  * @param chipLeadingIcon Leading chip icon, nothing will be displayed by default.
- * @param chipTrailingIcon Trailing chip icon, by default, a [CloseButton] will be displayed.
+ * @param chipTrailingIcon Trailing chip icon, by default, a [BasicCloseButton] will be displayed.
  * @param onChipClick Chip click action.
  * @param onChipLongClick Chip long click action.
- * @param colors Text colors. [TextFieldDefaults.textFieldColors] is default colors.
+ * @param colors Colors of the chip text field. Defaults to
+ * [BasicChipTextFieldDefaults.chipTextFieldColors].
  * @param decorationBox The decoration box to wrap around text field.
  *
  * @see BasicTextField
@@ -240,7 +245,7 @@ fun <T : Chip> BasicChipTextField(
 @OptIn(
     ExperimentalComposeUiApi::class,
     ExperimentalFoundationApi::class,
-    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalLayoutApi::class,
 )
 @Composable
 fun <T : Chip> BasicChipTextField(
@@ -254,15 +259,16 @@ fun <T : Chip> BasicChipTextField(
     readOnlyChips: Boolean = readOnly,
     isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    textStyle: TextStyle = LocalTextStyle.current,
-    chipStyle: ChipStyle = ChipTextFieldDefaults.chipStyle(),
+    textStyle: TextStyle = BasicChipTextFieldDefaults.textStyle,
+    chipStyle: ChipStyle = BasicChipTextFieldDefaults.chipStyle(),
+    chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    colors: ChipTextFieldColors = BasicChipTextFieldDefaults.chipTextFieldColors(),
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit =
         @Composable { innerTextField -> innerTextField() },
 ) {
@@ -274,7 +280,7 @@ fun <T : Chip> BasicChipTextField(
 
     val keyboardController = LocalTextInputService.current
 
-    val bringLastIntoViewRequester = remember { BringIntoViewRequester() }
+    val bringLastIntoViewRequester = remember { StableHolder(BringIntoViewRequester()) }
 
     val hasFocusedChipBeforeEmpty = remember { mutableStateOf(false) }
 
@@ -302,7 +308,6 @@ fun <T : Chip> BasicChipTextField(
             state.disposed = false
         }
     }
-
 
     LaunchedEffect(focusManager, state, textFieldFocusRequester) {
         snapshotFlow { state.textFieldFocusState }
@@ -342,31 +347,32 @@ fun <T : Chip> BasicChipTextField(
                             // Move cursor to the end
                             val selection = value.text.length
                             onValueChange(value.copy(selection = TextRange(selection)))
-                            scope.launch { bringLastIntoViewRequester.bringIntoView() }
+                            scope.launch { bringLastIntoViewRequester.value.bringIntoView() }
                         },
                     )
                 },
             horizontalArrangement = Arrangement.spacedBy(chipHorizontalSpacing),
+            verticalArrangement = Arrangement.spacedBy(chipVerticalSpacing),
         ) {
-            val focuses = remember { mutableSetOf<FocusInteraction.Focus>() }
+            val focuses = remember { StableHolder(mutableSetOf<FocusInteraction.Focus>()) }
             Chips(
                 state = state,
                 enabled = enabled,
                 readOnly = readOnly || readOnlyChips,
                 onRemoveRequest = { state.removeChip(it) },
                 onFocused = {
-                    if (!focuses.contains(it)) {
-                        focuses.add(it)
+                    if (!focuses.value.contains(it)) {
+                        focuses.value.add(it)
                         interactionSource.tryEmit(it)
                     }
                 },
                 onFreeFocus = {
-                    focuses.remove(it)
+                    focuses.value.remove(it)
                     interactionSource.tryEmit(FocusInteraction.Unfocus(it))
                 },
                 onLoseFocus = {
                     scope.launch {
-                        //awaitFrame()
+                        awaitFrame()
                         runCatching { textFieldFocusRequester.requestFocus() }
                     }
                     state.updateFocusedChip(null)
@@ -386,8 +392,8 @@ fun <T : Chip> BasicChipTextField(
                     val chip = onSubmit(it)
                     if (chip != null) {
                         scope.launch {
-                            //awaitFrame()
-                            bringLastIntoViewRequester.bringIntoView()
+                            awaitFrame()
+                            bringLastIntoViewRequester.value.bringIntoView()
                             state.focusTextField()
                         }
                     }
@@ -408,7 +414,9 @@ fun <T : Chip> BasicChipTextField(
                         state.updateFocusedChip(null)
                     }
                 },
-                modifier = Modifier.bringIntoViewRequester(bringLastIntoViewRequester),
+                modifier = Modifier
+                    .padding(top = chipVerticalSpacing)
+                    .bringIntoViewRequester(bringLastIntoViewRequester.value),
             )
         }
     }
@@ -431,7 +439,7 @@ private fun <T : Chip> Chips(
     chipStyle: ChipStyle,
     chipLeadingIcon: @Composable (chip: T) -> Unit,
     chipTrailingIcon: @Composable (chip: T) -> Unit,
-    bringLastIntoViewRequester: BringIntoViewRequester,
+    bringLastIntoViewRequester: StableHolder<BringIntoViewRequester>,
 ) {
     val chips = state.chips
 
@@ -527,7 +535,7 @@ private fun <T : Chip> Chips(
             chipLeadingIcon = chipLeadingIcon,
             chipTrailingIcon = chipTrailingIcon,
             modifier = if (index == chips.lastIndex) {
-                Modifier.bringIntoViewRequester(bringLastIntoViewRequester)
+                Modifier.bringIntoViewRequester(bringLastIntoViewRequester.value)
             } else {
                 Modifier
             },
@@ -546,7 +554,7 @@ private fun <T : Chip> Input(
     readOnly: Boolean,
     isError: Boolean,
     textStyle: TextStyle,
-    colors: TextFieldColors,
+    colors: ChipTextFieldColors,
     keyboardOptions: KeyboardOptions,
     focusRequester: FocusRequester,
     interactionSource: MutableInteractionSource,
@@ -556,7 +564,9 @@ private fun <T : Chip> Input(
     if (value.text.isEmpty() && (!enabled || readOnly)) {
         return
     }
-    val textColor = textStyle.color
+    val textColor = textStyle.color.takeOrElse {
+        colors.textColor(enabled, isError, interactionSource).value
+    }
 
     fun tryAddNewChip(value: TextFieldValue): Boolean {
         return onSubmit(value)?.also { state.addChip(it) } != null
@@ -573,12 +583,18 @@ private fun <T : Chip> Input(
         },
         modifier = modifier
             .focusRequester(focusRequester)
-            .onFocusChanged { onFocusChange(it.isFocused) }
+            .onFocusChanged {
+                onFocusChange(it.isFocused)
+                if (it.isFocused) {
+                    state.focusTextField()
+                }
+            }
             .onPreviewKeyEvent {
                 if (it.type == KeyEventType.KeyDown && it.key == Key.Backspace) {
                     if (value.text.isEmpty() && state.chips.isNotEmpty()) {
                         // Remove previous chip
                         state.removeLastChip()
+                        state.focusTextField()
                         return@onPreviewKeyEvent true
                     }
                 }
@@ -596,7 +612,7 @@ private fun <T : Chip> Input(
             }
         ),
         interactionSource = interactionSource,
-       // cursorBrush = SolidColor(colors.cursorColor(isError).value),
+        cursorBrush = SolidColor(colors.cursorColor(isError).value),
     )
 }
 
@@ -650,7 +666,7 @@ private fun <T : Chip> ChipItem(
 
     val cursorColor by chipStyle.cursorColor()
 
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val keyboardController = LocalTextInputService.current
 
     val editable = enabled && !readOnly
 
@@ -685,7 +701,7 @@ private fun <T : Chip> ChipItem(
                 enabled = enabled,
                 onClick = {
                     if (editable) {
-                        keyboardController?.show()
+                        keyboardController?.showSoftwareKeyboard()
                         runCatching { focusRequester.requestFocus() }
                     }
                     onClick?.invoke()
@@ -696,7 +712,6 @@ private fun <T : Chip> ChipItem(
             ),
     ) {
         var canRemoveChip by remember { mutableStateOf(false) }
-
         BasicTextField(
             value = chip.textFieldValue,
             onValueChange = filterNewLines { value, hasNewLine ->

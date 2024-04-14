@@ -48,7 +48,7 @@ object ChipTextFieldDefaults {
 }
 
 @Immutable
-private class DefaultChipStyle(
+class DefaultChipStyle(
     private val shape: Shape,
     private val cursorColor: Color,
     private val focusedBorderWidth: Dp,

@@ -1,5 +1,4 @@
 package nl.tiebe.otarium.ui.utils.chips
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -15,6 +14,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import nl.tiebe.otarium.ui.utils.runIf
 
 /**
  * Chip text field with Material Design outlined style.
@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.dp
  * @see [BasicChipTextField]
  * @see [OutlinedTextField]
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Chip> OutlinedChipTextField(
     state: ChipTextFieldState<T>,
@@ -59,12 +58,12 @@ fun <T : Chip> OutlinedChipTextField(
     chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = MaterialTheme.shapes.small,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+    shape: Shape = OutlinedTextFieldDefaults.shape,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
 ) {
     var value by remember { mutableStateOf(TextFieldValue()) }
     val onValueChange: (TextFieldValue) -> Unit = { value = it }
@@ -120,7 +119,6 @@ fun <T : Chip> OutlinedChipTextField(
  * @see [BasicChipTextField]
  * @see [OutlinedTextField]
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Chip> OutlinedChipTextField(
     state: ChipTextFieldState<T>,
@@ -143,12 +141,12 @@ fun <T : Chip> OutlinedChipTextField(
     chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = MaterialTheme.shapes.small,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+    shape: Shape = OutlinedTextFieldDefaults.shape,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
 ) {
     // Copied from androidx.compose.foundation.text.BasicTextField.kt
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -246,22 +244,21 @@ fun <T : Chip> OutlinedChipTextField(
     chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = MaterialTheme.shapes.small,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+    shape: Shape = OutlinedTextFieldDefaults.shape,
+    colors: TextFieldColors = OutlinedTextFieldDefaults.colors(),
 ) {
+    val fieldColors = remember(colors) { colors.toChipTextFieldColors() }
     Box(
         modifier = modifier
-           // .runIf(label != null) { modifier.padding(top = 8.dp) }
-            .background(MaterialTheme.colorScheme.onBackground/*colors.backgroundColor(enabled).value*/, shape)
-            .also {
-               if(label != null) {
-                   it.padding(top = 8.dp)
-               }
-            }
+            .runIf(label != null) { modifier.padding(top = 8.dp) }
+            .background(
+                fieldColors.backgroundColor(enabled, isError, interactionSource).value,
+                shape
+            )
     ) {
         BasicChipTextField(
             state = state,
@@ -276,15 +273,16 @@ fun <T : Chip> OutlinedChipTextField(
             keyboardOptions = keyboardOptions,
             textStyle = textStyle,
             chipStyle = chipStyle,
+            chipVerticalSpacing = chipVerticalSpacing,
             chipHorizontalSpacing = chipHorizontalSpacing,
             chipLeadingIcon = chipLeadingIcon,
             chipTrailingIcon = chipTrailingIcon,
             onChipClick = onChipClick,
             onChipLongClick = onChipLongClick,
             interactionSource = interactionSource,
-            colors = colors,
+            colors = fieldColors,
             decorationBox = { innerTextField ->
-                TextFieldDefaults.OutlinedTextFieldDecorationBox(
+                OutlinedTextFieldDefaults.DecorationBox(
                     value = if (state.chips.isEmpty() && value.text.isEmpty()) "" else " ",
                     innerTextField = innerTextField,
                     enabled = !readOnly,
@@ -297,15 +295,15 @@ fun <T : Chip> OutlinedChipTextField(
                     leadingIcon = leadingIcon,
                     trailingIcon = trailingIcon,
                     colors = colors,
-                    /*border = {
-                        TextFieldDefaults.BorderBox(
+                    container = {
+                        OutlinedTextFieldDefaults.ContainerBox(
                             enabled,
                             isError,
                             interactionSource,
                             colors,
                             shape
                         )
-                    },*/
+                    },
                 )
             },
         )

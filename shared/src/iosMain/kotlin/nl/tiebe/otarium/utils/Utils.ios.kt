@@ -7,3 +7,6 @@ import org.jetbrains.skia.Image
 actual fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap {
     return Image.makeFromEncoded(imageData).toComposeImageBitmap()
 }
+
+actual suspend fun awaitFrame() {
+}

@@ -64,3 +64,7 @@ actual fun convertImageByteArrayToBitmap(imageData: ByteArray): ImageBitmap {
     val image = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
     return image.asImageBitmap()
 }
+
+actual suspend fun awaitFrame() {
+    kotlinx.coroutines.android.awaitFrame()
+}

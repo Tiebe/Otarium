@@ -6,19 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.material3.TextFieldDefaults.indicatorLine
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
@@ -49,8 +39,6 @@ import androidx.compose.ui.unit.dp
  * @see [BasicChipTextField]
  * @see [TextField]
  */
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Chip> ChipTextField(
     state: ChipTextFieldState<T>,
@@ -68,19 +56,20 @@ fun <T : Chip> ChipTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = TextFieldDefaults.outlinedShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    shape: Shape = TextFieldDefaults.shape,
+    colors: TextFieldColors = TextFieldDefaults.colors(),
     contentPadding: PaddingValues =
         if (label == null) {
-            TextFieldDefaults.textFieldWithoutLabelPadding()
+            TextFieldDefaults.contentPaddingWithoutLabel()
         } else {
-            TextFieldDefaults.textFieldWithLabelPadding()
+            TextFieldDefaults.contentPaddingWithLabel()
         }
 ) {
     var value by remember { mutableStateOf(TextFieldValue()) }
@@ -103,6 +92,7 @@ fun <T : Chip> ChipTextField(
         placeholder = placeholder,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
+        chipVerticalSpacing = chipVerticalSpacing,
         chipHorizontalSpacing = chipHorizontalSpacing,
         chipLeadingIcon = chipLeadingIcon,
         chipTrailingIcon = chipTrailingIcon,
@@ -137,7 +127,6 @@ fun <T : Chip> ChipTextField(
  * @see [BasicChipTextField]
  * @see [TextField]
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Chip> ChipTextField(
     state: ChipTextFieldState<T>,
@@ -157,19 +146,20 @@ fun <T : Chip> ChipTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = TextFieldDefaults.outlinedShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    shape: Shape = TextFieldDefaults.shape,
+    colors: TextFieldColors = TextFieldDefaults.colors(),
     contentPadding: PaddingValues =
         if (label == null) {
-            TextFieldDefaults.textFieldWithoutLabelPadding()
+            TextFieldDefaults.contentPaddingWithoutLabel()
         } else {
-            TextFieldDefaults.textFieldWithLabelPadding()
+            TextFieldDefaults.contentPaddingWithLabel()
         }
 ) {
     // Copied from androidx.compose.foundation.text.BasicTextField.kt
@@ -211,6 +201,7 @@ fun <T : Chip> ChipTextField(
         placeholder = placeholder,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
+        chipVerticalSpacing = chipVerticalSpacing,
         chipHorizontalSpacing = chipHorizontalSpacing,
         chipLeadingIcon = chipLeadingIcon,
         chipTrailingIcon = chipTrailingIcon,
@@ -265,24 +256,29 @@ fun <T : Chip> ChipTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    chipVerticalSpacing: Dp = 4.dp,
     chipHorizontalSpacing: Dp = 4.dp,
     chipLeadingIcon: @Composable (chip: T) -> Unit = {},
-    chipTrailingIcon: @Composable (chip: T) -> Unit = { CloseButton(state, it) },
+    chipTrailingIcon: @Composable (chip: T) -> Unit = { BasicCloseButton(state, it) },
     onChipClick: ((chip: T) -> Unit)? = null,
     onChipLongClick: ((chip: T) -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    shape: Shape = TextFieldDefaults.outlinedShape,
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(),
+    shape: Shape = TextFieldDefaults.shape,
+    colors: TextFieldColors = TextFieldDefaults.colors(),
     contentPadding: PaddingValues =
         if (label == null) {
-            TextFieldDefaults.textFieldWithoutLabelPadding()
+            TextFieldDefaults.contentPaddingWithoutLabel()
         } else {
-            TextFieldDefaults.textFieldWithLabelPadding()
+            TextFieldDefaults.contentPaddingWithLabel()
         }
 ) {
+    val fieldColors = remember(colors) { colors.toChipTextFieldColors() }
     Box(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.onBackground,shape) //colors.backgroundColor(enabled).value, shape)
+            .background(
+                fieldColors.backgroundColor(enabled, isError, interactionSource).value,
+                shape
+            )
             .indicatorLine(enabled, isError, interactionSource, colors)
     ) {
         BasicChipTextField(
@@ -298,15 +294,16 @@ fun <T : Chip> ChipTextField(
             keyboardOptions = keyboardOptions,
             textStyle = textStyle,
             chipStyle = chipStyle,
+            chipVerticalSpacing = chipVerticalSpacing,
             chipHorizontalSpacing = chipHorizontalSpacing,
             chipLeadingIcon = chipLeadingIcon,
             chipTrailingIcon = chipTrailingIcon,
             onChipClick = onChipClick,
             onChipLongClick = onChipLongClick,
             interactionSource = interactionSource,
-            colors = colors,
+            colors = fieldColors,
             decorationBox = { innerTextField ->
-                TextFieldDefaults.TextFieldDecorationBox(
+                TextFieldDefaults.DecorationBox(
                     value = if (state.chips.isEmpty() && value.text.isEmpty()) "" else " ",
                     innerTextField = innerTextField,
                     enabled = !readOnly,

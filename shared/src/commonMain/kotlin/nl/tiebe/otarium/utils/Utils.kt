@@ -125,3 +125,5 @@ fun runCatchingLogError(block: () -> Unit) {
         it.printStackTrace()
     }
 }
+
+expect suspend fun awaitFrame()
