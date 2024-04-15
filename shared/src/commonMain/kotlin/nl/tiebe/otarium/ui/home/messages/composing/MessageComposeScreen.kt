@@ -3,12 +3,14 @@ package nl.tiebe.otarium.ui.home.messages.composing
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.mohamedrejeb.richeditor.ui.material3.OutlinedRichTextEditor
 import dev.tiebe.magisterapi.response.profileinfo.Contact
 import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 import nl.tiebe.otarium.ui.utils.AutoCompleteTextView
@@ -77,15 +79,21 @@ fun SubjectInputField(component: MessageComposeComponent) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BodyInputField(component: MessageComposeComponent) {
-    Box(Modifier.padding(start = 16.dp, end = 16.dp)) {
-        OutlinedTextField(
-            value = component.body.subscribeAsState().value,
-            onValueChange = { component.body.value = it },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Body") },
-            singleLine = false,
+    Column(Modifier.padding(top = 16.dp)) {
+        RichTextStyleRow(
+            state = component.body,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedRichTextEditor(
+            state = component.body,
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+            label = {
+                Text("Body")
+            }
         )
     }
 }

@@ -24,7 +24,7 @@ public val OtariumIcons.AllAssets: ____KtList<ImageVector>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= Email.AllAssets + Bottombar.AllAssets + listOf(List, BugOutline, Down,
-        Advertisements, Palette, AdvertisementsOff, ContentSave, Cards, Folder)
+    __AllAssets= Bottombar.AllAssets + Email.AllAssets + listOf(Advertisements, AdvertisementsOff,
+        BugOutline, Cards, ContentSave, Down, Folder, List, Palette)
     return __AllAssets!!
   }

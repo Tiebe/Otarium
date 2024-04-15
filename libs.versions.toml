@@ -1,5 +1,5 @@
 [versions]
-app-version-string = "4.2.0"
+app-version-string = "4.2.1"
 app-version-code = "46"
 
 android_sdk-min = "21"
@@ -46,6 +46,7 @@ compose-material3 = "1.0.0-alpha17"
 compose-foundation = "1.3.0"
 core-splashscreen = "1.0.1"
 wear-phone-interactions = "1.0.1"
+richeditor = "1.0.0-rc04"
 
 [libraries]
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
@@ -106,6 +107,8 @@ androidx-wear-phone-interactions = { group = "androidx.wear", name = "wear-phone
 
 horologist-compose-layout = { group = "com.google.android.horologist", name = "horologist-compose-layout", version.ref = "horologist" }
 horologist-compose-material = { group = "com.google.android.horologist", name = "horologist-compose-material", version.ref = "horologist" }
+
+richeditor = { group = "com.mohamedrejeb.richeditor", name = "richeditor-compose", version.ref = "richeditor" }
 
 [plugins]
 mokoresources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko" }

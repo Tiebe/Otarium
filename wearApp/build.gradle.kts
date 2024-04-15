@@ -68,6 +68,7 @@ dependencies {
 
     implementation(libs.decompose.core)
     implementation(libs.decompose.compose)
+    implementation(libs.richeditor)
 
     api(libs.moko.resources.core)
     implementation(libs.magister.api)

@@ -2,6 +2,7 @@ package nl.tiebe.otarium.logic.default.home.children.messages.children.composing
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
+import com.mohamedrejeb.richeditor.model.RichTextState
 import dev.tiebe.magisterapi.api.account.ProfileInfoFlow
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.profileinfo.Contact
@@ -30,14 +31,18 @@ class DefaultMessageComposeComponent(
     override val ccList = ChipTextFieldState<ContactChip>()
     override val bccList = ChipTextFieldState<ContactChip>()
     override val subject: MutableValue<String> = MutableValue(prefilledSubject ?: "")
-    override val body: MutableValue<String> = MutableValue(prefilledBody ?: "")
+    override val body = RichTextState().apply {
+        if (prefilledBody != null) {
+            setHtml(prefilledBody)
+        }
+    }
 
     override suspend fun send() {
         MessageFlow.sendMessage(
             Url(Data.selectedAccount.tenantUrl),
             Data.selectedAccount.tokens.accessToken,
             subject.value,
-            body.value,
+            body.toHtml(),
             toList.chips.map { it.contact.id },
             ccList.chips.map { it.contact.id },
             bccList.chips.map { it.contact.id }

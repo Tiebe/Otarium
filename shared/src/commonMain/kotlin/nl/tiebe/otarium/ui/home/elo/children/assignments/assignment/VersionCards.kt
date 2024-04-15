@@ -5,18 +5,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichText
 import dev.tiebe.magisterapi.response.assignment.Assignment
 import dev.tiebe.magisterapi.response.assignment.AssignmentVersion
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.children.assignment.AssignmentScreenComponent
 import nl.tiebe.otarium.ui.utils.DownloadIndicator
-import nl.tiebe.otarium.ui.utils.HtmlView
 import nl.tiebe.otarium.utils.OtariumIcons
 import nl.tiebe.otarium.utils.otariumicons.Email
 import nl.tiebe.otarium.utils.otariumicons.email.Attachment
@@ -47,7 +48,15 @@ internal fun MainInfoCard(assignment: Assignment, version: AssignmentVersion) {
 
             ListItem(
                 overlineContent = { Text(getLocalizedString(MR.strings.assignment_description)) },
-                headlineContent = { HtmlView(assignment.description, maxLines = 1, backgroundColor = ListItemDefaults.containerColor.toArgb()) }
+                headlineContent = {
+                    val state = rememberRichTextState()
+
+                    LaunchedEffect(assignment) {
+                        state.setHtml(assignment.description)
+                    }
+
+                    RichText(state, maxLines = 1)
+                }
             )
         }
     }
@@ -75,8 +84,18 @@ internal fun TeacherFeedbackCard(component: AssignmentScreenComponent, version: 
             if (version.teacherNote != null) {
                 ListItem(
                     overlineContent = { Text(getLocalizedString(MR.strings.assignment_feedback)) },
-                    headlineContent = { HtmlView(version.teacherNote!!, maxLines = 1, backgroundColor = ListItemDefaults.containerColor.toArgb()) }
-                )
+                    headlineContent = {
+                        val state = rememberRichTextState()
+
+                        LaunchedEffect(version) {
+                            state.setHtml(version.teacherNote ?: "")
+                        }
+
+                        RichText(
+                            state,
+                            maxLines = 1
+                        )
+                    }                )
             }
 
             if (version.feedbackAttachments.isNotEmpty()) {
@@ -129,7 +148,18 @@ internal fun StudentVersionCard(component: AssignmentScreenComponent, version: A
             if (version.studentNote != null) {
                 ListItem(
                     overlineContent = { Text(getLocalizedString(MR.strings.assignment_description)) },
-                    headlineContent = { HtmlView(version.studentNote!!, maxLines = 1, backgroundColor = ListItemDefaults.containerColor.toArgb()) }
+                    headlineContent = {
+                        val state = rememberRichTextState()
+
+                        LaunchedEffect(version) {
+                            state.setHtml(version.studentNote ?: "")
+                        }
+
+                        RichText(
+                            state,
+                            maxLines = 1
+                        )
+                    }
                 )
             }
 
