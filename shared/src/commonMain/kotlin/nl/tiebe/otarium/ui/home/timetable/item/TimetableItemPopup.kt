@@ -5,15 +5,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichText
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.ui.utils.HtmlView
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,9 +74,14 @@ internal fun TimetableItemPopup(agendaItem: AgendaItemWithAbsence) {
         ) {
             val text = (agendaItem.agendaItem.content ?: "")
 
-            HtmlView(
-                text,
-                backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
+            val state = rememberRichTextState()
+
+            LaunchedEffect(text) {
+                state.setHtml(text)
+            }
+
+            RichText(
+                state
             )
         }
     }

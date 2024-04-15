@@ -82,14 +82,15 @@ fun SubjectInputField(component: MessageComposeComponent) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BodyInputField(component: MessageComposeComponent) {
-    Column(Modifier.padding(start = 16.dp, end = 16.dp)) {
+    Column(Modifier.padding(top = 16.dp)) {
         RichTextStyleRow(
             state = component.body,
             modifier = Modifier.fillMaxWidth()
         )
+
         OutlinedRichTextEditor(
             state = component.body,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
             label = {
                 Text("Body")
             }

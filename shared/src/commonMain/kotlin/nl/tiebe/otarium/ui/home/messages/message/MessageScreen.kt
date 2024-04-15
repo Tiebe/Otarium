@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichText
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
-import nl.tiebe.otarium.ui.utils.HtmlView
 
 @Composable
 internal fun MessageScreen(component: MessageComponent) {
@@ -20,11 +20,15 @@ internal fun MessageScreen(component: MessageComponent) {
         MessageHeader(component)
 
         val messageContent = component.message.subscribeAsState().value
+        val state = rememberRichTextState()
 
-        HtmlView(
-            messageContent.content,
-            maxLines = 0,
-            backgroundColor = MaterialTheme.colorScheme.surface.toArgb()
+        LaunchedEffect(messageContent) {
+            state.setHtml(messageContent.content)
+        }
+
+        RichText(
+            state,
+            modifier = Modifier.fillMaxSize()
         )
     }
 

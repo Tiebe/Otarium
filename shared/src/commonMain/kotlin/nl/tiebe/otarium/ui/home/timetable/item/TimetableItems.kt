@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichText
 import dev.tiebe.magisterapi.response.general.year.absence.Absence
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import kotlinx.datetime.*
@@ -31,7 +33,6 @@ import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.da
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.arrangeEvents
 import nl.tiebe.otarium.magister.getAgendaForDay
-import nl.tiebe.otarium.ui.utils.HtmlView
 import nl.tiebe.otarium.ui.utils.rectBorder
 import kotlin.math.floor
 import kotlin.math.roundToInt
@@ -155,11 +156,17 @@ fun TimetableItem(modifier: Modifier, agendaItemWithAbsence: AgendaItemWithAbsen
         modifier = listItemModifier.then(modifier),
         headlineContent = { Text(agendaItem.description ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis) },
         supportingContent = {
-            HtmlView(
-                overlineContent.joinToString(" • "),
+
+            val state = rememberRichTextState()
+
+            LaunchedEffect(overlineContent) {
+                state.setHtml(overlineContent.joinToString(" • "))
+            }
+
+            RichText(
+                state,
                 maxLines = 1,
-                backgroundColor = containerColor.toArgb(),
-                onClick = onClick
+                modifier = Modifier.clickable(onClick = onClick)
             )
         },
         leadingContent = {
