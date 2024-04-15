@@ -1,5 +1,5 @@
 [versions]
-app-version-string = "4.2.0"
+app-version-string = "4.2.1"
 app-version-code = "46"
 
 android_sdk-min = "21"
