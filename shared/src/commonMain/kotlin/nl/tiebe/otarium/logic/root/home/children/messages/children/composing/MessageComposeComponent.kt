@@ -2,6 +2,7 @@ package nl.tiebe.otarium.logic.root.home.children.messages.children.composing
 
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.mohamedrejeb.richeditor.model.RichTextState
 import dev.tiebe.magisterapi.response.profileinfo.Contact
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.ui.utils.ContactChip
@@ -17,7 +18,7 @@ interface MessageComposeComponent {
     val bccList: ChipTextFieldState<ContactChip>
 
     val subject: MutableValue<String>
-    val body: MutableValue<String>
+    val body: RichTextState
 
     fun back() = parentComponent::back
 

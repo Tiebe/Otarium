@@ -28,8 +28,8 @@ public val BottombarGroup.AllAssets: ____KtList<ImageVector>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= listOf(CogOutline, Box10Filled, EmailFilled, BookOpenOutline, CalendarTodayFilled,
-        EmailOutline, ChartFilled, CogFilled, ChartOutline, BookOpenFilled, CalendarTodayOutline,
-        Box10Outline)
+    __AllAssets= listOf(BookOpenFilled, BookOpenOutline, Box10Filled, Box10Outline,
+        CalendarTodayFilled, CalendarTodayOutline, ChartFilled, ChartOutline, CogFilled, CogOutline,
+        EmailFilled, EmailOutline)
     return __AllAssets!!
   }

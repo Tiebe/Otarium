@@ -79,6 +79,9 @@ kotlin {
                 implementation(libs.color.math)
 
                 implementation(libs.skiko)
+                implementation(libs.richeditor)
+
+                implementation("androidx.compose.material:material-icons-extended:1.6.5")
             }
         }
         androidMain {
