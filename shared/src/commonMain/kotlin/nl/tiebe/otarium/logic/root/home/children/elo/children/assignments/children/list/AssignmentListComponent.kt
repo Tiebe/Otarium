@@ -6,11 +6,11 @@ import com.arkivanov.decompose.value.Value
 import dev.tiebe.magisterapi.api.assignment.AssignmentFlow
 import dev.tiebe.magisterapi.api.general.GeneralFlow
 import dev.tiebe.magisterapi.response.assignment.Assignment
+import io.ktor.http.*
+import kotlinx.coroutines.launch
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.root.home.children.elo.children.assignments.AssignmentsChildComponent
-import io.ktor.http.*
-import kotlinx.coroutines.launch
 
 interface AssignmentListComponent : AssignmentsChildComponent.AssignmentChildScreen {
     val assignments: Value<List<Assignment>>
@@ -41,7 +41,7 @@ class DefaultAssignmentListComponent(
     override fun refreshAssignments() {
         scope.launch {
             isRefreshing.value = true
-            val year = GeneralFlow.getYears(
+            val year =  GeneralFlow.getYears(
                 Data.selectedAccount.tenantUrl,
                 Data.selectedAccount.tokens.accessToken,
                 Data.selectedAccount.accountId

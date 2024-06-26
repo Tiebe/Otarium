@@ -32,10 +32,13 @@ fun SubjectCard(component: AveragesComponent, subject: Subject, realGrades: List
                 manualGrades.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight }
     }
 
-    val ptbGrades = derivedStateOf {
+    var ptbGrades = derivedStateOf {
         realGrades.filterNot { it.isPTA }.map { (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat() } +
-        manualGrades.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight }
+        manualGrades.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight } +
+        realGrades.filter { it.isPTA && it.grade.yearId == Data.selectedAccount.years.getOrNull(0)?.id }.map { (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat() }
     }
+
+    if (ptbGrades.value == ptaGrades.value) ptbGrades = derivedStateOf { emptyList() }
 
     ElevatedCard(
         modifier = Modifier.padding(start = 15.dp, end = 15.dp, bottom = 5.dp).clickable { component.openSubject(subject) },

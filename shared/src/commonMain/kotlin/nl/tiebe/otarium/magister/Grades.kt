@@ -19,6 +19,8 @@ suspend fun MagisterAccount.getRecentGrades(amount: Int, skip: Int): List<Recent
 
 suspend fun MagisterAccount.refreshGrades(notification: (String, String) -> Unit = { title, message -> sendNotification(title, message) }): List<GradeWithGradeInfo> {
     val years = GeneralFlow.getYears(tenantUrl, tokens.accessToken, accountId)
+    this.years = years
+
     val grades = GradeFlow.getGrades(Url(tenantUrl), tokens.accessToken, accountId, years[0]).filter {
         (it.gradeColumn.type == GradeColumn.Type.Grade ||
                 it.gradeColumn.type == GradeColumn.Type.Text)

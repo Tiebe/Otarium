@@ -1,8 +1,10 @@
 package nl.tiebe.otarium.magister
 
 import dev.tiebe.magisterapi.api.account.LoginFlow
+import dev.tiebe.magisterapi.api.general.GeneralFlow
 import dev.tiebe.magisterapi.api.messages.MessageFlow
 import dev.tiebe.magisterapi.response.TokenResponse
+import dev.tiebe.magisterapi.response.general.year.Year
 import dev.tiebe.magisterapi.response.general.year.grades.RecentGrade
 import dev.tiebe.magisterapi.response.messages.Message
 import dev.tiebe.magisterapi.response.messages.MessageFolder
@@ -12,7 +14,6 @@ import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nl.tiebe.otarium.logic.root.home.unreadMessages
@@ -44,6 +45,16 @@ data class MagisterAccount(
     var messageFolders: List<MessageFolder>
         get() = settings.getStringOrNull("message_folders-$accountId")?.let { Json.decodeFromString(it) } ?: emptyList()
         set(value) = settings.putString("message_folders-$accountId", Json.encodeToString(value))
+
+    var years: List<Year>
+        get() {
+            val saved: List<Year>? = settings.getStringOrNull("years-$accountId")?.let { Json.decodeFromString(it) }
+            if (saved != null) return saved
+            val years = runBlocking { GeneralFlow.getYears(tenantUrl, tokens.accessToken, accountId) }
+            this.years = years
+            return years
+        }
+        set(value) = settings.putString("years-$accountId", Json.encodeToString(value))
 
     var tokens: TokenResponse
         get() = runBlocking {

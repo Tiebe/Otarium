@@ -21,6 +21,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.general.year.grades.Subject
+import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.averages.AveragesComponent
 import nl.tiebe.otarium.magister.GradeWithGradeInfo
@@ -40,10 +41,13 @@ fun AverageSubjectPopupTopAppBar(component: AveragesComponent, subject: Subject)
                 manualGradeList.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight }
     }
 
-    val ptbGrades = derivedStateOf {
+    var ptbGrades = derivedStateOf {
         gradeList.filterNot { it.isPTA }.map { (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat() } +
-                manualGradeList.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight }
+                manualGradeList.map { (it.grade.toFloatOrNull() ?: 0f) to it.weight } +
+                gradeList.filter { it.isPTA && it.grade.yearId == Data.selectedAccount.years.getOrNull(0)?.id }.map { (it.grade.grade?.replace(',', '.')?.toFloatOrNull() ?: 0f) to it.gradeInfo.weight.toFloat() }
     }
+
+    if (ptbGrades.value == ptaGrades.value) ptbGrades = derivedStateOf { emptyList() }
 
     TopAppBar(
         title = { Text(subject.description.capitalize(Locale.current)) },
