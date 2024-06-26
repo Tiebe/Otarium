@@ -8,10 +8,10 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("kotlinx-serialization")
-    id("kotlin-parcelize")
     alias(libs.plugins.compose)
     id(libs.plugins.buildkonfig.get().pluginId)
     id(libs.plugins.mokoresources.get().pluginId)
+    alias(libs.plugins.compose.compiler)
     //id(libs.plugins.google.services.get().pluginId)
 }
 

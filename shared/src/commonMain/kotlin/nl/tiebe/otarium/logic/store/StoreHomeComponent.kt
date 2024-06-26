@@ -20,11 +20,11 @@ class StoreHomeComponent(componentContext: ComponentContext, override val naviga
         MenuItems.Grades
     )
 
-    override val dialog: Value<ChildSlot<MenuItems, HomeComponent.MenuItemComponent>> = childSlot<MenuItems, HomeComponent.MenuItemComponent>(
+    override val dialog: Value<ChildSlot<MenuItems, HomeComponent.MenuItemComponent>> = childSlot(
         dialogNavigation,
-        "HomeComponentChildOverlay",
-        { MenuItems.Timetable },
-        persistent = true,
+        serializer = MenuItems.serializer(),
+        key = "HomeComponentChildOverlay",
+        initialConfiguration = { MenuItems.Timetable },
         handleBackButton = false
     ) { config, componentContext ->
         when (config) {

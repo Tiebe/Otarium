@@ -36,20 +36,20 @@ class DefaultHomeComponent(componentContext: ComponentContext, override val navi
         MenuItems.Settings
     )
 
-    override val dialog: Value<ChildSlot<MenuItems, HomeComponent.MenuItemComponent>> = childSlot<MenuItems, HomeComponent.MenuItemComponent>(
-        dialogNavigation,
-        "HomeComponentChildOverlay",
-        { MenuItems.Timetable },
-        persistent = true,
+    override val dialog: Value<ChildSlot<MenuItems, HomeComponent.MenuItemComponent>> = childSlot(
+        source = dialogNavigation,
+        serializer = MenuItems.serializer(),
+        key = "HomeComponentChildOverlay",
+        initialConfiguration = { MenuItems.Timetable },
         handleBackButton = false
-    ) { config, componentContext ->
-        when (config) {
-            is MenuItems.Timetable -> timetableComponent(componentContext)
-            is MenuItems.Grades -> gradesComponent(componentContext)
-            is MenuItems.Messages -> messagesComponent(componentContext)
-            is MenuItems.ELO -> eloComponent(componentContext)
-            is MenuItems.Settings -> settingsComponent(componentContext)
-            is MenuItems.Debug -> debugComponent(componentContext)
+    ) { item, componentContext ->
+        when (item) {
+            MenuItems.Timetable -> timetableComponent(componentContext)
+            MenuItems.Grades -> gradesComponent(componentContext)
+            MenuItems.Messages -> messagesComponent(componentContext)
+            MenuItems.ELO -> eloComponent(componentContext)
+            MenuItems.Settings -> settingsComponent(componentContext)
+            MenuItems.Debug -> debugComponent(componentContext)
         }
     }
 

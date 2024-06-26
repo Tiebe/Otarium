@@ -7,9 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
-import dev.icerock.moko.resources.StringResource
+import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.OtariumIcons
@@ -17,6 +15,7 @@ import nl.tiebe.otarium.utils.calculateAverageGrade
 import nl.tiebe.otarium.utils.otariumicons.Bottombar
 import nl.tiebe.otarium.utils.otariumicons.bottombar.*
 import nl.tiebe.otarium.utils.otariumicons.bottombar.grades.*
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.roundToInt
 
 val unreadMessages = MutableValue(Data.selectedAccount.messageFolders.sumOf { it.unreadCount })
@@ -46,17 +45,16 @@ val outlineIcons = listOf(
     OtariumIcons.Bottombar.Grades.Box10Outline,
 )
 
-@Parcelize
-sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit):
-    Parcelable {
-    object Timetable: MenuItems(
-        MR.strings.agendaItem,
+@Serializable
+sealed class MenuItems(val text: () -> String, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit) {
+    data object Timetable: MenuItems(
+        { getLocalizedString(MR.strings.agendaItem) },
         { Icon(OtariumIcons.Bottombar.CalendarTodayOutline, "Timetable") },
         { Icon(OtariumIcons.Bottombar.CalendarTodayFilled, "Timetable") },
     )
 
-    object Grades: MenuItems(
-        MR.strings.gradesItem,
+    data object Grades: MenuItems(
+        { getLocalizedString(MR.strings.gradesItem) },
         {
             val average = calculateAverageGrade(Data.selectedAccount.fullGradeList).roundToInt()
             if (average < 1 || average > 10) Icon(OtariumIcons.Bottombar.Grades.Box10Outline, "Grades")
@@ -69,8 +67,8 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
         },
     )
 
-    object Messages: MenuItems(
-        MR.strings.messagesItem,
+    data object Messages: MenuItems(
+        { getLocalizedString(MR.strings.messagesItem) },
         { BadgedBox(badge = {
             if (unreadMessages.subscribeAsState().value > 0) {
                 Badge(
@@ -87,20 +85,20 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
         }) { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") } },
     )
 
-    object ELO: MenuItems(
-        MR.strings.eloItem,
+    data object ELO: MenuItems(
+        { getLocalizedString(MR.strings.eloItem) },
         { Icon(OtariumIcons.Bottombar.BookOpenOutline, "ELO") },
         { Icon(OtariumIcons.Bottombar.BookOpenFilled, "ELO") },
     )
 
-    object Settings: MenuItems(
-        MR.strings.settingsItem,
+    data object Settings: MenuItems(
+        { getLocalizedString(MR.strings.settingsItem) },
         { Icon(OtariumIcons.Bottombar.CogOutline, "Settings") },
         { Icon(OtariumIcons.Bottombar.CogFilled, "Settings") },
     )
 
-    object Debug: MenuItems(
-        MR.strings.settingsItem,
+    data object Debug: MenuItems(
+        { getLocalizedString(MR.strings.settingsItem) },
         { Icon(OtariumIcons.Bottombar.Box10Outline, "Debug") },
         { Icon(OtariumIcons.Bottombar.Box10Filled, "Debug") },
     )

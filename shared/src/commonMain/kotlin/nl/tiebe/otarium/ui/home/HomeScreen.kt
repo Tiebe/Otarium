@@ -39,7 +39,7 @@ internal fun HomeScreen(component: HomeComponent) {
                         icon = if (overlay.configuration == screen) screen.iconSelected else screen.icon,
                         label = {
                             Text(
-                                getLocalizedString(screen.resourceId),
+                                screen.text(),
                                 modifier = Modifier.wrapContentWidth(unbounded = true)
                             )
                         },
