@@ -1,6 +1,9 @@
 package nl.tiebe.otarium.logic.root.home
 
-import androidx.compose.material3.*
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.arkivanov.decompose.value.MutableValue
@@ -10,10 +13,38 @@ import dev.icerock.moko.resources.StringResource
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.calculateAverageGrade
 import nl.tiebe.otarium.utils.otariumicons.Bottombar
 import nl.tiebe.otarium.utils.otariumicons.bottombar.*
+import nl.tiebe.otarium.utils.otariumicons.bottombar.grades.*
+import kotlin.math.roundToInt
 
 val unreadMessages = MutableValue(Data.selectedAccount.messageFolders.sumOf { it.unreadCount })
+val filledIcons = listOf(
+    OtariumIcons.Bottombar.Grades.Box1Filled,
+    OtariumIcons.Bottombar.Grades.Box2Filled,
+    OtariumIcons.Bottombar.Grades.Box3Filled,
+    OtariumIcons.Bottombar.Grades.Box4Filled,
+    OtariumIcons.Bottombar.Grades.Box5Filled,
+    OtariumIcons.Bottombar.Grades.Box6Filled,
+    OtariumIcons.Bottombar.Grades.Box7Filled,
+    OtariumIcons.Bottombar.Grades.Box8Filled,
+    OtariumIcons.Bottombar.Grades.Box9Filled,
+    OtariumIcons.Bottombar.Grades.Box10Filled,
+)
+
+val outlineIcons = listOf(
+    OtariumIcons.Bottombar.Grades.Box1Outline,
+    OtariumIcons.Bottombar.Grades.Box2Outline,
+    OtariumIcons.Bottombar.Grades.Box3Outline,
+    OtariumIcons.Bottombar.Grades.Box4Outline,
+    OtariumIcons.Bottombar.Grades.Box5Outline,
+    OtariumIcons.Bottombar.Grades.Box6Outline,
+    OtariumIcons.Bottombar.Grades.Box7Outline,
+    OtariumIcons.Bottombar.Grades.Box8Outline,
+    OtariumIcons.Bottombar.Grades.Box9Outline,
+    OtariumIcons.Bottombar.Grades.Box10Outline,
+)
 
 @Parcelize
 sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit):
@@ -26,11 +57,18 @@ sealed class MenuItems(val resourceId: StringResource, val icon: @Composable () 
 
     object Grades: MenuItems(
         MR.strings.gradesItem,
-        { Icon(OtariumIcons.Bottombar.Box10Outline, "Grades") },
-        { Icon(OtariumIcons.Bottombar.Box10Filled, "Grades") },
+        {
+            val average = calculateAverageGrade(Data.selectedAccount.fullGradeList).roundToInt()
+            if (average < 1 || average > 10) Icon(OtariumIcons.Bottombar.Grades.Box10Outline, "Grades")
+            else Icon(outlineIcons[average - 1], "Grades")
+        },
+        {
+            val average = calculateAverageGrade(Data.selectedAccount.fullGradeList).roundToInt()
+            if (average < 1 || average > 10) Icon(OtariumIcons.Bottombar.Grades.Box10Filled, "Grades")
+            else Icon(filledIcons[average - 1], "Grades")
+        },
     )
 
-    @OptIn(ExperimentalMaterial3Api::class)
     object Messages: MenuItems(
         MR.strings.messagesItem,
         { BadgedBox(badge = {

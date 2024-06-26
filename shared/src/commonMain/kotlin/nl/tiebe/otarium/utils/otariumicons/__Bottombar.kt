@@ -2,10 +2,9 @@ package nl.tiebe.otarium.utils.otariumicons
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import nl.tiebe.otarium.utils.OtariumIcons
+import nl.tiebe.otarium.utils.otariumicons.bottombar.AllAssets
 import nl.tiebe.otarium.utils.otariumicons.bottombar.BookOpenFilled
 import nl.tiebe.otarium.utils.otariumicons.bottombar.BookOpenOutline
-import nl.tiebe.otarium.utils.otariumicons.bottombar.Box10Filled
-import nl.tiebe.otarium.utils.otariumicons.bottombar.Box10Outline
 import nl.tiebe.otarium.utils.otariumicons.bottombar.CalendarTodayFilled
 import nl.tiebe.otarium.utils.otariumicons.bottombar.CalendarTodayOutline
 import nl.tiebe.otarium.utils.otariumicons.bottombar.ChartFilled
@@ -14,6 +13,7 @@ import nl.tiebe.otarium.utils.otariumicons.bottombar.CogFilled
 import nl.tiebe.otarium.utils.otariumicons.bottombar.CogOutline
 import nl.tiebe.otarium.utils.otariumicons.bottombar.EmailFilled
 import nl.tiebe.otarium.utils.otariumicons.bottombar.EmailOutline
+import nl.tiebe.otarium.utils.otariumicons.bottombar.Grades
 import kotlin.collections.List as ____KtList
 
 public object BottombarGroup
@@ -28,8 +28,8 @@ public val BottombarGroup.AllAssets: ____KtList<ImageVector>
     if (__AllAssets != null) {
       return __AllAssets!!
     }
-    __AllAssets= listOf(BookOpenFilled, BookOpenOutline, Box10Filled, Box10Outline,
-        CalendarTodayFilled, CalendarTodayOutline, ChartFilled, ChartOutline, CogFilled, CogOutline,
-        EmailFilled, EmailOutline)
+    __AllAssets= Grades.AllAssets + listOf(BookOpenFilled, BookOpenOutline, CalendarTodayFilled,
+        CalendarTodayOutline, ChartFilled, ChartOutline, CogFilled, CogOutline, EmailFilled,
+        EmailOutline)
     return __AllAssets!!
   }
