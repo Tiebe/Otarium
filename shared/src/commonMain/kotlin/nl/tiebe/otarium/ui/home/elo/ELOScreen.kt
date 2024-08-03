@@ -21,8 +21,10 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.elo.ELOComponent
 import nl.tiebe.otarium.ui.home.elo.children.assignments.AssignmentsChildScreen
+import nl.tiebe.otarium.ui.home.elo.children.assignments.AssignmentsTopBar
 import nl.tiebe.otarium.ui.home.elo.children.learningresources.LearningResourcesChildScreen
 import nl.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesChildScreen
+import nl.tiebe.otarium.ui.home.elo.children.studyguides.StudyGuidesTopBar
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -37,6 +39,11 @@ internal fun ELOScreen(component: ELOComponent) {
     val coroutineScope = rememberCoroutineScope()
 
     Column(modifier = Modifier.fillMaxSize()) {
+        when (pagerState.currentPage) {
+            0 -> StudyGuidesTopBar(component.studyGuidesComponent)
+            1 -> AssignmentsTopBar(component.assignmentsComponent)
+        }
+
         TabRow(
             selectedTabIndex = pagerState.currentPage
         ) {

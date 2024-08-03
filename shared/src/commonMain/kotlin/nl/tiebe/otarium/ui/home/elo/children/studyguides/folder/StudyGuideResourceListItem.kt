@@ -13,10 +13,10 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import dev.tiebe.magisterapi.response.studyguide.Resource
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
+import nl.tiebe.otarium.ui.utils.DownloadIndicator
 import nl.tiebe.otarium.ui.utils.DownloadingFileIndicator
 import nl.tiebe.otarium.ui.utils.LoadingFileIndicator
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun StudyGuideResourceListItem(component: StudyGuideFolderComponent, item: Resource) {
     Box {
@@ -28,27 +28,6 @@ internal fun StudyGuideResourceListItem(component: StudyGuideFolderComponent, it
         val progress =
             component.resourceDownloadProgress.subscribeAsState().value[item.id] ?: 0f
 
-        if (progress != 0f && !progress.isNaN()) {
-            val color = MaterialTheme.colorScheme.primary
-            val trackColor = MaterialTheme.colorScheme.surfaceVariant
-
-            if (progress != 1f) {
-                DownloadingFileIndicator(
-                    progress = progress,
-                    modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
-                    color = color,
-                    trackColor = trackColor,
-                    height = 5.dp
-                )
-            } else {
-                LoadingFileIndicator(
-                    modifier = Modifier.matchParentSize().align(Alignment.BottomStart),
-                    color = color,
-                    trackColor = trackColor,
-                    height = 5.dp
-                )
-            }
-
-        }
+        DownloadIndicator(progress)
     }
 }

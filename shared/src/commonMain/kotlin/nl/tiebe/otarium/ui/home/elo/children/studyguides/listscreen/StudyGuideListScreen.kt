@@ -10,6 +10,7 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +29,7 @@ internal fun StudyGuideListScreen(component: StudyGuideListComponent) {
             studyGuideItems.forEach {
                 StudyGuideListItem(component, it)
 
-                Divider()
+                HorizontalDivider()
             }
         }
 

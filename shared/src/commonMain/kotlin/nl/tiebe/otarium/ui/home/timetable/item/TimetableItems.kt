@@ -36,7 +36,6 @@ import nl.tiebe.otarium.ui.utils.rectBorder
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 internal fun TimetableItems(
     component: TimetableComponent,

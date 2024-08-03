@@ -4,9 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.backhandler.BackCallback
+import com.arkivanov.essenty.backhandler.BackHandlerOwner
 import dev.tiebe.magisterapi.response.studyguide.StudyGuide
 import kotlinx.coroutines.CoroutineScope
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
@@ -14,7 +15,7 @@ import nl.tiebe.otarium.logic.default.home.children.elo.children.studyguides.chi
 import nl.tiebe.otarium.logic.default.home.children.elo.children.studyguides.children.list.DefaultStudyGuideListComponent
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.StudyGuidesChildComponent
 
-class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : StudyGuidesChildComponent, ComponentContext by componentContext {
+class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : StudyGuidesChildComponent, ComponentContext by componentContext, BackHandlerOwner {
     override val refreshState: MutableValue<Boolean> = MutableValue(false)
 
     override val scope: CoroutineScope = componentCoroutineScope()
@@ -55,31 +56,8 @@ class DefaultStudyGuidesChildComponent(componentContext: ComponentContext) : Stu
             studyGuideLink = studyGuideLink,
         )
 
-    private val registered = MutableValue(false)
-    private val backCallback = BackCallback { onBack.value() }
-    override val onBack: MutableValue<() -> Unit> = MutableValue {}
-
-    override fun registerBackHandler() {
-        if (registered.value) return
-        backHandler.register(backCallback)
-        registered.value = true
-    }
-
-    override fun unregisterBackHandler() {
-        if (!registered.value) return
-        backHandler.unregister(backCallback)
-        registered.value = false
-    }
-
-
-    init {
-        childStack.observe { childStack ->
-            if (childStack.backStack.isEmpty()) {
-                unregisterBackHandler()
-            } else {
-                registerBackHandler()
-            }
-        }
+    override fun back() {
+        navigation.pop()
     }
 }
 

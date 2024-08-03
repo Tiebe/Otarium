@@ -16,7 +16,6 @@ import com.mohamedrejeb.richeditor.ui.material3.RichText
 import dev.tiebe.magisterapi.response.studyguide.StudyGuideContentItem
 import nl.tiebe.otarium.logic.root.home.children.elo.children.studyguides.children.folder.StudyGuideFolderComponent
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: StudyGuideContentItem) {
     var showContents by remember { mutableStateOf(false) }
@@ -41,7 +40,7 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
         ),
         modifier = Modifier.clickable { showContents = !showContents }
     )
-    Divider()
+    HorizontalDivider()
 
     AnimatedVisibility(visible = showContents, enter = expandVertically(), exit = shrinkVertically()) {
         Column(modifier = Modifier.padding(start = 16.dp)) {
@@ -49,7 +48,7 @@ internal fun StudyGuideFolderItem(component: StudyGuideFolderComponent, item: St
                 StudyGuideResourceListItem(component, it)
 
                 if (item.resources.last() != it) {
-                    Divider()
+                    HorizontalDivider()
                 }
             }
         }
