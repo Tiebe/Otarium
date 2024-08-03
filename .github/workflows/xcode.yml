@@ -20,10 +20,6 @@ jobs:
         with:
           java-version: 21
           distribution: temurin
-      - name: Cache
-        uses: actions/cache@v4.0.2
-        with:
-          key: xcode
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
       - name: Build with Gradle
