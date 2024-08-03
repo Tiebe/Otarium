@@ -116,4 +116,6 @@
 
     <string name="timetable_contrast">Timetable item contrast</string>
     <string name="timetable_rounding">Timetable rounding</string>
+
+    <string name="show_weekend">Show weekend</string>
 </resources>

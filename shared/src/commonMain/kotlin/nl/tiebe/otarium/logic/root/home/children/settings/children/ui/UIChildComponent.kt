@@ -22,5 +22,8 @@ interface UIChildComponent {
 
     fun passingGrade(value: String)
 
+    val showWeekend: Value<Boolean>
+
+    fun showWeekend(value: Boolean)
 
 }

@@ -123,5 +123,16 @@ internal fun UIChildScreen(component: UIChildComponent) {
             )
         }
 
+        val checkedStateShowWeekend = component.showWeekend.subscribeAsState()
+
+        SettingsRowToggle(
+            leftText = AnnotatedString(getLocalizedString(MR.strings.show_weekend)),
+            checked = checkedStateShowWeekend.value,
+            rowClickable = true,
+            onClick = {
+                component.showWeekend(it)
+            }
+        )
+
     }
 }

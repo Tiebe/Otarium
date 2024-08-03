@@ -29,7 +29,6 @@ import kotlinx.datetime.*
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
-import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.arrangeEvents
 import nl.tiebe.otarium.magister.getAgendaForDay
@@ -50,9 +49,9 @@ internal fun TimetableItems(
             .fillMaxSize()
     ) {
         val pageWeek = if (page >= 0) {
-            page / days.size
+            page / component.days.size
         } else {
-            floor((page / days.size.toFloat())).toInt()
+            floor((page / component.days.size.toFloat())).toInt()
         }
 
         val startOfWeekDate = component.now.value.date.minus(
@@ -61,7 +60,7 @@ internal fun TimetableItems(
         ) // first day of week
             .plus(pageWeek * 7, DateTimeUnit.DAY) // add weeks to get to selected week
             .plus(
-                page - (pageWeek * days.size),
+                page - (pageWeek * component.days.size),
                 DateTimeUnit.DAY
             ) // add days to get to selected day
 
@@ -69,7 +68,7 @@ internal fun TimetableItems(
             .toEpochMilliseconds() + (timesShown.first() * 60 * 60 * 1000)
 
         val timetable = component.timetable.subscribeAsState()
-        val events = component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * days.size))
+        val events = component.getTimetableForWeek(timetable.value, startOfWeekDate).getAgendaForDay(page - (pageWeek * component.days.size))
 
         val items = remember(events) { arrangeEvents(events.sortedBy { it.start }) }
         Layout(

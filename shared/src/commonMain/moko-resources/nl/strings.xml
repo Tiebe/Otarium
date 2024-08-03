@@ -109,4 +109,6 @@
     <string name="timetable_contrast">Rooster contrast</string>
 
     <string name="timetable_rounding">Timetable afronding</string>
+
+    <string name="show_weekend">Laat weekend zien</string>
 </resources>

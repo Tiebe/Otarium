@@ -61,6 +61,10 @@ object Data {
         get() = settings.getBoolean("mark_grades", false)
         set(value) = settings.putBoolean("mark_grades", value)
 
+    var showWeekend: Boolean
+        get() = settings.getBoolean("show_weekend", true)
+        set(value) = settings.putBoolean("show_weekend", value)
+
     var timetableContrast: Boolean
         get() = settings.getBoolean("timetable_contrast", false)
         set(value) = settings.putBoolean("timetable_contrast", value)

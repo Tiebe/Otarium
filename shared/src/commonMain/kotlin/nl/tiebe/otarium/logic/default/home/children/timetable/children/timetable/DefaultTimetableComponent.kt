@@ -22,20 +22,26 @@ import nl.tiebe.otarium.magister.getMagisterAgenda
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
-val days = listOf(
-    getLocalizedString(MR.strings.monday),
-    getLocalizedString(MR.strings.tuesday),
-    getLocalizedString(MR.strings.wednesday),
-    getLocalizedString(MR.strings.thursday),
-    getLocalizedString(MR.strings.friday),
-    getLocalizedString(MR.strings.saturday),
-    getLocalizedString(MR.strings.sunday)
-)
 
 class DefaultTimetableComponent(
     componentContext: ComponentContext,
     override val parentComponent: TimetableRootComponent,
 ): TimetableComponent, ComponentContext by componentContext {
+    override val days = mutableListOf(
+        getLocalizedString(MR.strings.monday),
+        getLocalizedString(MR.strings.tuesday),
+        getLocalizedString(MR.strings.wednesday),
+        getLocalizedString(MR.strings.thursday),
+        getLocalizedString(MR.strings.friday)
+    ).run {
+        if (Data.showWeekend) {
+            this.add(getLocalizedString(MR.strings.saturday))
+            this.add(getLocalizedString(MR.strings.sunday))
+        }
+
+        this.toList()
+    }
+
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
 

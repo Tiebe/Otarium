@@ -2,6 +2,7 @@ package nl.tiebe.otarium.logic.default.home.children.settings.children.ui
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
 import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.root.home.children.settings.SettingsComponent
 import nl.tiebe.otarium.logic.root.home.children.settings.children.ui.UIChildComponent
@@ -37,6 +38,13 @@ class DefaultUIChildComponent(
     override fun passingGrade(value: String) {
         Data.passingGrade = value.toFloatOrNull() ?: 5.5f
         passingGrade.value = value
+    }
+
+    override val showWeekend: MutableValue<Boolean> = MutableValue(Data.showWeekend)
+
+    override fun showWeekend(value: Boolean) {
+        Data.showWeekend = value
+        showWeekend.value = value
     }
 
 }

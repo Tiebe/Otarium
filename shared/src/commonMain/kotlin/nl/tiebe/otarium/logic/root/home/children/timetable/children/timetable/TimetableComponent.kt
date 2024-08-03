@@ -13,18 +13,10 @@ import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
-val days = listOf(
-    getLocalizedString(MR.strings.monday),
-    getLocalizedString(MR.strings.tuesday),
-    getLocalizedString(MR.strings.wednesday),
-    getLocalizedString(MR.strings.thursday),
-    getLocalizedString(MR.strings.friday),
-    getLocalizedString(MR.strings.saturday),
-    getLocalizedString(MR.strings.sunday)
-)
-
 interface TimetableComponent {
     val parentComponent: TimetableRootComponent
+
+    val days: List<String>
 
     val now: Value<LocalDateTime>
     val firstDayOfWeek get() = now.value.date.minus(now.value.date.dayOfWeek.ordinal, DateTimeUnit.DAY)

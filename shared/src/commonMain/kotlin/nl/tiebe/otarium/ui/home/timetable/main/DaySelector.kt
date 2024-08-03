@@ -17,7 +17,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
-import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.days
 import nl.tiebe.otarium.ui.utils.tabIndicatorOffset
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
@@ -45,7 +44,7 @@ internal fun DaySelector(
                     ))
             }) {
 
-            days.forEachIndexed { index, title ->
+            component.days.forEachIndexed { index, title ->
                 DayTabItem(component, index, week, dayPagerState, title)
             }
         }
@@ -70,7 +69,7 @@ fun DayTabItem(
         selected = selectedDay.value == dayIndex && selectedWeekIndex.value == weekIndex,
         onClick = {
             scope.launch {
-                dayPagerState.animateScrollToPage((weekIndex - 100) * days.size + dayIndex + (component.amountOfDays / 2))
+                dayPagerState.animateScrollToPage((weekIndex - 100) * component.days.size + dayIndex + (component.amountOfDays / 2))
             }
         },
         text = {

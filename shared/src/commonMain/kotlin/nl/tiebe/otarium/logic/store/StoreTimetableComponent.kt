@@ -8,14 +8,31 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
+import nl.tiebe.otarium.Data
+import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
-import nl.tiebe.otarium.logic.default.home.children.timetable.children.timetable.days
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.logic.root.home.children.timetable.children.timetable.TimetableComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
+import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
 class StoreTimetableComponent(componentContext: ComponentContext, override val parentComponent: TimetableRootComponent): TimetableComponent, ComponentContext by componentContext {
+    override val days = mutableListOf(
+        getLocalizedString(MR.strings.monday),
+        getLocalizedString(MR.strings.tuesday),
+        getLocalizedString(MR.strings.wednesday),
+        getLocalizedString(MR.strings.thursday),
+        getLocalizedString(MR.strings.friday)
+    ).run {
+        if (Data.showWeekend) {
+            this.add(getLocalizedString(MR.strings.saturday))
+            this.add(getLocalizedString(MR.strings.sunday))
+        }
+
+        this.toList()
+    }
+
     override val now: MutableValue<LocalDateTime> = MutableValue(Clock.System.now().toLocalDateTime(TimeZone.of("Europe/Amsterdam")))
     override val currentPage = MutableValue(500 + now.value.date.dayOfWeek.ordinal)
 
