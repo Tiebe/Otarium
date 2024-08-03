@@ -44,9 +44,11 @@ jobs:
           echo $file_to_build
           xcodebuild clean build -scheme "$scheme" -configuration Release -"$filetype_parameter" "$file_to_build" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO  && exit ${PIPESTATUS[0]}
 
+          ls /Users/runner/Library/Developer/Xcode/DerivedData/iosApp*/Build/Products/*/
           mkdir Payload
           mv /Users/runner/Library/Developer/Xcode/DerivedData/iosApp*/Build/Products/*/Otarium.app Payload
           zip -r Otarium.ipa Payload
+          echo test
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.3.5
         with:
