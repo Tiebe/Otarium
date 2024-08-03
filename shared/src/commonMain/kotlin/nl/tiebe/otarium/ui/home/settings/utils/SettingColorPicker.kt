@@ -24,7 +24,8 @@ internal fun SettingsColorPicker(modifier: Modifier = Modifier, leftText: Annota
 
     Column {
         Row(
-            modifier = Modifier.fillMaxWidth(0.95f).height(70.dp).clickable { showPicker.value = !showPicker.value }.then(modifier),
+            modifier = Modifier.fillMaxWidth(0.95f).height(70.dp).clickable { showPicker.value = !showPicker.value }
+                .then(modifier),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -47,6 +48,6 @@ internal fun SettingsColorPicker(modifier: Modifier = Modifier, leftText: Annota
             )
         }
 
-        Divider()
+        HorizontalDivider()
     }
 }

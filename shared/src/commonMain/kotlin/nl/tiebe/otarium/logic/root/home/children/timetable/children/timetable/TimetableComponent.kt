@@ -4,13 +4,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.*
-import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.timetable.TimetableRootComponent
 import nl.tiebe.otarium.magister.AgendaItemWithAbsence
-import nl.tiebe.otarium.utils.ui.getLocalizedString
 import kotlin.math.floor
 
 interface TimetableComponent {
@@ -87,4 +86,8 @@ interface TimetableComponent {
         }
         (currentPage as MutableValue).value = page
     }
+
+    val attachmentDownloadProgress: Value<Map<Int, Float>>
+
+    fun downloadAttachment(attachment: AgendaItem.Companion.Attachment)
 }

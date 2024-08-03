@@ -2,6 +2,7 @@ package nl.tiebe.otarium.ui.home.messages.message
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
@@ -31,7 +32,7 @@ fun MessageTopAppBar(component: MessageComponent) {
         title = { Text(message.subject, overflow = TextOverflow.Ellipsis, maxLines = 1) },
         navigationIcon = {
             IconButton(onClick = { component.parentComponent.back() }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },
         actions = {

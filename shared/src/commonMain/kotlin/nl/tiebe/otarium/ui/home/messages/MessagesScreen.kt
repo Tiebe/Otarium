@@ -5,12 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
@@ -188,7 +188,22 @@ fun FolderTopAppBar(component: FolderComponent, drawerState: DrawerState) {
     val scope = rememberCoroutineScope()
 
     TopAppBar(
-        title = { Text(GetFolderIcon(component.folder).first, overflow = TextOverflow.Ellipsis, maxLines = 1) },
+        title = {
+            SearchBar(
+                query = component.searchQuery.subscribeAsState().value,
+                onQueryChange = { component.setSearchQuery(it) },
+                onSearch = { component.search(it) },
+                active = component.searchActive.subscribeAsState().value,
+                onActiveChange = { component.setSearchActive(it) },
+                leadingIcon = { Icon(Icons.Default.Search, "Search") }
+            ) {
+                val messages = component.searchedItems.subscribeAsState().value
+
+                messages.forEach { message ->
+                    MessageItem(component.parentComponent::navigateToMessage, message)
+                }
+            }
+        },
         navigationIcon = {
             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                 Icon(Icons.Default.Menu, contentDescription = "Menu")

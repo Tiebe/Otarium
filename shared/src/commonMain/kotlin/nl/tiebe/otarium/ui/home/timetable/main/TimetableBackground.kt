@@ -2,7 +2,7 @@ package nl.tiebe.otarium.ui.home.timetable.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +25,7 @@ internal fun TimetableBackground() {
         }
 
         for (i in timesShown) {
-            Divider(Modifier.fillMaxWidth().padding(top = dpPerHour * (i - timesShown.first)))
+            HorizontalDivider(Modifier.fillMaxWidth().padding(top = dpPerHour * (i - timesShown.first)))
         }
 
         Box(

@@ -12,7 +12,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,7 +50,7 @@ internal fun Timetable(
                 page == (component.amountOfDays / 2) + component.now.value.dayOfWeek.ordinal &&
                 now.hour in timesShown
             ) {
-                Divider(
+                HorizontalDivider(
                     Modifier
                         .width(40.dp)
                         .padding(top = minutes / 60f * dpPerHour),

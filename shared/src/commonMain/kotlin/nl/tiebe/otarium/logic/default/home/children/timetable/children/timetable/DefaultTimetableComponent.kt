@@ -6,6 +6,8 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import dev.tiebe.magisterapi.utils.MagisterException
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,7 +21,10 @@ import nl.tiebe.otarium.magister.AgendaItemWithAbsence
 import nl.tiebe.otarium.magister.MagisterAccount
 import nl.tiebe.otarium.magister.getAbsences
 import nl.tiebe.otarium.magister.getMagisterAgenda
+import nl.tiebe.otarium.utils.openFileFromCache
+import nl.tiebe.otarium.utils.requestGET
 import nl.tiebe.otarium.utils.ui.getLocalizedString
+import nl.tiebe.otarium.utils.writeFile
 import kotlin.math.floor
 
 
@@ -112,6 +117,31 @@ class DefaultTimetableComponent(
         currentPage.value = page
     }
 
+    override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
+
+
+    override fun downloadAttachment(attachment: AgendaItem.Companion.Attachment) {
+        scope.launch {
+            val response = requestGET(
+                //TODO: probably not correct
+                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.url!!).build(),
+                accessToken = Data.selectedAccount.tokens.accessToken,
+                onDownload = { bytesSentTotal, contentLength ->
+                    attachmentDownloadProgress.value += Pair(
+                        attachment.id,
+                        bytesSentTotal.toFloat() / contentLength.toFloat()
+                    )
+                }
+            ).readBytes()
+
+            writeFile(attachment.id.toString(), attachment.naam, response)
+            openFileFromCache(attachment.id.toString(), attachment.naam)
+
+            attachmentDownloadProgress.value = attachmentDownloadProgress.value.toMutableMap().also {
+                it.remove(attachment.id)
+            }
+        }
+    }
 
     init {
         selectedWeek.observe {

@@ -50,6 +50,23 @@ class DefaultFolderComponent(
         }
     }
 
+    override val searchQuery: MutableValue<String> = MutableValue("")
+    override val searchActive: MutableValue<Boolean> = MutableValue(false)
+    override val searchedItems: MutableValue<List<Message>> = MutableValue(listOf())
+
+    override fun setSearchQuery(query: String) {
+        searchQuery.value = query
+    }
+
+    override fun search(query: String) {
+        // TODO: search messages
+    }
+
+
+    override fun setSearchActive(active: Boolean) {
+        searchActive.value = active
+    }
+
     init {
         lifecycle.doOnResume {
             refresh()
