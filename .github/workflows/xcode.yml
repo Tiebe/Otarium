@@ -47,6 +47,6 @@ jobs:
         uses: actions/upload-artifact@v4.3.5
         with:
           name: source.zip
-          path: .
+          path: ./iosApp
 
           
