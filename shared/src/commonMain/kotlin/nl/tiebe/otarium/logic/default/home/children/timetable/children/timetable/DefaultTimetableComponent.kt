@@ -123,8 +123,7 @@ class DefaultTimetableComponent(
     override fun downloadAttachment(attachment: AgendaItem.Companion.Attachment) {
         scope.launch {
             val response = requestGET(
-                //TODO: probably not correct
-                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.url!!).build(),
+                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.first().href).build(),
                 accessToken = Data.selectedAccount.tokens.accessToken,
                 onDownload = { bytesSentTotal, contentLength ->
                     attachmentDownloadProgress.value += Pair(

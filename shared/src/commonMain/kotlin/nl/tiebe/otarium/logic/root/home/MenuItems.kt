@@ -47,12 +47,14 @@ val outlineIcons = listOf(
 
 @Serializable
 sealed class MenuItems(val text: () -> String, val icon: @Composable () -> Unit, val iconSelected: @Composable () -> Unit) {
+    @Serializable
     data object Timetable: MenuItems(
         { getLocalizedString(MR.strings.agendaItem) },
         { Icon(OtariumIcons.Bottombar.CalendarTodayOutline, "Timetable") },
         { Icon(OtariumIcons.Bottombar.CalendarTodayFilled, "Timetable") },
     )
 
+    @Serializable
     data object Grades: MenuItems(
         { getLocalizedString(MR.strings.gradesItem) },
         {
@@ -67,6 +69,7 @@ sealed class MenuItems(val text: () -> String, val icon: @Composable () -> Unit,
         },
     )
 
+    @Serializable
     data object Messages: MenuItems(
         { getLocalizedString(MR.strings.messagesItem) },
         { BadgedBox(badge = {
@@ -85,18 +88,21 @@ sealed class MenuItems(val text: () -> String, val icon: @Composable () -> Unit,
         }) { Icon(OtariumIcons.Bottombar.EmailFilled, "Messages") } },
     )
 
+    @Serializable
     data object ELO: MenuItems(
         { getLocalizedString(MR.strings.eloItem) },
         { Icon(OtariumIcons.Bottombar.BookOpenOutline, "ELO") },
         { Icon(OtariumIcons.Bottombar.BookOpenFilled, "ELO") },
     )
 
+    @Serializable
     data object Settings: MenuItems(
         { getLocalizedString(MR.strings.settingsItem) },
         { Icon(OtariumIcons.Bottombar.CogOutline, "Settings") },
         { Icon(OtariumIcons.Bottombar.CogFilled, "Settings") },
     )
 
+    @Serializable
     data object Debug: MenuItems(
         { getLocalizedString(MR.strings.settingsItem) },
         { Icon(OtariumIcons.Bottombar.Box10Outline, "Debug") },

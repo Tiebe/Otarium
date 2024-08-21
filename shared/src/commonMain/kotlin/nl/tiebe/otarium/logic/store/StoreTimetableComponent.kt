@@ -4,6 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+import dev.tiebe.magisterapi.response.general.year.agenda.AgendaItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,6 +65,12 @@ class StoreTimetableComponent(componentContext: ComponentContext, override val p
             pagerState.animateScrollToPage(page)
         }
         currentPage.value = page
+    }
+
+    override val attachmentDownloadProgress: MutableValue<Map<Int, Float>> = MutableValue(mapOf())
+
+    override fun downloadAttachment(attachment: AgendaItem.Companion.Attachment) {
+        TODO("Not yet implemented")
     }
 
 

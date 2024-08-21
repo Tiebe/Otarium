@@ -111,4 +111,6 @@
     <string name="timetable_rounding">Timetable afronding</string>
 
     <string name="show_weekend">Laat weekend zien</string>
+    <string name="search">Zoeken</string>
+
 </resources>

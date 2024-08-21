@@ -98,7 +98,7 @@ internal fun TimetableItemPopup(agendaItem: AgendaItemWithAbsence, component: Ti
                                 ) {
                                     Icon(
                                         //TODO: status checken
-                                        if (attachment.status == 1) OtariumIcons.Email.Attachment else OtariumIcons.Email.AttachmentOff,
+                                        if (attachment.status == 2) OtariumIcons.Email.Attachment else OtariumIcons.Email.AttachmentOff,
                                         contentDescription = "Attachment"
                                     )
                                     Text(text = attachment.naam, modifier = Modifier.padding(start = 10.dp))

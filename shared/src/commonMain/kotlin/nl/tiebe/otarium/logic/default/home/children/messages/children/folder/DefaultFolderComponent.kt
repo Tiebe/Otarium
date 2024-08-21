@@ -26,7 +26,7 @@ class DefaultFolderComponent(
     override val subFolders: MutableValue<List<MessageFolder>> = MutableValue(allFolders.filter { it.parentId == folder.id })
     override val messages: MutableValue<List<Message>> = MutableValue(listOf())
 
-    private suspend fun getMessages(amount: Int = 100, skip: Int = 0): List<Message> {
+    private suspend fun getMessages(amount: Int = 100, skip: Int = 0, search: String = ""): List<Message> {
         return MessageFlow.getMessages(Url(Data.selectedAccount.tenantUrl), Data.selectedAccount.tokens.accessToken, folder.links.messagesLink, amount, skip)
     }
 
@@ -48,23 +48,6 @@ class DefaultFolderComponent(
             messages.value += getMessages(skip = messages.value.size)
             refreshState.value = false
         }
-    }
-
-    override val searchQuery: MutableValue<String> = MutableValue("")
-    override val searchActive: MutableValue<Boolean> = MutableValue(false)
-    override val searchedItems: MutableValue<List<Message>> = MutableValue(listOf())
-
-    override fun setSearchQuery(query: String) {
-        searchQuery.value = query
-    }
-
-    override fun search(query: String) {
-        // TODO: search messages
-    }
-
-
-    override fun setSearchActive(active: Boolean) {
-        searchActive.value = active
     }
 
     init {

@@ -16,6 +16,7 @@ import nl.tiebe.otarium.Data
 import nl.tiebe.otarium.logic.default.componentCoroutineScope
 import nl.tiebe.otarium.logic.default.home.children.messages.children.composing.DefaultMessageComposeComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.children.folder.DefaultFolderComponent
+import nl.tiebe.otarium.logic.default.home.children.messages.children.folder.DefaultFolderSearchComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.children.message.DefaultMessageComponent
 import nl.tiebe.otarium.logic.default.home.children.messages.children.message.children.DefaultReceiverInfoComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
@@ -48,6 +49,11 @@ class DefaultMessagesComponent(
                     componentContext,
                     let { if (folders.value.isEmpty()) runBlocking { getFoldersAsync() }; folders.value.first { it.id == config.folderId } })
             )
+            is MessagesComponent.Config.FolderSearch -> MessagesComponent.Child.FolderSearchChild(
+                createFolderSearchComponent(
+                    componentContext,
+                    let { if (folders.value.isEmpty()) runBlocking { getFoldersAsync() }; folders.value.first { it.id == config.folderId } })
+            )
             is MessagesComponent.Config.Message -> MessagesComponent.Child.MessageChild(
                 createMessageComponent(
                     componentContext,
@@ -65,6 +71,14 @@ class DefaultMessagesComponent(
 
     private fun createFolderComponent(componentContext: ComponentContext, folder: MessageFolder) =
         DefaultFolderComponent(
+            componentContext = componentContext,
+            folder = folder,
+            allFolders = folders.value,
+            parentComponent = this
+        )
+
+    private fun createFolderSearchComponent(componentContext: ComponentContext, folder: MessageFolder) =
+        DefaultFolderSearchComponent(
             componentContext = componentContext,
             folder = folder,
             allFolders = folders.value,

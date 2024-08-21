@@ -13,6 +13,7 @@ import kotlinx.serialization.Serializable
 import nl.tiebe.otarium.logic.root.home.HomeComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.composing.MessageComposeComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
+import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderSearchComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.MessageComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.message.children.ReceiverInfoComponent
 
@@ -42,6 +43,7 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
 
     sealed class Child {
         class FolderChild(val component: FolderComponent) : Child()
+        class FolderSearchChild(val component: FolderSearchComponent) : Child()
         class MessageChild(val component: MessageComponent) : Child()
         class ReceiverInfoChild(val component: ReceiverInfoComponent) : Child()
         class ComposeChild(val component: MessageComposeComponent) : Child()
@@ -51,6 +53,8 @@ interface MessagesComponent: HomeComponent.MenuItemComponent, BackHandlerOwner {
     sealed class Config {
         @Serializable
         data class Folder(val folderId: Int) : Config()
+        @Serializable
+        data class FolderSearch(val folderId: Int) : Config()
         @Serializable
         data class Message(val messageLink: String) : Config()
         @Serializable

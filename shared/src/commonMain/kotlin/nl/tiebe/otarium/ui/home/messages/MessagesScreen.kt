@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
@@ -27,9 +30,11 @@ import kotlinx.coroutines.launch
 import nl.tiebe.otarium.MR
 import nl.tiebe.otarium.logic.root.home.children.messages.MessagesComponent
 import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderComponent
+import nl.tiebe.otarium.logic.root.home.children.messages.children.folder.FolderSearchComponent
 import nl.tiebe.otarium.ui.home.messages.composing.MessageComposeScreen
 import nl.tiebe.otarium.ui.home.messages.composing.MessageComposeTopAppBar
 import nl.tiebe.otarium.ui.home.messages.folder.FolderScreen
+import nl.tiebe.otarium.ui.home.messages.folder.FolderSearchScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageScreen
 import nl.tiebe.otarium.ui.home.messages.message.MessageTopAppBar
 import nl.tiebe.otarium.ui.home.messages.message.ReceiverTopAppBar
@@ -112,7 +117,7 @@ private fun FolderNavigationItem(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalDecomposeApi::class)
+@OptIn(ExperimentalDecomposeApi::class)
 @Composable
 private fun FolderContent(
     screen: State<ChildStack<MessagesComponent.Config, MessagesComponent.Child>>,
@@ -125,6 +130,7 @@ private fun FolderContent(
         topBar = {
             when (val instance = screen.value.active.instance) {
                 is MessagesComponent.Child.FolderChild -> FolderTopAppBar(instance.component, drawerState)
+                is MessagesComponent.Child.FolderSearchChild -> FolderSearchTopAppBar(instance.component)
                 is MessagesComponent.Child.MessageChild -> MessageTopAppBar(instance.component)
                 is MessagesComponent.Child.ReceiverInfoChild -> ReceiverTopAppBar(instance.component, drawerState)
                 is MessagesComponent.Child.ComposeChild -> MessageComposeTopAppBar(instance.component)
@@ -162,6 +168,7 @@ private fun FolderContent(
             Surface(modifier = Modifier.fillMaxSize().padding(it)) {
                 when (val instance = child.instance) {
                     is MessagesComponent.Child.FolderChild -> FolderScreen(instance.component)
+                    is MessagesComponent.Child.FolderSearchChild -> FolderSearchScreen(instance.component)
                     is MessagesComponent.Child.MessageChild -> MessageScreen(instance.component)
                     is MessagesComponent.Child.ReceiverInfoChild -> ReceiverInfoScreen(instance.component)
                     is MessagesComponent.Child.ComposeChild -> MessageComposeScreen(instance.component)
@@ -189,24 +196,34 @@ fun FolderTopAppBar(component: FolderComponent, drawerState: DrawerState) {
 
     TopAppBar(
         title = {
-            SearchBar(
-                query = component.searchQuery.subscribeAsState().value,
-                onQueryChange = { component.setSearchQuery(it) },
-                onSearch = { component.search(it) },
-                active = component.searchActive.subscribeAsState().value,
-                onActiveChange = { component.setSearchActive(it) },
-                leadingIcon = { Icon(Icons.Default.Search, "Search") }
-            ) {
-                val messages = component.searchedItems.subscribeAsState().value
-
-                messages.forEach { message ->
-                    MessageItem(component.parentComponent::navigateToMessage, message)
-                }
-            }
+            Text(GetFolderIcon(component.folder).first, overflow = TextOverflow.Ellipsis, maxLines = 1)
         },
         navigationIcon = {
             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                 Icon(Icons.Default.Menu, contentDescription = "Menu")
+            }
+        },
+        actions = {
+            IconButton(onClick = { component.parentComponent.navigate(MessagesComponent.Config.FolderSearch(component.folder.id)) }) {
+                Icon(Icons.Default.Search, contentDescription = "Search")
+            }
+        },
+        windowInsets = WindowInsets(0)
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FolderSearchTopAppBar(component: FolderSearchComponent) {
+    val scope = rememberCoroutineScope()
+
+    TopAppBar(
+        title = {
+            Text("Search")
+        },
+        navigationIcon = {
+            IconButton(onClick = { scope.launch { component.parentComponent.back() } }) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         },
         windowInsets = WindowInsets(0)

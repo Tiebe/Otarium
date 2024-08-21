@@ -118,4 +118,6 @@
     <string name="timetable_rounding">Timetable rounding</string>
 
     <string name="show_weekend">Show weekend</string>
+
+    <string name="search">Search</string>
 </resources>
