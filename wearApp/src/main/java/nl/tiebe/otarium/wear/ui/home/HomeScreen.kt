@@ -33,7 +33,7 @@ internal fun HomeScreen(componentContext: ComponentContext) {
             TimeText()
         }
     ) {
-        HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize(), outOfBoundsPageCount = pagerState.pageCount - 1) {
+        HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize(), beyondViewportPageCount = pagerState.pageCount - 1) {
             when (it) {
                 0 -> TimetableRootScreen(DefaultTimetableRootComponent(componentContext), remember { derivedStateOf { pagerState.currentPage == 0 } })
                 1 -> GradeScreen(DefaultRecentGradesComponent(componentContext), remember { derivedStateOf { pagerState.currentPage == 1 } })

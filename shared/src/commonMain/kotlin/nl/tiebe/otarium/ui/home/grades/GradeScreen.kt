@@ -73,7 +73,7 @@ internal fun GradesScreen(component: GradesComponent) {
             }
         }
 
-        HorizontalPager(state = pagerState, beyondBoundsPageCount = 1, userScrollEnabled = false) { page ->
+        HorizontalPager(state = pagerState, beyondViewportPageCount = 1, userScrollEnabled = false) { page ->
             when (page) {
                 0 -> RecentGradesScreen(component.recentGradeComponent)
                 1 -> AveragesScreen(component.averagesComponent)

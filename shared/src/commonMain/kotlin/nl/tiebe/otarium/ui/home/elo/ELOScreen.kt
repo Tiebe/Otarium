@@ -96,7 +96,7 @@ internal fun ELOScreen(component: ELOComponent) {
             }
         }
 
-        HorizontalPager(state = pagerState, beyondBoundsPageCount = 2, modifier = Modifier.fillMaxSize(), userScrollEnabled = false) { page ->
+        HorizontalPager(state = pagerState, beyondViewportPageCount = 2, modifier = Modifier.fillMaxSize(), userScrollEnabled = false) { page ->
             when (page) {
                 0 -> StudyGuidesChildScreen(component.studyGuidesComponent)
                 1 -> AssignmentsChildScreen(component.assignmentsComponent)

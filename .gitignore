@@ -12,3 +12,4 @@
 local.properties
 androidApp/keystore.jks
 iosApp/Pods
+.kotlin

@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "nl.tiebe.otarium.wear"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "nl.tiebe.otarium"

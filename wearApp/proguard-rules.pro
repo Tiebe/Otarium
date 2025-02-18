@@ -23,3 +23,9 @@
 -printmapping build/outputs/mapping/release/mapping.txt
 
 -dontwarn org.slf4j.impl.StaticLoggerBinder
+-keep class io.ktor.** { *; }
+-keep class kotlinx.coroutines.** { *; }
+-dontwarn kotlinx.atomicfu.**
+-dontwarn io.netty.**
+-dontwarn com.typesafe.**
+-dontwarn org.slf4j.**

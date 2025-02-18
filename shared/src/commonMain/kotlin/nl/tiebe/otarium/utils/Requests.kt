@@ -115,9 +115,7 @@ suspend fun requestGET(
             }
         }
 
-        if (onDownload != null) {
-            onDownload(1, 1)
-        }
+        onDownload?.onProgress(1, 1)
 
         response.status.let {
             if (it != HttpStatusCode.OK) {

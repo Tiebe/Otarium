@@ -128,10 +128,11 @@ class DefaultTimetableComponent(
                 onDownload = { bytesSentTotal, contentLength ->
                     attachmentDownloadProgress.value += Pair(
                         attachment.id,
-                        bytesSentTotal.toFloat() / contentLength.toFloat()
+                        bytesSentTotal.toFloat() / (contentLength?.toFloat() ?: (bytesSentTotal * 2f))
                     )
                 }
-            ).readBytes()
+            ).readRawBytes()
+
 
             writeFile(attachment.id.toString(), attachment.naam, response)
             openFileFromCache(attachment.id.toString(), attachment.naam)

@@ -50,12 +50,16 @@ class DefaultStudyGuideFolderComponent(componentContext: ComponentContext, overr
     override fun downloadResource(item: Resource) {
         scope.launch {
             val response = requestGET(
-                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(item.links.first { it.rel == "Contents" }.href).build(),
-                accessToken = Data.selectedAccount.tokens.accessToken,
-                onDownload = { bytesSentTotal, contentLength ->
-                    resourceDownloadProgress.value = resourceDownloadProgress.value + Pair(item.id, bytesSentTotal.toFloat() / contentLength.toFloat())
-                }
-            ).readBytes()
+                        URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(item.links.first { it.rel == "Contents" }.href).build(),
+                        accessToken = Data.selectedAccount.tokens.accessToken,
+                        onDownload = { bytesSentTotal, contentLength ->
+                            resourceDownloadProgress.value += Pair(
+                                item.id,
+                                bytesSentTotal.toFloat() / (contentLength?.toFloat() ?: (bytesSentTotal * 2f))
+                            )
+                        }
+                ).readRawBytes()
+
 
             writeFile(item.id.toString(), item.name, response)
             openFileFromCache(item.id.toString(), item.name)

@@ -45,15 +45,16 @@ class DefaultMessageComponent(
     override fun downloadAttachment(attachment: Attachment) {
         scope.launch {
             val response = requestGET(
-                URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.downloadLink.href).build(),
-                accessToken = Data.selectedAccount.tokens.accessToken,
-                onDownload = { bytesSentTotal, contentLength ->
-                    attachmentDownloadProgress.value += Pair(
-                        attachment.id,
-                        bytesSentTotal.toFloat() / contentLength.toFloat()
-                    )
-                }
-            ).readBytes()
+                        URLBuilder(Data.selectedAccount.tenantUrl).appendEncodedPathSegments(attachment.links.downloadLink.href).build(),
+                        accessToken = Data.selectedAccount.tokens.accessToken,
+                        onDownload = { bytesSentTotal, contentLength ->
+                            attachmentDownloadProgress.value += Pair(
+                                attachment.id,
+                                bytesSentTotal.toFloat() / (contentLength?.toFloat() ?: (bytesSentTotal * 2f))
+                            )
+                        }
+            ).readRawBytes()
+
 
             writeFile(attachment.id.toString(), attachment.name, response)
             openFileFromCache(attachment.id.toString(), attachment.name)
