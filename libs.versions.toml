@@ -24,7 +24,7 @@ material3 = "1.3.1"
 ktor = "3.0.0"
 decompose = "2.2.0-compose-experimental-alpha05"
 moko = "0.24.5"
-buildkonfig = "0.13.3"
+buildkonfig = "0.17.1"
 multiplatform-settings = "1.3.0"
 #noinspection GradleDependency # it thinks the jre version is higher than the android version. remove this line to allow IDE checking for version updates again
 guava = "31.1-android"
