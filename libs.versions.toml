@@ -33,7 +33,7 @@ guava-coroutines = "1.9.0"
 complete-kotlin = "1.1.0"
 colormath = "3.4.0"
 
-kotlin-datetime = "0.6.0"
+kotlin-datetime = "0.7.1-0.6.x-compat"
 horologist = "0.5.21"
 skiko = "0.8.4"
 agp = "8.2.2"
