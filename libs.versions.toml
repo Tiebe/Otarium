@@ -35,7 +35,7 @@ colormath = "3.4.0"
 
 kotlin-datetime = "0.6.0"
 horologist = "0.5.21"
-skiko = "0.8.4"
+skiko = "0.9.24"
 agp = "8.2.2"
 kotlin190 = "1.9.0"
 play-services-wearable = "19.0.0"
